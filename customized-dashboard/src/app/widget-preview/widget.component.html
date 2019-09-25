@@ -1,0 +1,128 @@
+<header class="secondary" [ngClass]="{'bottom-border': dashboardJson.widgets[0] && dashboardJson.widgets[0].name}">
+  <section>
+    <ng-container *ngIf="areWidgetsSaved&&!closeConfirmClearSection">
+        <div>Do you want to clear the saved dashboard?</div>
+        <button mat-raised-button color="primary" (click)="clearStorage(true)">YES</button>
+        <button mat-raised-button (click)="clearStorage(false)">NO</button>
+    </ng-container>
+    <span class="login-name" *ngIf="logIn">Logged in as <span>{{logIn}}</span></span>
+  </section>
+</header>
+<section class="widget-container">
+  <mat-sidenav-container class="sidenav-container">
+      <mat-sidenav #sidenav mode="side" [(opened)]="opened">
+        <span class="sidenav-close-icon aruba-icon-close" title="Close Widget Gallery" (click)="opened=false"></span>
+        <h4>
+          Widget Gallery
+        </h4>
+        <div class="sub-header">
+          <span class="green-color">{{widgets.length}} widgets</span>
+          <span class="aruba-icon-info-circle green-color"></span> <span>&nbsp;You can add any widget to the dashboard</span>
+        </div>
+        <mat-divider></mat-divider>
+        <div *ngIf="dashboardJson.columSize === 1 && !isSwitchEnabled">
+        <div cdkDropList
+        #widgetList="cdkDropList"
+        [cdkDropListData]="widgets"
+        [cdkDropListConnectedTo]="[dashboardList]" cdkDropListSortingDisabled
+        (cdkDropListDropped)="drop($event)" class="draggable-list">
+          <ng-container class="drop-box" *ngFor="let widget of widgets; let i=index; let last=last">
+            <div class="widgets" cdkDrag>
+              <label>{{widget.name}}
+              <div *cdkDragPreview class="drag-preview">{{widget.name}}</div>
+              </label>
+              <a (click)="addWidget(i)">Add</a>
+            </div>
+            <mat-divider *ngIf="!last"></mat-divider>
+          </ng-container>
+        </div>
+      </div>
+        <div>
+        <ng-container class="drop-box" *ngFor="let widget of widgets; let i=index; let last=last">
+            <div class="widgets">
+              <img src="{{'/assets/images/'+widget.type+'.png'}}" class="iconImage" title="{{widget.typeStr}}">
+              <div class="widgets-desc">
+                  <label style="cursor: default">{{widget.name}}
+                  </label>
+                  <span>{{widget.description}}</span>
+              </div>
+              <button mat-button (click)="addWidget(i)">Add</button>
+            </div>
+            <mat-divider *ngIf="!last"></mat-divider>
+        </ng-container>
+      </div>
+      </mat-sidenav>
+      <mat-sidenav-content>
+        <div class="sidenav-container">
+          <div class="widget-body">
+            <form class="widget-title-form" *ngIf="!isWidgetRendered">
+              <span *ngIf="!opened && !isWidgetRendered" (click)="opened=true" title="Show Widgets" class="open-widgets aruba-icon-list-bulleted"></span>
+              <mat-form-field>
+                <input type="text" matInput placeholder="" name="dashboardName" [(ngModel)]="dashboardJson.name">
+              </mat-form-field>
+              <span *ngIf="!isWidgetRendered" [ngClass]="{'active': this.dashboardJson.columSize === 1}" class="column-switcher single-selection-icon" title="Click to enable one column layout" (click)="switchToTwoColumn(false)"></span>
+              <mat-divider [vertical]="true"></mat-divider>
+              <span *ngIf="!isWidgetRendered" [ngClass]="{'active': this.dashboardJson.columSize === 2}" class="column-switcher two-selection-icon" title="Click to enable two column layout" (click)="switchToTwoColumn(true)"></span>
+            </form>
+            <h5 *ngIf="isWidgetRendered">{{dashboardJson.name}}</h5>
+            <span *ngIf="isWidgetRendered&&areWidgetsSaved" class="aruba-icon-refresh" (click)="syncManually()" title="Manual Sync"></span>
+            <span *ngIf="isWidgetRendered&&areWidgetsSaved" class="aruba-icon-edit" (click)="editDB()" title="Edit Widgets"></span>
+            <ng-container>
+            <div cdkDropList *ngIf="dashboardJson.columSize === 1"
+            #dashboardList="cdkDropList"
+            [cdkDropListData]="dashboardJson.widgets"
+            [cdkDropListConnectedTo]="[widgetList]"
+            (cdkDropListDropped)="drop($event)" class="row draggable-list">
+              <div *ngFor="let column of dashboardJson.widgets; let j=index" class="drop-box col-xs-12" cdkDrag [cdkDragDisabled]="isWidgetRendered&&areWidgetsSaved" [ngClass]="{'widget-list-container': column.name, 'default-cursor': isWidgetRendered&&areWidgetsSaved}">
+                  <div class="icon-container" *ngIf="column.name&&!isWidgetRendered" (click)="removeWidget(j)">
+                      <a class="aruba-icon-trash"></a>
+                  </div>
+                  <pie-chart [refresh]="refreshCounter" *ngIf="isWidgetRendered&&(column.type==='PieChart'||column.type==='DonutChart')&&column.config" [config]="column.config"></pie-chart>
+                  <!-- <line-chart *ngIf="isWidgetRendered&&column.type==='LineChart'&&column.config&&column.config.data" [config]="column.config"></line-chart> -->
+                  <client-count [refresh]="refreshCounter" *ngIf="isWidgetRendered&&column.key==='client_count_filter_summary'&&column.config" [config]="column.config"></client-count>
+                  <!-- <scatter-chart *ngIf="isWidgetRendered&&column.key==='presence-analytics'&&column.config&&column.config.data" [config]="column.config"></scatter-chart> -->
+                  <bandwidth-usage [refresh]="refreshCounter" *ngIf="isWidgetRendered&&column.key==='bandwidth_usage'&&column.config" [config]="column.config"></bandwidth-usage>
+                  <events [refresh]="refreshCounter" *ngIf="isWidgetRendered&&column.key==='events'&&column.config" [config]="column.config" [langLabels]="langLabels"></events>
+                  <firmware [refresh]="refreshCounter" *ngIf="isWidgetRendered&&column.key==='firmware_version'&&column.config" [langLabels]="langLabels" [config]="column.config"></firmware>
+                  <guest-portal-analytics [refresh]="refreshCounter" *ngIf="isWidgetRendered&&column.key==='guest-portal-analytics'&&column.config" [langLabels]="langLabels" [config]="column.config"></guest-portal-analytics>
+                  <!-- <stacked-area-chart *ngIf="isWidgetRendered&&column.type==='StackedAreaChart'&&column.config&&langLabels&&column.config.data" [config]="column.config"></stacked-area-chart> -->
+                  <onboarding-analytics [refresh]="refreshCounter" *ngIf="isWidgetRendered&&column.key==='onboarding-analytics'&&column.config" [langLabels]="langLabels" [config]="column.config"></onboarding-analytics>
+                  <security-info [refresh]="refreshCounter" *ngIf="isWidgetRendered&&column.key==='security_info'&&column.config" [langLabels]="langLabels" [config]="column.config"></security-info>
+                  <!-- <span *ngIf="isWidgetRendered&&(!column.config||!column.config.data)&&column.type!=='Grid'&&column.type!=='PieChart'&&column.type!=='DonutChart'" class="loader"><img width="170" height="100" src="/assets/images/loader.gif" alt="Loading..."><div>Loading...</div></span> -->
+                  <span *ngIf="!column.type||!isWidgetRendered">{{column.name}}</span>
+              </div>
+            </div>
+            <div class="example-container"  *ngIf="dashboardJson.columSize === 2" cdkDropListGroup>
+                <div cdkDropList [cdkDropListEnterPredicate]="dropListEnterPredicate" (cdkDropListDropped)="dropListDropped($event)"></div>
+                <div cdkDropList *ngFor="let column of dashboardJson.widgets; let k = index;"
+                     [cdkDropListEnterPredicate]="dropListEnterPredicate" (cdkDropListDropped)="dropListDropped($event)">
+                  <div cdkDrag class="example-box" *ngIf="column.name&&!isWidgetRendered" (cdkDragMoved)="dragMoved($event);">
+                    <span >{{column.name}}</span>
+                    <!-- <span>{{column.description}}</span> -->
+                    <a class="aruba-icon-trash" (click)="removeWidget(k)"></a>
+                  </div>
+                  <div cdkDrag class="example-box" [cdkDragDisabled]="areWidgetsSaved" [ngClass]="{'default-cursor': areWidgetsSaved}" *ngIf="column.name&&isWidgetRendered" (cdkDragMoved)="dragMoved($event);">
+                      <pie-chart [refresh]="refreshCounter" *ngIf="isWidgetRendered&&(column.type==='PieChart'||column.type==='DonutChart')&&column.config" [config]="column.config"></pie-chart>
+                      <!-- <line-chart *ngIf="isWidgetRendered&&column.type==='LineChart'&&column.config&&column.config.data" [config]="column.config"></line-chart> -->
+                      <client-count [refresh]="refreshCounter" *ngIf="isWidgetRendered&&column.key==='client_count_filter_summary'&&column.config" [config]="column.config"></client-count>
+                      <!-- <scatter-chart *ngIf="isWidgetRendered&&column.key==='presence-analytics'&&column.config" [config]="column.config"></scatter-chart> -->
+                      <bandwidth-usage [refresh]="refreshCounter" *ngIf="isWidgetRendered&&column.key==='bandwidth_usage'&&column.config" [config]="column.config"></bandwidth-usage>
+                      <events [refresh]="refreshCounter" *ngIf="isWidgetRendered&&column.key==='events'&&column.config" [config]="column.config" [langLabels]="langLabels"></events>
+                      <firmware [refresh]="refreshCounter" *ngIf="isWidgetRendered&&column.key==='firmware_version'&&column.config" [langLabels]="langLabels" [config]="column.config"></firmware>
+                      <guest-portal-analytics [refresh]="refreshCounter" *ngIf="isWidgetRendered&&column.key==='guest-portal-analytics'&&column.config" [langLabels]="langLabels" [config]="column.config"></guest-portal-analytics>
+                      <!-- <stacked-area-chart *ngIf="isWidgetRendered&&column.type==='StackedAreaChart'&&column.config&&langLabels&&column.config.data" [config]="column.config"></stacked-area-chart> -->
+                      <onboarding-analytics [refresh]="refreshCounter" *ngIf="isWidgetRendered&&column.key==='onboarding-analytics'&&column.config" [langLabels]="langLabels" [config]="column.config"></onboarding-analytics>
+                      <security-info [refresh]="refreshCounter" *ngIf="isWidgetRendered&&column.key==='security_info'&&column.config" [langLabels]="langLabels" [config]="column.config"></security-info>
+                  </div>
+                </div>
+            </div>
+            <div *ngIf="!dashboardJson.widgets[0]||!dashboardJson.widgets[0].name&&!isWidgetRendered" class="no-widget" [ngClass]="{'col-xs-12': dashboardJson.columSize === 1, 'col-xs-6': dashboardJson.columSize === 2}">
+              <div>Drag your widget here or add a new widget</div>
+            </div>
+            </ng-container>
+            <!-- <a (click)="addNewRow()" class="add-row "><span class="aruba-icon-add-circle"></span><span>Add row</span></a> -->
+          </div>
+        </div>
+      </mat-sidenav-content>
+  </mat-sidenav-container>
+</section>

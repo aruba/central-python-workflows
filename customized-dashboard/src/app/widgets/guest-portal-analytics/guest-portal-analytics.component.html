@@ -1,0 +1,13 @@
+<div *ngIf="config" class="widget-filter" [ngStyle]="{'top':'10px'}">
+    <mat-button-toggle-group appearance="legacy" #portalFilter="matButtonToggleGroup" [value]="selectedFilter" (change)="onFilterChange(portalFilter.value)">
+        <mat-button-toggle value="SSIDS">SSID's</mat-button-toggle>
+        <mat-button-toggle value="VISITORS">Visitors</mat-button-toggle>
+    </mat-button-toggle-group>
+</div>
+<ng-container *ngIf="config">
+    <h2 class="chart-header grid">{{config.name}}</h2>
+    <div class="db-grid-wrapper">
+        <central-ag-grid *ngIf="selectedFilter==='SSIDS'&&gridConfigSSID" #portalGridW [labels]="langLabels" [config]="gridConfigSSID"></central-ag-grid>
+        <central-ag-grid *ngIf="selectedFilter==='VISITORS'&&gridConfigVisitor" #portalGridP [labels]="langLabels" [config]="gridConfigVisitor"></central-ag-grid>
+    </div>
+</ng-container>

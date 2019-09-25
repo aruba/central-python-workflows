@@ -1,0 +1,13 @@
+<div *ngIf="chartConfig&&chartConfig.data" class="widget-filter" [ngStyle]="{top: groupFilter.value==='WIRELESS' ? '2px' : '12px'}">
+    <mat-form-field *ngIf="groupFilter.value==='WIRELESS'">
+        <mat-select color="primary" [(value)]="selectedNetwork" (selectionChange)="onFilterChange(groupFilter.value)">
+            <mat-option *ngFor="let item of allNetworks" value="{{item.name}}">{{item.name}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-button-toggle-group appearance="legacy" #groupFilter="matButtonToggleGroup" [value]="selectedFilter" (change)="onFilterChange(groupFilter.value)">
+        <mat-button-toggle value="WIRED">Wired</mat-button-toggle>
+        <mat-button-toggle value="WIRELESS">Wireless</mat-button-toggle>
+    </mat-button-toggle-group>
+</div>
+<stacked-area-chart *ngIf="chartConfig&&chartConfig.data" [config]="chartConfig"></stacked-area-chart>
+<span *ngIf="!chartConfig||!chartConfig.data" class="loader"><img width="170" height="100" src="/assets/images/loader.gif" alt="Loading..."><div>Loading...</div></span>

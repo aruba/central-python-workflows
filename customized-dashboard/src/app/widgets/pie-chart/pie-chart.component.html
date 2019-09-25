@@ -1,0 +1,15 @@
+<!-- <div class="pie-chart-wrapper">
+    <h2 class="chart-header">{{config.name}}: <span>{{config.data.total}}</span></h2>
+    <svg width="300" height="270" id="{{id}}"></svg>
+    <div [ngStyle]="{'border-color': tooltip.color}" id="{{id}}tooltip" class="pie-tooltip hidden">
+        <span>{{tooltip.label}}</span>: <span id="{{id}}value"></span>
+    </div>
+</div> -->
+
+<div *ngIf="data" class="multi-bar-chart-wrapper" [ngStyle]="{width:config.width}">
+    <h2 class="chart-header">{{config.name}}</h2>
+    <div>
+        <nvd3 [options]="options" [data]="data"></nvd3>
+    </div>
+</div>
+<span *ngIf="!data" class="loader"><img width="170" height="100" src="/assets/images/loader.gif" alt="Loading..."><div>Loading...</div></span>

@@ -1,0 +1,932 @@
+@import "variables";
+
+@font-face {
+  font-family: '#{$icomoon-font-family}';
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?ddc630');
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?ddc630#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?ddc630') format('truetype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?ddc630') format('woff'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?ddc630##{$icomoon-font-family}') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Museo300';
+  src:  url('/assets/fonts/Museo300-Regular.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Museo500';
+  src:  url('/assets/fonts/Museo500-Regular.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Museo100';
+  src:  url('/assets/fonts/Museo100-Regular.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Museo100';
+  src:  url('/assets/fonts/Museo100-Regular.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Museo700';
+  src:  url('/assets/fonts/Museo700-Regular.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Museo900';
+  src:  url('/assets/fonts/Museo900-Regular.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="aruba-icon-"], [class*=" aruba-icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: '#{$icomoon-font-family}' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.aruba-icon-thumb-down-filled {
+  &:before {
+    content: $aruba-icon-thumb-down-filled; 
+  }
+}
+.aruba-icon-thumb-up-filled {
+  &:before {
+    content: $aruba-icon-thumb-up-filled; 
+  }
+}
+.aruba-icon-access-point {
+  &:before {
+    content: $aruba-icon-access-point; 
+  }
+}
+.aruba-icon-access-point-add {
+  &:before {
+    content: $aruba-icon-access-point-add; 
+  }
+}
+.aruba-icon-access-point-outdoor {
+  &:before {
+    content: $aruba-icon-access-point-outdoor; 
+  }
+}
+.aruba-icon-add {
+  &:before {
+    content: $aruba-icon-add; 
+  }
+}
+.aruba-icon-add-circle {
+  &:before {
+    content: $aruba-icon-add-circle; 
+  }
+}
+.aruba-icon-airgroup {
+  &:before {
+    content: $aruba-icon-airgroup; 
+  }
+}
+.aruba-icon-applications-visibility {
+  &:before {
+    content: $aruba-icon-applications-visibility; 
+  }
+}
+.aruba-icon-app-rf {
+  &:before {
+    content: $aruba-icon-app-rf; 
+  }
+}
+.aruba-icon-apps {
+  &:before {
+    content: $aruba-icon-apps; 
+  }
+}
+.aruba-icon-arrow-diagonal {
+  &:before {
+    content: $aruba-icon-arrow-diagonal; 
+  }
+}
+.aruba-icon-arrow-drop-down {
+  &:before {
+    content: $aruba-icon-arrow-drop-down; 
+  }
+}
+.aruba-icon-arrow-drop-up {
+  &:before {
+    content: $aruba-icon-arrow-drop-up; 
+  }
+}
+.aruba-icon-arrow-left {
+  &:before {
+    content: $aruba-icon-arrow-left; 
+  }
+}
+.aruba-icon-aruba {
+  &:before {
+    content: $aruba-icon-aruba; 
+  }
+}
+.aruba-icon-attach {
+  &:before {
+    content: $aruba-icon-attach; 
+  }
+}
+.aruba-icon-building {
+  &:before {
+    content: $aruba-icon-building; 
+  }
+}
+.aruba-icon-bulb {
+  &:before {
+    content: $aruba-icon-bulb; 
+  }
+}
+.aruba-icon-calendar {
+  &:before {
+    content: $aruba-icon-calendar; 
+  }
+}
+.aruba-icon-captive-portal {
+  &:before {
+    content: $aruba-icon-captive-portal; 
+  }
+}
+.aruba-icon-chart-bar-vertical {
+  &:before {
+    content: $aruba-icon-chart-bar-vertical; 
+  }
+}
+.aruba-icon-chart-line {
+  &:before {
+    content: $aruba-icon-chart-line; 
+  }
+}
+.aruba-icon-chart-pie {
+  &:before {
+    content: $aruba-icon-chart-pie; 
+  }
+}
+.aruba-icon-chat {
+  &:before {
+    content: $aruba-icon-chat; 
+  }
+}
+.aruba-icon-checkbox-checked {
+  &:before {
+    content: $aruba-icon-checkbox-checked; 
+  }
+}
+.aruba-icon-check-box-indeterminate {
+  &:before {
+    content: $aruba-icon-check-box-indeterminate; 
+  }
+}
+.aruba-icon-checkbox-unchecked {
+  &:before {
+    content: $aruba-icon-checkbox-unchecked; 
+  }
+}
+.aruba-icon-checkmark {
+  &:before {
+    content: $aruba-icon-checkmark; 
+  }
+}
+.aruba-icon-checkmark-circle {
+  &:before {
+    content: $aruba-icon-checkmark-circle; 
+  }
+}
+.aruba-icon-chevron-down {
+  &:before {
+    content: $aruba-icon-chevron-down; 
+  }
+}
+.aruba-icon-chevron-left {
+  &:before {
+    content: $aruba-icon-chevron-left; 
+  }
+}
+.aruba-icon-chevron-right {
+  &:before {
+    content: $aruba-icon-chevron-right; 
+  }
+}
+.aruba-icon-chevron-up {
+  &:before {
+    content: $aruba-icon-chevron-up; 
+  }
+}
+.aruba-icon-close {
+  &:before {
+    content: $aruba-icon-close; 
+  }
+}
+.aruba-icon-cloud {
+  &:before {
+    content: $aruba-icon-cloud; 
+  }
+}
+.aruba-icon-cloud-security {
+  &:before {
+    content: $aruba-icon-cloud-security; 
+  }
+}
+.aruba-icon-cloud-up {
+  &:before {
+    content: $aruba-icon-cloud-up; 
+  }
+}
+.aruba-icon-cluster {
+  &:before {
+    content: $aruba-icon-cluster; 
+  }
+}
+.aruba-icon-compliance {
+  &:before {
+    content: $aruba-icon-compliance; 
+  }
+}
+.aruba-icon-connectivity {
+  &:before {
+    content: $aruba-icon-connectivity; 
+  }
+}
+.aruba-icon-copy {
+  &:before {
+    content: $aruba-icon-copy; 
+  }
+}
+.aruba-icon-dashboard {
+  &:before {
+    content: $aruba-icon-dashboard; 
+  }
+}
+.aruba-icon-desktop {
+  &:before {
+    content: $aruba-icon-desktop; 
+  }
+}
+.aruba-icon-device-any {
+  &:before {
+    content: $aruba-icon-device-any; 
+  }
+}
+.aruba-icon-device-classified-system {
+  &:before {
+    content: $aruba-icon-device-classified-system; 
+  }
+}
+.aruba-icon-device-classified-user {
+  &:before {
+    content: $aruba-icon-device-classified-user; 
+  }
+}
+.aruba-icon-device-unclassified {
+  &:before {
+    content: $aruba-icon-device-unclassified; 
+  }
+}
+.aruba-icon-difference {
+  &:before {
+    content: $aruba-icon-difference; 
+  }
+}
+.aruba-icon-download {
+  &:before {
+    content: $aruba-icon-download; 
+  }
+}
+.aruba-icon-drag-and-drop {
+  &:before {
+    content: $aruba-icon-drag-and-drop; 
+  }
+}
+.aruba-icon-edit {
+  &:before {
+    content: $aruba-icon-edit; 
+  }
+}
+.aruba-icon-exit {
+  &:before {
+    content: $aruba-icon-exit; 
+  }
+}
+.aruba-icon-eye {
+  &:before {
+    content: $aruba-icon-eye; 
+  }
+}
+.aruba-icon-eye-no {
+  &:before {
+    content: $aruba-icon-eye-no; 
+  }
+}
+.aruba-icon-file-cad {
+  &:before {
+    content: $aruba-icon-file-cad; 
+  }
+}
+.aruba-icon-filter {
+  &:before {
+    content: $aruba-icon-filter; 
+  }
+}
+.aruba-icon-firmware {
+  &:before {
+    content: $aruba-icon-firmware; 
+  }
+}
+.aruba-icon-floor {
+  &:before {
+    content: $aruba-icon-floor; 
+  }
+}
+.aruba-icon-floorplan {
+  &:before {
+    content: $aruba-icon-floorplan; 
+  }
+}
+.aruba-icon-fullscreen {
+  &:before {
+    content: $aruba-icon-fullscreen; 
+  }
+}
+.aruba-icon-fullscreen-exit {
+  &:before {
+    content: $aruba-icon-fullscreen-exit; 
+  }
+}
+.aruba-icon-gateway {
+  &:before {
+    content: $aruba-icon-gateway; 
+  }
+}
+.aruba-icon-globe {
+  &:before {
+    content: $aruba-icon-globe; 
+  }
+}
+.aruba-icon-hardware {
+  &:before {
+    content: $aruba-icon-hardware; 
+  }
+}
+.aruba-icon-help-circle {
+  &:before {
+    content: $aruba-icon-help-circle; 
+  }
+}
+.aruba-icon-hierarchy {
+  &:before {
+    content: $aruba-icon-hierarchy; 
+  }
+}
+.aruba-icon-history {
+  &:before {
+    content: $aruba-icon-history; 
+  }
+}
+.aruba-icon-home {
+  &:before {
+    content: $aruba-icon-home; 
+  }
+}
+.aruba-icon-infinity {
+  &:before {
+    content: $aruba-icon-infinity; 
+  }
+}
+.aruba-icon-info-circle {
+  &:before {
+    content: $aruba-icon-info-circle; 
+  }
+}
+.aruba-icon-infrastructure {
+  &:before {
+    content: $aruba-icon-infrastructure; 
+  }
+}
+.aruba-icon-inventory {
+  &:before {
+    content: $aruba-icon-inventory; 
+  }
+}
+.aruba-icon-lan {
+  &:before {
+    content: $aruba-icon-lan; 
+  }
+}
+.aruba-icon-laptop-mobile {
+  &:before {
+    content: $aruba-icon-laptop-mobile; 
+  }
+}
+.aruba-icon-link {
+  &:before {
+    content: $aruba-icon-link; 
+  }
+}
+.aruba-icon-link-no {
+  &:before {
+    content: $aruba-icon-link-no; 
+  }
+}
+.aruba-icon-list-bulleted {
+  &:before {
+    content: $aruba-icon-list-bulleted; 
+  }
+}
+.aruba-icon-location {
+  &:before {
+    content: $aruba-icon-location; 
+  }
+}
+.aruba-icon-location-add {
+  &:before {
+    content: $aruba-icon-location-add; 
+  }
+}
+.aruba-icon-location-edit {
+  &:before {
+    content: $aruba-icon-location-edit; 
+  }
+}
+.aruba-icon-lock {
+  &:before {
+    content: $aruba-icon-lock; 
+  }
+}
+.aruba-icon-lock-no {
+  &:before {
+    content: $aruba-icon-lock-no; 
+  }
+}
+.aruba-icon-mail {
+  &:before {
+    content: $aruba-icon-mail; 
+  }
+}
+.aruba-icon-minus {
+  &:before {
+    content: $aruba-icon-minus; 
+  }
+}
+.aruba-icon-minus-circle {
+  &:before {
+    content: $aruba-icon-minus-circle; 
+  }
+}
+.aruba-icon-mobile {
+  &:before {
+    content: $aruba-icon-mobile; 
+  }
+}
+.aruba-icon-more {
+  &:before {
+    content: $aruba-icon-more; 
+  }
+}
+.aruba-icon-more-circle {
+  &:before {
+    content: $aruba-icon-more-circle; 
+  }
+}
+.aruba-icon-move-down {
+  &:before {
+    content: $aruba-icon-move-down; 
+  }
+}
+.aruba-icon-move-up {
+  &:before {
+    content: $aruba-icon-move-up; 
+  }
+}
+.aruba-icon-neighbours {
+  &:before {
+    content: $aruba-icon-neighbours; 
+  }
+}
+.aruba-icon-network-home {
+  &:before {
+    content: $aruba-icon-network-home; 
+  }
+}
+.aruba-icon-network-services {
+  &:before {
+    content: $aruba-icon-network-services; 
+  }
+}
+.aruba-icon-notification {
+  &:before {
+    content: $aruba-icon-notification; 
+  }
+}
+.aruba-icon-open-new-window {
+  &:before {
+    content: $aruba-icon-open-new-window; 
+  }
+}
+.aruba-icon-overlay {
+  &:before {
+    content: $aruba-icon-overlay; 
+  }
+}
+.aruba-icon-path-steering {
+  &:before {
+    content: $aruba-icon-path-steering; 
+  }
+}
+.aruba-icon-performance {
+  &:before {
+    content: $aruba-icon-performance; 
+  }
+}
+.aruba-icon-person {
+  &:before {
+    content: $aruba-icon-person; 
+  }
+}
+.aruba-icon-person-group {
+  &:before {
+    content: $aruba-icon-person-group; 
+  }
+}
+.aruba-icon-phone {
+  &:before {
+    content: $aruba-icon-phone; 
+  }
+}
+.aruba-icon-port {
+  &:before {
+    content: $aruba-icon-port; 
+  }
+}
+.aruba-icon-port-poe {
+  &:before {
+    content: $aruba-icon-port-poe; 
+  }
+}
+.aruba-icon-presence-analytics {
+  &:before {
+    content: $aruba-icon-presence-analytics; 
+  }
+}
+.aruba-icon-radio {
+  &:before {
+    content: $aruba-icon-radio; 
+  }
+}
+.aruba-icon-radio-button-selected {
+  &:before {
+    content: $aruba-icon-radio-button-selected; 
+  }
+}
+.aruba-icon-radio-button-unselected {
+  &:before {
+    content: $aruba-icon-radio-button-unselected; 
+  }
+}
+.aruba-icon-refresh {
+  &:before {
+    content: $aruba-icon-refresh; 
+  }
+}
+.aruba-icon-region {
+  &:before {
+    content: $aruba-icon-region; 
+  }
+}
+.aruba-icon-report {
+  &:before {
+    content: $aruba-icon-report; 
+  }
+}
+.aruba-icon-report-custom {
+  &:before {
+    content: $aruba-icon-report-custom; 
+  }
+}
+.aruba-icon-restore {
+  &:before {
+    content: $aruba-icon-restore; 
+  }
+}
+.aruba-icon-rogue {
+  &:before {
+    content: $aruba-icon-rogue; 
+  }
+}
+.aruba-icon-routing {
+  &:before {
+    content: $aruba-icon-routing; 
+  }
+}
+.aruba-icon-ruler {
+  &:before {
+    content: $aruba-icon-ruler; 
+  }
+}
+.aruba-icon-sass-express {
+  &:before {
+    content: $aruba-icon-sass-express; 
+  }
+}
+.aruba-icon-scale-linear {
+  &:before {
+    content: $aruba-icon-scale-linear; 
+  }
+}
+.aruba-icon-scale-log {
+  &:before {
+    content: $aruba-icon-scale-log; 
+  }
+}
+.aruba-icon-schedule {
+  &:before {
+    content: $aruba-icon-schedule; 
+  }
+}
+.aruba-icon-scholar {
+  &:before {
+    content: $aruba-icon-scholar; 
+  }
+}
+.aruba-icon-search {
+  &:before {
+    content: $aruba-icon-search; 
+  }
+}
+.aruba-icon-security {
+  &:before {
+    content: $aruba-icon-security; 
+  }
+}
+.aruba-icon-security-rogue {
+  &:before {
+    content: $aruba-icon-security-rogue; 
+  }
+}
+.aruba-icon-security-wids {
+  &:before {
+    content: $aruba-icon-security-wids; 
+  }
+}
+.aruba-icon-sessions {
+  &:before {
+    content: $aruba-icon-sessions; 
+  }
+}
+.aruba-icon-settings {
+  &:before {
+    content: $aruba-icon-settings; 
+  }
+}
+.aruba-icon-shutdown {
+  &:before {
+    content: $aruba-icon-shutdown; 
+  }
+}
+.aruba-icon-snooze {
+  &:before {
+    content: $aruba-icon-snooze; 
+  }
+}
+.aruba-icon-sort-ascending {
+  &:before {
+    content: $aruba-icon-sort-ascending; 
+  }
+}
+.aruba-icon-sort-descending {
+  &:before {
+    content: $aruba-icon-sort-descending; 
+  }
+}
+.aruba-icon-status-fair {
+  &:before {
+    content: $aruba-icon-status-fair;     
+    color: #f7ce63;
+  }
+}
+.aruba-icon-status-good {
+  &:before {
+    content: $aruba-icon-status-good;     
+    color: #72c380;
+  }
+}
+.aruba-icon-status-poor {
+  &:before {
+    content: $aruba-icon-status-poor;     
+    color: #c73c43;
+  }
+}
+.aruba-icon-status-unknown {
+  &:before {
+    content: $aruba-icon-status-unknown;     
+    color: #c3c5c8;
+  }
+}
+.aruba-icon-summary {
+  &:before {
+    content: $aruba-icon-summary; 
+  }
+}
+.aruba-icon-switch {
+  &:before {
+    content: $aruba-icon-switch; 
+  }
+}
+.aruba-icon-switch-replace {
+  &:before {
+    content: $aruba-icon-switch-replace; 
+  }
+}
+.aruba-icon-switch-stack {
+  &:before {
+    content: $aruba-icon-switch-stack; 
+  }
+}
+.aruba-icon-tablet {
+  &:before {
+    content: $aruba-icon-tablet; 
+  }
+}
+.aruba-icon-tag {
+  &:before {
+    content: $aruba-icon-tag; 
+  }
+}
+.aruba-icon-thumb-down {
+  &:before {
+    content: $aruba-icon-thumb-down; 
+  }
+}
+.aruba-icon-thumb-up {
+  &:before {
+    content: $aruba-icon-thumb-up; 
+  }
+}
+.aruba-icon-toggle-off .path1 {
+  &:before {
+    content: $aruba-icon-toggle-off-path1;  
+    color: rgb(255, 255, 255);
+  }
+}
+.aruba-icon-toggle-off .path2 {
+  &:before {
+    content: $aruba-icon-toggle-off-path2;  
+    margin-left: -1em;  
+    color: rgb(0, 0, 0);
+  }
+}
+.aruba-icon-toggle-off .path3 {
+  &:before {
+    content: $aruba-icon-toggle-off-path3;  
+    margin-left: -1em;  
+    color: rgb(0, 0, 0);
+  }
+}
+.aruba-icon-toggle-on .path1 {
+  &:before {
+    content: $aruba-icon-toggle-on-path1;  
+    color: rgb(255, 255, 255);
+  }
+}
+.aruba-icon-toggle-on .path2 {
+  &:before {
+    content: $aruba-icon-toggle-on-path2;  
+    margin-left: -1em;  
+    color: rgb(0, 0, 0);
+  }
+}
+.aruba-icon-toggle-on .path3 {
+  &:before {
+    content: $aruba-icon-toggle-on-path3;  
+    margin-left: -1em;  
+    color: rgb(0, 0, 0);
+  }
+}
+.aruba-icon-tool {
+  &:before {
+    content: $aruba-icon-tool; 
+  }
+}
+.aruba-icon-topology {
+  &:before {
+    content: $aruba-icon-topology; 
+  }
+}
+.aruba-icon-trash {
+  &:before {
+    content: $aruba-icon-trash; 
+  }
+}
+.aruba-icon-tunnel {
+  &:before {
+    content: $aruba-icon-tunnel; 
+  }
+}
+.aruba-icon-upgrade {
+  &:before {
+    content: $aruba-icon-upgrade; 
+  }
+}
+.aruba-icon-upgrade-settings {
+  &:before {
+    content: $aruba-icon-upgrade-settings; 
+  }
+}
+.aruba-icon-vgw {
+  &:before {
+    content: $aruba-icon-vgw; 
+  }
+}
+.aruba-icon-vlan {
+  &:before {
+    content: $aruba-icon-vlan; 
+  }
+}
+.aruba-icon-vpn {
+  &:before {
+    content: $aruba-icon-vpn; 
+  }
+}
+.aruba-icon-vpnc {
+  &:before {
+    content: $aruba-icon-vpnc; 
+  }
+}
+.aruba-icon-vpnc-inet {
+  &:before {
+    content: $aruba-icon-vpnc-inet; 
+  }
+}
+.aruba-icon-vpnc-lte {
+  &:before {
+    content: $aruba-icon-vpnc-lte; 
+  }
+}
+.aruba-icon-vpnc-metro-eth {
+  &:before {
+    content: $aruba-icon-vpnc-metro-eth; 
+  }
+}
+.aruba-icon-vpnc-mpls {
+  &:before {
+    content: $aruba-icon-vpnc-mpls; 
+  }
+}
+.aruba-icon-wan {
+  &:before {
+    content: $aruba-icon-wan; 
+  }
+}
+.aruba-icon-warning {
+  &:before {
+    content: $aruba-icon-warning; 
+  }
+}
+.aruba-icon-watch {
+  &:before {
+    content: $aruba-icon-watch; 
+  }
+}
+.aruba-icon-wifi {
+  &:before {
+    content: $aruba-icon-wifi; 
+  }
+}
+.aruba-icon-wifi-no {
+  &:before {
+    content: $aruba-icon-wifi-no; 
+  }
+}
+.aruba-icon-wired {
+  &:before {
+    content: $aruba-icon-wired; 
+  }
+}
+
+
+

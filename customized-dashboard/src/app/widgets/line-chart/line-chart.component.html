@@ -1,0 +1,12 @@
+<!--<h2 class="chart-header">{{config.name}}<span *ngIf="config.data.total">: {{config.data.total}}</span></h2>
+<svg attr.width="{{totalWidth}}" height="260" id="{{id}}"></svg>
+<div [ngStyle]="{'border-color': tooltip.color}" id="{{id}}tooltip" class="pie-tooltip hidden">
+    <span>{{tooltip.label}}</span>: <span id="{{id}}value"></span>
+</div> -->
+
+<div class="multi-bar-chart-wrapper">
+    <h2 class="chart-header">{{config.name}}</h2>
+    <div>
+        <nvd3 [options]="options" [data]="config.data"></nvd3>
+    </div>
+</div>

@@ -1,0 +1,2 @@
+<span class="green-text-link" (click)="openDetailsPopup()" *ngIf="params.data && params.data.has_details" title="{{params.value}}">{{params.value}}</span>
+<span *ngIf="!params.data||!params.data.has_details" title="{{params.value}}">{{params.value}}</span>

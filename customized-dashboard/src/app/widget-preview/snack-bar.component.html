@@ -1,0 +1,8 @@
+<ng-container *ngIf="!data.isWidgetRendered">
+    <div>Add, move or modify your widgets </div>
+    <button mat-raised-button color="primary" (click)="saveChanges()">DONE CUSTOMIZING</button> 
+</ng-container>
+<ng-container *ngIf="data.isWidgetRendered">
+    <div><button mat-raised-button color="primary" (click)="saveChanges(true)">SAVE CHANGES</button>
+    <button mat-raised-button (click)="saveChanges()">CANCEL</button></div>
+</ng-container>
