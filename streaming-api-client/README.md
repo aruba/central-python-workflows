@@ -23,7 +23,7 @@ Upon running the script, if there are issues in decoding the output in human rea
 ### To Execute the script
 
 ```sh
-python wsclient_public_excel.py --hostname internal-ui.central.arubanetworks.com --jsoninput input.json --subject presence --type streams --do_decode
+python3 wsclient_public_excel.py --hostname internal-ui.central.arubanetworks.com --jsoninput input.json --subject presence --type streams --do_decode
 ```
 
 `--hostname` - The base url shown after logging into the Aruba Central. For example "https://**internal-ui.central.arubanetworks.com**/frontend/#/DASHBOARD"
@@ -60,7 +60,7 @@ python wsclient_public_excel.py --hostname internal-ui.central.arubanetworks.com
 
 ### Example data that gets updated to csv file (For presence Topic)
 
-Filename is created in this format `<addtofilename>_<customer_id>_<stream_type>_<timestamp>.<filetype>`
+Filename is created in this format `<addtofilename>_<stream_type>_<timestamp>.<filetype>`
 
 &nbsp;&nbsp;&nbsp;test_4qWmUJFI5OpV14eR2RfCdTqGK_presence_20190417-142654.csv
 ```
