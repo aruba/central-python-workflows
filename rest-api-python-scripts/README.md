@@ -1,5 +1,5 @@
 # Aruba Central REST API Python Sample Scripts and Libraries
-
+Sample python scripts to generate API access token and make HTTP Requests such as GET, PUT, POST, PATCH and DELETE.
 Tested with Python 3.6.7
 
 # Requirements
