@@ -1,12 +1,11 @@
 # central-examples-only
 
 This repository contains code samples for Aruba Central. 
+- [Custom Dashboard](customized-dashboard/)
 
-	- [Custom Dashboard](customized-dashboard/) 
+- [REST API Python Libraries and Scripts](rest-api-python-scripts/)
 
-	- [REST API Python Libraries and Scripts](rest-api-python-scripts/)
-
-	- [Streaming API Websocket Client Application](streaming-api-client/)
+- [Streaming API Websocket Client Application](streaming-api-client/)
 
 ## Aruba Central Custom Dashboard
 
@@ -25,12 +24,16 @@ This folder contains a sample code for building your own Aruba Central Dashboard
 
 ## Aruba Central REST API Python Sample Scripts
 
+[rest-api-python-scripts/](rest-api-python-scripts/)
+
 This folder contains sample python libraries and scripts to make API Requests to Aruba Central. REST APIs are based on request-response model.
 Refer to Central's API Swagger documentation page (under `Maintenance App -> API Gateway -> APIs`) for the list of available APIs.
 
 For more information, [refer here](https://help.central.arubanetworks.com/latest/documentation/online_help/content/home.htm)
 
 ## Aruba Central Streaming API
- 
+
+[streaming-api-client/](streaming-api-client/)
+
 This folder contains sample websocket client application based on python programming language. 
 The sample python script would establish a websocket connection and decode the google protobuf message to human readable format.
