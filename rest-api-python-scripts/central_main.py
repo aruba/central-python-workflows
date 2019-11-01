@@ -1,7 +1,6 @@
 from urllib.request import Request, urlopen, build_opener, HTTPCookieProcessor
 from urllib.parse import urlencode
 #from urllib.error import HTTPError, URLError
-import ssl
 import json
 from http import cookiejar
 from getpass import getpass
@@ -15,7 +14,6 @@ class ArubaCentralAPI(Session):
         self.token = self.pickleGetToken()
         self.baseUrl = central_base_url
         self.cookies = cookiejar.LWPCookieJar(filename='cookies')
-        ssl._create_default_https_context = ssl._create_unverified_context
  
     def requestUrl(self, url, data=None, method="GET", headers='', files=None):
         resp = ""
