@@ -1,0 +1,53 @@
+message mac_address
+{
+    optional bytes addr = 1;
+}
+
+message ip_address
+{
+    enum addr_family
+    {
+        ADDR_FAMILY_UNSPEC = 0;
+        ADDR_FAMILY_INET = 1;
+        ADDR_FAMILY_INET6 = 2;
+    }
+    optional addr_family af = 1;
+    optional bytes addr = 2;
+}
+
+enum classification {
+    CONFIGURATION = 0;
+    FIRMWARE = 1;
+    DEVICE_MGMT = 2;
+}
+
+message config {
+    required string data = 1;
+    optional string detailed_data = 2;
+}
+
+message firmware {
+    required string data = 1;
+    optional string detailed_data = 2;
+}
+
+message device_management {
+    required string data = 1;
+    optional string detailed_data = 2;
+}
+
+message audit_message{
+    required string customer_id = 1;
+    required uint32 timestamp = 2;				
+    required classification service = 3;
+    required string group_name = 4;
+    required string target = 5; //swarm_id, device_id 
+    required ip_address client_ip = 6;  // User details
+    required string username = 7;
+
+    // Service data
+    optional config config_info = 8;
+    optional firmware firmware_info = 9;
+    optional device_management dm_info = 16;
+}
+

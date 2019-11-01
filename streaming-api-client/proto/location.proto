@@ -1,0 +1,51 @@
+package Location;
+
+
+message mac_address
+{
+	optional bytes addr = 1;
+}
+
+enum target_dev_type
+{
+	TARGET_TYPE_UNKNOWN          = 0;
+	TARGET_TYPE_STATION          = 1;
+	TARGET_TYPE_TAG              = 2;
+	TARGET_TYPE_ROGUE            = 3;
+}
+
+enum algorithm
+{
+    ALGORITHM_TRIANGULATION = 0;
+    ALGORITHM_AP_PLACEMENT = 1;
+    ALGORITHM_CALIBRATION = 2;
+    ALGORITHM_ESTIMATION = 3;
+    ALGORITHM_LOW_DENSITY = 4;
+}
+
+enum measurement_unit
+{
+    METERS = 0;
+    FEET = 1;
+    PIXELS = 2;
+}
+
+message stream_location
+{
+	optional float sta_location_x               = 1;
+	optional float sta_location_y               = 2;
+	optional uint32 error_level                 = 3;
+	optional string hashed_sta_eth_mac          = 7;
+	repeated string geofence_ids                = 8;
+	optional algorithm loc_algorithm            = 9;
+	optional double longitude                   = 11;
+	optional double latitude                    = 12;
+	optional double altitude                    = 13;
+	optional measurement_unit unit              = 14;
+	required mac_address sta_eth_mac            = 15;
+	optional string campus_id_string            = 16;
+	optional string building_id_string          = 17;
+	optional string floor_id_string             = 18;
+	optional target_dev_type target_type        = 19 [default=TARGET_TYPE_UNKNOWN];
+    optional bool associated                    = 20;
+}
