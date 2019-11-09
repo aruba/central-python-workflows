@@ -2,16 +2,20 @@ import re
 import json
 import csv
 from excelUpdate import exportToFile
-#from proto import presence_pb2
+# from proto import presence_pb2
 import threading
 
 threadLock = threading.Lock()
 
+
 class presenceExport(exportToFile):
-    def __init__(self, topic, fileName, filePath=None, fileType="csv", rowLimit="65000"):
-        exportToFile.__init__(self, topic, fileName, filePath, fileType, rowLimit)
+
+    def __init__(self, topic, fileName, filePath=None,
+                 fileType="csv", rowLimit="65000"):
+        exportToFile.__init__(self, topic, fileName,
+                              filePath, fileType, rowLimit)
         self.createFileDir(dateTime=True)
-        #self.dataHeaders = {}
+        # self.dataHeaders = {}
 
     @staticmethod
     def extractProximityData(decode_data):
@@ -55,22 +59,25 @@ class presenceExport(exportToFile):
 
     def createProximityCol(self):
         from proto import presence_pb2
-        #self.createFileDir(dateTime=True)
+        # self.createFileDir(dateTime=True)
         if self.topic == "presence":
             main_headers = ['timestamp', 'customer_id', 'event']
-            proximity_headers = presence_pb2.proximity.DESCRIPTOR.fields_by_name.keys()
+            proximity_msg = presence_pb2.proximity
+            proximity_headers = proximity_msg.DESCRIPTOR.fields_by_name.keys()
             proximity_headers = main_headers + proximity_headers
-            #proximity_headers = list(map(exportToFile.underscore_to_camel, main_headers + proximity_headers))
+            # proximity_headers = list(map(exportToFile.underscore_to_camel,
+            #                              main_headers + proximity_headers))
             try:
                 with open(self.fullName, "w") as f:
-                    field_writer = csv.writer(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                    field_writer = csv.writer(f, delimiter=',', quotechar='"',
+                                              quoting=csv.QUOTE_MINIMAL)
                     field_writer.writerow(proximity_headers)
                 return True
             except Exception as err:
                 raise
 
     def writeData(self, data, fileName=""):
-        #if number of rows are greater than rowLimit create a new file
+        # if number of rows are greater than rowLimit create a new file
         if self.topic == "presence":
             if not fileName or fileName == "":
                 fileName = self.fullName
@@ -83,15 +90,17 @@ class presenceExport(exportToFile):
             except Exception as err:
                 raise
 
-class writeThread (threading.Thread):
-   def __init__(self, dataClass, data):
-      threading.Thread.__init__(self)
-      self.dataClass = dataClass
-      self.data = data
 
-   def run(self):
-      # Get lock to synchronize threads
-      threadLock.acquire()
-      self.dataClass.writeData(self.data)
-      # Free lock to release next thread
-      threadLock.release()         
+class writeThread (threading.Thread):
+
+    def __init__(self, dataClass, data):
+        threading.Thread.__init__(self)
+        self.dataClass = dataClass
+        self.data = data
+
+    def run(self):
+        # Get lock to synchronize threads
+        threadLock.acquire()
+        self.dataClass.writeData(self.data)
+        # Free lock to release next thread
+        threadLock.release()

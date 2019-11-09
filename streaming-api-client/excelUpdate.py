@@ -4,8 +4,11 @@ import time
 import os
 import csv
 
+
 class exportToFile:
-    def __init__(self, topic, fileName, filePath=None, fileType="csv", rowLimit="65000"):
+
+    def __init__(self, topic, fileName, filePath=None,
+                 fileType="csv", rowLimit="65000"):
         self.fullName = ""
         self.topic = topic
         self.dataSheets = {}
@@ -29,11 +32,13 @@ class exportToFile:
         if not self.fileType or self.fileType is None:
             self.fileType = "csv"
         if not dateTime:
-            fileName = "_".join([self.fileName, self.topic]) + "." + self.fileType
+            fileName = "_".join([self.fileName, self.topic]) \
+                       + "." + self.fileType
         else:
             dateTime = time.strftime("%Y%m%d-%H%M%S")
             print([self.fileName, self.topic, dateTime])
-            fileName = "_".join([self.fileName, self.topic, dateTime]) + "." + self.fileType
+            fileName = "_".join([self.fileName, self.topic, dateTime]) \
+                       + "." + self.fileType
 
         if self.filePath is None:
             self.filePath = os.path.join(os.getcwd(), "logs")
@@ -43,7 +48,7 @@ class exportToFile:
         if not os.path.exists(os.path.dirname(self.fullName)):
             try:
                 os.makedirs(os.path.dirname(self.fullName))
-            except OSError as exc: # Guard against race condition
+            except OSError as exc:  # Guard against race condition
                 if exc.errno != errno.EEXIST:
                     raise
 
@@ -60,7 +65,6 @@ class exportToFile:
                 print("Error in counting lines: %s" % linesCount)
             return linesCount
 
-
     def readFromFile(self, fileName=""):
         if not fileName or fileName == "":
             fileName = self.fullName
@@ -72,8 +76,7 @@ class exportToFile:
                 with open(fileName, mode="r") as f:
                     csv_dict_reader = csv.DictReader(f)
                     dataList = list(csv_dict_reader)
-                    fieldNames = csv_dict_reader.fieldnames 
-                return fieldNames,dataList
+                    fieldNames = csv_dict_reader.fieldnames
+                return fieldNames, dataList
         except Exception as err:
             print(err)
-            
