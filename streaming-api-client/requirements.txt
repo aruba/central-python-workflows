@@ -1,0 +1,6 @@
+gevent
+greenlet
+protobuf
+six
+websocket
+websocket-client

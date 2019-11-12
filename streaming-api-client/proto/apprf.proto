@@ -1,0 +1,73 @@
+message mac_address
+{
+    optional bytes addr = 1;
+}
+
+message ip_address
+{
+    enum addr_family
+    {
+        ADDR_FAMILY_UNSPEC = 0;
+        ADDR_FAMILY_INET = 1;
+        ADDR_FAMILY_INET6 = 2;
+    }
+    optional addr_family af = 1;
+    optional bytes addr = 2;
+}
+
+message apprf_session {
+
+    optional string customer_id = 1;
+    optional uint64 timestamp = 2; 
+    optional string serial_number = 3;
+    repeated client_firewall_session client_firewall_session = 4;
+    repeated url_detail_record url_detail_record = 5;
+    optional string ap_name = 6;
+    optional uint32 session_duration = 7;
+
+}
+
+
+
+message client_firewall_session {
+
+    optional ip_address client_ip = 1;
+    optional mac_address client_mac = 2;
+    optional ip_address dest_ip = 3;
+    optional uint64 app_id = 4;
+    optional uint64 app_cat_id = 5;
+    optional uint32 web_cat_id = 6;
+    optional uint32 web_rep_score = 7;
+    enum app_enforcement_status
+    {
+        ENF_PERMIT = 0;
+        ENF_DENY = 1;
+    }
+    optional app_enforcement_status session_flags = 8;
+    optional string ssid = 9;
+    optional string user_role = 10;
+    optional string device_type = 11;
+    optional uint64 tx_bytes = 12;
+    optional uint64 rx_bytes = 13;
+    optional string dest_url_prefix = 14; 
+    optional string user_name = 15; 
+    
+}
+
+message url_detail_record {
+    enum url_http_method
+    {
+        NON_HTTP = 1;
+        HTTP_GET = 2;
+        HTTP_PUT = 3;
+        HTTP_POST = 4;
+        HTTP_HEAD = 5;
+    }
+    required ip_address client_ip = 1;
+    required ip_address dest_ip = 2;
+    required mac_address client_mac = 3;
+    optional bytes dest_url_prefix = 4;
+    optional uint32 hit_count = 5;
+    optional url_http_method http_method = 6;
+    optional uint64 last_hit_timestamp = 7;
+}

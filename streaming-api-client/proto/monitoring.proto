@@ -1,0 +1,828 @@
+//File: streaming/monitoring.proto
+//Contains structures used by all Devices protobuf schema files for Streaming API
+message IpAddress {
+    enum addr_family {
+         ADDR_FAMILY_INET = 2;   		// Internet IP Protocol
+         ADDR_FAMILY_INET6 = 10; 		// IP version 6
+    }
+    required addr_family af = 1;
+    required bytes addr = 2;
+}
+
+message MacAddress {
+    required bytes addr = 1;
+}
+
+enum Action {
+    ADD = 1;
+    DELETE = 2;
+    UPDATE = 3;
+}
+
+enum Status {
+    UP = 1;
+    DOWN = 2;
+}
+
+enum TunnelIndex {
+    PRIMARY = 0;
+    BACKUP = 1;
+}
+
+enum CryptoType {
+    CA_CERT = 0;
+    PSK = 1;
+}
+
+enum DataElement {
+    // State PB
+    STATE_CONTROLLER = 1;
+    STATE_SWITCH = 2;
+    STATE_SWARM = 3;
+    STATE_AP = 4;
+    STATE_VAP = 5;
+    STATE_RADIO = 6;
+    STATE_INTERFACE = 7;
+    STATE_NETWORK = 8;
+    STATE_TUNNEL = 9;
+    STATE_WIRELESSCLIENT = 10;
+    STATE_WIREDCLIENT = 11;
+    STATE_UPLINK = 12;
+
+    // Statistics PB
+    STAT_DEVICE = 13;
+    STAT_RADIO = 14;
+    STAT_VAP = 15;
+    STAT_INTERFACE = 16;
+    STAT_CLIENT = 17;
+    STAT_TUNNEL = 18;
+    STAT_MODEM = 19;
+    STAT_ROLE = 20;
+    STAT_VLAN = 21;
+    STAT_SSID = 22;
+    STAT_IPPROBE = 23;
+    STAT_UPLINK = 24;
+    STAT_UPLINKWAN = 25;
+    STAT_UPLINKIPPROBE = 26;
+
+    // Events PB
+    EVENTS_WIDS = 27;
+    EVENTS_ROGUE = 28;
+
+    STATS_UPLINK_SPEEDTEST = 29;
+    DEVICE_NEIGHBOURS = 30;
+    NOTIFICATIONS = 31;
+    SWITCH_STACK = 32;
+    STATE_IKE_TUNNEL = 33;
+    SWITCH_VLAN = 34;
+}
+
+enum AuthType {
+    NONE = 1;
+    MAC_AUTH = 2;
+    DOT1X_AUTH = 3;
+    L3_AUTH = 4;
+    CONSOLE_AUTH = 5;
+    TELNET_AUTH = 6;
+    WEBUI_AUTH = 7;
+    SSH_AUTH = 8;
+    WEB_AUTH = 9;
+    SNMP_AUTH = 10;
+    SSH_NONE_AUTH = 11;
+    LMA_AUTH = 12;
+    ANY_AUTH = 13;
+    CAPTIVE_PORTAL = 14;
+    VPN_AUTH = 15;
+    STATEFUL_KERBEROS = 16;
+    RADIUS_ACCOUNTING = 17;
+    SECURE_ID = 18;
+    STATEFUL_RADIUS = 19;
+    SWITCH_MANAGEMENT = 20;
+    DOT1X_MACHINE = 21;
+    DOT1X_USER = 22;
+    DOT1X_WIRED = 23;
+    DOT1X_WIRED_MACHINE = 24;
+    DOT1X_WIRED_USER = 25;
+    PUB_COOKIE = 26;
+    TACACAS_PLUS = 27;
+    WIRELESS_XSEC = 28;
+    WIRELESS_XSEC_MACHINE = 29;
+    WIRELESS_XSEC_USER = 30;
+    WIRELESS_XSEC_WIRED = 31;
+    WIRELESS_XSEC_WIRED_MACHINE = 32;
+    WIRELESS_XSEC_WIRED_USER = 33;
+    STATEFUL_NTLM = 34;
+    RAP_AP = 35;
+    VIA_WEB = 36;
+    GENERIC_INTERFACE_SPEC = 37;
+    TRANSPORT_VPN = 38;
+    VIA_VPN = 39;
+    NUM_AUTH_CLIENT = 40;
+}
+
+//Swarm protobuf contains Swarm information and the action is one of new, update and delete.
+message Swarm {
+    optional Action action = 1 [default = UPDATE]; 	// Mandatory
+    optional string swarm_id = 2;					// Mandatory
+    optional string name = 3;						// Mandatory
+    optional Status status = 4 [default = UP];		// Mandatory
+    optional IpAddress public_ip_address = 5;
+    optional IpAddress ip_address = 6;
+    optional string firmware_version = 7;			// Mandatory
+}
+
+
+//Tunnel protobuf contains tunnel information and the action is one of new, update and delete.
+message Tunnel {
+    optional Action action = 1 [default = UPDATE];		// Mandatory
+    optional string swarm_id = 2;						// Mandatory
+    optional TunnelIndex index = 3;						// Mandatory
+    optional CryptoType crypto_type = 4;				// Mandatory
+    optional string peer_name = 5;						// Mandatory
+    optional IpAddress peer_tun_ip = 6;
+    optional IpAddress tunnel_ip = 7;
+    optional Status status = 8 [default = UP];			// Mandatory
+    optional bool active = 9;							// Mandatory
+    optional uint32 uptime = 10;						// Mandatory
+}
+
+//Interface protobuf contains the IAP Ethernet or Switch Port information.
+message Interface {
+    enum Duplex {
+        HALF = 1;
+        FULL = 2;
+        AUTO = 3;
+    }
+
+    enum IntfType {
+        ETHERNET = 1;
+        LOOPBACK = 2;
+        VLAN = 3;
+        TUNNEL = 4;
+        PORT_CHANNEL = 5;
+        STANDBY = 6;
+        BRIDGE = 7;
+        SPLIT = 8;
+        STACK = 9;
+        MGMT = 10;
+        NONE = 11;
+    }
+
+    enum SpeedType {
+        SPEED_INVALID = 0;
+        SPEED_AUTO = 1;
+        SPEED_10 = 2;
+        SPEED_100 = 3;
+        SPEED_1000 = 4;
+        SPEED_10000 = 5;
+    }
+
+    enum PortType {
+        PT_RJ45   = 0;
+        PT_GBIC   = 1;
+        PT_SERIAL = 2;
+        PT_USB    = 3;
+        PT_X2     = 4;
+    }
+
+    enum PoeSupport {
+        NA = 0;
+        SUPPORTED   = 1;
+        NOT_SUPPORTED = 2;
+    }
+
+    optional Action action = 1 [default = UPDATE];		// Mandatory
+    optional string device_id = 2;						// Mandatory
+    optional MacAddress macaddr = 3;					// Mandatory
+    optional Status status = 4 [default = UP];			// Mandatory
+    optional IpAddress ipaddr = 5;
+    optional Duplex duplex_mode = 6;     				// This field will be present only for IAP Interface alone.
+    optional string name = 7;							// Mandatory	
+    optional string port_number = 8;					// Mandatory
+    optional IntfType type = 9;							// Mandatory
+    optional string mode = 10;
+    optional uint32 vlan = 11;
+    optional PoeSupport has_poe = 12 [default = NA];    // This field is applicable for switches alone.
+    optional Status poe_state = 13 [default = UP];
+    optional Status oper_state = 14 [default = UP];	 	// Mandatory
+    optional Status admin_state = 15 [default = UP];	// Mandatory
+    optional SpeedType speed = 16;			  			// Mandatory
+    optional uint32 mux = 17;
+    optional uint32 trusted = 18;
+    optional string slot = 19;
+    optional PortType phy_type = 20;
+    optional string sub_type = 21;
+    repeated uint32 allowed_vlan = 22;
+}
+
+//Ap protobuf contains AP information and action is one of new, update and delete.
+message VapInfo {
+    optional Action action = 1 [default = UPDATE];		// Mandatory
+    optional string device_id = 2; 						// Mandatory
+    optional MacAddress radio_mac = 3;					// Mandatory
+    optional bytes essid = 4;							// Mandatory
+}
+
+message Radio {
+    optional Action action = 1 [default = UPDATE];		// Mandatory
+    optional string device_id = 2;						// Mandatory
+    optional uint32 index = 3;							// Mandatory
+    optional MacAddress macaddr = 4;					// Mandatory
+    optional Status status = 5 [default = UP];			// Mandatory
+    optional string channel = 6;						// Mandatory
+    optional uint32 band = 7;							// Mandatory
+    optional uint32 channel_width = 8;					// Mandatory
+}
+
+message Ap {
+    enum UplinkType {
+        ETHERNET = 1;
+        MESH     = 2;   // WiFi Mesh
+        STATION  = 3;   // WiFi Station
+        MODEM    = 4;   // 3G/4G Modem
+    }
+    optional Action action = 1 [default = UPDATE];		// Mandatory
+    optional string serial = 2;							// Mandatory
+    optional string name = 3;							// Mandatory
+    optional MacAddress macaddr = 4;					// Mandatory
+    optional string cluster_id = 5;						// Mandatory
+    optional Status status = 6 [default = UP];			// Mandatory
+    optional IpAddress ip_address = 7;
+    optional string model = 8;							// Mandatory
+    optional string mesh_role = 9;						// Mandatory
+    optional string mode = 10;							// Mandatory
+    optional bool swarm_master = 11;					// Mandatory
+    optional bool modem_connected = 12;
+    optional UplinkType uplink_type = 13;
+}
+
+//Network protobuf contains Network information and action is one of new, update and delete.
+message Network {
+    optional Action action = 1 [default = UPDATE];		// Mandatory
+    optional string swarm_id = 2;						// Mandatory
+    optional bytes essid = 3;							// Mandatory
+    optional string security = 4;						// Mandatory
+    optional string type = 5;							// Mandatory
+}
+
+//Wireless client protobuf contains wireless client information. Action is one of connect, update and disconnect.
+message WirelessClient {
+    optional Action action = 1 [default = UPDATE];		// Mandatory
+    optional MacAddress macaddr = 2;					// Mandatory
+    optional string name = 3;							// Mandatory
+    optional IpAddress ip_address = 4;
+    optional string username = 5;
+    optional string associated_device = 6;
+    optional MacAddress radio_mac = 7;					// Mandatory
+    optional bytes network = 8;
+    optional string user_role = 9;
+    optional string manufacturer = 10;					// Mandatory
+    optional string os_type = 11;
+    optional string connection = 12;
+    optional uint32 maxspeed = 13;
+    optional uint32 vlan = 14;
+}
+
+//Switch protobuf contains Switch information and action is one of new, update and delete.
+message HardwareModule {
+    enum HardwareStatus {
+            OK            = 0;
+            ERROR         = 1;
+            NOT_CONNECTED = 2;
+            ACTIVE        = 3;
+            STANDBY       = 4;
+            OFFLINE       = 5;
+    }
+    optional uint32 index = 1;
+    optional HardwareStatus status = 2;
+}
+
+message Switch {
+    enum StackMemberRole {
+        UNKNOWN = 1;
+        COMMANDER = 2;
+        STANDBY = 3;
+        MEMBER = 4;
+    }
+    optional Action action = 1 [default = UPDATE];		// Mandatory
+    optional string serial = 2;							// Mandatory
+    optional string name = 3;							// Mandatory
+    optional MacAddress macaddr = 4;					// Mandatory
+    optional string model = 5;							// Mandatory
+    optional Status status = 6 [default = UP];			// Mandatory
+    optional IpAddress public_ip_address = 7;
+    optional IpAddress ip_address = 8;
+    optional string firmware_version = 9;				// Mandatory
+    optional IpAddress default_gateway = 10;
+    optional uint32 device_mode = 11;
+    repeated string uplink_ports = 12;
+    optional uint32 max_slots = 13;
+    repeated string used_slots = 14;
+    repeated HardwareModule management_modules = 15;
+    repeated HardwareModule power_supplies = 16;
+    optional string stack_id = 17;
+    optional uint32 stack_member_id = 18;
+    optional StackMemberRole stack_member_role = 19;
+}
+
+message SwitchStack {
+    enum StackTopology {
+       STANDALONE = 1;
+       CHAIN = 2;
+       RING = 3;
+       MESH = 4;
+       PARTIAL_MESH = 5;
+       UNKNOWN = 6;
+    }
+    enum StackPolicy {
+        STACK_SPLIT_UNKNOWN = 0;
+        STACK_SPLIT_ONE_FRAGMENT_UP = 1;
+        STACK_SPLIT_ALL_FRAGMENTS_UP = 2;
+    }
+    optional Action action = 1 [default = UPDATE];		// Mandatory
+    optional string stack_id = 2;
+    optional Status status = 3 [default = UP];			// Mandatory
+    optional StackTopology topology = 4;
+    optional StackPolicy policy = 5;
+    optional string firmware_version = 6;
+    optional uint32 vsf_domain_id = 7;
+}
+
+//WiredClient protobuf contains wired client(Either switch client or AP wired client) information.
+//Action is one of connect, update and disconnect.
+message WiredClient {
+    optional Action action = 1 [default = UPDATE];		// Mandatory
+    optional MacAddress macaddr = 2;					// Mandatory
+    optional string name = 3;							// Mandatory
+    optional IpAddress ip_address = 4;
+    optional string username = 5;
+    optional string associated_device = 6;				// Mandatory
+    optional MacAddress interface_mac = 7;
+    optional string user_role = 8;
+    optional uint32 vlan = 9;
+    optional AuthType auth_type = 10;
+}
+
+//MobilityController protobuf contains controller information.
+//Action is one of Add, update and delete.
+message MobilityController {
+    optional Action action = 1 [default = UPDATE];		// Mandatory
+    optional string serial = 2;							// Mandatory
+    optional string name = 3;							// Mandatory
+    optional MacAddress macaddr = 4;					// Mandatory
+    optional string model = 5;							// Mandatory
+    optional Status status = 6 [default = UP];			// Mandatory
+    optional IpAddress public_ip_address = 7;
+    optional IpAddress ip_address = 8;
+    optional string firmware_version = 9;				// Mandatory
+    optional IpAddress default_gateway = 10;
+}
+
+//Uplink protobuf contains controller uplink information.
+//Action is one of Add, update and delete.
+message Uplink {
+    optional Action action = 1 [default = UPDATE];		// Mandatory
+    optional string device_id = 2;						// Mandatory
+    optional uint64 link_index = 3;						// Mandatory
+    optional string name = 4;							// Mandatory
+    optional string description = 5;			
+    optional uint32 priority = 6;						// Mandatory
+    optional Status status = 7;							// Mandatory
+    optional Status wan_status = 8;
+    optional uint32 vlan = 9;
+    optional string vlan_description = 10;
+}
+
+//Tunnel protobuf contains controller tunnel information.
+//Action is one of Add, update and delete.
+message IkeTunnel {
+    optional Action action = 1 [default = UPDATE];		// Mandatory
+    optional string device_id = 2;					    // Mandatory
+    optional uint64 map_id = 3;				            // Mandatory
+    optional MacAddress peer_mac = 4;                   // Mandatory
+    optional MacAddress local_mac = 5;                  // Mandatory
+    optional IpAddress src_ip = 6;                      // Mandatory
+    optional IpAddress dst_ip = 7;                      // Mandatory
+    optional Status status = 8;							// Mandatory
+    optional string map_name = 9;                       // Mandatory
+}
+
+//The following messages are statistics protobufs
+message DeviceStats{
+    optional string device_id = 1;					// Mandatory
+    optional uint32 timestamp = 2;					// Mandatory
+    optional uint64 uptime = 3;						// Mandatory
+    optional uint32 cpu_utilization = 4;			// Mandatory for IAP and HP switches.
+    optional uint64 mem_total = 5;					// Mandatory for IAP and HP switches.
+    optional uint64 mem_free = 6;					// Mandatory for IAP and HP switches.
+    optional uint32 power_consumption = 7;
+    optional uint32 fan_speed = 8;
+    optional uint32 temperature = 9;
+    optional Status fan_status = 10;
+    optional uint32 max_power = 11;
+    optional uint32 poe_consumption = 12;
+    optional uint32 poe_budget = 13;
+    optional uint64 mem_utilization = 14;
+}
+
+message RadioStats {
+    optional string device_id = 1;				// Mandatory
+    optional MacAddress macaddr = 2;			// Mandatory
+    optional uint32 timestamp = 3;				// Mandatory
+    optional uint64 tx_bytes = 4;				// Mandatory
+    optional uint64 rx_bytes = 5;				// Mandatory
+    optional uint32 tx_drops = 6;				// Mandatory
+    optional uint32 tx_power = 7;				// Mandatory
+    optional uint32 noise_floor = 8;			// Mandatory
+    optional uint32 utilization = 9;			// Mandatory
+    optional uint64 rx_bad = 10;				// Mandatory
+}
+
+message VapStats {
+	optional string device_id = 1; 				// Mandatory
+    optional MacAddress radio_mac = 2;			// Mandatory
+    optional bytes network = 3;					// Mandatory
+    optional uint32 timestamp = 4;				// Mandatory
+    optional uint64 tx_bytes = 5;				// Mandatory
+    optional uint64 rx_bytes = 6;				// Mandatory
+}	
+
+message TunnelStats {
+    optional string swarm_id = 1;				// Mandatory
+    optional TunnelIndex index = 2;				// Mandatory
+    optional uint32 timestamp = 3;				// Mandatory
+    optional uint64 tx_bytes = 4;				// Mandatory
+    optional uint64 rx_bytes = 5;				// Mandatory
+}
+
+message ClientStats {
+    optional string device_id = 1;
+    optional MacAddress macaddr = 2;			// Mandatory
+    optional uint32 timestamp = 3;				// Mandatory
+    optional uint64 tx_bytes = 4;				// Mandatory
+    optional uint64 rx_bytes = 5;				// Mandatory
+    optional uint32 rx_retries = 6;				// Mandatory
+    optional uint32 tx_retries = 7;				// Mandatory
+    optional uint32 speed = 8;
+    optional uint32 signal_in_db = 9;
+    optional uint32 snr = 10;
+}
+
+message InterfaceStats {
+    optional string device_id = 1;				// Mandatory	
+    optional MacAddress macaddr = 2;			// Mandatory		
+    optional uint32 timestamp = 3;				// Mandatory
+    optional uint64 tx_bytes = 4;				// Mandatory
+    optional uint64 rx_bytes = 5;				// Mandatory
+    optional uint32 power_consumption = 6;
+    optional uint32 in_errors = 7;
+    optional uint32 out_errors = 8;
+    optional uint32 in_discards = 9;
+    optional uint32 out_discards = 10;
+    optional uint32 in_packets = 11;
+    optional uint32 out_packets = 12;
+    optional uint32 in_other_err = 13;
+    optional uint32 in_multicast_pkt = 14;
+    optional uint32 in_broadcast_pkt = 15;
+    optional uint32 in_unicast_pkt = 16;
+    optional uint32 out_multicast_pkt = 17;
+    optional uint32 out_broadcast_pkt = 18;
+    optional uint32 out_unicast_pkt = 19;
+    optional uint32 in_fcs = 20;
+    optional uint32 in_alignment = 21;
+    optional uint32 out_excessive_collision = 22;
+    optional uint32 in_jabbers = 23;
+    optional uint32 in_fragmented = 24;
+    optional uint32 in_giant = 25;
+    optional uint32 in_runt = 26;
+    optional uint32 out_collision = 27;
+    optional uint32 out_late_collision = 28;
+    optional uint32 out_deferred = 29;
+}
+
+message UplinkStats {
+    optional string device_id = 1;				// Mandatory
+    optional uint32 link_id = 2;				// Mandatory
+    optional uint32 timestamp = 3;				// Mandatory
+    optional uint64 tx_bytes = 4;				// Mandatory
+    optional uint64 rx_bytes = 5;				// Mandatory
+    optional uint64 tunnel_tx_bytes = 6;
+    optional uint64 tunnel_rx_bytes = 7;
+    optional uint64 map_id = 8;
+    optional string map_name = 9;
+}
+
+message UplinkWanStats {
+    optional string device_id = 1;					// Mandatory
+    optional uint32 link_id = 2;					// Mandatory
+    optional uint32 timestamp = 3;					// Mandatory
+    optional uint64 compressed_bytes = 4;			// Mandatory
+    optional uint64 uncompressed_bytes = 5;			// Mandatory
+    optional uint64 savings_bytes = 6;				// Mandatory
+}
+
+message ModemStats {
+    optional string device_id = 1;				// Mandatory
+    optional uint32 timestamp = 2;				// Mandatory
+    optional uint64 tx_bytes = 3;				// Mandatory
+    optional uint64 rx_bytes = 4;				// Mandatory
+}
+
+message RoleStats {
+    optional string device_id = 1;				// Mandatory
+    optional string user_role = 2;				// Mandatory
+    optional uint32 timestamp = 3;				// Mandatory
+    optional uint64 tx_bytes = 4;				// Mandatory
+    optional uint64 rx_bytes = 5;				// Mandatory
+}
+
+message VlanStats {
+    optional string device_id = 1;				// Mandatory
+    optional uint32 vlan = 2;					// Mandatory
+    optional uint32 timestamp = 3;				// Mandatory
+    optional uint64 tx_bytes = 4;				// Mandatory
+    optional uint64 rx_bytes = 5;				// Mandatory
+}
+
+message SsidStats {
+    optional string device_id = 1;				// Mandatory
+    optional bytes essid = 2;					// Mandatory
+    optional uint32 timestamp = 3;				// Mandatory
+    optional uint64 tx_bytes = 4;				// Mandatory
+    optional uint64 rx_bytes = 5;				// Mandatory
+}
+
+message TunnelIpProbeStats {
+    optional string device_id = 1;					// Mandatory
+    optional TunnelIndex tunnel_index = 2;			// Mandatory
+    optional IpAddress probe_ip_addr = 3;			// Mandatory
+    optional uint32 probe_status = 4;				// Mandatory
+    optional uint32 ip_probe_pkt_loss_pct = 5;		// Mandatory
+    optional string tunnel_name = 6;				// Mandatory
+}
+
+message UplinkIpProbeStats {
+    optional string device_id = 1;				// Mandatory
+    optional uint32 link_id = 2;				// Mandatory
+    optional uint32 timestamp = 3;				// Mandatory
+    optional IpAddress ip_address = 4;				// Mandatory
+    optional uint32 vlan = 5;
+    optional uint64 avg_rtt = 6;
+    optional uint64 max_rtt = 7;
+    optional uint64 min_rtt = 8;
+    optional uint64 avg_jitter = 9;
+    optional uint64 max_jitter = 10;
+    optional uint64 min_jitter = 11;
+    optional uint64 mos_quality = 12;
+    optional uint64 sd_avg_latency = 13;
+    optional uint64 ds_avg_latency = 14;
+    optional uint64 sd_avg_jitter = 15;
+    optional uint64 ds_avg_jitter = 16;
+    optional uint32 probe_status = 17;
+    optional uint32 loss_pct = 18;
+    optional uint64 vpnc_ip_addr = 19;
+    optional uint64 probe_ip_addr = 20;
+
+}
+
+message UplinkSpeedtest {
+  optional string device_id = 1;                // Mandatory
+  optional IpAddress server_ip = 2;             // Mandatory
+  optional uint32 vlan = 3;
+  optional string protocol = 4;
+  optional uint64 upstream_bps = 5;             // Mandatory. Unit is bits per second
+  optional uint64 downstream_bps = 6;           // Mandatory. Unit is bits per second
+  optional uint32 time_secs = 7;                 // Mandatory. Speed test duration(in seconds)
+  optional float upstream_jitter = 8;
+  optional float downstream_jitter = 9;
+}
+
+//For WIDS, we will be providing information about interfering APs, Client attacks and Infrastructure attacks.
+message WIDSEvent {
+
+    enum EventType {
+       ROGUE = 1;
+       INTERFERING = 2;
+       INFRASTRUCTURE_ATTACK = 3;
+       CLIENT_ATTACK = 4;
+    }
+
+    enum AttackType {
+        DETECT_VALID_SSID_MISUSE = 1;
+        DETECT_ADHOC_NETWORK = 2;
+        DETECT_AP_FLOOD = 3;
+        DETECT_WIRELESS_BRIDGE = 4;
+        DETECT_INVALID_MAC_OUI_AP = 5;
+        DETECT_INVALID_MAC_OUI_STA = 6;
+        DETECT_BAD_WEP = 7;
+        DETECT_AP_IMPERSONATION = 8;
+        DETECT_WINDOWS_BRIDGE = 9;
+        SIGNATURE_DEAUTH_BROADCAST_AP = 10;
+        SIGNATURE_DEAUTH_BROADCAST_STA = 11;
+        DETECT_HT_GREENFIELD = 12;
+        DETECT_HT_40MHZ_INTOLERANCE_AP = 13;
+        DETECT_HT_40MHZ_INTOLERANCE_STA = 14;
+        DETECT_CLIENT_FLOOD = 15;
+        DETECT_ADHOC_USING_VALID_SSID = 16;
+        DETECT_AP_SPOOFING = 17;
+        DETECT_INVALID_ADDRESSCOMBINATION = 18;
+        DETECT_MALFORMED_HTIE = 19;
+        DETECT_MALFORMED_ASSOC_REQ = 20;
+        DETECT_OVERFLOW_IE = 21;
+        DETECT_OVERFLOW_EAPOL_KEY = 22;
+        DETECT_MALFORMED_LARGE_DURATION = 23;
+        DETECT_MALFORMED_FRAME_WRONG_CHANNEL = 24;
+        DETECT_MALFORMED_FRAME_AUTH = 25;
+        DETECT_CTS_RATE_ANOMALY = 26;
+        DETECT_RTS_RATE_ANOMALY = 27;
+        SIGNATURE_DEAUTH_BROADCAST = 28;
+        SIGNATURE_DEASSOCIATION_BROADCAST = 29;
+        DETECT_RATE_ANOMALIES_BY_AP = 30;
+        DETECT_RATE_ANOMALIES_BY_STA = 31;
+        DETECT_EAP_RATE_ANOMALY = 32;
+        DETECT_DISCONNECT_STA = 33;
+        SIGNATURE_ASLEAP_FROM_AP = 34;
+        SIGNATURE_ASLEAP_FROM_STA = 35;
+        SIGNATURE_AIRJACK_FROM_AP = 36;
+        SIGNATURE_AIRJACK_FROM_STA = 37;
+        DETECT_STATION_DISCONNECT_ATTACK_AP = 38;
+        DETECT_UNENCRYPTED_VALID = 39;
+        DETECT_OMERTA_ATTACK = 40;
+        DETECT_TKIP_REPLAY_ATTACK = 41;
+        DETECT_CHOPCHOP_ATTACK = 42;
+        DETECT_FATAJACK = 43;
+        DETECT_VALID_CLIENT_MISASSOCIATION = 44;
+        DETECT_BLOCK_ACK_ATTACK = 45;
+        DETECT_HOTSPOTTER_ATTACK = 46;
+        DETECT_POWER_SAVE_DOS_ATTACK = 47;
+    }
+
+    optional Action action = 1 [default = UPDATE];	// Mandatory
+    optional EventType event_type = 2;				// Mandatory
+    optional MacAddress macaddr  = 3;				// Mandatory
+    optional string detected_ap = 4;				// Mandatory
+    optional AttackType attack_type = 5;    		// This field is valid only for the Client and Infrastructure attacks alone.
+    optional string channel = 6;
+    optional bytes network = 7;
+}
+
+//Rogue Event Details
+message AirMonitorRogueInfo
+{
+    enum wms_rap_match_type {
+        RAP_MT_NONE = 0;
+        RAP_MT_CFG_WM = 1;
+        RAP_MT_ETH_WM = 2;
+        RAP_MT_AP_WM = 3;
+        RAP_MT_EXT_WM = 4;
+        RAP_MT_MANUAL = 5;
+        RAP_MT_BASE_BSSID = 6;
+        RAP_MT_EMS = 7;
+        RAP_MT_ETH_GW_WM = 8;
+        RAP_MT_CLASS_OFF = 9;
+        RAP_MT_AP_BSSID = 10;
+        RAP_MT_PROP_ETH_WM = 11;
+        RAP_MT_AP_RULE = 12;
+        RAP_MT_SYSTEM_WM = 13;
+        RAP_MT_SYSTEM_GW_WM = 14;
+    }
+
+    enum wms_rap_nat_match_type {
+        RAP_NMT_NONE = 0;
+        RAP_NMT_EQUAL = 1;
+        RAP_NMT_PLUS_ONE = 2;
+        RAP_NMT_MINUS_ONE = 3;
+        RAP_NMT_OUI = 4;
+    }
+
+    optional wms_rap_match_type match_type = 1; 			// Mandatory
+    optional MacAddress match_mac = 2;
+    optional IpAddress match_ip = 3;
+    optional string monitor_name = 4;
+    optional wms_rap_nat_match_type nat_match_type = 5;
+
+}
+
+message RogueEvent {
+    enum wms_snmp_encr_protocol {
+        WMS_SNMP_WPA_ENCR_OPEN = 0;
+        WMS_SNMP_WPA_ENCR_WEP = 1;
+        WMS_SNMP_WPA_ENCR_WPA = 2;
+        WMS_SNMP_WPA_ENCR_WPA2 = 3;
+    }
+    optional Action action = 1 [default = ADD];	 			// Mandatory
+    optional string detected_ap = 2;						// Mandatory
+    optional MacAddress macaddr  = 3;						// Mandatory
+    optional uint32 channel = 4;
+    optional bytes network = 5;
+    optional wms_snmp_encr_protocol encr_type = 6;
+    optional AirMonitorRogueInfo am_rogue = 7;				// Mandatory
+}
+
+message DeviceNeighbours {
+    optional Action action = 1 [default = UPDATE]; 	        // Mandatory
+    optional string device_id = 2;	    					// Mandatory
+    optional string port = 3;                               // Mandatory
+    optional string remote_device_id = 4;
+    optional string remote_port = 5;
+    optional string remote_port_number = 6;
+}
+
+//The following protobuf is a collection of all the above PB structures. For each state/stats processing, the worker will generate the MonitoringInformation protobuf and will publish it to streaming API.
+message MonitoringInformation {
+    required string customer_id = 1;
+    repeated DataElement data_elements = 2;
+    repeated Swarm swarms = 3;
+    repeated Ap aps = 4;
+    repeated Network networks = 5;
+    repeated Radio radios = 6;
+    repeated VapInfo vaps = 7;
+    repeated Interface interfaces = 8;
+    repeated Tunnel tunnels = 9;
+    repeated WirelessClient wireless_clients = 10;
+    repeated Switch switches = 11;
+    repeated WiredClient wired_clients = 12;
+    repeated DeviceStats device_stats = 13;
+    repeated RadioStats radio_stats = 14;
+    repeated InterfaceStats interface_stats = 15;
+    repeated VapStats vap_stats = 16;
+    repeated ClientStats client_stats = 17;
+    repeated TunnelStats tunnel_stats = 18;
+    repeated WIDSEvent wids_events = 19;
+    repeated ModemStats modem_stats = 20;
+    repeated RoleStats role_stats = 21;
+    repeated VlanStats vlan_stats = 22;
+    repeated SsidStats ssid_stats = 23;
+    repeated TunnelIpProbeStats ipprobe_stats = 24;
+    repeated RogueEvent rogue_events = 25;
+    repeated MobilityController mobility_controllers = 26;
+    repeated Uplink uplinks = 27;
+    repeated UplinkStats uplink_stats = 28;
+    repeated UplinkWanStats uplink_wan_stats = 29;
+    repeated UplinkIpProbeStats uplink_probe_stats = 30;
+    repeated UplinkSpeedtest uplink_speedtest = 31;
+    repeated DeviceNeighbours device_neighbours = 32;
+    repeated Notification notification = 33;
+    repeated SwitchStack switch_stacks = 34;
+    repeated IkeTunnel ike_tunnels = 35;
+    optional SwitchVlanInfo switch_vlan_info = 36;
+}
+
+//Protobuf published for monitoring state changes
+message MonitoringStateInformation {
+    required string customer_id = 1;
+    repeated MobilityController mobility_controllers = 2;
+    repeated Switch switches = 3;
+    repeated Swarm swarms = 4;
+    repeated Ap aps = 5;
+    repeated VapInfo vaps = 6;
+    repeated Radio radios = 7;
+    repeated Interface interfaces = 8;
+    repeated Network networks = 9;
+    repeated Tunnel tunnels = 10;
+    repeated WirelessClient wireless_clients = 11;
+    repeated WiredClient wired_clients = 12;
+    repeated Uplink uplinks = 13;
+    repeated SwitchStack switch_stacks = 14;
+    repeated IkeTunnel ike_tunnels = 15;
+}
+
+message KeyValueData {
+    optional string key = 1;
+    optional string value = 2;
+}
+message Notification {
+    enum Severity {
+        Normal = 1;
+        Warning = 2;
+        Minor = 3;
+        Major = 4;
+        Critical = 5;
+    }
+    enum NotificationState {
+        Open = 0;
+        Close = 1;
+    }
+    optional string id = 1; //notification id for refering back when close event is published
+    optional string type = 2; // It may be AP_DISCONNECTED, AP_CPU_OVER_UTILIZATION etc
+    optional string setting_id = 3; //Reference to setting which caused this notification to be published
+    optional string device_id = 4; //Serial number of the device
+    optional Severity severity = 5;
+    optional uint32 timestamp = 6; //Time of occurrence of the event
+    optional NotificationState state = 7; // Used to send state of the alarm (Open or Close)
+    optional string description = 8; // Description of alert condition in human readable text
+    repeated KeyValueData extra = 9; // Extra information in form of key value pair
+}
+
+//Protobuf published for switch vlan
+message SwitchVlanInfo {
+    required string device_id = 1;
+    repeated SwitchVlan vlans = 2;
+}
+
+message SwitchVlan {
+    optional uint32 id = 1;
+    optional string name = 2;
+    repeated string tagged_ports = 3;
+    repeated string untagged_ports = 4;
+}

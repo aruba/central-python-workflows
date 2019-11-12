@@ -1,0 +1,7 @@
+{
+ "customerlist": [[ "<central-account-username>", 
+                    "<central-wss-key>"
+                  ]
+                 ],
+ "addtofilename": "<any_text_added_to_filename>"
+}

@@ -1,0 +1,27 @@
+enum Action {
+    ADD = 1;
+    DELETE = 2;
+    UPDATE = 3;
+}
+
+message MacAddress {
+    required bytes addr = 1;
+}
+
+message RogueEvent {
+    required string cust_id = 1;
+    required MacAddress rogue_id = 2;
+    required uint32 classification = 3;
+    optional string first_seen = 4;
+    optional string last_seen = 5;
+    optional string rogue_name = 6;
+    optional string ssid = 7;
+    optional string lan_mac = 8;
+    optional string first_det_device = 9;
+    optional string last_det_device = 10;
+    optional uint32 encryption = 11;
+    optional string port = 12;
+    optional string containment_status = 13;
+    optional string mac_vendor = 14;
+
+}
