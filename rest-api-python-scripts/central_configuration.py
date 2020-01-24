@@ -149,17 +149,17 @@ class ArubaCentralConfiguration:
         # Sample variable file in JSON format can be downloaded from central
         # if device_serial is provided in the argument, variables to be updated
         # for that device should be provided in JSON format
-        # {"_sys_serial": "CJ0219729",
+        # {"_sys_serial": "CJ02XXXXX",
         #  "ssid": "s1",
-        #  "_sys_lan_mac": "ac:a3:1e:cb:04:92",
-        #  "vc_name": "test_config_CK0036968",
-        #  "org": "Uber_org_test",
-        #  "vc_dns_ip":"22.22.22.22",
-        #  "zonename": "Uber_1",
+        #  "_sys_lan_mac": "aa:aa:aa:aa:aa:aa",
+        #  "vc_name": "test_config_CK00XXXXX",
+        #  "org": "org_1",
+        #  "vc_dns_ip":"2.2.2.2",
+        #  "zonename": "zone_1",
         #  "uplinkvlan": "0",
         #  "swarmmode": "cluster",
-        #  "md5_checksum": "ed8a67a3d1be58261640ca53f8fd3bb8",
-        #  "hostname": "Uber_2"
+        #  "md5_checksum": "ed8a67a3d1be58261640ca1car123fwe",
+        #  "hostname": "host_2"
         # }
         #
         print("Uploading Variables to template group")
