@@ -53,6 +53,22 @@ filter_dict = {
 message_count = 0
 truncated_message_count = 0
 
+# Method to validate/Refresh WSS Key
+def validate_refresh_token(hostname, oldtok):
+    '''
+    Accepts the Hostname URL and Websocket Token
+    Returns the oldtok if it is not expired. Else Returns new token.
+    '''
+    import requests
+    url = "https://{}/streaming/token/validate".format(hostname)
+    headers = { "Authorization" : oldtok }
+    print("validation/refreshing token....")
+    res = requests.get(url, headers=headers)
+    if res.status_code == 200:
+        print("new token : {}".format(res.json()["token"]))
+        return res.json()["token"]
+    else:
+	    raise ConnectionError("Unable to validate/refresh WSS key/token ...")
 
 def StreamClient(ip, username, password, param_dict,
                  services, filters, secure_url):
@@ -441,10 +457,11 @@ if __name__ == '__main__':
 
     for i in range(param_dict['multiplier']):
         for customer in param_dict['customerlist']:
+            new_tok = validate_refresh_token(args.hostname, customer[1])
             if len(customer) >= 2 and param_dict['type'] == 'streams':
                 jobs.append(
                     p.spawn(StreamClient, args.hostname, customer[0],
-                            customer[1], param_dict, services, filters,
+                            new_tok, param_dict, services, filters,
                             secure_url))
             else:
                 print("Invalid json file and type combination.exiting...")

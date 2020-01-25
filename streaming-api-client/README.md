@@ -6,11 +6,12 @@ This sample python script is used to establish a streaming API (acts as Secure W
  - **Exporting Data to CSV(Excel) File:** In production, there might be a need to integrate the data to a Database or other storage/monitoring tools. In this Sample script, there is a simple csv exporter. Currently only the data for "presence" topic in streaming API's (proximity message) is exported. For other topics, data will be displayed on screen during execution.
  - **Subscribing to Multiple Topics:** In order to subscribe to multiple topics, multiple websocket connections has to be made. This reference script only creates one websocket connection and can subscribe to only one topic at a time.
 
+ 
 ### Package Requirements
 - See requirements.txt
-- Install with:
+- Install with: 
 ```sh
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 ### Data Format
 
@@ -30,7 +31,7 @@ python3 wsclient_public_excel.py --hostname internal-ui.central.arubanetworks.co
 
 `--jsoninput` - Input File where the Aruba Central customer information is present in JSON format.
 
-`--subject` - One of the following monitoring/apprf/presence/audit
+`--subject` - One of the following monitoring/apprf/presence/audit/location/security
 
 `-type` - One of the following streams/events
 
@@ -43,14 +44,14 @@ python3 wsclient_public_excel.py --hostname internal-ui.central.arubanetworks.co
                     "< central-wss-key >"
                   ]
                  ],
- "addtofilename": "< any_text_added_to_filename >"
+ "addtofilename": "Aruba"
 }
 ```
 ##### Required:
 
 &nbsp;&nbsp;&nbsp; "central-account-username" --> A valid central user through which Streaming API will be accessed
 
-&nbsp;&nbsp;&nbsp; "central-wss-key" --> obtained from Aruba Central (Maintenance -> Streaming API Page)
+&nbsp;&nbsp;&nbsp; "central-wss-key" --> obtained from Aruba Central (Account Home -> Webhooks -> Streaming -> Key)
 
 ##### Optional:
 
@@ -71,3 +72,5 @@ timestamp,customer_id,event,device_id,sta_eth_mac,radio_mac,rssi_val,noise_floor
 1555536425946,5001XXX,presence,DN00xxxxx,40ED9852XXXX,40E3D60AXXXX,-56,0,False
 1555536425946,5001XXX,presence,DN00xxxxx,F83441C8XXXX,40E3D60AXXXX,-74,0,False
 ```
+
+**Please Note:** The Secure Websocket Key in Aruba Central will expire every 7 days. The provided sample code utilizes an API endpoint to refresh/validate the token. If the token is expired, new token will be used in this websocket client sample.
