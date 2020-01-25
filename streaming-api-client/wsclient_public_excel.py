@@ -125,9 +125,9 @@ def StreamClient(ip, username, password, param_dict,
         elif header["Topic"] == "location":
             from proto import location_pb2
             msg_decoder = location_pb2.stream_location()
-        elif header["Topic"] == "rapids":
-            from proto import rapids_pb2
-            msg_decoder = rapids_pb2.RogueEvent()
+        elif header["Topic"] == "security":
+            from proto import security_pb2
+            msg_decoder = security_pb2.RapidsStreamingEvent()
 
     # Constructing Headers
     if ('X-Deliver-All' in param_dict and
@@ -355,7 +355,7 @@ if __name__ == '__main__':
         print("subject is not specified. exiting..")
         exit(0)
     if args.subject not in ['monitoring', 'apprf', 'presence',
-                            'audit', 'location', 'rapids']:
+                            'audit', 'location', 'security']:
         print("unknown subject specified")
         exit(0)
     param_dict['X-Subject'] = args.subject

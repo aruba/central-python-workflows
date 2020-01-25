@@ -1,0 +1,43 @@
+enum Action {
+    ADD = 1;
+    DELETE = 2;
+    UPDATE = 3;
+}
+
+message MacAddress {
+    required bytes addr = 1;
+}
+
+message RapidsStreamingEvent {
+    required string cust_id = 1;
+    repeated RogueEvent rogue = 2;
+    repeated WIDSEvent idsEvent = 3;
+}
+
+message RogueEvent {
+    required MacAddress rogue_id = 1;
+    required uint32 classification = 2;
+    optional string first_seen = 3;
+    optional string last_seen = 4;
+    optional string rogue_name = 5;
+    optional string ssid = 6;
+    optional string lan_mac = 7;
+    optional string first_det_device = 8;
+    optional string last_det_device = 9;
+    optional uint32 encryption = 10;
+    optional string port = 11;
+    optional string containment_status = 12;
+    optional string mac_vendor = 13;
+}
+
+message WIDSEvent {
+    required string device_id = 1;
+    required uint32 event_number = 2;
+    optional string event_type = 3;
+    optional string attack_type = 4;
+    optional string description = 5;
+    optional string detected_ap = 6;
+    optional MacAddress mac_addr = 7;
+    optional string radio_band = 8;
+    optional string level = 9;
+}
