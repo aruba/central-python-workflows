@@ -5,7 +5,7 @@ Tested with Python 3.6.7
 # Requirements
 
 * See requirements.txt  
-* Install with: `pip install -r requirements.txt`
+* Install with: `pip3 install -r requirements.txt`
 
 # Execution
 
