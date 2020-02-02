@@ -44,6 +44,7 @@ message proximity {
    optional int32 rssi_val = 4;
    optional uint32 noise_floor = 5;
    optional bool associated = 6;
+   optional mac_address ap_eth_mac = 7;
 }
 
 //this message contains rssi event for a client
@@ -62,6 +63,7 @@ message rssi {
     optional bool is_ap = 6;
     optional uint32 age = 7;
     optional string device_id = 8;
+    optional mac_address ap_eth_mac = 9;
 }
 
 //this message contains presence events paylod

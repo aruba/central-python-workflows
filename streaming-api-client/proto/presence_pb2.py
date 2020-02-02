@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto2',
   serialized_options=None,
-  serialized_pb=_b('\n\x0epresence.proto\"\x1b\n\x0bmac_address\x12\x0c\n\x04\x61\x64\x64r\x18\x01 \x02(\x0c\"\x1a\n\nMacAddress\x12\x0c\n\x04\x61\x64\x64r\x18\x01 \x02(\x0c\"\xd9\x01\n\x15presence_client_state\x12\x10\n\x08is_label\x18\x02 \x01(\x08\x12\x10\n\x08label_id\x18\x03 \x01(\x04\x12\x19\n\x11label_category_id\x18\x04 \x01(\x04\x12\x32\n\x05state\x18\x05 \x01(\x0e\x32#.presence_client_state.client_state\x12\x15\n\ris_associated\x18\x06 \x01(\x08\"6\n\x0c\x63lient_state\x12\x0c\n\x08passerby\x10\x00\x12\x0b\n\x07visitor\x10\x01\x12\x0b\n\x07\x65ngaged\x10\x02\"H\n\x0fpa_client_state\x12\x35\n\x15presence_client_state\x18\x01 \x03(\x0b\x32\x16.presence_client_state\"3\n\x12pa_proximity_event\x12\x1d\n\tproximity\x18\x01 \x03(\x0b\x32\n.proximity\"\x9d\x01\n\tproximity\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12!\n\x0bsta_eth_mac\x18\x02 \x01(\x0b\x32\x0c.mac_address\x12\x1f\n\tradio_mac\x18\x03 \x01(\x0b\x32\x0c.mac_address\x12\x10\n\x08rssi_val\x18\x04 \x01(\x05\x12\x13\n\x0bnoise_floor\x18\x05 \x01(\r\x12\x12\n\nassociated\x18\x06 \x01(\x08\"$\n\rpa_rssi_event\x12\x13\n\x04rssi\x18\x01 \x03(\x0b\x32\x05.rssi\"\xb4\x01\n\x04rssi\x12!\n\x0bsta_eth_mac\x18\x01 \x01(\x0b\x32\x0c.mac_address\x12\x1f\n\tradio_mac\x18\x02 \x01(\x0b\x32\x0c.mac_address\x12\x10\n\x08rssi_val\x18\x03 \x01(\x05\x12\x13\n\x0bnoise_floor\x18\x04 \x01(\r\x12\x12\n\nassociated\x18\x05 \x01(\x08\x12\r\n\x05is_ap\x18\x06 \x01(\x08\x12\x0b\n\x03\x61ge\x18\x07 \x01(\r\x12\x11\n\tdevice_id\x18\x08 \x01(\t\"\xc5\x02\n\x0epresence_event\x12\x11\n\ttimestamp\x18\x01 \x02(\x04\x12\x13\n\x0b\x63ustomer_id\x18\x02 \x02(\t\x12\r\n\x05\x65vent\x18\x03 \x02(\t\x12\x37\n\nevent_type\x18\x04 \x02(\x0e\x32#.presence_event.presence_event_type\x12)\n\x0fpa_client_state\x18\x05 \x01(\x0b\x32\x10.pa_client_state\x12%\n\rpa_rssi_event\x18\x06 \x01(\x0b\x32\x0e.pa_rssi_event\x12/\n\x12pa_proximity_event\x18\x07 \x01(\x0b\x32\x13.pa_proximity_event\"@\n\x13presence_event_type\x12\x10\n\x0c\x63lient_state\x10\x00\x12\x08\n\x04rssi\x10\x01\x12\r\n\tproximity\x10\x02')
+  serialized_pb=_b('\n\x0epresence.proto\"\x1b\n\x0bmac_address\x12\x0c\n\x04\x61\x64\x64r\x18\x01 \x02(\x0c\"\x1a\n\nMacAddress\x12\x0c\n\x04\x61\x64\x64r\x18\x01 \x02(\x0c\"\xd9\x01\n\x15presence_client_state\x12\x10\n\x08is_label\x18\x02 \x01(\x08\x12\x10\n\x08label_id\x18\x03 \x01(\x04\x12\x19\n\x11label_category_id\x18\x04 \x01(\x04\x12\x32\n\x05state\x18\x05 \x01(\x0e\x32#.presence_client_state.client_state\x12\x15\n\ris_associated\x18\x06 \x01(\x08\"6\n\x0c\x63lient_state\x12\x0c\n\x08passerby\x10\x00\x12\x0b\n\x07visitor\x10\x01\x12\x0b\n\x07\x65ngaged\x10\x02\"H\n\x0fpa_client_state\x12\x35\n\x15presence_client_state\x18\x01 \x03(\x0b\x32\x16.presence_client_state\"3\n\x12pa_proximity_event\x12\x1d\n\tproximity\x18\x01 \x03(\x0b\x32\n.proximity\"\xbf\x01\n\tproximity\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12!\n\x0bsta_eth_mac\x18\x02 \x01(\x0b\x32\x0c.mac_address\x12\x1f\n\tradio_mac\x18\x03 \x01(\x0b\x32\x0c.mac_address\x12\x10\n\x08rssi_val\x18\x04 \x01(\x05\x12\x13\n\x0bnoise_floor\x18\x05 \x01(\r\x12\x12\n\nassociated\x18\x06 \x01(\x08\x12 \n\nap_eth_mac\x18\x07 \x01(\x0b\x32\x0c.mac_address\"$\n\rpa_rssi_event\x12\x13\n\x04rssi\x18\x01 \x03(\x0b\x32\x05.rssi\"\xd6\x01\n\x04rssi\x12!\n\x0bsta_eth_mac\x18\x01 \x01(\x0b\x32\x0c.mac_address\x12\x1f\n\tradio_mac\x18\x02 \x01(\x0b\x32\x0c.mac_address\x12\x10\n\x08rssi_val\x18\x03 \x01(\x05\x12\x13\n\x0bnoise_floor\x18\x04 \x01(\r\x12\x12\n\nassociated\x18\x05 \x01(\x08\x12\r\n\x05is_ap\x18\x06 \x01(\x08\x12\x0b\n\x03\x61ge\x18\x07 \x01(\r\x12\x11\n\tdevice_id\x18\x08 \x01(\t\x12 \n\nap_eth_mac\x18\t \x01(\x0b\x32\x0c.mac_address\"\xc5\x02\n\x0epresence_event\x12\x11\n\ttimestamp\x18\x01 \x02(\x04\x12\x13\n\x0b\x63ustomer_id\x18\x02 \x02(\t\x12\r\n\x05\x65vent\x18\x03 \x02(\t\x12\x37\n\nevent_type\x18\x04 \x02(\x0e\x32#.presence_event.presence_event_type\x12)\n\x0fpa_client_state\x18\x05 \x01(\x0b\x32\x10.pa_client_state\x12%\n\rpa_rssi_event\x18\x06 \x01(\x0b\x32\x0e.pa_rssi_event\x12/\n\x12pa_proximity_event\x18\x07 \x01(\x0b\x32\x13.pa_proximity_event\"@\n\x13presence_event_type\x12\x10\n\x0c\x63lient_state\x10\x00\x12\x08\n\x04rssi\x10\x01\x12\r\n\tproximity\x10\x02')
 )
 
 
@@ -72,8 +72,8 @@ _PRESENCE_EVENT_PRESENCE_EVENT_TYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1065,
-  serialized_end=1129,
+  serialized_start=1133,
+  serialized_end=1197,
 )
 _sym_db.RegisterEnumDescriptor(_PRESENCE_EVENT_PRESENCE_EVENT_TYPE)
 
@@ -311,6 +311,13 @@ _PROXIMITY = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='ap_eth_mac', full_name='proximity.ap_eth_mac', index=6,
+      number=7, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -324,7 +331,7 @@ _PROXIMITY = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=423,
-  serialized_end=580,
+  serialized_end=614,
 )
 
 
@@ -354,8 +361,8 @@ _PA_RSSI_EVENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=582,
-  serialized_end=618,
+  serialized_start=616,
+  serialized_end=652,
 )
 
 
@@ -422,6 +429,13 @@ _RSSI = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='ap_eth_mac', full_name='rssi.ap_eth_mac', index=8,
+      number=9, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -434,8 +448,8 @@ _RSSI = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=621,
-  serialized_end=801,
+  serialized_start=655,
+  serialized_end=869,
 )
 
 
@@ -508,8 +522,8 @@ _PRESENCE_EVENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=804,
-  serialized_end=1129,
+  serialized_start=872,
+  serialized_end=1197,
 )
 
 _PRESENCE_CLIENT_STATE.fields_by_name['state'].enum_type = _PRESENCE_CLIENT_STATE_CLIENT_STATE
@@ -518,9 +532,11 @@ _PA_CLIENT_STATE.fields_by_name['presence_client_state'].message_type = _PRESENC
 _PA_PROXIMITY_EVENT.fields_by_name['proximity'].message_type = _PROXIMITY
 _PROXIMITY.fields_by_name['sta_eth_mac'].message_type = _MAC_ADDRESS
 _PROXIMITY.fields_by_name['radio_mac'].message_type = _MAC_ADDRESS
+_PROXIMITY.fields_by_name['ap_eth_mac'].message_type = _MAC_ADDRESS
 _PA_RSSI_EVENT.fields_by_name['rssi'].message_type = _RSSI
 _RSSI.fields_by_name['sta_eth_mac'].message_type = _MAC_ADDRESS
 _RSSI.fields_by_name['radio_mac'].message_type = _MAC_ADDRESS
+_RSSI.fields_by_name['ap_eth_mac'].message_type = _MAC_ADDRESS
 _PRESENCE_EVENT.fields_by_name['event_type'].enum_type = _PRESENCE_EVENT_PRESENCE_EVENT_TYPE
 _PRESENCE_EVENT.fields_by_name['pa_client_state'].message_type = _PA_CLIENT_STATE
 _PRESENCE_EVENT.fields_by_name['pa_rssi_event'].message_type = _PA_RSSI_EVENT
