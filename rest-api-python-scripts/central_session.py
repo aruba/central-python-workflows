@@ -1,6 +1,6 @@
 from urllib.request import Request, urlopen, build_opener, HTTPCookieProcessor
 from urllib.parse import urlencode
-import ssl
+#import ssl
 import json
 from http import cookiejar
 from getpass import getpass
@@ -31,7 +31,7 @@ class Session:
         url = self.base_url + url1
         data = json.dumps({"username": self.username,
                           "password": self.password}).encode("utf-8")
-        ssl._create_default_https_context = ssl._create_unverified_context
+        #ssl._create_default_https_context = ssl._create_unverified_context
         csrf_token = ''
         session_token = ''
         auth_code = ''
