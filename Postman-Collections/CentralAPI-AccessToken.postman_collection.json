@@ -1,0 +1,206 @@
+{
+	"info": {
+		"_postman_id": "b151dfff-1a0b-4d33-8d34-311ea4572dcd",
+		"name": "CentralAPI-AccessToken",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Session & csrf Token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\"username\": \"<central-user-email-id>\",\r\"password\": \"<central-user-password>\"\r}"
+				},
+				"url": {
+					"raw": "https://apigw-prod2.central.arubanetworks.com/oauth2/authorize/central/api/login?client_id=<central-API-app-client-id>",
+					"protocol": "https",
+					"host": [
+						"apigw-prod2",
+						"central",
+						"arubanetworks",
+						"com"
+					],
+					"path": [
+						"oauth2",
+						"authorize",
+						"central",
+						"api",
+						"login"
+					],
+					"query": [
+						{
+							"key": "client_id",
+							"value": "<central-API-app-client-id>"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Auth Code",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Cookie",
+						"value": "session=xxxx",
+						"type": "text"
+					},
+					{
+						"key": "X-CSRF-Token",
+						"value": "xxxx",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://apigw-prod2.central.arubanetworks.com/oauth2/authorize/central/api?client_id=<central-API-app-client-id>&response_type=code&scope=all",
+					"protocol": "https",
+					"host": [
+						"apigw-prod2",
+						"central",
+						"arubanetworks",
+						"com"
+					],
+					"path": [
+						"oauth2",
+						"authorize",
+						"central",
+						"api"
+					],
+					"query": [
+						{
+							"key": "client_id",
+							"value": "<central-API-app-client-id>"
+						},
+						{
+							"key": "response_type",
+							"value": "code"
+						},
+						{
+							"key": "scope",
+							"value": "all",
+							"description": "\"read\" -> read only permission; \"all\" -> write and read permission"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Access Token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://apigw-prod2.central.arubanetworks.com/oauth2/token?client_id=<central-API-app-client-id>&client_secret=xxxx&grant_type=authorization_code&code=xxxx",
+					"protocol": "https",
+					"host": [
+						"apigw-prod2",
+						"central",
+						"arubanetworks",
+						"com"
+					],
+					"path": [
+						"oauth2",
+						"token"
+					],
+					"query": [
+						{
+							"key": "client_id",
+							"value": "<central-API-app-client-id>"
+						},
+						{
+							"key": "client_secret",
+							"value": "xxxx"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code"
+						},
+						{
+							"key": "code",
+							"value": "xxxx",
+							"description": "auth code received from previous step"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "refreshing token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://apigw-prod2.central.arubanetworks.com/oauth2/token?client_id=<central-API-app-client-id>&client_secret=<central-API-app-client-secret>&grant_type=refresh_token&refresh_token=xxxx",
+					"protocol": "https",
+					"host": [
+						"apigw-prod2",
+						"central",
+						"arubanetworks",
+						"com"
+					],
+					"path": [
+						"oauth2",
+						"token"
+					],
+					"query": [
+						{
+							"key": "client_id",
+							"value": "<central-API-app-client-id>"
+						},
+						{
+							"key": "client_secret",
+							"value": "<central-API-app-client-secret>",
+							"description": "obtained from central app"
+						},
+						{
+							"key": "grant_type",
+							"value": "refresh_token"
+						},
+						{
+							"key": "refresh_token",
+							"value": "xxxx"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
