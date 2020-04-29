@@ -1,4 +1,4 @@
-# Central API Getting Started
+# Aruba Central API Getting Started
 
 Aruba Central is a cloud-based network management and configuration platform.
 Aruba Central offers a REST API, allowing programmatic interaction with the platform for the collection of data and configuration of assets.
@@ -42,7 +42,7 @@ In addition the user should follow the following guidelines to ensure they are n
 * Also, alway use `git add <my-file-name>` to stage only the required files for check in to a git server.
 * Do not use `git add *` or other forms of wildcard that risk unwittingly staging sensitive files.
 
-## Central REST API OAuth 2.0 Tokens
+## Aruba Central REST API OAuth 2.0 Tokens
 
 The Central REST API utilises an OAuth 2.0 authorization framework. Authorization is requested and granted in accordance with the defined steps and, if successful, two tokens will be issued by the Authorization Server:
 
@@ -85,7 +85,7 @@ If the user is in possession of a refresh token, the authorization process is tr
 
 Please note, this project presents both of these workflows in an automated fashion. The user merely needs to provide the required variables and run the Python file. The workflow will handle the API calls as well as the read and write of token storage files.
 
-## Central API Getting Started Workflows in Detail
+## Aruba Central API Getting Started Workflows in Detail
 
 Three workflows for authentication and authorization are shown. They all use Python and are functionally the same.
 However, the programming design approach for each workflow is different, offering the same process with all operations in the global namespace, then utilising Python functions and finally Python classes.
