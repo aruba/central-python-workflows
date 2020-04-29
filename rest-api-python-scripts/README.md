@@ -1,4 +1,4 @@
-# Central API Getting Started
+# Aruba Central API Getting Started
 
 Aruba Central is a cloud-based network management and configuration platform.
 Aruba Central offers a REST API, allowing programmatic interaction with the platform for the collection of data and configuration of assets.
@@ -42,7 +42,7 @@ In addition the user should follow the following guidelines to ensure they are n
 * Also, alway use `git add <my-file-name>` to stage only the required files for check in to a git server.
 * Do not use `git add *` or other forms of wildcard that risk unwittingly staging sensitive files.
 
-## Central REST API OAuth 2.0 Tokens
+## Aruba Central REST API OAuth 2.0 Tokens
 
 The Central REST API utilises an OAuth 2.0 authorization framework. Authorization is requested and granted in accordance with the defined steps and, if successful, two tokens will be issued by the Authorization Server:
 
@@ -85,13 +85,13 @@ If the user is in possession of a refresh token, the authorization process is tr
 
 Please note, this project presents both of these workflows in an automated fashion. The user merely needs to provide the required variables and run the Python file. The workflow will handle the API calls as well as the read and write of token storage files.
 
-## Central API Getting Started Workflows in Detail
+## Aruba Central API Getting Started Workflows in Detail
 
 Three workflows for authentication and authorization are shown. They all use Python and are functionally the same.
 However, the programming design approach for each workflow is different, offering the same process with all operations in the global namespace, then utilising Python functions and finally Python classes.
 The aim is to make the workflows accessible to those that may be unfamiliar with Python functions and classes, and illustrate how to take basic sequential programs and incorporate more advancing Python programming features.
 
-### 1. Central_global
+### 1. central_global
 
 * Every variable and command in a single Python file and all commands in the global namespace. This is aimed at those inexperienced with the Python language and the author hopes that presenting the workflow in a series of sequential commands, the user will grasp the various steps of the workflow.
 * The workflow comprises of two .py files. One to run a full authentication workflow, requiring the user's Central password, and one utilising a locally stored refresh token.
@@ -100,14 +100,14 @@ The aim is to make the workflows accessible to those that may be unfamiliar with
 * Both workflows, if successful, create a new 'refresh_token.yaml' file and return an access token.
 * As an example of how to use the access token, both workflows finish by making a GET call to the AP URL, printing the results of the call to screen.
 
-### 2. Central_function
+### 2. central_function
 
 * This workflow utilises Python functions so as not to write repetitive, unnecessary code.
 * Also, better code hygiene is used by separating the required variables from the main script file and placing them in a local YAML file, 'vars.yaml'. This ensures the script is portable. A user can share the script and check it into version control, without including their sensitive data.
 * Again, there are two separate Python scripts, one for full authentication and one for just the refresh workflow.
 * As an example of how to use the access token, both workflows finish by making a GET call to the AP URL, printing the results of the call to screen.
 
-### 3. Central_class
+### 3. central_class
 
 * This final workflow presents the same functional process as the previous examples, but as a Python class.
 * Again, the required variable are imported from a local YAML file.
@@ -155,7 +155,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Central_global Step-by-Step
+## central_global Step-by-Step
 
 1. Gather the required variables.
 
