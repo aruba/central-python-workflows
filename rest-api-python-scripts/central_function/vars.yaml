@@ -1,0 +1,5 @@
+client_id: "your_client_id"
+client_secret: "your_client_secret"
+customer_id: "your_customer_id"
+username: "your_username"
+base_url: "your_base_url"
