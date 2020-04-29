@@ -91,7 +91,7 @@ Three workflows for authentication and authorization are shown. They all use Pyt
 However, the programming design approach for each workflow is different, offering the same process with all operations in the global namespace, then utilising Python functions and finally Python classes.
 The aim is to make the workflows accessible to those that may be unfamiliar with Python functions and classes, and illustrate how to take basic sequential programs and incorporate more advancing Python programming features.
 
-### 1. Central_global
+### 1. central_global
 
 * Every variable and command in a single Python file and all commands in the global namespace. This is aimed at those inexperienced with the Python language and the author hopes that presenting the workflow in a series of sequential commands, the user will grasp the various steps of the workflow.
 * The workflow comprises of two .py files. One to run a full authentication workflow, requiring the user's Central password, and one utilising a locally stored refresh token.
@@ -100,14 +100,14 @@ The aim is to make the workflows accessible to those that may be unfamiliar with
 * Both workflows, if successful, create a new 'refresh_token.yaml' file and return an access token.
 * As an example of how to use the access token, both workflows finish by making a GET call to the AP URL, printing the results of the call to screen.
 
-### 2. Central_function
+### 2. central_function
 
 * This workflow utilises Python functions so as not to write repetitive, unnecessary code.
 * Also, better code hygiene is used by separating the required variables from the main script file and placing them in a local YAML file, 'vars.yaml'. This ensures the script is portable. A user can share the script and check it into version control, without including their sensitive data.
 * Again, there are two separate Python scripts, one for full authentication and one for just the refresh workflow.
 * As an example of how to use the access token, both workflows finish by making a GET call to the AP URL, printing the results of the call to screen.
 
-### 3. Central_class
+### 3. central_class
 
 * This final workflow presents the same functional process as the previous examples, but as a Python class.
 * Again, the required variable are imported from a local YAML file.
