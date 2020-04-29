@@ -155,7 +155,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Central_global Step-by-Step
+## central_global Step-by-Step
 
 1. Gather the required variables.
 
