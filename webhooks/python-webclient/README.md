@@ -1,6 +1,6 @@
 # Client Application for Aruba Central Webhooks
 
-Webhooks allow you to implement event reactions by providing real-time information or notifications to other applications. Aruba Central allows you to create [Webhooks](https://help.central.arubanetworks.com/latest/documentation/online_help/content/api/api_webhook.htm) and select use them as the notification delivery option for all [Alerts & Events](https://help.central.arubanetworks.com/latest/documentation/online_help/content/nms/alerts/alerts.htm).
+Webhooks allow you to implement event reactions by providing real-time information or notifications to other applications. Aruba Central allows you to create [Webhooks](https://help.central.arubanetworks.com/latest/documentation/online_help/content/api/api_webhook.htm) and select use them as the notification delivery option for all [Alerts & Events](https://help.central.arubanetworks.com/latest/documentation/online_help/content/nms/alerts/alerts.htm). When an Alert is configured with Webhook, the notification for the Alert will be pushed to the Webhook URL via HTTP POST from Aruba Central.
 
 The purpose of the sample python based HTTP(s) client application is to act as a reference on how to securely receive data from Aruba Central via Webhooks. This is not a production quality code and to be used under your sole discretion. 
 
