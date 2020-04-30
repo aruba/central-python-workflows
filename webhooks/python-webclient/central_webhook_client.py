@@ -24,7 +24,6 @@ import base64
 import hashlib
 import hmac
 import json
-import requests
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from argparse import ArgumentParser, RawDescriptionHelpFormatter  
 
