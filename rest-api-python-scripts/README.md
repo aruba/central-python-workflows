@@ -59,7 +59,7 @@ https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2
 
 The full authentication and authorization workflow is as follows:
 
-#### Pre-requisites
+#### Prerequisites
 
 User must gather the required variables for authentication:
 
