@@ -59,20 +59,34 @@ https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2
 
 The full authentication and authorization workflow is as follows:
 
-1. User must gather the required variables for authentication:
-    * Base URL
-    * Client ID
-    * Client Secret
-    * Customer ID  
+#### Prerequisites
 
-    N.B. The user needs to have a valid username & password to Aruba Central.  
+User must gather the required variables for authentication:
 
-2. Authentication HTTP call - the user combines the required variables with their Aruba Central password and sends a call to the REST API login URI.
-3. Upon successful authentication, the API returns data required for further authorization calls. This is the CSRF and session information.
-4. A second call is made to the URI. This call requests an authorization code and includes the received CSRF and session information. If successful, the server will return an authorization code.
-5. A third call is then made, the access token request call, which includes the authorization code. If successful the access token and refresh token are the response to this call.
-6. The user needs to store the refresh token for future retrieval once the access token has expired.
-7. The user can combine the access token with their API calls for authorized access to their Aruba Central assets' configuration and data.
+ * Base URL
+ * Client ID
+ * Client Secret
+ * Customer ID  
+
+For more information about how to obtain these variables, please see 'How to create a new application' below.
+
+N.B. The user needs to have a valid username & password to Aruba Central.
+
+#### 1. Log in using User Credentials
+
+The user combines the required variables with their Aruba Central password and sends a call to the REST API login URI.
+Upon successful authentication, the API returns data required for further authorization calls. This is the CSRF and session information.
+
+#### 2. Authorization Call
+
+A second call is made to the URI. This call requests an authorization code and includes the received CSRF and session information.
+If successful, the server will return an authorization code.
+
+#### 3. Generate the Access and Refresh Tokens
+
+A third call is then made, the access token request call, which includes the authorization code. If successful the access token and refresh token are the response to this call.
+The user needs to store the refresh token for future retrieval once the access token has expired.
+The user can combine the access token with their API calls for authorized access to their Aruba Central assets' configuration and data.
 
 ### Aruba Central REST API Refresh Workflow
 
