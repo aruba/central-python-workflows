@@ -1,24 +1,17 @@
-# Aruba Central API Getting Started
+# Aruba Central REST API Python Scripts
 
 Aruba Central is a cloud-based network management and configuration platform.
-Aruba Central offers a REST API, allowing programmatic interaction with the platform for the collection of data and configuration of assets.
-The API is secured using OAuth 2.0, which provides authorization based on tokens issued to applications.
-
-A key aspect of creating an automated workflow to interact with Central's API is the acquistion, management and refresh of OAuth tokens.
-
-## Aruba Central API Workflow Project Summary
+Aruba Central offers a REST API, allowing programmatic interaction with the platform for the collection of data and configuration of assets. The API is secured using OAuth 2.0, which provides authorization based on tokens issued to applications.
 
 The objectives of this project are as follows:
 
-1. Provide an introduction and general overview of OAuth 2.0 and Aruba Central's implementation of this framework.
-2. Present multiple workflows that interact and manage tokens in a programmatic fashion.
-3. Educate the user in the various workflows, allowing them to use them in their own projects.
+1. Provide an overview of Aruba Central's implementation of OAuth 2.0 Authorization framework.
+2. Educate the user in multiple programming approaches to interact with APIs and manage tokens.
+3. Provide sample scripts for various workflows which can be used in the user's projects or act as a reference.
 
 ## Security Considerations
 
-This document is aimed at beginners to both the Aruba Central API and Python. 
-To fulfil the project's aim of explaining the operations involved in accessing the API, the examples given do not adhere to strict security concerns. 
-Certain examples of code are considered unsafe and a security threat. There are warnings within the code when this is the case. These unsafe examples are for educational purposes only and should not be used outside of the context of a learning exercise.  
+To fulfil the project's aim of explaining the operations involved in accessing the API, the examples given do not adhere to strict security concerns. Certain examples of code are considered unsafe and a security threat. There are warnings within the code when this is the case. These unsafe examples are for educational purposes only and should not be used outside of the context of a learning exercise.  
 
 Please note that for the purposes of this project the term **required variables** will be used to denote those pieces of information that are required to interact with the Aruba Central API.  
 The required variables are:
@@ -42,7 +35,54 @@ In addition the user should follow the following guidelines to ensure they are n
 * Also, alway use `git add <my-file-name>` to stage only the required files for check in to a git server.
 * Do not use `git add *` or other forms of wildcard that risk unwittingly staging sensitive files.
 
-## Aruba Central REST API OAuth 2.0 Tokens
+## Getting Started with Aruba Central API
+
+This section is aimed at beginners to get started with the Aruba Central API and Python programming. A key aspect of creating an automated workflow to interact with Central's API is the acquistion, management and refresh of OAuth tokens. 
+
+Two workflows are described in this section.
+- OAuth 2.0 Workflow
+- Refresh Token Workflow
+
+As a pre-requisite both the workflows require some variables.
+
+ * Aruba Central *Base URL*
+ * API Gateway *Client ID*
+ * API Gateway *Client Secret*
+ * Aruba Central *Customer ID* 
+ * Aruba Central *User Name* and *User Password*
+ 
+The variables can be obtained by following the below mentioned steps.
+
+### Create a new application in Aruba Central
+
+To interact with the Aruba Central API programmatically one must create an application that will be granted authorization to generate access and refresh tokens. During the application creation process all of the required variables, except the username and password, can be obtained.
+ 
+To create a new application:
+
+a) Log in to Aruba Central using your username & password.
+b) On the Front Panel screen, click the 'Account Home' icon.
+
+ ![Account Home](pictures/1-frontpage.png)  
+
+c) Click 'API Gateway'
+
+![API Gateway](pictures/2-api-gateway.png).
+
+d) The API Gateway will display the 'base_url' variable. Look for the URL under the 'Documentation' header. Truncate this to end with '.com' E.G. 'https://eu-apigw.central.arubanetworks.com/swagger/central/' must be truncated to 'https://eu-apigw.central.arubanetworks.com'.
+e) Next click 'System Apps & Tokens'.
+
+![System Apps](pictures/3-base_url.png).
+
+f) Click 'Add Apps & Tokens' and create a new application.
+g) Once the new app is created, it will be displayed in the 'System Apps & Tokens' table, along with the 'client_id' and 'client_secret'.
+
+![App Client Info](pictures/4-clientx.png)
+
+h)  Finally, to obtain the 'customer_id', click on the figure of a person, top right. A table will be displayed for the logged in user. This contains the 'customer_id'.
+   
+   ![Customer ID](pictures/5-customer-id.png)
+
+### OAuth 2.0 Workflow
 
 The Central REST API utilises an OAuth 2.0 authorization framework. Authorization is requested and granted in accordance with the defined steps and, if successful, two tokens will be issued by the Authorization Server:
 
@@ -53,55 +93,39 @@ For more information about OAuth 2 frameworks please refer to the the following 
 
 https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2
 
-## Aruba Central REST API Workflow Overview
-
-### Aruba Central REST API Full Authentication Workflow
 
 The full authentication and authorization workflow is as follows:
-
-#### Prerequisites
-
-User must gather the required variables for authentication:
-
- * Base URL
- * Client ID
- * Client Secret
- * Customer ID  
-
-For more information about how to obtain these variables, please see 'How to create a new application' below.
-
-N.B. The user needs to have a valid username & password to Aruba Central.
 
 #### 1. Log in using User Credentials
 
 The user combines the required variables with their Aruba Central password and sends a call to the REST API login URI.
-Upon successful authentication, the API returns data required for further authorization calls. This is the CSRF and session information.
+Upon successful authentication, a valid session key and CSRF token is returned in the HTTP response cookies.
 
 #### 2. Authorization Call
 
-A second call is made to the URI. This call requests an authorization code and includes the received CSRF and session information.
-If successful, the server will return an authorization code.
+The second API call requests an authorization code and includes the received CSRF and session information.
+If successful, the server will return an authorization code which expires in 300 seconds. The authorization code is used in the next step to generate access token.
 
 #### 3. Generate the Access and Refresh Tokens
 
-A third call is then made, the access token request call, which includes the authorization code. If successful the access token and refresh token are the response to this call.
-The user needs to store the refresh token for future retrieval once the access token has expired.
-The user can combine the access token with their API calls for authorized access to their Aruba Central assets' configuration and data.
+A final API call is then made to request the access token by including the authorization code. If successful the access token and refresh token are the response to this call. The user can combine the access token with their API calls for authorized access to their Aruba Central assets' configuration and data.
 
-### Aruba Central REST API Refresh Workflow
+The access token expires in 2 hours and upon expiry older refresh token can be used to obtain new access and refresh token. The user needs to store the new access and refresh token securely for future refresh and access other API endpoints in Aruba Central.
+
+### Refresh Token Workflow
 
 If the user is in possession of a refresh token, the authorization process is truncated:
 
-1. The user must still gather the required variables, as detailed in Step 1 of the Full Authentication Workflow.
-2. The user combines the refresh token with the required variables to create a refresh API call.
-3. If successful, the API will issue a new refresh token and access token.
+1. The user must still gather the required variables, as detailed in `Create a new application in Aruba Central`.
+2. The user combines the refresh token with the required variables to create a HTTP request to refresh API endpoint.
+3. If successful, the resfresh API will issue a new refresh token and access token.
 4. The user must manage the two tokens as detailed in the full authentication workflow.
 
-Please note, this project presents both of these workflows in an automated fashion. The user merely needs to provide the required variables and run the Python file. The workflow will handle the API calls as well as the read and write of token storage files.
+### Getting Started with Automation using Aruba Central API
 
-## Aruba Central API Getting Started Workflows in Detail
+This project presents both of these workflows in an automated fashion. The user merely needs to provide the required variables and run the Python file. The workflow will handle the API calls as well as the read and write of token storage files.
 
-Three workflows for authentication and authorization are shown. They all use Python and are functionally the same.
+Three different approaches for authentication and authorization are shown. They all use Python and are functionally the same.
 However, the programming design approach for each workflow is different, offering the same process with all operations in the global namespace, then utilising Python functions and finally Python classes.
 The aim is to make the workflows accessible to those that may be unfamiliar with Python functions and classes, and illustrate how to take basic sequential programs and incorporate more advancing Python programming features.
 
@@ -128,35 +152,6 @@ The aim is to make the workflows accessible to those that may be unfamiliar with
 * However, this workflow incorporates the additional step of a check for the 'refresh_token.yaml' file. If a refresh token file is found local to the directory from which the script was run, the refresh process will be attempted. If no refresh token is found, the full authentication process will be employed.
 * Hence, the central-class is presented as a single .py file but contains the functionality of both full authentication and refresh only.
 * Again the workflow finishes by making a GET call to the AP URL, printing the results of the call to screen.
-
-## How to create a new application
-
-To interact with the Aruba Central API programmatically one must create an application that will be granted authorization to generate access and refresh tokens.  
-During the application creation process all of the required variables except the username and password can be obtained.
-To create a new application:
-
-1. Log in to Aruba Central using your username & password.
-2. On the Front Panel screen, click the 'Account Home' icon.
-
- ![Account Home](pictures/1-frontpage.png)  
-
-3. Click 'API Gateway'
-
-![API Gateway](pictures/2-api-gateway.png).
-
-4. The API Gateway will display the 'base_url' variable. Look for the URL under the 'Documentation' header. Truncate this to end with '.com' E.G. 'https://eu-apigw.central.arubanetworks.com/swagger/central/' must be truncated to 'https://eu-apigw.central.arubanetworks.com'.
-5. Next click 'System Apps & Tokens'.
-
-![System Apps](pictures/3-base_url.png).
-
-6. Click 'Add Apps & Tokens' and create a new application.
-7. Once the new app is created, it will be displayed in the 'System Apps & Tokens' table, along with the 'client_id' and 'client_secret'.
-
-![App Client Info](pictures/4-clientx.png)
-
-8.  Finally, to obtain the 'customer_id', click on the figure of a person, top right. A table will be displayed for the logged in user. This contains the 'customer_id'.
-   
-   ![Customer ID](pictures/5-customer-id.png)
 
 ## Setting up the Python environment
 
