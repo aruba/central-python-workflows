@@ -7,33 +7,7 @@ The objectives of this project are as follows:
 
 1. Provide an overview of Aruba Central's implementation of OAuth 2.0 Authorization framework.
 2. Educate the user in multiple programming approaches to interact with APIs and manage tokens.
-3. Provide sample scripts for various workflows which can be used in the user's projects or act as a reference.
-
-## Security Considerations
-
-To fulfil the project's aim of explaining the operations involved in accessing the API, the examples given do not adhere to strict security concerns. Certain examples of code are considered unsafe and a security threat. There are warnings within the code when this is the case. These unsafe examples are for educational purposes only and should not be used outside of the context of a learning exercise.  
-
-Please note that for the purposes of this project the term **required variables** will be used to denote those pieces of information that are required to interact with the Aruba Central API.  
-The required variables are:
-
-      1. username
-      2. password
-      3. customer ID
-      4. client ID
-      5. client secret
-      6. access token
-      7. refresh token
-   
-* The required variables to interact with the Aruba Central API must be treated with the same care as the user's password.  
-* The required variables must not be shared or copied to public sites, blogs etc.  
-* Do not include the required variables in your scripts. The examples in this project that do so are for educational purposes only and are unsafe.  
-* Take care not to check in to version control documents that contain your required variables.
-
-In addition the user should follow the following guidelines to ensure they are not placing the security of their access to the Aruba Central API platform at risk:
-
-* If using git, use the .gitignore file to ignore the locally stored required variables file.
-* Also, alway use `git add <my-file-name>` to stage only the required files for check in to a git server.
-* Do not use `git add *` or other forms of wildcard that risk unwittingly staging sensitive files.
+3. Provide advanced python library and sample scripts for various workflows which can be used in the user's projects or act as a reference.
 
 ## Getting Started with Aruba Central API
 
@@ -121,39 +95,17 @@ If the user is in possession of a refresh token, the authorization process is tr
 3. If successful, the resfresh API will issue a new refresh token and access token.
 4. The user must manage the two tokens as detailed in the full authentication workflow.
 
-### Getting Started with Automation using Aruba Central API
+## Getting Started with Automation using Aruba Central API
 
-This project presents both of these workflows in an automated fashion. The user merely needs to provide the required variables and run the Python file. The workflow will handle the API calls as well as the read and write of token storage files.
+This section presents both of the workflows mentioned above in an automated fashion. The user merely needs to provide the required variables and run the Python file. The workflow will handle the API calls as well as the read and write of token storage files. 
 
-Three different approaches for authentication and authorization are shown. They all use Python and are functionally the same.
-However, the programming design approach for each workflow is different, offering the same process with all operations in the global namespace, then utilising Python functions and finally Python classes.
-The aim is to make the workflows accessible to those that may be unfamiliar with Python functions and classes, and illustrate how to take basic sequential programs and incorporate more advancing Python programming features.
+Two different approaches for authentication and authorization are shown. They all use Python and offers the same set of operations.
 
-### 1. central_global
+1. [central_global](/rest-api-python-scripts/central_global) - offers operations in a single Python file and all commands in global namespace.  
 
-* Every variable and command in a single Python file and all commands in the global namespace. This is aimed at those inexperienced with the Python language and the author hopes that presenting the workflow in a series of sequential commands, the user will grasp the various steps of the workflow.
-* The workflow comprises of two .py files. One to run a full authentication workflow, requiring the user's Central password, and one utilising a locally stored refresh token.
-* During the successful operation of the full authentication workflow 'central_full_auth_global.py' a YAML file is created in the folder from which the Python file is run, and the refresh token is written to this file named 'refresh_token.yaml'.
-* With a valid 'refresh_token.yaml' file, the user can choose to run the full authentication workflow again, requiring their password, or run the 'central_refresh_global.py' file.
-* Both workflows, if successful, create a new 'refresh_token.yaml' file and return an access token.
-* As an example of how to use the access token, both workflows finish by making a GET call to the AP URL, printing the results of the call to screen.
+2. [central_function](/rest-api-python-scripts/central_function) - offers operations using Python functions()
 
-### 2. central_function
-
-* This workflow utilises Python functions so as not to write repetitive, unnecessary code.
-* Also, better code hygiene is used by separating the required variables from the main script file and placing them in a local YAML file, 'vars.yaml'. This ensures the script is portable. A user can share the script and check it into version control, without including their sensitive data.
-* Again, there are two separate Python scripts, one for full authentication and one for just the refresh workflow.
-* As an example of how to use the access token, both workflows finish by making a GET call to the AP URL, printing the results of the call to screen.
-
-### 3. central_class
-
-* This final workflow presents the same functional process as the previous examples, but as a Python class.
-* Again, the required variable are imported from a local YAML file.
-* However, this workflow incorporates the additional step of a check for the 'refresh_token.yaml' file. If a refresh token file is found local to the directory from which the script was run, the refresh process will be attempted. If no refresh token is found, the full authentication process will be employed.
-* Hence, the central-class is presented as a single .py file but contains the functionality of both full authentication and refresh only.
-* Again the workflow finishes by making a GET call to the AP URL, printing the results of the call to screen.
-
-## Setting up the Python environment
+#### Setting up the Python environment
 
 To create the Python environment (macOS shown):
 
@@ -164,7 +116,16 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## central_global Step-by-Step
+### 1. central_global
+
+* Every variable and command in a single Python file and all commands in the global namespace. This is aimed at those inexperienced with the Python language and the author hopes that presenting the workflow in a series of sequential commands, the user will grasp the various steps of the workflow.
+* The workflow comprises of two .py files. One to run a full authentication workflow, requiring the user's Central password, and one utilising a locally stored refresh token.
+* During the successful operation of the full authentication workflow 'central_full_auth_global.py' a YAML file is created in the folder from which the Python file is run, and the refresh token is written to this file named 'refresh_token.yaml'.
+* With a valid 'refresh_token.yaml' file, the user can choose to run the full authentication workflow again, requiring their password, or run the 'central_refresh_global.py' file.
+* Both workflows, if successful, create a new 'refresh_token.yaml' file and return an access token.
+* As an example of how to use the access token, both workflows finish by making a GET call to the AP URL, printing the results of the call to screen.
+
+#### central_global: Step-by-Step
 
 1. Gather the required variables.
 
@@ -266,7 +227,7 @@ get_ap_call = requests.get(get_ap_url, params=ap_params)
 pprint.pprint(get_ap_call.json())
 ```
 
-## central_refresh_global Step-by-Step
+#### central_refresh_global: Step-by-Step
 
 1. A user can run this workflow if they are in possession of a valid refresh token. Run 'central_refresh_global.py' from a location local to the 'refresh_token.yaml' file.
 2. A subset of the required variables are still needed. These are 'client_id', 'client_secret' and the 'base_url'. N.B. the refresh workflow does not require the username & password log in steps.
@@ -290,13 +251,45 @@ with open(filename, 'r') as input_file:
 ```
 
 4. The rest of the workflow is identical to the full authentication workflow. A token call returns the two tokens. The new refresh token is written to the YAML file and the access token is used to make a GET call to the AP URL.
-  
-## central_function & central_class Summary
 
-The central_function & central_class are the same API calls and variables but using different approaches within Python.
-The data that needs to be carried from call to call through the workflow means that a Python class approach is a good fit.  
-However, in the author's experience, Python classes tend to be taught at an intermediate stage of learning Python, and can be difficult for the beginner to grasp. Hence why the global and the function based designs are presented first.
+### 2. central_function
 
-Author:
-joe.neville@hpe.com  
-@joeneville_
+* This workflow utilises Python functions so as not to write repetitive, unnecessary code.
+* Also, better code hygiene is used by separating the required variables from the main script file and placing them in a local YAML file, 'vars.yaml'. This ensures the script is portable. A user can share the script and check it into version control, without including their sensitive data.
+* Again, there are two separate Python scripts, one for full authentication and one for just the refresh workflow.
+* As an example of how to use the access token, both workflows finish by making a GET call to the AP URL, printing the results of the call to screen.
+
+## Advanced Automation Workflows and Use-cases
+
+
+## Security Considerations
+
+To fulfil the project's aim of explaining the operations involved in accessing the API, the examples given do not adhere to strict security concerns. Certain examples of code are considered unsafe and a security threat. There are warnings within the code when this is the case. These unsafe examples are for educational purposes only and should not be used outside of the context of a learning exercise.  
+
+Please note that for the purposes of this project the term **required variables** will be used to denote those pieces of information that are required to interact with the Aruba Central API.  
+The required variables are:
+
+      1. username
+      2. password
+      3. customer ID
+      4. client ID
+      5. client secret
+      6. access token
+      7. refresh token
+   
+* The required variables to interact with the Aruba Central API must be treated with the same care as the user's password.  
+* The required variables must not be shared or copied to public sites, blogs etc.  
+* Do not include the required variables in your scripts. The examples in this project that do so are for educational purposes only and are unsafe.  
+* Take care not to check in to version control documents that contain your required variables.
+
+In addition the user should follow the following guidelines to ensure they are not placing the security of their access to the Aruba Central API platform at risk:
+
+* If using git, use the .gitignore file to ignore the locally stored required variables file.
+* Also, alway use `git add <my-file-name>` to stage only the required files for check in to a git server.
+* Do not use `git add *` or other forms of wildcard that risk unwittingly staging sensitive files.
+
+## Contributing Authors
+
+@joeneville_ <joe.neville@hpe.com>
+
+@karthikeyan-dhandapani <karthikeyan.dhandapani@hpe.com>
