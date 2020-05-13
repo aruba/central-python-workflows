@@ -33,7 +33,7 @@ REST API Endpoint to validate the WebSocket Key is as follows,
 
 Endpoint URL: 
 
-- https://<base-url>/streaming/token/validate
+`https://<base-url>/streaming/token/validate`
  
 Request Header: 
 
