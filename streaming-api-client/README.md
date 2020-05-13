@@ -43,8 +43,8 @@ Response Data:
 
 ```json 
 { 
-   "token": xxxx 
-) 
+   "token": "xxxx"
+} 
 ```
 
 ### Recommended Python Version: 3.6.1+
