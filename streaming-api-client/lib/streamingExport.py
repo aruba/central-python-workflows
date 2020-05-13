@@ -63,7 +63,7 @@ class Decoder():
 
     def decodeData(self, msg):
         """
-        This function decodes the receoved streaming API data from protobuf
+        This function decodes the received streaming API data from protobuf
         to python dictionary using the compiled proto definition.
 
         Params:

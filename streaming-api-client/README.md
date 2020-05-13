@@ -1,19 +1,19 @@
 # Streaming API Client
 
-Aruba Central streaming API follows publish–subscribe model where a topic is subscribed from WebSocket client and Aruba Central will publish continuous data streams to WebSocket client. This approach is different from "polling" where frequent HTTP requests to REST API endpoints are required, in order to get latest data from Aruba Central. 
+Aruba Central streaming API follows publish–subscribe model where a topic is subscribed from WebSocket client and Aruba Central will publish continuous data streams to WebSocket client. This approach is different from "polling" where frequent HTTP requests to REST API endpoints are required, in order to get latest data from Aruba Central.
 
 This sample python script acts as a WebSocket client for Aruba Central streaming API and packs some useful features for reference and trying out streaming api. This script is NOT a production quality script and should be used with your discretion. Take additional care to store the WebSocket key securely.
 
 ### Script Features:
 - Option to subscribe data streams for multiple customers
 - Option to subscribe to multiple streaming topics for each customer
-- Validate the Secure WebSocket Key. When connection is made for the first time, 
+- Validate the Secure WebSocket Key. When connection is made for the first time,
     - If the provided key is expired, the script obtains the working WebSocket key from Aruba Central via REST API.
     - Updates the input JSON file with working key. Next time when the script is executed, you would have most recent key.
 - Decode data streams received in google protobuf format and convert it to python dictionary.
 - Provide structure for data transport/export to external apps/storage device. User need to implement the transport/storage logic based on their requirement.
 
-Please Note: This sample script does not attempt to retry when the WebSocket connection is broken inbetween data streaming. Validation of WebSocket Key only occurs during initial connection.
+Please Note: This sample script does not attempt to retry when the WebSocket connection is broken in-between data streaming. Validation of WebSocket Key only occurs during initial connection.
 
 ### Data Format
 
@@ -21,30 +21,30 @@ Data from Aruba Central will be in Google Protocol Buffer format. Most current p
 
 Upon running the script, if there are issues in decoding the output in human readable format try re-compiling the file in your machine. More info on compiling proto files [can be found here](https://developers.google.com/protocol-buffers/docs/pythontutorial#compiling-your-protocol-buffers).
 
-Please Note: If you decide to download proto files from Aruba Central and compile yourself, read this note. Package name might be missing for proto files downloaded from Aruba Central. To avoid errors, add a package name to proto file before compiliation. Package name could be any valid alphabetic string and doesn't affect script execution. For Example `package Apprf;` defined in `proto/apprf.proto` file.
+Please Note: If you decide to download proto files from Aruba Central and compile yourself, read this note. Package name might be missing for proto files downloaded from Aruba Central. To avoid errors, add a package name to proto file before compilation. Package name could be any valid alphabetic string and doesn't affect script execution. For Example `package Apprf;` defined in `proto/apprf.proto` file.
 
 ### Validate WebSocket Key
 
-WebSocket key obtain from Aruba Central `Account Home -> Webhooks -> Streaming -> Key` expires every 7 days. The WebSocket key is renewed by Aruba Central internally. To obtain the renewed WebSocket key programatically without having to visit the WebUI, a REST API endpoint is available. This API accepts a WebSocket key and validates it. It returns the same key if it is valid otherwise returns the renewed key. 
+WebSocket key obtain from Aruba Central `Account Home -> Webhooks -> Streaming -> Key` expires every 7 days. The WebSocket key is renewed by Aruba Central internally. To obtain the renewed WebSocket key programmatically without having to visit the WebUI, a REST API endpoint is available. This API accepts a WebSocket key and validates it. It returns the same key if it is valid otherwise returns the renewed key.
 
-Please Note: This API endpoint does not refresh the WebSocket Key. It only fetches a renwed key from Aruba Central. When multiple API calls are made to the same endpoint, valid key will be returned all the time. It might be same as the provided key if the key is valid.
+Please Note: This API endpoint does not refresh the WebSocket Key. It only fetches a renewed key from Aruba Central. When multiple API calls are made to the same endpoint, valid key will be returned all the time. It might be same as the provided key if the key is valid.
 
 REST API Endpoint to validate the WebSocket Key is as follows,
 
-Endpoint URL: 
+Endpoint URL:
 
 - https://<base-url>/streaming/token/validate
- 
-Request Header: 
+
+Request Header:
 
 - "Authorization" : `<wss-key>`
- 
-Response Data: 
 
-```json 
-{ 
+Response Data:
+
+```json
+{
    "token": "xxxx"
-} 
+}
 ```
 
 
@@ -52,7 +52,7 @@ Response Data:
 ## Script Execution
 
 ### Recommended Python Version: 3.6.1+
- 
+
 ### Package Requirements
 
 - See *requirements.txt*
@@ -63,7 +63,7 @@ Command to execute the script
 python3 wsclient_public.py --hostname internal-ui.central.arubanetworks.com --jsoninput input.json --decode_data
 ```
 
-To view description of all available arguments, execute the following command 
+To view description of all available arguments, execute the following command
 ```sh
 python3 wsclient_public.py --help
 ```
@@ -85,9 +85,9 @@ Complete list of arguments accepted by the script
                           [--decode_data] [--export_data EXPORT_DATA]
  ```                         
 
-### Input JSON file 
+### Input JSON file
 
-Provide the input file in the following format. 
+Provide the input file in the following format.
 
 This format is to subscribe to a single topic for a single customer
 ```json

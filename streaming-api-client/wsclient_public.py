@@ -270,6 +270,7 @@ def streamClient(c_entry, param_dict):
 
     print("Start time for customer %s: %s" % (c_entry, str(time.time())))
 
+    decoder = None
     if param_dict['decode_data']:
         topic = param_dict['customers'][c_entry]['topic']
         decoder = streamingExport.Decoder(topic)
@@ -288,8 +289,9 @@ def streamClient(c_entry, param_dict):
             # Export data
             if param_dict['decode_data']:
                 print("Decode data for customer %s" % c_entry)
-                decoded_data = decoder.decodeData(msg)
-                pprint(decoded_data)
+                if decoder:
+                    decoded_data = decoder.decodeData(msg)
+                    pprint(decoded_data)
 
             if param_dict['export_data'] and export_obj:
                 data_handler = streamingExport.dataHandler(msg, export_obj)
