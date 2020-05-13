@@ -33,9 +33,9 @@ REST API Endpoint to validate the WebSocket Key is as follows,
 
 Endpoint URL:
 
-- https://<base-url>/streaming/token/validate
+`https://<base-url>/streaming/token/validate`
 
-Request Header:
+Request Header: 
 
 - "Authorization" : `<wss-key>`
 
@@ -75,7 +75,7 @@ The required script arguments are,
 - `--jsoninput` - Input File where the Aruba Central customer information is provided in JSON format.
 
 To view data on screen,
-- `--decode_decode` - to print the decoded data streams on screen during script execution.
+- `--decode_data` - to print the decoded data streams on screen during script execution.
 
 Complete list of arguments accepted by the script
 ```
