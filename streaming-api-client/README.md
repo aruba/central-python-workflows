@@ -4,17 +4,6 @@ Aruba Central streaming API follows publish–subscribe model where a topic is s
 
 This sample python script acts as a WebSocket client for Aruba Central streaming API and packs some useful features for reference and trying out streaming api. This script is NOT a production quality script and should be used with your discretion. Take additional care to store the WebSocket key securely.
 
-### Script Features:
-- Option to subscribe data streams for multiple customers
-- Option to subscribe to multiple streaming topics for each customer
-- Validate the Secure WebSocket Key. When connection is made for the first time,
-    - If the provided key is expired, the script obtains the working WebSocket key from Aruba Central via REST API.
-    - Updates the input JSON file with working key. Next time when the script is executed, you would have most recent key.
-- Decode data streams received in google protobuf format and convert it to python dictionary.
-- Provide structure for data transport/export to external apps/storage device. User need to implement the transport/storage logic based on their requirement.
-
-Please Note: This sample script does not attempt to retry when the WebSocket connection is broken in-between data streaming. Validation of WebSocket Key only occurs during initial connection.
-
 ### Data Format
 
 Data from Aruba Central will be in Google Protocol Buffer format. Most current proto files can be downloaded from the Aruba Central's Streaming API Page. Since the python programming language is used, the python based Google Proto Compiler was used to compile "*.proto" files to "*_pb2.py" files. [Link to compiled pb2 files in ubuntu X64 machine](/streaming-api-client/proto).
@@ -47,9 +36,11 @@ Response Data:
 }
 ```
 
+## Python Script
 
-
-## Script Execution
+This section has documentation for two scripts
+- `simple_app.py`: Purpose of this script to learn about making a WebSocket connection to Aruba Central Streaming API such as required headers and decoding protobuf data.
+- `wsclient_public.py` - This script is for more advanced use cases. It offers support for multiple streaming API topics, ability to connect to multiple customers in parallel and provides structure to handle the data.
 
 ### Recommended Python Version: 3.6.1+
 
@@ -58,6 +49,84 @@ Response Data:
 - See *requirements.txt*
 - Install with: `pip3 install -r requirements.txt`
 
+#### Simple Python WebSocket App 
+
+The goal of this section is to create a simple websocket app in Python. The provided script subscribes to `monitoring` topic in Aruba Central Streaming API.
+
+**Script:  `simple_app.py`**
+
+The following variables `hostname`, `header["Authorization"]`, `header["UserName"]` needs to be updated. 
+
+To execute this script, enter the command `python3 simple_app.py`
+
+Refer the following snippet that subscribes to *monitoring* streaming topic. 
+```python
+import websocket
+
+if __name__ == "__main__":
+    # URL for WebSocket Connection from Streaming API page
+    hostname = "internal-ui.central.arubanetworks.com"
+    url = "wss://{}/streaming/api".format(hostname)
+    # Construct Header for WebSocket Connection
+    header = {}
+    # Central User email
+    header["UserName"] = "abc@gmail.com"
+    # WebSocket Key from Streaming API Page
+    header["Authorization"] = "XXXXXX"
+    # Subscription TOPIC for Streaming API
+    # (audit|apprf|location|monitoring|presence|security)
+    header["Topic"] = "monitoring"
+    # Create WebSocket connection
+    websocket.enableTrace(True)
+    ws = websocket.WebSocketApp(url=url,
+                                header=header,
+                                on_message = on_message,
+                                on_error = on_error,
+                                on_close = on_close)
+    ws.on_open = on_open
+    ws.run_forever()
+
+```
+
+Upon executing this script the message will be in a serialized protobuffer format. To make it human readable, update `on_message()` block with the following code,
+
+```python
+def on_message(ws, message):
+    # Decode Message in Serialized protobuffer
+    from proto import streaming_pb2
+    stream_data = streaming_pb2.MsgProto()
+    stream_data.ParseFromString(message)
+    print("Timestamp in Epoch: %s" % str(stream_data.timestamp))
+    print("Customer_ID: %s" % str(stream_data.customer_id))
+    # Based on the topic import compiled proto file and decode 'data' field
+    from proto import monitoring_pb2
+    monitoring_data = monitoring_pb2.MonitoringInformation()
+    monitoring_data.ParseFromString(stream_data.data)
+    
+    print(monitoring_data)
+```
+
+`MsgProto()` and `MonitoringInformation()` are proto messages from compiled `streaming.proto` and `monitoring.proto` files respectively.
+
+#### Advanced WebSocket Client
+
+The python WebSocket client script provided in this section, packs more features. 
+
+**Script:  `wsclient_public.py`**
+
+##### Features
+
+- Option to subscribe data streams for multiple customers
+- Option to subscribe to multiple streaming topics for each customer
+- Validate the Secure WebSocket Key. When connection is made for the first time,
+    - If the provided key is expired, the script obtains the working WebSocket key from Aruba Central via REST API.
+    - Updates the input JSON file with working key. Next time when the script is executed, you would have most recent key.
+- Decode data streams received in google protobuf format and convert it to python dictionary.
+- Provide structure for data transport/export to external apps/storage device. User need to implement the transport/storage logic based on their requirement.
+
+Please Note: This sample script does not attempt to retry when the WebSocket connection is broken in-between data streaming. Validation of WebSocket Key only occurs during initial connection.
+
+##### Script Execution
 Command to execute the script
 ```sh
 python3 wsclient_public.py --hostname internal-ui.central.arubanetworks.com --jsoninput input.json --decode_data
@@ -85,7 +154,7 @@ Complete list of arguments accepted by the script
                           [--decode_data] [--export_data EXPORT_DATA]
  ```                         
 
-### Input JSON file
+##### Input JSON file
 
 Provide the input file in the following format.
 
