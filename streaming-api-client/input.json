@@ -1,7 +1,14 @@
 {
- "customerlist": [[ "<central-account-username>", 
-                    "<central-wss-key>"
-                  ]
-                 ],
- "addtofilename": "<any_text_added_to_filename>"
+  "customers": {
+    "<define-unique-name-1>": {
+      "username": "<aruba-central-username>",
+      "wsskey": "<streaming-api-wss-key>",
+      "topic": "<audit|apprf|location|monitoring|presence|security>"
+    },
+    "<define-unique-name-2>": {
+      "username": "<aruba-central-username>",
+      "wsskey": "<streaming-api-wss-key>",
+      "topic": "<audit|apprf|location|monitoring|presence|security>"
+    }
+  }
 }
