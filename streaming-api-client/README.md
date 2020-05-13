@@ -27,7 +27,7 @@ Please Note: If you decide to download proto files from Aruba Central and compil
 
 WebSocket key obtain from Aruba Central `Account Home -> Webhooks -> Streaming -> Key` expires every 7 days. The WebSocket key is renewed by Aruba Central internally. To obtain the renewed WebSocket key programatically without having to visit the WebUI, a REST API endpoint is available. This API accepts a WebSocket key and validates it. It returns the same key if it is valid otherwise returns the renewed key. 
 
-Please Note: This API endpoint does not refresh the WebSocket Key. It only fetched a renwed key from Aruba Central. When multiple API calls are made to the same endpoint, valid key will be returned all the time. It might be same as the provided key if the key is valid.
+Please Note: This API endpoint does not refresh the WebSocket Key. It only fetches a renwed key from Aruba Central. When multiple API calls are made to the same endpoint, valid key will be returned all the time. It might be same as the provided key if the key is valid.
 
 REST API Endpoint to validate the WebSocket Key is as follows,
 
@@ -37,7 +37,7 @@ Endpoint URL:
  
 Request Header: 
 
-- "Authorization" : <wss-key>
+- "Authorization" : `<wss-key>`
  
 Response Data: 
 
@@ -47,14 +47,16 @@ Response Data:
 } 
 ```
 
+
+
+## Script Execution
+
 ### Recommended Python Version: 3.6.1+
  
 ### Package Requirements
 
 - See *requirements.txt*
 - Install with: `pip3 install -r requirements.txt`
-
-## Script Execution
 
 Command to execute the script
 ```sh
@@ -100,7 +102,17 @@ This format is to subscribe to a single topic for a single customer
 }
 ```
 
-For Example to subscribe to multiple topics per customer and multiple customers, input.json file should look like the following
+##### Required Variables
+
+- `<define-unique-name>` is any unique name defined by you, to represent the Aruba Central customer information and topic to be subscribed for this entry.
+
+- "username" --> A valid central user email address through which Streaming API will be accessed
+
+- "wsskey" --> obtained from Aruba Central (Account Home -> Webhooks -> Streaming -> Key)
+
+- "topic" --> provide one of the following [audit, apprf, location, monitoring, presence, security]
+
+For Example to subscribe to multiple topics per customer and multiple customers, `input.json` file should look like the following. In this example, there are two customers "CustomerA" and "CustomerB". "CustomerA" subscribed to two topics "monitoring" and "security". "CustomerB" subscribed to one topic "monitoring".
 
 ```json
 {
@@ -123,13 +135,3 @@ For Example to subscribe to multiple topics per customer and multiple customers,
   }
 }
 ```
-
-##### Required Variables
-
-- `<define-unique-name>` is any unique name defined by you, to represent the Aruba Central customer information and topic to be subscribed for this entry.
-
-- "username" --> A valid central user email address through which Streaming API will be accessed
-
-- "wsskey" --> obtained from Aruba Central (Account Home -> Webhooks -> Streaming -> Key)
-
-- "topic" --> provide one of the following [audit, apprf, location, monitoring, presence, security]
