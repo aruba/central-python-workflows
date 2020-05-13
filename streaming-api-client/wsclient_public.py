@@ -30,8 +30,6 @@ import ssl
 import time
 import requests
 from websocket import create_connection
-from google.protobuf import json_format
-from google.protobuf.message import DecodeError
 from lib import streamingExport
 from lib.utilities import read_jsonfile, write_jsonfile
 from pprint import pprint
