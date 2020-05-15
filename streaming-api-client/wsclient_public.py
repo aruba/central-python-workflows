@@ -28,6 +28,7 @@ import argparse
 import json
 import ssl
 import time
+import sys
 import requests
 from websocket import create_connection
 from lib import streamingExport
@@ -72,6 +73,9 @@ def define_arguments():
     parser.add_argument('--decode_data', required=False,
                         help='Print the decoded data on screen',
                         action='store_true')
+    parser.add_argument('--no_valid_cert', required=False,
+                        help='Disable SSL cert validation',
+                        action='store_true')
     parser.add_argument('--export_data', required=False,
                         help=' Develop your own streaming API data export \
                         logic and provide type of export as value. Some types \
@@ -92,15 +96,13 @@ def process_arguments(args):
     # Extract customer info from input JSON File
     jsondict = read_jsonfile(args.jsoninput)
     if not jsondict:
-        print("Error: Input JSON file is empty. exiting...")
-        exit(0)
+        sys.exit("Error: Input JSON file is empty. exiting...")
 
     if 'customers' in jsondict:
         param_dict['customers'] = jsondict['customers']
     else:
-        print("Error: json file does not have 'customers' list. "
-              "exiting...")
-        exit(0)
+        sys.exit("Error: json file does not have 'customers' list. "
+                 "exiting...")
 
     if args.start_seq is not None:
         header['X-Start-Seq'] = int(args.start_seq)
@@ -111,6 +113,9 @@ def process_arguments(args):
     if args.since_time is not None:
         header['X-Since-Time'] = args.since_time
 
+    param_dict['no_valid_cert'] = args.no_valid_cert
+    if args.no_valid_cert:
+        print("WARNING: SSL Cert Validation Disabled!")
     param_dict['decode_data'] = args.decode_data
     param_dict['header'] = header
     param_dict['export_data'] = args.export_data
@@ -121,23 +126,31 @@ def validate_customer_dict(customerDict):
     """
     This function checks if all the required details provided in the customers
     key of input JSON file.
-
-    Returns:
-        True (bool): if all the customers have required fields and contains a
-        valid topic from C_TOPIC. Otherwise raise an exception.
     """
     print("Validating Input Customer Dict...")
     required_keys = ["username", "wsskey", "topic"]
+
+    # Check if required keys are present in the input for all customers
+    # And check if topic is a valid streaming topic
+    customer_key_error = []
+    customer_topic_error = []
     for name,info in customerDict.items():
         if not set(required_keys).issubset(set(info.keys())):
-            raise RuntimeError("Required key(s) " +
-                   str(required_keys) +
-                   " missing for customer name %d" % str(name))
+            customer_key_error.append(str(name))
+        if "topic" in info.keys() and str(info["topic"]) not in C_TOPIC:
+            customer_topic_error.append(str(name))
 
-        if str(info["topic"]) not in C_TOPIC:
-            raise RuntimeError("Topic not in %s" % str(C_TOPIC),
-                               " for customer %s" % str(name))
-    return True
+    error_str = ""
+    if customer_key_error:
+        key_str = "Required key(s) {} missing for customers {}".format(
+                  str(required_keys), str(customer_key_error))
+        error_str = error_str + "\nError: " + key_str
+    if customer_topic_error:
+        topic_str = "Topic not in {} for customers {}".format(str(C_TOPIC),
+                    str(customer_topic_error))
+        error_str = error_str + "\nError: " + topic_str
+    if error_str and error_str is not "":
+        sys.exit(error_str)
 
 def validate_refresh_token(hostname, oldtok):
     """
@@ -209,9 +222,13 @@ def get_websocket_connection(hostname, c_entry, customer):
         print("HEADERS:")
         print(header)
         try:
-            conn = create_connection(url, header=header,
-                                       sslopt={"cert_reqs": ssl.CERT_NONE,
-                                               "check_hostname": False})
+            if param_dict["no_valid_cert"]:
+                conn = create_connection(url, header=header,
+                                         sslopt={"cert_reqs": ssl.CERT_NONE,
+                                                 "check_hostname": False})
+            else:
+                conn = create_connection(url, header=header)
+
             print("Connection established for customer %s !" % c_entry)
             return conn
         except Exception as err:
@@ -310,9 +327,7 @@ if __name__ == '__main__':
     param_dict = process_arguments(args)
 
     # Validate if required customer details are provided
-    if not validate_customer_dict(param_dict['customers']):
-        print("Error: Invalid input customer list")
-        exit(0)
+    validate_customer_dict(param_dict['customers'])
 
     print("Websocket server to connect : {}".format(args.hostname))
 

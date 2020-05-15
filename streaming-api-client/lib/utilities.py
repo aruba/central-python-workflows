@@ -39,13 +39,17 @@ def read_jsonfile(filename):
     jsondict = {}
     jsonfile = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])),
                             filename)
+
     if os.path.isfile(jsonfile):
         with open(jsonfile, 'r') as infile:
-            jsondict = json.load(infile)
+            try:
+                jsondict = json.load(infile)
+            except Exception as err:
+                sys.exit("Error in Input JSON file: %s" % str(err))
+
         return jsondict
     else:
-        print("Error: json input file not found. exiting...")
-        exit(0)
+        sys.exit("Error: json input file not found. exiting...")
 
 def write_jsonfile(filename, jsondict):
     jsonfile = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])),
@@ -53,4 +57,6 @@ def write_jsonfile(filename, jsondict):
     if os.path.isfile(filename):
         with open(filename, 'w') as outfile:
             json.dump(jsondict, outfile, indent=2)
-    return True
+        return True
+    else:
+        return False
