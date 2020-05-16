@@ -1,5 +1,7 @@
 # Streaming API Client
 
+### **[Download as Zip File](https://downgit.github.io/#/home?url=https://github.com/aruba/central-examples-only/tree/streaming-api/streaming-api-client)**
+
 Aruba Central streaming API follows publish–subscribe model where a topic is subscribed from WebSocket client and Aruba Central will publish continuous data streams to WebSocket client. This approach is different from "polling" where frequent HTTP requests to REST API endpoints are required, in order to get latest data from Aruba Central.
 
 This sample python script acts as a WebSocket client for Aruba Central streaming API and packs some useful features for reference and trying out streaming api. This script is NOT a production quality script and should be used with your discretion. Take additional care to store the WebSocket key securely.
