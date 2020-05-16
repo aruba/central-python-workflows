@@ -153,7 +153,8 @@ Complete list of arguments accepted by the script
   wsclient_public.py [-h] --hostname HOSTNAME --jsoninput JSONINPUT
                           [--start_seq START_SEQ] [--deliver_last]             
                           [--deliver_all] [--since_time SINCE_TIME]
-                          [--decode_data] [--export_data EXPORT_DATA]
+                          [--decode_data] [--no_valid_cert]
+                          [--export_data EXPORT_DATA]
  ```                         
 
 ##### Input JSON file
