@@ -1,6 +1,6 @@
 # Streaming API Client
 
-### **[Download as Zip File](https://downgit.github.io/#/home?url=https://github.com/aruba/central-examples-only/tree/streaming-api/streaming-api-client)**
+### **[Download as Zip File](https://downgit.github.io/#/home?url=https://github.com/aruba/central-examples-only/tree/master/streaming-api-client)**
 
 Aruba Central streaming API follows publish–subscribe model where a topic is subscribed from WebSocket client and Aruba Central will publish continuous data streams to WebSocket client. This approach is different from "polling" where frequent HTTP requests to REST API endpoints are required, in order to get latest data from Aruba Central.
 
