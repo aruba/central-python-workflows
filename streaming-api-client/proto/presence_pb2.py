@@ -17,17 +17,17 @@ _sym_db = _symbol_database.Default()
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='presence.proto',
-  package='',
+  package='Presence',
   syntax='proto2',
   serialized_options=None,
-  serialized_pb=_b('\n\x0epresence.proto\"\x1b\n\x0bmac_address\x12\x0c\n\x04\x61\x64\x64r\x18\x01 \x02(\x0c\"\x1a\n\nMacAddress\x12\x0c\n\x04\x61\x64\x64r\x18\x01 \x02(\x0c\"\xd9\x01\n\x15presence_client_state\x12\x10\n\x08is_label\x18\x02 \x01(\x08\x12\x10\n\x08label_id\x18\x03 \x01(\x04\x12\x19\n\x11label_category_id\x18\x04 \x01(\x04\x12\x32\n\x05state\x18\x05 \x01(\x0e\x32#.presence_client_state.client_state\x12\x15\n\ris_associated\x18\x06 \x01(\x08\"6\n\x0c\x63lient_state\x12\x0c\n\x08passerby\x10\x00\x12\x0b\n\x07visitor\x10\x01\x12\x0b\n\x07\x65ngaged\x10\x02\"H\n\x0fpa_client_state\x12\x35\n\x15presence_client_state\x18\x01 \x03(\x0b\x32\x16.presence_client_state\"3\n\x12pa_proximity_event\x12\x1d\n\tproximity\x18\x01 \x03(\x0b\x32\n.proximity\"\xbf\x01\n\tproximity\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12!\n\x0bsta_eth_mac\x18\x02 \x01(\x0b\x32\x0c.mac_address\x12\x1f\n\tradio_mac\x18\x03 \x01(\x0b\x32\x0c.mac_address\x12\x10\n\x08rssi_val\x18\x04 \x01(\x05\x12\x13\n\x0bnoise_floor\x18\x05 \x01(\r\x12\x12\n\nassociated\x18\x06 \x01(\x08\x12 \n\nap_eth_mac\x18\x07 \x01(\x0b\x32\x0c.mac_address\"$\n\rpa_rssi_event\x12\x13\n\x04rssi\x18\x01 \x03(\x0b\x32\x05.rssi\"\xd6\x01\n\x04rssi\x12!\n\x0bsta_eth_mac\x18\x01 \x01(\x0b\x32\x0c.mac_address\x12\x1f\n\tradio_mac\x18\x02 \x01(\x0b\x32\x0c.mac_address\x12\x10\n\x08rssi_val\x18\x03 \x01(\x05\x12\x13\n\x0bnoise_floor\x18\x04 \x01(\r\x12\x12\n\nassociated\x18\x05 \x01(\x08\x12\r\n\x05is_ap\x18\x06 \x01(\x08\x12\x0b\n\x03\x61ge\x18\x07 \x01(\r\x12\x11\n\tdevice_id\x18\x08 \x01(\t\x12 \n\nap_eth_mac\x18\t \x01(\x0b\x32\x0c.mac_address\"\xc5\x02\n\x0epresence_event\x12\x11\n\ttimestamp\x18\x01 \x02(\x04\x12\x13\n\x0b\x63ustomer_id\x18\x02 \x02(\t\x12\r\n\x05\x65vent\x18\x03 \x02(\t\x12\x37\n\nevent_type\x18\x04 \x02(\x0e\x32#.presence_event.presence_event_type\x12)\n\x0fpa_client_state\x18\x05 \x01(\x0b\x32\x10.pa_client_state\x12%\n\rpa_rssi_event\x18\x06 \x01(\x0b\x32\x0e.pa_rssi_event\x12/\n\x12pa_proximity_event\x18\x07 \x01(\x0b\x32\x13.pa_proximity_event\"@\n\x13presence_event_type\x12\x10\n\x0c\x63lient_state\x10\x00\x12\x08\n\x04rssi\x10\x01\x12\r\n\tproximity\x10\x02')
+  serialized_pb=_b('\n\x0epresence.proto\x12\x08Presence\"\x1b\n\x0bmac_address\x12\x0c\n\x04\x61\x64\x64r\x18\x01 \x02(\x0c\"\x1a\n\nMacAddress\x12\x0c\n\x04\x61\x64\x64r\x18\x01 \x02(\x0c\"\xe2\x01\n\x15presence_client_state\x12\x10\n\x08is_label\x18\x02 \x01(\x08\x12\x10\n\x08label_id\x18\x03 \x01(\x04\x12\x19\n\x11label_category_id\x18\x04 \x01(\x04\x12;\n\x05state\x18\x05 \x01(\x0e\x32,.Presence.presence_client_state.client_state\x12\x15\n\ris_associated\x18\x06 \x01(\x08\"6\n\x0c\x63lient_state\x12\x0c\n\x08passerby\x10\x00\x12\x0b\n\x07visitor\x10\x01\x12\x0b\n\x07\x65ngaged\x10\x02\"Q\n\x0fpa_client_state\x12>\n\x15presence_client_state\x18\x01 \x03(\x0b\x32\x1f.Presence.presence_client_state\"<\n\x12pa_proximity_event\x12&\n\tproximity\x18\x01 \x03(\x0b\x32\x13.Presence.proximity\"\xda\x01\n\tproximity\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12*\n\x0bsta_eth_mac\x18\x02 \x01(\x0b\x32\x15.Presence.mac_address\x12(\n\tradio_mac\x18\x03 \x01(\x0b\x32\x15.Presence.mac_address\x12\x10\n\x08rssi_val\x18\x04 \x01(\x05\x12\x13\n\x0bnoise_floor\x18\x05 \x01(\r\x12\x12\n\nassociated\x18\x06 \x01(\x08\x12)\n\nap_eth_mac\x18\x07 \x01(\x0b\x32\x15.Presence.mac_address\"-\n\rpa_rssi_event\x12\x1c\n\x04rssi\x18\x01 \x03(\x0b\x32\x0e.Presence.rssi\"\xf1\x01\n\x04rssi\x12*\n\x0bsta_eth_mac\x18\x01 \x01(\x0b\x32\x15.Presence.mac_address\x12(\n\tradio_mac\x18\x02 \x01(\x0b\x32\x15.Presence.mac_address\x12\x10\n\x08rssi_val\x18\x03 \x01(\x05\x12\x13\n\x0bnoise_floor\x18\x04 \x01(\r\x12\x12\n\nassociated\x18\x05 \x01(\x08\x12\r\n\x05is_ap\x18\x06 \x01(\x08\x12\x0b\n\x03\x61ge\x18\x07 \x01(\r\x12\x11\n\tdevice_id\x18\x08 \x01(\t\x12)\n\nap_eth_mac\x18\t \x01(\x0b\x32\x15.Presence.mac_address\"\xe9\x02\n\x0epresence_event\x12\x11\n\ttimestamp\x18\x01 \x02(\x04\x12\x13\n\x0b\x63ustomer_id\x18\x02 \x02(\t\x12\r\n\x05\x65vent\x18\x03 \x02(\t\x12@\n\nevent_type\x18\x04 \x02(\x0e\x32,.Presence.presence_event.presence_event_type\x12\x32\n\x0fpa_client_state\x18\x05 \x01(\x0b\x32\x19.Presence.pa_client_state\x12.\n\rpa_rssi_event\x18\x06 \x01(\x0b\x32\x17.Presence.pa_rssi_event\x12\x38\n\x12pa_proximity_event\x18\x07 \x01(\x0b\x32\x1c.Presence.pa_proximity_event\"@\n\x13presence_event_type\x12\x10\n\x0c\x63lient_state\x10\x00\x12\x08\n\x04rssi\x10\x01\x12\r\n\tproximity\x10\x02')
 )
 
 
 
 _PRESENCE_CLIENT_STATE_CLIENT_STATE = _descriptor.EnumDescriptor(
   name='client_state',
-  full_name='presence_client_state.client_state',
+  full_name='Presence.presence_client_state.client_state',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -46,14 +46,14 @@ _PRESENCE_CLIENT_STATE_CLIENT_STATE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=239,
-  serialized_end=293,
+  serialized_start=258,
+  serialized_end=312,
 )
 _sym_db.RegisterEnumDescriptor(_PRESENCE_CLIENT_STATE_CLIENT_STATE)
 
 _PRESENCE_EVENT_PRESENCE_EVENT_TYPE = _descriptor.EnumDescriptor(
   name='presence_event_type',
-  full_name='presence_event.presence_event_type',
+  full_name='Presence.presence_event.presence_event_type',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -72,21 +72,21 @@ _PRESENCE_EVENT_PRESENCE_EVENT_TYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1133,
-  serialized_end=1197,
+  serialized_start=1269,
+  serialized_end=1333,
 )
 _sym_db.RegisterEnumDescriptor(_PRESENCE_EVENT_PRESENCE_EVENT_TYPE)
 
 
 _MAC_ADDRESS = _descriptor.Descriptor(
   name='mac_address',
-  full_name='mac_address',
+  full_name='Presence.mac_address',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='addr', full_name='mac_address.addr', index=0,
+      name='addr', full_name='Presence.mac_address.addr', index=0,
       number=1, type=12, cpp_type=9, label=2,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
@@ -104,20 +104,20 @@ _MAC_ADDRESS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=18,
-  serialized_end=45,
+  serialized_start=28,
+  serialized_end=55,
 )
 
 
 _MACADDRESS = _descriptor.Descriptor(
   name='MacAddress',
-  full_name='MacAddress',
+  full_name='Presence.MacAddress',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='addr', full_name='MacAddress.addr', index=0,
+      name='addr', full_name='Presence.MacAddress.addr', index=0,
       number=1, type=12, cpp_type=9, label=2,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
@@ -135,48 +135,48 @@ _MACADDRESS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=47,
-  serialized_end=73,
+  serialized_start=57,
+  serialized_end=83,
 )
 
 
 _PRESENCE_CLIENT_STATE = _descriptor.Descriptor(
   name='presence_client_state',
-  full_name='presence_client_state',
+  full_name='Presence.presence_client_state',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='is_label', full_name='presence_client_state.is_label', index=0,
+      name='is_label', full_name='Presence.presence_client_state.is_label', index=0,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='label_id', full_name='presence_client_state.label_id', index=1,
+      name='label_id', full_name='Presence.presence_client_state.label_id', index=1,
       number=3, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='label_category_id', full_name='presence_client_state.label_category_id', index=2,
+      name='label_category_id', full_name='Presence.presence_client_state.label_category_id', index=2,
       number=4, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='state', full_name='presence_client_state.state', index=3,
+      name='state', full_name='Presence.presence_client_state.state', index=3,
       number=5, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='is_associated', full_name='presence_client_state.is_associated', index=4,
+      name='is_associated', full_name='Presence.presence_client_state.is_associated', index=4,
       number=6, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
@@ -195,20 +195,20 @@ _PRESENCE_CLIENT_STATE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=76,
-  serialized_end=293,
+  serialized_start=86,
+  serialized_end=312,
 )
 
 
 _PA_CLIENT_STATE = _descriptor.Descriptor(
   name='pa_client_state',
-  full_name='pa_client_state',
+  full_name='Presence.pa_client_state',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='presence_client_state', full_name='pa_client_state.presence_client_state', index=0,
+      name='presence_client_state', full_name='Presence.pa_client_state.presence_client_state', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -226,20 +226,20 @@ _PA_CLIENT_STATE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=295,
-  serialized_end=367,
+  serialized_start=314,
+  serialized_end=395,
 )
 
 
 _PA_PROXIMITY_EVENT = _descriptor.Descriptor(
   name='pa_proximity_event',
-  full_name='pa_proximity_event',
+  full_name='Presence.pa_proximity_event',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='proximity', full_name='pa_proximity_event.proximity', index=0,
+      name='proximity', full_name='Presence.pa_proximity_event.proximity', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -257,62 +257,62 @@ _PA_PROXIMITY_EVENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=369,
-  serialized_end=420,
+  serialized_start=397,
+  serialized_end=457,
 )
 
 
 _PROXIMITY = _descriptor.Descriptor(
   name='proximity',
-  full_name='proximity',
+  full_name='Presence.proximity',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='proximity.device_id', index=0,
+      name='device_id', full_name='Presence.proximity.device_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='sta_eth_mac', full_name='proximity.sta_eth_mac', index=1,
+      name='sta_eth_mac', full_name='Presence.proximity.sta_eth_mac', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='radio_mac', full_name='proximity.radio_mac', index=2,
+      name='radio_mac', full_name='Presence.proximity.radio_mac', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='rssi_val', full_name='proximity.rssi_val', index=3,
+      name='rssi_val', full_name='Presence.proximity.rssi_val', index=3,
       number=4, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='noise_floor', full_name='proximity.noise_floor', index=4,
+      name='noise_floor', full_name='Presence.proximity.noise_floor', index=4,
       number=5, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='associated', full_name='proximity.associated', index=5,
+      name='associated', full_name='Presence.proximity.associated', index=5,
       number=6, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ap_eth_mac', full_name='proximity.ap_eth_mac', index=6,
+      name='ap_eth_mac', full_name='Presence.proximity.ap_eth_mac', index=6,
       number=7, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -330,20 +330,20 @@ _PROXIMITY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=423,
-  serialized_end=614,
+  serialized_start=460,
+  serialized_end=678,
 )
 
 
 _PA_RSSI_EVENT = _descriptor.Descriptor(
   name='pa_rssi_event',
-  full_name='pa_rssi_event',
+  full_name='Presence.pa_rssi_event',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='rssi', full_name='pa_rssi_event.rssi', index=0,
+      name='rssi', full_name='Presence.pa_rssi_event.rssi', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -361,76 +361,76 @@ _PA_RSSI_EVENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=616,
-  serialized_end=652,
+  serialized_start=680,
+  serialized_end=725,
 )
 
 
 _RSSI = _descriptor.Descriptor(
   name='rssi',
-  full_name='rssi',
+  full_name='Presence.rssi',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='sta_eth_mac', full_name='rssi.sta_eth_mac', index=0,
+      name='sta_eth_mac', full_name='Presence.rssi.sta_eth_mac', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='radio_mac', full_name='rssi.radio_mac', index=1,
+      name='radio_mac', full_name='Presence.rssi.radio_mac', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='rssi_val', full_name='rssi.rssi_val', index=2,
+      name='rssi_val', full_name='Presence.rssi.rssi_val', index=2,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='noise_floor', full_name='rssi.noise_floor', index=3,
+      name='noise_floor', full_name='Presence.rssi.noise_floor', index=3,
       number=4, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='associated', full_name='rssi.associated', index=4,
+      name='associated', full_name='Presence.rssi.associated', index=4,
       number=5, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='is_ap', full_name='rssi.is_ap', index=5,
+      name='is_ap', full_name='Presence.rssi.is_ap', index=5,
       number=6, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='age', full_name='rssi.age', index=6,
+      name='age', full_name='Presence.rssi.age', index=6,
       number=7, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='rssi.device_id', index=7,
+      name='device_id', full_name='Presence.rssi.device_id', index=7,
       number=8, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ap_eth_mac', full_name='rssi.ap_eth_mac', index=8,
+      name='ap_eth_mac', full_name='Presence.rssi.ap_eth_mac', index=8,
       number=9, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -448,62 +448,62 @@ _RSSI = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=655,
-  serialized_end=869,
+  serialized_start=728,
+  serialized_end=969,
 )
 
 
 _PRESENCE_EVENT = _descriptor.Descriptor(
   name='presence_event',
-  full_name='presence_event',
+  full_name='Presence.presence_event',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='timestamp', full_name='presence_event.timestamp', index=0,
+      name='timestamp', full_name='Presence.presence_event.timestamp', index=0,
       number=1, type=4, cpp_type=4, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='customer_id', full_name='presence_event.customer_id', index=1,
+      name='customer_id', full_name='Presence.presence_event.customer_id', index=1,
       number=2, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='event', full_name='presence_event.event', index=2,
+      name='event', full_name='Presence.presence_event.event', index=2,
       number=3, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='event_type', full_name='presence_event.event_type', index=3,
+      name='event_type', full_name='Presence.presence_event.event_type', index=3,
       number=4, type=14, cpp_type=8, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='pa_client_state', full_name='presence_event.pa_client_state', index=4,
+      name='pa_client_state', full_name='Presence.presence_event.pa_client_state', index=4,
       number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='pa_rssi_event', full_name='presence_event.pa_rssi_event', index=5,
+      name='pa_rssi_event', full_name='Presence.presence_event.pa_rssi_event', index=5,
       number=6, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='pa_proximity_event', full_name='presence_event.pa_proximity_event', index=6,
+      name='pa_proximity_event', full_name='Presence.presence_event.pa_proximity_event', index=6,
       number=7, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -522,8 +522,8 @@ _PRESENCE_EVENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=872,
-  serialized_end=1197,
+  serialized_start=972,
+  serialized_end=1333,
 )
 
 _PRESENCE_CLIENT_STATE.fields_by_name['state'].enum_type = _PRESENCE_CLIENT_STATE_CLIENT_STATE
@@ -556,63 +556,63 @@ _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 mac_address = _reflection.GeneratedProtocolMessageType('mac_address', (_message.Message,), dict(
   DESCRIPTOR = _MAC_ADDRESS,
   __module__ = 'presence_pb2'
-  # @@protoc_insertion_point(class_scope:mac_address)
+  # @@protoc_insertion_point(class_scope:Presence.mac_address)
   ))
 _sym_db.RegisterMessage(mac_address)
 
 MacAddress = _reflection.GeneratedProtocolMessageType('MacAddress', (_message.Message,), dict(
   DESCRIPTOR = _MACADDRESS,
   __module__ = 'presence_pb2'
-  # @@protoc_insertion_point(class_scope:MacAddress)
+  # @@protoc_insertion_point(class_scope:Presence.MacAddress)
   ))
 _sym_db.RegisterMessage(MacAddress)
 
 presence_client_state = _reflection.GeneratedProtocolMessageType('presence_client_state', (_message.Message,), dict(
   DESCRIPTOR = _PRESENCE_CLIENT_STATE,
   __module__ = 'presence_pb2'
-  # @@protoc_insertion_point(class_scope:presence_client_state)
+  # @@protoc_insertion_point(class_scope:Presence.presence_client_state)
   ))
 _sym_db.RegisterMessage(presence_client_state)
 
 pa_client_state = _reflection.GeneratedProtocolMessageType('pa_client_state', (_message.Message,), dict(
   DESCRIPTOR = _PA_CLIENT_STATE,
   __module__ = 'presence_pb2'
-  # @@protoc_insertion_point(class_scope:pa_client_state)
+  # @@protoc_insertion_point(class_scope:Presence.pa_client_state)
   ))
 _sym_db.RegisterMessage(pa_client_state)
 
 pa_proximity_event = _reflection.GeneratedProtocolMessageType('pa_proximity_event', (_message.Message,), dict(
   DESCRIPTOR = _PA_PROXIMITY_EVENT,
   __module__ = 'presence_pb2'
-  # @@protoc_insertion_point(class_scope:pa_proximity_event)
+  # @@protoc_insertion_point(class_scope:Presence.pa_proximity_event)
   ))
 _sym_db.RegisterMessage(pa_proximity_event)
 
 proximity = _reflection.GeneratedProtocolMessageType('proximity', (_message.Message,), dict(
   DESCRIPTOR = _PROXIMITY,
   __module__ = 'presence_pb2'
-  # @@protoc_insertion_point(class_scope:proximity)
+  # @@protoc_insertion_point(class_scope:Presence.proximity)
   ))
 _sym_db.RegisterMessage(proximity)
 
 pa_rssi_event = _reflection.GeneratedProtocolMessageType('pa_rssi_event', (_message.Message,), dict(
   DESCRIPTOR = _PA_RSSI_EVENT,
   __module__ = 'presence_pb2'
-  # @@protoc_insertion_point(class_scope:pa_rssi_event)
+  # @@protoc_insertion_point(class_scope:Presence.pa_rssi_event)
   ))
 _sym_db.RegisterMessage(pa_rssi_event)
 
 rssi = _reflection.GeneratedProtocolMessageType('rssi', (_message.Message,), dict(
   DESCRIPTOR = _RSSI,
   __module__ = 'presence_pb2'
-  # @@protoc_insertion_point(class_scope:rssi)
+  # @@protoc_insertion_point(class_scope:Presence.rssi)
   ))
 _sym_db.RegisterMessage(rssi)
 
 presence_event = _reflection.GeneratedProtocolMessageType('presence_event', (_message.Message,), dict(
   DESCRIPTOR = _PRESENCE_EVENT,
   __module__ = 'presence_pb2'
-  # @@protoc_insertion_point(class_scope:presence_event)
+  # @@protoc_insertion_point(class_scope:Presence.presence_event)
   ))
 _sym_db.RegisterMessage(presence_event)
 

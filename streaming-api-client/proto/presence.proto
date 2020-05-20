@@ -1,3 +1,5 @@
+syntax = "proto2";
+package Presence;
 
 message mac_address {
     required bytes addr = 1;
@@ -63,7 +65,7 @@ message rssi {
     optional bool is_ap = 6;
     optional uint32 age = 7;
     optional string device_id = 8;
-    optional mac_address ap_eth_mac = 9;
+   optional mac_address ap_eth_mac = 9;
 }
 
 //this message contains presence events paylod
@@ -81,5 +83,3 @@ message presence_event {
     optional pa_rssi_event pa_rssi_event = 6;
     optional pa_proximity_event pa_proximity_event = 7;
 }
-
-

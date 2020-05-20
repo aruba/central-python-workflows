@@ -1,3 +1,6 @@
+syntax = "proto2";
+package Security;
+
 enum Action {
     ADD = 1;
     DELETE = 2;
