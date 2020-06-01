@@ -45,7 +45,8 @@ if __name__ == "__main__":
     token_store = None
     if "token_store" in inventory_args:
         token_store = inventory_args["token_store"]
-    central_conn = ArubaCentralBase(central_info, token_store)
+    central_logger = utils.console_logger("ARUBA_CENTRAL_BASE")
+    central_conn = ArubaCentralBase(central_logger, central_info, token_store)
 
     # Get sub-directory list of current dir
     dir_list = utils.get_subdir_list(dir_name='.', with_path=False)

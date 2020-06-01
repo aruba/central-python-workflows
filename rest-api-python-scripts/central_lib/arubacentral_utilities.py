@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import logging, os, json
+import logging, os, sys, json
 
 C_LOG_LEVEL = {
   "CRITICAL": 50,
@@ -40,29 +40,6 @@ C_DEFAULT_ARGS = {
     "password": None,
     "token": None
 }
-
-def console_logger(name, level="DEBUG"):
-    """
-    Summary: This method create an instance of console logger.
-    Parameters:
-        name (str): Parent name for log
-        level (str): One valid logging level [CRITICAL, ERROR, WARNING, INFO
-                     DEBUG, NOTSET]. All logs above and equal to provided level
-                     will be processed
-    Returns:
-        logger (class logging): An instance of class logging
-    """
-    channel_handler = logging.StreamHandler()
-
-    formatter = logging.Formatter("%(asctime)s - %(name)s -"
-                                  " %(levelname)s - %(message)s")
-    channel_handler.setFormatter(formatter)
-
-    logger = logging.getLogger(name)
-    logger.setLevel(C_LOG_LEVEL[level])
-    logger.addHandler(channel_handler)
-
-    return logger
 
 def parseInputArgs(central_info):
     """

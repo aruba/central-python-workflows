@@ -25,7 +25,6 @@ from urllib.parse import urlencode
 import json, re, os
 import pickle
 import requests
-from central_lib.arubacentral_utilities import console_logger, C_DEFAULT_ARGS
 from central_lib.arubacentral_utilities import tokenLocalStoreUtil
 
 class BearerAuth(requests.auth.AuthBase):
@@ -36,11 +35,10 @@ class BearerAuth(requests.auth.AuthBase):
         return r
 
 class ArubaCentralBase:
-    def __init__(self, central_info, token_store=None):
+    def __init__(self, logger, central_info, token_store=None):
         self.central_info = central_info
         self.token_store = token_store
-        self.logger = console_logger(name="ArubaCentralBase",
-                                     level="DEBUG")
+        self.logger = logger
         self.client_id = central_info["client_id"]
         self.client_secret = central_info["client_secret"]
         self.username = central_info["username"]
@@ -393,7 +391,7 @@ class ArubaCentralBase:
                             "Accept": "application/json"
                           }
             if apiData and headers['Content-Type'] == "application/json":
-                apiData = json.dumps(apiData).encode('utf8')
+                apiData = json.dumps(apiData)
 
             resp = self.requestUrl(url=url, data=apiData, method=method,
                                    headers=headers, params=apiParams,
