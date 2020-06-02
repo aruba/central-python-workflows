@@ -4,7 +4,7 @@ This folder contains modules that can be leveraged to automate time consuming an
 
 Each directory within 'central_modules' folder is a module. The name of the folder is the considered the *module_name*. All modules follow same execution and input structure. 
 
-Refer [this section of the guide section](README.md#1-beginner-to-advanced---automate-without-programming) for more information.
+Refer [this section of the guide](README.md#1-beginner-to-advanced---automate-without-programming) for more information.
 
 Command to Execute a module
 ```
