@@ -10,12 +10,28 @@ except:
     from pip._internal.utils.misc import get_installed_distributions
 
 C_LOG_LEVEL = {
-  "CRITICAL": 50,
-  "ERROR": 40,
-  "WARNING": 30,
-  "INFO": 20,
-  "DEBUG": 10,
-  "NOTSET":	0
+    "CRITICAL": 50,
+    "ERROR": 40,
+    "WARNING": 30,
+    "INFO": 20,
+    "DEBUG": 10,
+    "NOTSET":	0
+}
+
+C_RES_CODE = {
+    "-1": "FAILED",
+    "0": "SKIPPED",
+    "1": "SUCCESS"
+}
+
+C_COLORS = {
+    "RED": "\033[1;31m",
+    "BLUE": "\033[1;34m",
+    "CYAN": "\033[1;36m",
+    "GREEN": "\033[0;32m",
+    "RESET": "\033[0;0m",
+    "BOLD": "\033[;1m",
+    "REVERSE": "\033[;7m"
 }
 
 def update_sys_path(path):

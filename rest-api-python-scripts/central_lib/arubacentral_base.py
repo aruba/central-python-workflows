@@ -23,9 +23,9 @@
 from urllib.request import Request, urlopen
 from urllib.parse import urlencode
 import json, re, os
-import pickle
 import requests
 from central_lib.arubacentral_utilities import tokenLocalStoreUtil
+from central_lib.arubacentral_utilities import C_DEFAULT_ARGS
 
 class BearerAuth(requests.auth.AuthBase):
     def __init__(self, token):

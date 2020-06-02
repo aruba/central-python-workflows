@@ -31,7 +31,7 @@ class RenameAP:
 
     def validateResponse(self, resp, successMsg="Success", printResp=True):
         """
-        Summary: Check response for
+        Summary: Validate response and return True/False based on HTTP code
         """
         if resp and resp != "":
             if resp["code"] == 200 or resp["code"] == 201:
@@ -45,6 +45,10 @@ class RenameAP:
                 return False
 
     def rename_ap(self, central, ap_dict):
+        """
+        Summary: Function to send API request to rename AP based on a dict from
+                 csv file containing "hostname, ip_address, serial_number"
+        """
         serial_number = ap_dict["serial_number"].strip()
         apiPath = "/configuration/v1/ap_settings/" + serial_number
         apiData = {}
@@ -63,7 +67,11 @@ class RenameAP:
             raise err
 
 def run(central_conn, inventory_args, task_args, logger):
-    logger.info("Executing module...")
+    """
+    Summary: Contains __main__ part of the module. Every module will have
+             this function and is called by execute_module.py
+    """
+    mod_res = {}
     handler = RenameAP(logger)
     required_fields = ['serial_number', 'hostname', 'ip_address']
 
@@ -85,11 +93,13 @@ def run(central_conn, inventory_args, task_args, logger):
     except FileNotFoundError:
         logger.error("File Not found.. Provide absolute path for %s" % csv_file)
         logger.error("Terminated module execution!")
-        return
+        mod_res["code"] = -1
+        return mod_res
     except Exception as err:
         logger.error("Unable to process taskinput file %s" % csv_file)
         logger.error("Terminated module execution with error %s" % str(err))
-        return
+        mod_res["code"] = -1
+        return mod_res
 
     # Rename APs from AP list
     failed_rename = []
@@ -100,5 +110,7 @@ def run(central_conn, inventory_args, task_args, logger):
     if failed_rename:
         logger.error("Failed to rename the following APs: "
                      "%s" % str(failed_rename))
+        mod_res["code"] = -1
     else:
-        logger.info("Successfully Renamed all APs!")
+        mod_res["code"] = 1
+    return mod_res

@@ -1,7 +1,8 @@
-import os
+import os, sys
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 from importlib import import_module
 import workflow_utils as utils
+from pprint import pprint
 
 def define_arguments():
     """
@@ -55,6 +56,7 @@ if __name__ == "__main__":
         exit("exiting...")
 
     tasks = module_args["tasks"]
+    final_res = {"FAILED": 0, "SKIPPED": 0, "SUCCESS": 0}
     for task in tasks:
         module_name = None
         if task.keys():
@@ -73,8 +75,15 @@ if __name__ == "__main__":
                 module_handle = import_module(module_name)
                 module_logger = utils.console_logger(module_name.upper())
                 task_args = task[module_name]
-                module_handle.run(central_conn, inventory_args,
-                                  task_args, module_logger)
+                mod_res = module_handle.run(central_conn, inventory_args,
+                                            task_args, module_logger)
+
+                # Handle final module results
+                if mod_res and "code" in mod_res:
+                    if str(mod_res["code"]) in utils.C_RES_CODE:
+                        res_key = str(utils.C_RES_CODE[str(mod_res["code"])])
+                        final_res[res_key] += 1
+
             except ValueError:
                 main_logger.error("Module executable not found")
             except Exception as err:
@@ -83,3 +92,19 @@ if __name__ == "__main__":
                 raise err
         else:
             main_logger.error("Module %s not found" % module_name)
+
+        print("\nFINAL RESULTS")
+        print("===== =======")
+        sys.stdout.write(utils.C_COLORS["GREEN"])
+        success_str = "SUCCESS: {}".format(final_res["SUCCESS"])
+        print(success_str)
+
+        sys.stdout.write(utils.C_COLORS["CYAN"])
+        skipped_str = "SKIPPED: {}".format(final_res["SKIPPED"])
+        print(skipped_str)
+
+        sys.stdout.write(utils.C_COLORS["RED"])
+        failed_str = "FAILED : {}".format(final_res["FAILED"])
+        print(failed_str)
+
+        sys.stdout.write(utils.C_COLORS["RESET"])
