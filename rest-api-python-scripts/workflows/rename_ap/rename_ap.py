@@ -20,14 +20,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from argparse import ArgumentParser, RawDescriptionHelpFormatter
-import json
 import csv
 from pprint import pprint
 
 class RenameAP:
     def __init__(self, logger):
         self.logger = logger
+        self.mod_res = {}
 
     def validateResponse(self, resp, successMsg="Success", printResp=True):
         """
@@ -38,10 +37,13 @@ class RenameAP:
                 if printResp:
                     pprint(resp["msg"])
                 self.logger.info(successMsg)
+                self.mod_res["code"] = 1
                 return True
             else:
                 pprint(resp)
-                self.logger.error("Failed to rename AP with resp %s" % str(resp))
+                self.logger.error("Failed to rename AP with resp "
+                                  "%s" % str(resp))
+                self.mod_res["code"] = -1
                 return False
 
     def rename_ap(self, central, ap_dict):
@@ -62,24 +64,26 @@ class RenameAP:
                                         apiPath=apiPath, apiData=apiData)
             successMsg = "Renamed AP %s with hostname %s" % (
                          ap_dict["serial_number"], ap_dict["hostname"])
+            self.mod_res["resp"] = resp
             return self.validateResponse(resp, successMsg)
         except Exception as err:
-            raise err
+            self.logger.error(str(err))
+            self.mod_res["code"] = -1
 
 def run(central_conn, inventory_args, task_args, logger):
     """
     Summary: Contains __main__ part of the module. Every module will have
              this function and is called by execute_module.py
     """
-    mod_res = {}
     handler = RenameAP(logger)
     required_fields = ['serial_number', 'hostname', 'ip_address']
 
     # Open CSV File
     if "ap_info" not in task_args:
-        logger.error("ap_info not found in module arguments")
-        logger.error("Terminated module execution!")
-        return
+        handler.logger.error("ap_info not found in module arguments")
+        handler.logger.error("Terminated module execution!")
+        handler.mod_res["code"] = -1
+        return handler.mod_res
     ap_list = []
     csv_file = task_args["ap_info"]
     try:
@@ -91,15 +95,17 @@ def run(central_conn, inventory_args, task_args, logger):
             raise UserWarning ("Missing required fields in csv file "
                                "%s" % csv_file)
     except FileNotFoundError:
-        logger.error("File Not found.. Provide absolute path for %s" % csv_file)
-        logger.error("Terminated module execution!")
-        mod_res["code"] = -1
-        return mod_res
+        handler.logger.error("File Not found.. "
+                             "Provide absolute path for %s" % csv_file)
+        handler.logger.error("Terminated module execution!")
+        handler.mod_res["code"] = -1
+        return handler.mod_res
     except Exception as err:
-        logger.error("Unable to process taskinput file %s" % csv_file)
-        logger.error("Terminated module execution with error %s" % str(err))
-        mod_res["code"] = -1
-        return mod_res
+        handler.logger.error("Unable to process taskinput file %s" % csv_file)
+        handler.logger.error("Terminated module execution "
+                             "with error %s" % str(err))
+        handler.mod_res["code"] = -1
+        return handler.mod_res
 
     # Rename APs from AP list
     failed_rename = []
@@ -108,9 +114,9 @@ def run(central_conn, inventory_args, task_args, logger):
         if not res:
             failed_rename.append(ap_dict["serial_number"])
     if failed_rename:
-        logger.error("Failed to rename the following APs: "
-                     "%s" % str(failed_rename))
-        mod_res["code"] = -1
+        handler.logger.warning("Failed to rename the following APs: " + \
+                               "%s" % str(failed_rename))
+        handler.mod_res["code"] = -1
     else:
-        mod_res["code"] = 1
-    return mod_res
+        handler.mod_res["code"] = 1
+    return handler.mod_res

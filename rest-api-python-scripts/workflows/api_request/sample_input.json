@@ -1,0 +1,39 @@
+{
+  "tasks": [
+    {
+      "api_request": {
+        "description": "Get group list",
+        "api_path": "/configuration/v2/groups",
+        "api_params": {
+          "limit": 20,
+          "offset": 0
+        },
+        "api_method": "GET"
+      }
+    },
+    {
+      "api_request": {
+        "description": "Create a template group named auto-group-py",
+        "api_path": "/configuration/v2/groups",
+        "api_method": "POST",
+        "api_data": {
+          "group": "auto-group-py",
+          "group_attributes": {
+            "group_password": "admin1234",
+            "template_info": {
+              "Wired": true,
+              "Wireless": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "api_request": {
+        "description": "Delete a template group named auto-group-py",
+        "api_path": "/configuration/v1/groups/auto-group-py",
+        "api_method": "DELETE"
+      }
+    }
+  ]
+}

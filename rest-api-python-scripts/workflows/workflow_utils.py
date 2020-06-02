@@ -36,11 +36,14 @@ C_COLORS = {
 
 def update_sys_path(path):
     """
-    Summary: Function to insert Aruba Central library path to sys path.
+    Summary: Function to insert Aruba Central library path to sys path
     """
     sys.path.insert(1, path)
 
 def get_subdir_list(dir_name, with_path=True):
+    """
+    Summary: Function returns list of directories within given parent directory
+    """
     subdir_list = []
     d = dir_name
     if with_path:
@@ -52,6 +55,9 @@ def get_subdir_list(dir_name, with_path=True):
     return subdir_list
 
 def get_files_from_dir(dir_name=".", file_type=".py"):
+    """
+    Summary: Function returns files of specified type within a directory
+    """
     d = dir_name
     file_list = [os.path.join(d, f) for f in os.listdir(d)
                  if isfile(join(d, f)) and f.endswith(file_type)]
@@ -67,7 +73,8 @@ def get_file_content(file_name):
             input_args = json.loads(fp.read())
         return input_args
     except Exception as err:
-        exit("exiting.. Unable to open file %s!" % file_name)
+        exit("exiting.. Unable to open file " + \
+             "%s with error %s!" % (file_name, err))
 
 def console_logger(name, level="DEBUG"):
     """

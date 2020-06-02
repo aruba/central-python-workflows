@@ -102,9 +102,6 @@ def define_arguments():
                         help=('Inventory file in JSON format which has \
                               variables and configuration '
                               'required by this script.'))
-    parser.add_argument('-t', '--taskinput', required=False,
-                        help=('taskinput file in JSON format which has \
-                              information required to make API calls '))
     return parser.parse_args()
 
 def update_sys_path(path):
@@ -114,10 +111,10 @@ def update_sys_path(path):
     sys.path.insert(1, path)
 
 if __name__ == "__main__":
-    # Define Input Arguments
+    # Define Inventory Arguments
     args = define_arguments()
 
-    # Read Input File
+    # Read Inventory File
     input_args = get_file_content(args.inventory)
 
     # Append lib path to sys path
@@ -135,7 +132,8 @@ if __name__ == "__main__":
         token_store = input_args["token_store"]
     central = ArubaCentralBase(central_info, token_store)
 
-    ### Sample API call
+    # - Sample API call. More examples in form of code comment at beginning
+    # - of this script
     # GET groups from Aruba Central
     apiPath = "/configuration/v2/groups"
     apiMethod = "GET"

@@ -26,6 +26,7 @@ import json, re, os
 import requests
 from central_lib.arubacentral_utilities import tokenLocalStoreUtil
 from central_lib.arubacentral_utilities import C_DEFAULT_ARGS
+from central_lib.arubacentral_utilities import console_logger
 
 class BearerAuth(requests.auth.AuthBase):
     def __init__(self, token):
@@ -35,10 +36,15 @@ class BearerAuth(requests.auth.AuthBase):
         return r
 
 class ArubaCentralBase:
-    def __init__(self, logger, central_info, token_store=None):
+    def __init__(self, central_info, token_store=None,
+                 logger=None):
         self.central_info = central_info
         self.token_store = token_store
-        self.logger = logger
+        self.logger = None
+        if logger:
+            self.logger = logger
+        else:
+            self.logger = console_logger("ARUBA_BASE")
         self.client_id = central_info["client_id"]
         self.client_secret = central_info["client_secret"]
         self.username = central_info["username"]
@@ -252,7 +258,7 @@ class ArubaCentralBase:
         try:
             with open(fullName, 'w') as fp:
                 json.dump(token, fp, indent=2)
-            self.logger.info("Stored Aruba Central token in file "
+            self.logger.info("Stored Aruba Central token in file " + \
                              "%s" % str(fullName))
         except Exception as err:
             self.logger.error("Storing token failed with error %s" % str(err))
@@ -273,7 +279,7 @@ class ArubaCentralBase:
             with open(fullName, 'r') as fp:
                 token = json.load(fp)
             if token:
-                self.logger.info("Loaded token from storage from file: "
+                self.logger.info("Loaded token from storage from file: " + \
                                  "%s" % str(fullName))
                 return token
             else:

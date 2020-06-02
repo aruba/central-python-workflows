@@ -21,7 +21,11 @@
 # SOFTWARE.
 
 import logging, os, sys, json
-
+try:
+    from pip import get_installed_distributions
+except:
+    from pip._internal.utils.misc import get_installed_distributions
+    
 C_LOG_LEVEL = {
   "CRITICAL": 50,
   "ERROR": 40,
@@ -79,5 +83,37 @@ def tokenLocalStoreUtil(token_store, customer_id="customer",
     if token_store and "path" in token_store:
         filePath = os.path.join(token_store["path"])
     fullName = os.path.join(filePath, fileName)
-    print(fullName)
     return fullName
+
+def console_logger(name, level="DEBUG"):
+    """
+    Summary: This method create an instance of console logger.
+    Parameters:
+        name (str): Parent name for log
+        level (str): One valid logging level [CRITICAL, ERROR, WARNING, INFO
+                     DEBUG, NOTSET]. All logs above and equal to provided level
+                     will be processed
+    Returns:
+        logger (class logging): An instance of class logging
+    """
+    channel_handler = logging.StreamHandler()
+    format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    date_format = '%Y-%m-%d %H:%M:%S'
+    installed_packages = get_installed_distributions()
+    f = format
+    if 'colorlog' in [package.project_name for package in installed_packages]:
+        import colorlog
+        cformat = '%(log_color)s' + format
+        f = colorlog.ColoredFormatter(cformat, date_format,
+              log_colors = { 'DEBUG'   : 'bold_cyan', 'INFO' : 'blue',
+                             'WARNING' : 'yellow', 'ERROR': 'red',
+                             'CRITICAL': 'bold_red' })
+    else:
+        f = logging.Formatter(format, date_format)
+    channel_handler.setFormatter(f)
+
+    logger = logging.getLogger(name)
+    logger.setLevel(C_LOG_LEVEL[level])
+    logger.addHandler(channel_handler)
+
+    return logger
