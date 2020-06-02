@@ -1,7 +1,7 @@
 import os, sys
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 from importlib import import_module
-import workflow_utils as utils
+import module_utils as utils
 from pprint import pprint
 
 def define_arguments():
