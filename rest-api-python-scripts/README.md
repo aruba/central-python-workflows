@@ -99,11 +99,11 @@ If the user is in possession of a refresh token, the authorization process is tr
 
 This section presents three different branches, to get started with automation, targetting users with different skill levels.
 
-1. [Beginners] - Learn with Python to create tokens using OAUTH protocol and making an API call 
+1. [Beginner to Advanced] - Automate without any programming knowledge. Pre-built and ready to use modules for Aruba Central. 
 
-2. [Advanced Programmers] - Base library for Aruba Central API token management and HTTP requests
+2. [Beginner] - Learn with Python to create tokens using OAUTH protocol and making an API call 
 
-3. [Newbie to Advanced] - Prebuilt and ready to use *central_modules*
+3. [Advanced] - Base library for Aruba Central API token management and HTTP requests
 
 #### Setting Up Python environment and Installing Requirements
 
@@ -117,7 +117,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### [Beginners] - Creating API token using OAUTH and Making an API Call
+### 1. [Beginner] - Creating API token using OAUTH and Making an API Call
 
 In this section, two different approaches for authentication and authorization are shown. They all use Python and offers the same set of operations. 
 
@@ -268,8 +268,102 @@ with open(filename, 'r') as input_file:
 * Again, there are two separate Python scripts, one for full authentication and one for just the refresh workflow.
 * As an example of how to use the access token, both scripts finish by making a GET call to the AP URL, printing the results of the call to screen.
 
-## Advanced Automation Workflows and Use-cases
+## 2. [Advanced] - Base library for API token management and HTTP requests
+This section consists of information on how to use the `central_lib` Python package to get started with automation with Aruba Central in a breeze. 
 
+This library manages creation of API access token using OATUTH, storing the token for re-use and makes API calls using Python requests package. Upon receiving *HTTP 401 Unauthorized error*, the library will attempt to refresh stored token, update the storage with renewed token and retry the failed API request. 
+
+Provided below is the snippet of code from *central_lib_usage.py* python script. Using the central_lib consists of four simple steps,
+
+a. Fill Aruba Central information in inventory JSON file.
+
+Fill the required information in JSON format as shown in `input_credentials.json` file. 
+
+- 'lib_path': [Optional] path to *central_lib* folder
+- 'central_info': As provided in earlier sections, obtain these required variables and update the file.
+- 'token_store': Only type 'local' token storage and accessing of stored token for re-use is implemented. 'path' is the local file system path where a JSON file will be created to store access token and refresh token information. **Extend and implement your token management mechanism for secure token management.**
+
+```json
+{
+ "lib_path": "../",
+ "central_info": {
+                "username": "<aruba-central-account-username>",
+                "password": "<aruba-central-account-password>",
+                "client_id": "<api-gateway-client-id>",
+                "client_secret": "<api-gateway-client-secret>",
+                "customer_id": "<aruba-central-customer-id>",
+                "base_url": "<api-gateway-domain-url>"
+              },
+  "token_store": {
+    "type": "local",
+    "path": "temp"
+  }
+}
+```
+
+Optionally, this library works with just *access_token* variable instead of providing information of concern. It is helpful for user applications which doesn't store Aruba Central account credentials and manage tokens (creation, storage for re-use and refresh) externally for security. Refer the `central_lib/input_token_only.json` file.
+
+```json
+{
+ "lib_path": "../",
+ "central_info": {
+                "base_url": "<api-gateway-domain-url>",
+                "token": {
+                  "access_token": "<api-gateway-access-token>"
+                }
+               }
+}
+```
+
+b. Create instance of `ArubaCentralBase` class by initializing the required variables.
+
+```python
+    # Import Aruba Central Library
+    from central_lib.arubacentral_base import ArubaCentralBase
+    from central_lib.arubacentral_utilities import parseInputArgs
+
+    # Read input JSON inventory file
+    input_args = get_file_content(args.inventory)
+    
+    # Connection object for Aruba Central as 'central'
+    central_info = parseInputArgs(input_args["central_info"])
+    token_store = input_args["token_store"]
+     
+    central = ArubaCentralBase(central_info, token_store)
+```
+
+c. Define variables for API call using some of these variables [apiPath, apiMethod, apiParams, apiData, headers and files]. *apiPath* and *apiMethod* are mandatory, other variables are optional based on Aruba Central API endpoint requirement. Execute the API Request by calling *command* function using *ArubaCentralBase* instance object created in the previous step.
+
+Optional *files* variable accepted by *command* function is a file pointer to a file as accepted by Python 'requests' module. It is used to upload Aruba Central group template file and variable file via API. Refer to the commented code in the 'central_lib_usage.py' script for example API calls.
+
+```python
+    # - Sample API call.
+    # GET groups from Aruba Central
+    apiPath = "/configuration/v2/groups"
+    apiMethod = "GET"
+    apiParams = {
+        "limit": 20,
+        "offset": 0
+    }
+    
+    # Making an API call
+    resp = central.command(apiMethod=apiMethod, apiPath=apiPath,
+                           apiParams=apiParams)
+                           
+    # Printing response of the API call
+    pprint(resp)
+
+    # REPEAT WITH NEW API CALLS HERE
+    # ...
+    # ...
+    
+```
+
+d. Execute the script.
+
+```
+python3 central_lib_usage.py -i=input_credentials.json
+```
 
 ## Security Considerations
 
