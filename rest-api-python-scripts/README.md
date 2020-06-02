@@ -130,7 +130,7 @@ Each module is built on a purpose and automates one or more tasks. They all foll
 In order to execute a module, refer the below command.
 
 ```bash
-python3 execute_module.py -i=input_credentials.json -m=rename_ap/sample_input.json 
+python3 execute_module.py -i=input_credentials.json -m=rename_ap/task_input.json 
 ```
 
 ```bash
@@ -201,16 +201,16 @@ Please Note: Multiple tasks can be executed by adding additional block within ta
   "tasks": [
     {
       "<module_name_1>": {
-        "description": "TASK_1"
-        ...
-        ...
+        "description": "TASK_1",
+        "...": "...",
+        "...": "..."
       }
     },
     {
       "<module_name_2>": {
-        "description": "TASK_2"
-        ...
-        ...
+        "description": "TASK_2",
+        "...": "...",
+        "...": "..."
       }
     }
   ]
