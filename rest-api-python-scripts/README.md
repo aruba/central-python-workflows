@@ -1,4 +1,5 @@
 # Aruba Central REST API Python Scripts
+### **[Download as Zip File](https://downgit.github.io/#/home?url=https://github.com/aruba/central-examples-only/tree/public-devel/rest-api-python-scripts)**
 
 Aruba Central is a cloud-based network management and configuration platform.
 Aruba Central offers a REST API, allowing programmatic interaction with the platform for the collection of data and configuration of assets. The API is secured using OAuth 2.0, which provides authorization based on tokens issued to applications.
