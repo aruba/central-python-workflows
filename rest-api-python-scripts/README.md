@@ -116,16 +116,174 @@ source venv/bin/activate
 
 pip install -r requirements.txt
 ```
+### 1. [Beginner to Advanced] - Automate without programming
+This section shows how to use modules built for commonly and widely used automated tasks. The modules are written in Python and are located under `central_modules` folder for use. 
 
-### 1. [Beginner] - Creating API token using OAUTH and Making an API Call
+Each module is built on a purpose and automates one or more tasks. They all follow same structure and executed the same way.
+
+#### Module Execution:
+
+All modules are executed the same way. In order to execute a module, refer the below command.
+
+```bash
+python3 execute_module.py -i=input_credentials.json -m=rename_ap/sample_input.json 
+```
+Arguments:
+  -h, --help            show this help message and exit
+  -i INVENTORY, --inventory INVENTORY
+                        Inventory file in JSON format which has variables and
+                        configuration required by this script.
+  -m MODULEINPUT, --moduleinput MODULEINPUT
+                        moduleinput file in JSON format which has information
+                        required to make API calls
+
+#### Inventory File
+
+Fill Aruba Central information in inventory JSON file as shown in `input_credentials.json` file. 
+
+- 'lib_path': Path to *central_lib* folder
+
+- 'central_info': As provided in earlier sections, obtain these required variables and update the file.
+
+- 'token_store': Only type 'local' token storage and accessing of stored token for re-use is implemented. 'path' is the local file system path where a JSON file will be created to store access token and refresh token information. 
+
+```json
+{
+ "lib_path": "../",
+ "central_info": {
+                "username": "<aruba-central-account-username>",
+                "password": "<aruba-central-account-password>",
+                "client_id": "<api-gateway-client-id>",
+                "client_secret": "<api-gateway-client-secret>",
+                "customer_id": "<aruba-central-customer-id>",
+                "base_url": "<api-gateway-domain-url>"
+              },
+  "token_store": {
+    "type": "local",
+    "path": "temp"
+  }
+}
+```
+
+Optionally, central_lib works with just *access_token* variable instead of providing information of concern. It is helpful for user applications which doesn't store Aruba Central account credentials and manage tokens (creation, storage for re-use and refresh) externally for security. Refer the `central_lib/input_token_only.json` file.
+
+```json
+{
+ "lib_path": "../",
+ "central_info": {
+                "base_url": "<api-gateway-domain-url>",
+                "token": {
+                  "access_token": "<api-gateway-access-token>"
+                }
+               }
+}
+```
+
+#### Module Input
+
+Each module accepts a set of input defined under in the moduleinput JSON file.
+
+- *tasks* : Is a list of tasks
+- *<module_name>* - is the name of one of the folders under "central_modules" directory. Value of this JSON key depends on the requirements of the module. For more information refer the module documentation.
+
+Please Note: Multiple tasks can be executed by adding additional block within tasks list
+
+```json
+  
+{
+  "tasks": [
+    {
+      "<module_name_1>": {
+        "description": "TASK_1"
+        ...
+        ...
+      }
+    },
+    {
+      "<module_name_2>": {
+        "description": "TASK_2"
+        ...
+        ...
+      }
+    }
+  ]
+}
+```
+
+#### Example Module Execution
+
+As an example, let's look at how to rename hundreds of Access Points (IAPs) in a single task from module `rename_ap`.
+
+1. Populate a CSV file in this format and list all the IAP details. If ip_address of IAP is via DHCP, use "0.0.0.0" as ip_address. Enter serial_number of every IAP and new name to be given to that IAP.
+
+```csv
+serial_number,hostname,ip_address
+AAAAAAAAAA,AP1,0.0.0.0
+BBBBBBBBBB,AP2,0.0.0.0
+```
+
+2. Create an input JSON file for the rename_ap module.
+
+```json
+{
+  "tasks": [
+    {
+      "rename_ap": {
+        "ap_info": "rename_ap/csv_file.csv"
+      }
+    }
+  ]
+}
+```
+
+3. Execute the module
+
+```bash
+python3 execute_module.py -i=input_credentials.json -m=rename_ap/task_input.json 
+```
+
+4. Sample Output:
+
+The output consists of messages in format `[TIME_STAMP] - [PROCESS_NAME] - [LOG_LEVEL] - [LOG_MESSAGE]`. At the end of the log, statistics is shown on how many tasks Passed or Failed.
+
+```bash
+2020-06-02 04:38:26 - ARUBA_CENTRAL_BASE - INFO - Loaded token from storage from file: temp/tok_123456_6rg1XCrPy.json
+2020-06-02 04:38:26 - EXECUTE_MODULE - INFO - Start TASK_1 with module rename_ap
+{'code': 400,
+ 'msg': {'description': 'Device not found with the given serial_number '
+                        'AAAAAAAAAA.',
+         'error_code': '0001',
+         'service_name': 'Configuration'}}
+2020-06-02 04:38:30 - RENAME_AP - ERROR - Failed to rename AP with resp {'code': 400, 'msg': {'description': 'Device not found with the given serial_number AAAAAAAAAA.', 'error_code': '0001', 'service_name': 'Configuration'}}
+{'code': 400,
+ 'msg': {'description': 'Device not found with the given serial_number '
+                        'BBBBBBBBBB.',
+         'error_code': '0001',
+         'service_name': 'Configuration'}}
+2020-06-02 04:38:32 - RENAME_AP - ERROR - Failed to rename AP with resp {'code': 400, 'msg': {'description': 'Device not found with the given serial_number BBBBBBBBBB.', 'error_code': '0001', 'service_name': 'Configuration'}}
+
+2020-06-02 04:38:32 - RENAME_AP - WARNING - Failed to rename the following APs: ['AAAAAAAAAA', 'BBBBBBBBBB']
+
+2020-06-02 04:38:32 - EXECUTE_MODULE - ERROR - =========================================
+2020-06-02 04:38:32 - EXECUTE_MODULE - ERROR - FAILURE: TASK_1 with module rename_ap
+2020-06-02 04:38:32 - EXECUTE_MODULE - ERROR - =========================================
+
+FINAL RESULTS
+===== =======
+SUCCESS: 0
+SKIPPED: 0
+FAILED : 1
+```
+
+### 2. [Beginner] - Creating API token using OAUTH and Making an API Call
 
 In this section, two different approaches for authentication and authorization are shown. They all use Python and offers the same set of operations. 
 
-1. [central_global](/rest-api-python-scripts/central_global) - offers operations in a single Python file and all commands in global namespace.  
+a. [central_global](/rest-api-python-scripts/central_global) - offers operations in a single Python file and all commands in global namespace.  
 
-2. [central_function](/rest-api-python-scripts/central_function) - offers operations using Python functions()
+b. [central_function](/rest-api-python-scripts/central_function) - offers operations using Python functions()
 
-### 1. central_global
+#### a. central_global
 
 * Every variable and command in a single Python file and all commands in the global namespace. This is aimed at those inexperienced with the Python language and the author hopes that presenting the workflow in a series of sequential commands, the user will grasp the various steps of the script.
 * This folder comprises of two .py files. One to run a full authentication workflow, requiring the user's Central password, and one utilising a locally stored refresh token.
@@ -134,7 +292,7 @@ In this section, two different approaches for authentication and authorization a
 * Both approaches, if successful, create a new 'refresh_token.yaml' file.
 * As an example of how to use the access token, both scripts finish by making a GET call to the AP URL, printing the results of the call to screen.
 
-#### central_global: Step-by-Step
+**central_global: Step-by-Step**
 
 1. Gather the required variables.
 
@@ -236,7 +394,7 @@ get_ap_call = requests.get(get_ap_url, params=ap_params)
 pprint.pprint(get_ap_call.json())
 ```
 
-#### central_refresh_global: Step-by-Step
+**central_refresh_global: Step-by-Step**
 
 1. A user can run this script if they are in possession of a valid refresh token. Run 'central_refresh_global.py' from a location local to the 'refresh_token.yaml' file.
 2. A subset of the required variables are still needed. These are 'client_id', 'client_secret' and the 'base_url'. N.B. the refresh script does not require the username & password log in steps.
@@ -261,59 +419,23 @@ with open(filename, 'r') as input_file:
 
 4. The rest of the script is identical to the full authentication workflow. A token call returns the two tokens. The new refresh token is written to the YAML file and the access token is used to make a GET call to the AP URL.
 
-### 2. central_function
+#### b. central_function
 
 * This script utilises Python functions so as not to write repetitive, unnecessary code.
 * Also, better code hygiene is used by separating the required variables from the main script file and placing them in a local YAML file, 'vars.yaml'. This ensures the script is portable. A user can share the script and check it into version control, without including their sensitive data.
 * Again, there are two separate Python scripts, one for full authentication and one for just the refresh workflow.
 * As an example of how to use the access token, both scripts finish by making a GET call to the AP URL, printing the results of the call to screen.
 
-## 2. [Advanced] - Base library for API token management and HTTP requests
+## 3. [Advanced] - Base library for API token management and HTTP requests
 This section consists of information on how to use the `central_lib` Python package to get started with automation with Aruba Central in a breeze. 
 
 This library manages creation of API access token using OATUTH, storing the token for re-use and makes API calls using Python requests package. Upon receiving *HTTP 401 Unauthorized error*, the library will attempt to refresh stored token, update the storage with renewed token and retry the failed API request. 
 
 Provided below is the snippet of code from *central_lib_usage.py* python script. Using the central_lib consists of four simple steps,
 
-a. Fill Aruba Central information in inventory JSON file.
+a. Fill Aruba Central information in inventory JSON file as shown in `input_credentials.json` file. This is described in the previous section `1. [Beginner to Advanced] - Automate without programming -> Inventory File`
 
-Fill the required information in JSON format as shown in `input_credentials.json` file. 
-
-- 'lib_path': [Optional] path to *central_lib* folder
-- 'central_info': As provided in earlier sections, obtain these required variables and update the file.
-- 'token_store': Only type 'local' token storage and accessing of stored token for re-use is implemented. 'path' is the local file system path where a JSON file will be created to store access token and refresh token information. **Extend and implement your token management mechanism for secure token management.**
-
-```json
-{
- "lib_path": "../",
- "central_info": {
-                "username": "<aruba-central-account-username>",
-                "password": "<aruba-central-account-password>",
-                "client_id": "<api-gateway-client-id>",
-                "client_secret": "<api-gateway-client-secret>",
-                "customer_id": "<aruba-central-customer-id>",
-                "base_url": "<api-gateway-domain-url>"
-              },
-  "token_store": {
-    "type": "local",
-    "path": "temp"
-  }
-}
-```
-
-Optionally, this library works with just *access_token* variable instead of providing information of concern. It is helpful for user applications which doesn't store Aruba Central account credentials and manage tokens (creation, storage for re-use and refresh) externally for security. Refer the `central_lib/input_token_only.json` file.
-
-```json
-{
- "lib_path": "../",
- "central_info": {
-                "base_url": "<api-gateway-domain-url>",
-                "token": {
-                  "access_token": "<api-gateway-access-token>"
-                }
-               }
-}
-```
+**Please Note: Providing Aruba Central details via JSON file in production may be vulnerable to security attack. Extend "ArubaCentralBase" class and implement your token management mechanism for secure token management.**
 
 b. Create instance of `ArubaCentralBase` class by initializing the required variables.
 
@@ -361,7 +483,7 @@ Optional *files* variable accepted by *command* function is a file pointer to a 
 
 d. Execute the script.
 
-```
+```bash
 python3 central_lib_usage.py -i=input_credentials.json
 ```
 
