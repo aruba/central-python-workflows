@@ -3,11 +3,15 @@
 Aruba Central is a cloud-based network management and configuration platform.
 Aruba Central offers a REST API, allowing programmatic interaction with the platform for the collection of data and configuration of assets. The API is secured using OAuth 2.0, which provides authorization based on tokens issued to applications.
 
-The objectives of this project are as follows:
+This guide is split into two parts and the objectives are as follows:
 
-1. Provide an overview of Aruba Central's implementation of OAuth 2.0 Authorization framework.
-2. Educate the user in multiple programming approaches to interact with APIs and manage tokens.
-3. Provide advanced python library and sample scripts for various workflows which can be used in the user's projects or act as a reference.
+1. Getting Started with Aruba Central API. This part provides an overview of Aruba Central's implementation of OAuth 2.0 Authorization framework.
+   - Create a new application in Aruba Central
+   - OAuth 2.0 Workflow
+2. Getting Started with Automation using Aruba Central API. This part, 
+   - Provides modules which can be used as-is without need to write any programming language.
+   - Educates the user in multiple programming approaches to interact with APIs and manage tokens.
+   - Provides Python library to kick start with automation.
 
 ## Getting Started with Aruba Central API
 
@@ -99,11 +103,11 @@ If the user is in possession of a refresh token, the authorization process is tr
 
 This section presents three different branches, to get started with automation, targetting users with different skill levels.
 
-1. [Beginner to Advanced] - Automate without any programming knowledge. Pre-built and ready to use modules for Aruba Central. 
+1. [Beginner to Advanced](#1-beginner-to-advanced---automate-without-programming) - Automate without any programming knowledge. Pre-built and ready to use modules for Aruba Central. 
 
-2. [Beginner] - Learn with Python to create tokens using OAUTH protocol and making an API call 
+2. [Beginner](#2-beginner---creating-api-token-using-oauth-and-making-an-api-call) - Learn with Python to create tokens using OAUTH protocol and making an API call 
 
-3. [Advanced] - Base library for Aruba Central API token management and HTTP requests
+3. [Advanced](#3-advanced---base-library-for-api-token-management-and-http-requests) - Base library for Aruba Central API token management and HTTP requests
 
 #### Setting Up Python environment and Installing Requirements
 
@@ -433,7 +437,7 @@ This library manages creation of API access token using OATUTH, storing the toke
 
 Provided below is the snippet of code from *central_lib_usage.py* python script. Using the central_lib consists of four simple steps,
 
-a. Fill Aruba Central information in inventory JSON file as shown in `input_credentials.json` file. This is described in the previous section `1. [Beginner to Advanced] - Automate without programming -> Inventory File`
+a. Fill Aruba Central information in inventory JSON file as shown in `input_credentials.json` file. This is described in the previous section [1. Beginner to Advanced - Automate without programming -> Inventory File](#inventory-file)
 
 **Please Note: Providing Aruba Central details via JSON file in production may be vulnerable to security attack. Extend "ArubaCentralBase" class and implement your token management mechanism for secure token management.**
 
