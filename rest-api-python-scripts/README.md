@@ -92,20 +92,20 @@ If the user is in possession of a refresh token, the authorization process is tr
 
 1. The user must still gather the required variables, as detailed in `Create a new application in Aruba Central`.
 2. The user combines the refresh token with the required variables to create a HTTP request to refresh API endpoint.
-3. If successful, the resfresh API will issue a new refresh token and access token.
+3. If successful, the refresh API will issue a new refresh token and access token.
 4. The user must manage the two tokens as detailed in the full authentication workflow.
 
 ## Getting Started with Automation using Aruba Central API
 
-This section presents both of the workflows mentioned above in an automated fashion. The user merely needs to provide the required variables and run the Python file. The workflow will handle the API calls as well as the read and write of token storage files. 
+This section presents three different branches, to get started with automation, targetting users with different skill levels.
 
-Two different approaches for authentication and authorization are shown. They all use Python and offers the same set of operations.
+1. [Beginners] - Learn with Python to create tokens using OAUTH protocol and making an API call 
 
-1. [central_global](/rest-api-python-scripts/central_global) - offers operations in a single Python file and all commands in global namespace.  
+2. [Advanced Programmers] - Base library for Aruba Central API token management and HTTP requests
 
-2. [central_function](/rest-api-python-scripts/central_function) - offers operations using Python functions()
+3. [Newbie to Advanced] - Prebuilt and ready to use *central_modules*
 
-#### Setting up the Python environment
+#### Setting Up Python environment and Installing Requirements
 
 To create the Python environment (macOS shown):
 
@@ -113,17 +113,26 @@ To create the Python environment (macOS shown):
 cd central-api-getting-started
 python3 -m venv venv
 source venv/bin/activate
+
 pip install -r requirements.txt
 ```
 
+### [Beginners] - Creating API token using OAUTH and Making an API Call
+
+In this section, two different approaches for authentication and authorization are shown. They all use Python and offers the same set of operations. 
+
+1. [central_global](/rest-api-python-scripts/central_global) - offers operations in a single Python file and all commands in global namespace.  
+
+2. [central_function](/rest-api-python-scripts/central_function) - offers operations using Python functions()
+
 ### 1. central_global
 
-* Every variable and command in a single Python file and all commands in the global namespace. This is aimed at those inexperienced with the Python language and the author hopes that presenting the workflow in a series of sequential commands, the user will grasp the various steps of the workflow.
-* The workflow comprises of two .py files. One to run a full authentication workflow, requiring the user's Central password, and one utilising a locally stored refresh token.
-* During the successful operation of the full authentication workflow 'central_full_auth_global.py' a YAML file is created in the folder from which the Python file is run, and the refresh token is written to this file named 'refresh_token.yaml'.
-* With a valid 'refresh_token.yaml' file, the user can choose to run the full authentication workflow again, requiring their password, or run the 'central_refresh_global.py' file.
-* Both workflows, if successful, create a new 'refresh_token.yaml' file and return an access token.
-* As an example of how to use the access token, both workflows finish by making a GET call to the AP URL, printing the results of the call to screen.
+* Every variable and command in a single Python file and all commands in the global namespace. This is aimed at those inexperienced with the Python language and the author hopes that presenting the workflow in a series of sequential commands, the user will grasp the various steps of the script.
+* This folder comprises of two .py files. One to run a full authentication workflow, requiring the user's Central password, and one utilising a locally stored refresh token.
+* During the successful operation of the full authentication script 'central_full_auth_global.py' a YAML file is created in the folder from which the Python file is run, and the refresh token is written to this file named 'refresh_token.yaml'.
+* With a valid 'refresh_token.yaml' file, the user can choose to run the full authentication script again, requiring their password, or run the 'central_refresh_global.py' file.
+* Both approaches, if successful, create a new 'refresh_token.yaml' file.
+* As an example of how to use the access token, both scripts finish by making a GET call to the AP URL, printing the results of the call to screen.
 
 #### central_global: Step-by-Step
 
@@ -229,8 +238,8 @@ pprint.pprint(get_ap_call.json())
 
 #### central_refresh_global: Step-by-Step
 
-1. A user can run this workflow if they are in possession of a valid refresh token. Run 'central_refresh_global.py' from a location local to the 'refresh_token.yaml' file.
-2. A subset of the required variables are still needed. These are 'client_id', 'client_secret' and the 'base_url'. N.B. the refresh workflow does not require the username & password log in steps.
+1. A user can run this script if they are in possession of a valid refresh token. Run 'central_refresh_global.py' from a location local to the 'refresh_token.yaml' file.
+2. A subset of the required variables are still needed. These are 'client_id', 'client_secret' and the 'base_url'. N.B. the refresh script does not require the username & password log in steps.
   
 ```python
 # Replace with your secret variables. DO NOT SHARE! THIS IS UNSAFE & FOR EDUCATIONAL PURPOSES ONLY!
@@ -250,14 +259,14 @@ with open(filename, 'r') as input_file:
     data = yaml.load(input_file, Loader=yaml.FullLoader)
 ```
 
-4. The rest of the workflow is identical to the full authentication workflow. A token call returns the two tokens. The new refresh token is written to the YAML file and the access token is used to make a GET call to the AP URL.
+4. The rest of the script is identical to the full authentication workflow. A token call returns the two tokens. The new refresh token is written to the YAML file and the access token is used to make a GET call to the AP URL.
 
 ### 2. central_function
 
-* This workflow utilises Python functions so as not to write repetitive, unnecessary code.
+* This script utilises Python functions so as not to write repetitive, unnecessary code.
 * Also, better code hygiene is used by separating the required variables from the main script file and placing them in a local YAML file, 'vars.yaml'. This ensures the script is portable. A user can share the script and check it into version control, without including their sensitive data.
 * Again, there are two separate Python scripts, one for full authentication and one for just the refresh workflow.
-* As an example of how to use the access token, both workflows finish by making a GET call to the AP URL, printing the results of the call to screen.
+* As an example of how to use the access token, both scripts finish by making a GET call to the AP URL, printing the results of the call to screen.
 
 ## Advanced Automation Workflows and Use-cases
 
