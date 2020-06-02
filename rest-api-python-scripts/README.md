@@ -123,15 +123,17 @@ pip install -r requirements.txt
 ### 1. [Beginner to Advanced] - Automate without programming
 This section shows how to use modules built for commonly and widely used automated tasks. The modules are written in Python and are located under `central_modules` folder for use. 
 
-Each module is built on a purpose and automates one or more tasks. They all follow same structure and executed the same way.
+Each module is built on a purpose and automates one or more tasks. They all follow same structure and execute the same way.
 
 #### Module Execution:
 
-All modules are executed the same way. In order to execute a module, refer the below command.
+In order to execute a module, refer the below command.
 
 ```bash
 python3 execute_module.py -i=input_credentials.json -m=rename_ap/sample_input.json 
 ```
+
+```bash
 Arguments:
   -h, --help            show this help message and exit
   -i INVENTORY, --inventory INVENTORY
@@ -140,6 +142,7 @@ Arguments:
   -m MODULEINPUT, --moduleinput MODULEINPUT
                         moduleinput file in JSON format which has information
                         required to make API calls
+```
 
 #### Inventory File
 
