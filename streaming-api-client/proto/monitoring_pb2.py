@@ -18,15 +18,15 @@ _sym_db = _symbol_database.Default()
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='monitoring.proto',
-  package='',
+  package='Monitoring',
   syntax='proto2',
   serialized_options=None,
-  serialized_pb=_b('\n\x10monitoring.proto\"y\n\tIpAddress\x12\"\n\x02\x61\x66\x18\x01 \x02(\x0e\x32\x16.IpAddress.addr_family\x12\x0c\n\x04\x61\x64\x64r\x18\x02 \x02(\x0c\":\n\x0b\x61\x64\x64r_family\x12\x14\n\x10\x41\x44\x44R_FAMILY_INET\x10\x02\x12\x15\n\x11\x41\x44\x44R_FAMILY_INET6\x10\n\"\x1a\n\nMacAddress\x12\x0c\n\x04\x61\x64\x64r\x18\x01 \x02(\x0c\"\xc6\x01\n\x05Swarm\x12\x1f\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x07.Action:\x06UPDATE\x12\x10\n\x08swarm_id\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x1b\n\x06status\x18\x04 \x01(\x0e\x32\x07.Status:\x02UP\x12%\n\x11public_ip_address\x18\x05 \x01(\x0b\x32\n.IpAddress\x12\x1e\n\nip_address\x18\x06 \x01(\x0b\x32\n.IpAddress\x12\x18\n\x10\x66irmware_version\x18\x07 \x01(\t\"\x8a\x02\n\x06Tunnel\x12\x1f\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x07.Action:\x06UPDATE\x12\x10\n\x08swarm_id\x18\x02 \x01(\t\x12\x1b\n\x05index\x18\x03 \x01(\x0e\x32\x0c.TunnelIndex\x12 \n\x0b\x63rypto_type\x18\x04 \x01(\x0e\x32\x0b.CryptoType\x12\x11\n\tpeer_name\x18\x05 \x01(\t\x12\x1f\n\x0bpeer_tun_ip\x18\x06 \x01(\x0b\x32\n.IpAddress\x12\x1d\n\ttunnel_ip\x18\x07 \x01(\x0b\x32\n.IpAddress\x12\x1b\n\x06status\x18\x08 \x01(\x0e\x32\x07.Status:\x02UP\x12\x0e\n\x06\x61\x63tive\x18\t \x01(\x08\x12\x0e\n\x06uptime\x18\n \x01(\r\"\xfd\x07\n\tInterface\x12\x1f\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x07.Action:\x06UPDATE\x12\x11\n\tdevice_id\x18\x02 \x01(\t\x12\x1c\n\x07macaddr\x18\x03 \x01(\x0b\x32\x0b.MacAddress\x12\x1b\n\x06status\x18\x04 \x01(\x0e\x32\x07.Status:\x02UP\x12\x1a\n\x06ipaddr\x18\x05 \x01(\x0b\x32\n.IpAddress\x12&\n\x0b\x64uplex_mode\x18\x06 \x01(\x0e\x32\x11.Interface.Duplex\x12\x0c\n\x04name\x18\x07 \x01(\t\x12\x13\n\x0bport_number\x18\x08 \x01(\t\x12!\n\x04type\x18\t \x01(\x0e\x32\x13.Interface.IntfType\x12\x0c\n\x04mode\x18\n \x01(\t\x12\x0c\n\x04vlan\x18\x0b \x01(\r\x12*\n\x07has_poe\x18\x0c \x01(\x0e\x32\x15.Interface.PoeSupport:\x02NA\x12\x1e\n\tpoe_state\x18\r \x01(\x0e\x32\x07.Status:\x02UP\x12\x1f\n\noper_state\x18\x0e \x01(\x0e\x32\x07.Status:\x02UP\x12 \n\x0b\x61\x64min_state\x18\x0f \x01(\x0e\x32\x07.Status:\x02UP\x12#\n\x05speed\x18\x10 \x01(\x0e\x32\x14.Interface.SpeedType\x12\x0b\n\x03mux\x18\x11 \x01(\r\x12\x0f\n\x07trusted\x18\x12 \x01(\r\x12\x0c\n\x04slot\x18\x13 \x01(\t\x12%\n\x08phy_type\x18\x14 \x01(\x0e\x32\x13.Interface.PortType\x12\x10\n\x08sub_type\x18\x15 \x01(\t\x12\x14\n\x0c\x61llowed_vlan\x18\x16 \x03(\r\"&\n\x06\x44uplex\x12\x08\n\x04HALF\x10\x01\x12\x08\n\x04\x46ULL\x10\x02\x12\x08\n\x04\x41UTO\x10\x03\"\x91\x01\n\x08IntfType\x12\x0c\n\x08\x45THERNET\x10\x01\x12\x0c\n\x08LOOPBACK\x10\x02\x12\x08\n\x04VLAN\x10\x03\x12\n\n\x06TUNNEL\x10\x04\x12\x10\n\x0cPORT_CHANNEL\x10\x05\x12\x0b\n\x07STANDBY\x10\x06\x12\n\n\x06\x42RIDGE\x10\x07\x12\t\n\x05SPLIT\x10\x08\x12\t\n\x05STACK\x10\t\x12\x08\n\x04MGMT\x10\n\x12\x08\n\x04NONE\x10\x0b\"l\n\tSpeedType\x12\x11\n\rSPEED_INVALID\x10\x00\x12\x0e\n\nSPEED_AUTO\x10\x01\x12\x0c\n\x08SPEED_10\x10\x02\x12\r\n\tSPEED_100\x10\x03\x12\x0e\n\nSPEED_1000\x10\x04\x12\x0f\n\x0bSPEED_10000\x10\x05\"J\n\x08PortType\x12\x0b\n\x07PT_RJ45\x10\x00\x12\x0b\n\x07PT_GBIC\x10\x01\x12\r\n\tPT_SERIAL\x10\x02\x12\n\n\x06PT_USB\x10\x03\x12\t\n\x05PT_X2\x10\x04\"6\n\nPoeSupport\x12\x06\n\x02NA\x10\x00\x12\r\n\tSUPPORTED\x10\x01\x12\x11\n\rNOT_SUPPORTED\x10\x02\"l\n\x07VapInfo\x12\x1f\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x07.Action:\x06UPDATE\x12\x11\n\tdevice_id\x18\x02 \x01(\t\x12\x1e\n\tradio_mac\x18\x03 \x01(\x0b\x32\x0b.MacAddress\x12\r\n\x05\x65ssid\x18\x04 \x01(\x0c\"\xbb\x01\n\x05Radio\x12\x1f\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x07.Action:\x06UPDATE\x12\x11\n\tdevice_id\x18\x02 \x01(\t\x12\r\n\x05index\x18\x03 \x01(\r\x12\x1c\n\x07macaddr\x18\x04 \x01(\x0b\x32\x0b.MacAddress\x12\x1b\n\x06status\x18\x05 \x01(\x0e\x32\x07.Status:\x02UP\x12\x0f\n\x07\x63hannel\x18\x06 \x01(\t\x12\x0c\n\x04\x62\x61nd\x18\x07 \x01(\r\x12\x15\n\rchannel_width\x18\x08 \x01(\r\"\xf4\x02\n\x02\x41p\x12\x1f\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x07.Action:\x06UPDATE\x12\x0e\n\x06serial\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x1c\n\x07macaddr\x18\x04 \x01(\x0b\x32\x0b.MacAddress\x12\x12\n\ncluster_id\x18\x05 \x01(\t\x12\x1b\n\x06status\x18\x06 \x01(\x0e\x32\x07.Status:\x02UP\x12\x1e\n\nip_address\x18\x07 \x01(\x0b\x32\n.IpAddress\x12\r\n\x05model\x18\x08 \x01(\t\x12\x11\n\tmesh_role\x18\t \x01(\t\x12\x0c\n\x04mode\x18\n \x01(\t\x12\x14\n\x0cswarm_master\x18\x0b \x01(\x08\x12\x17\n\x0fmodem_connected\x18\x0c \x01(\x08\x12#\n\x0buplink_type\x18\r \x01(\x0e\x32\x0e.Ap.UplinkType\"<\n\nUplinkType\x12\x0c\n\x08\x45THERNET\x10\x01\x12\x08\n\x04MESH\x10\x02\x12\x0b\n\x07STATION\x10\x03\x12\t\n\x05MODEM\x10\x04\"k\n\x07Network\x12\x1f\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x07.Action:\x06UPDATE\x12\x10\n\x08swarm_id\x18\x02 \x01(\t\x12\r\n\x05\x65ssid\x18\x03 \x01(\x0c\x12\x10\n\x08security\x18\x04 \x01(\t\x12\x0c\n\x04type\x18\x05 \x01(\t\"\xc9\x02\n\x0eWirelessClient\x12\x1f\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x07.Action:\x06UPDATE\x12\x1c\n\x07macaddr\x18\x02 \x01(\x0b\x32\x0b.MacAddress\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x1e\n\nip_address\x18\x04 \x01(\x0b\x32\n.IpAddress\x12\x10\n\x08username\x18\x05 \x01(\t\x12\x19\n\x11\x61ssociated_device\x18\x06 \x01(\t\x12\x1e\n\tradio_mac\x18\x07 \x01(\x0b\x32\x0b.MacAddress\x12\x0f\n\x07network\x18\x08 \x01(\x0c\x12\x11\n\tuser_role\x18\t \x01(\t\x12\x14\n\x0cmanufacturer\x18\n \x01(\t\x12\x0f\n\x07os_type\x18\x0b \x01(\t\x12\x12\n\nconnection\x18\x0c \x01(\t\x12\x10\n\x08maxspeed\x18\r \x01(\r\x12\x0c\n\x04vlan\x18\x0e \x01(\r\"\xad\x01\n\x0eHardwareModule\x12\r\n\x05index\x18\x01 \x01(\r\x12.\n\x06status\x18\x02 \x01(\x0e\x32\x1e.HardwareModule.HardwareStatus\"\\\n\x0eHardwareStatus\x12\x06\n\x02OK\x10\x00\x12\t\n\x05\x45RROR\x10\x01\x12\x11\n\rNOT_CONNECTED\x10\x02\x12\n\n\x06\x41\x43TIVE\x10\x03\x12\x0b\n\x07STANDBY\x10\x04\x12\x0b\n\x07OFFLINE\x10\x05\"\xe6\x04\n\x06Switch\x12\x1f\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x07.Action:\x06UPDATE\x12\x0e\n\x06serial\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x1c\n\x07macaddr\x18\x04 \x01(\x0b\x32\x0b.MacAddress\x12\r\n\x05model\x18\x05 \x01(\t\x12\x1b\n\x06status\x18\x06 \x01(\x0e\x32\x07.Status:\x02UP\x12%\n\x11public_ip_address\x18\x07 \x01(\x0b\x32\n.IpAddress\x12\x1e\n\nip_address\x18\x08 \x01(\x0b\x32\n.IpAddress\x12\x18\n\x10\x66irmware_version\x18\t \x01(\t\x12#\n\x0f\x64\x65\x66\x61ult_gateway\x18\n \x01(\x0b\x32\n.IpAddress\x12\x13\n\x0b\x64\x65vice_mode\x18\x0b \x01(\r\x12\x14\n\x0cuplink_ports\x18\x0c \x03(\t\x12\x11\n\tmax_slots\x18\r \x01(\r\x12\x12\n\nused_slots\x18\x0e \x03(\t\x12+\n\x12management_modules\x18\x0f \x03(\x0b\x32\x0f.HardwareModule\x12\'\n\x0epower_supplies\x18\x10 \x03(\x0b\x32\x0f.HardwareModule\x12\x10\n\x08stack_id\x18\x11 \x01(\t\x12\x17\n\x0fstack_member_id\x18\x12 \x01(\r\x12\x32\n\x11stack_member_role\x18\x13 \x01(\x0e\x32\x17.Switch.StackMemberRole\"F\n\x0fStackMemberRole\x12\x0b\n\x07UNKNOWN\x10\x01\x12\r\n\tCOMMANDER\x10\x02\x12\x0b\n\x07STANDBY\x10\x03\x12\n\n\x06MEMBER\x10\x04\"\xb0\x03\n\x0bSwitchStack\x12\x1f\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x07.Action:\x06UPDATE\x12\x10\n\x08stack_id\x18\x02 \x01(\t\x12\x1b\n\x06status\x18\x03 \x01(\x0e\x32\x07.Status:\x02UP\x12,\n\x08topology\x18\x04 \x01(\x0e\x32\x1a.SwitchStack.StackTopology\x12(\n\x06policy\x18\x05 \x01(\x0e\x32\x18.SwitchStack.StackPolicy\x12\x18\n\x10\x66irmware_version\x18\x06 \x01(\t\x12\x15\n\rvsf_domain_id\x18\x07 \x01(\r\"]\n\rStackTopology\x12\x0e\n\nSTANDALONE\x10\x01\x12\t\n\x05\x43HAIN\x10\x02\x12\x08\n\x04RING\x10\x03\x12\x08\n\x04MESH\x10\x04\x12\x10\n\x0cPARTIAL_MESH\x10\x05\x12\x0b\n\x07UNKNOWN\x10\x06\"i\n\x0bStackPolicy\x12\x17\n\x13STACK_SPLIT_UNKNOWN\x10\x00\x12\x1f\n\x1bSTACK_SPLIT_ONE_FRAGMENT_UP\x10\x01\x12 \n\x1cSTACK_SPLIT_ALL_FRAGMENTS_UP\x10\x02\"\x8a\x02\n\x0bWiredClient\x12\x1f\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x07.Action:\x06UPDATE\x12\x1c\n\x07macaddr\x18\x02 \x01(\x0b\x32\x0b.MacAddress\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x1e\n\nip_address\x18\x04 \x01(\x0b\x32\n.IpAddress\x12\x10\n\x08username\x18\x05 \x01(\t\x12\x19\n\x11\x61ssociated_device\x18\x06 \x01(\t\x12\"\n\rinterface_mac\x18\x07 \x01(\x0b\x32\x0b.MacAddress\x12\x11\n\tuser_role\x18\x08 \x01(\t\x12\x0c\n\x04vlan\x18\t \x01(\r\x12\x1c\n\tauth_type\x18\n \x01(\x0e\x32\t.AuthType\"\xa3\x02\n\x12MobilityController\x12\x1f\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x07.Action:\x06UPDATE\x12\x0e\n\x06serial\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x1c\n\x07macaddr\x18\x04 \x01(\x0b\x32\x0b.MacAddress\x12\r\n\x05model\x18\x05 \x01(\t\x12\x1b\n\x06status\x18\x06 \x01(\x0e\x32\x07.Status:\x02UP\x12%\n\x11public_ip_address\x18\x07 \x01(\x0b\x32\n.IpAddress\x12\x1e\n\nip_address\x18\x08 \x01(\x0b\x32\n.IpAddress\x12\x18\n\x10\x66irmware_version\x18\t \x01(\t\x12#\n\x0f\x64\x65\x66\x61ult_gateway\x18\n \x01(\x0b\x32\n.IpAddress\"\xe3\x01\n\x06Uplink\x12\x1f\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x07.Action:\x06UPDATE\x12\x11\n\tdevice_id\x18\x02 \x01(\t\x12\x12\n\nlink_index\x18\x03 \x01(\x04\x12\x0c\n\x04name\x18\x04 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x05 \x01(\t\x12\x10\n\x08priority\x18\x06 \x01(\r\x12\x17\n\x06status\x18\x07 \x01(\x0e\x32\x07.Status\x12\x1b\n\nwan_status\x18\x08 \x01(\x0e\x32\x07.Status\x12\x0c\n\x04vlan\x18\t \x01(\r\x12\x18\n\x10vlan_description\x18\n \x01(\t\"\xf1\x01\n\tIkeTunnel\x12\x1f\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x07.Action:\x06UPDATE\x12\x11\n\tdevice_id\x18\x02 \x01(\t\x12\x0e\n\x06map_id\x18\x03 \x01(\x04\x12\x1d\n\x08peer_mac\x18\x04 \x01(\x0b\x32\x0b.MacAddress\x12\x1e\n\tlocal_mac\x18\x05 \x01(\x0b\x32\x0b.MacAddress\x12\x1a\n\x06src_ip\x18\x06 \x01(\x0b\x32\n.IpAddress\x12\x1a\n\x06\x64st_ip\x18\x07 \x01(\x0b\x32\n.IpAddress\x12\x17\n\x06status\x18\x08 \x01(\x0e\x32\x07.Status\x12\x10\n\x08map_name\x18\t \x01(\t\"\xba\x02\n\x0b\x44\x65viceStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\x11\n\ttimestamp\x18\x02 \x01(\r\x12\x0e\n\x06uptime\x18\x03 \x01(\x04\x12\x17\n\x0f\x63pu_utilization\x18\x04 \x01(\r\x12\x11\n\tmem_total\x18\x05 \x01(\x04\x12\x10\n\x08mem_free\x18\x06 \x01(\x04\x12\x19\n\x11power_consumption\x18\x07 \x01(\r\x12\x11\n\tfan_speed\x18\x08 \x01(\r\x12\x13\n\x0btemperature\x18\t \x01(\r\x12\x1b\n\nfan_status\x18\n \x01(\x0e\x32\x07.Status\x12\x11\n\tmax_power\x18\x0b \x01(\r\x12\x17\n\x0fpoe_consumption\x18\x0c \x01(\r\x12\x12\n\npoe_budget\x18\r \x01(\r\x12\x17\n\x0fmem_utilization\x18\x0e \x01(\x04\"\xd2\x01\n\nRadioStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\x1c\n\x07macaddr\x18\x02 \x01(\x0b\x32\x0b.MacAddress\x12\x11\n\ttimestamp\x18\x03 \x01(\r\x12\x10\n\x08tx_bytes\x18\x04 \x01(\x04\x12\x10\n\x08rx_bytes\x18\x05 \x01(\x04\x12\x10\n\x08tx_drops\x18\x06 \x01(\r\x12\x10\n\x08tx_power\x18\x07 \x01(\r\x12\x13\n\x0bnoise_floor\x18\x08 \x01(\r\x12\x13\n\x0butilization\x18\t \x01(\r\x12\x0e\n\x06rx_bad\x18\n \x01(\x04\"\x85\x01\n\x08VapStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\x1e\n\tradio_mac\x18\x02 \x01(\x0b\x32\x0b.MacAddress\x12\x0f\n\x07network\x18\x03 \x01(\x0c\x12\x11\n\ttimestamp\x18\x04 \x01(\r\x12\x10\n\x08tx_bytes\x18\x05 \x01(\x04\x12\x10\n\x08rx_bytes\x18\x06 \x01(\x04\"s\n\x0bTunnelStats\x12\x10\n\x08swarm_id\x18\x01 \x01(\t\x12\x1b\n\x05index\x18\x02 \x01(\x0e\x32\x0c.TunnelIndex\x12\x11\n\ttimestamp\x18\x03 \x01(\r\x12\x10\n\x08tx_bytes\x18\x04 \x01(\x04\x12\x10\n\x08rx_bytes\x18\x05 \x01(\x04\"\xcf\x01\n\x0b\x43lientStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\x1c\n\x07macaddr\x18\x02 \x01(\x0b\x32\x0b.MacAddress\x12\x11\n\ttimestamp\x18\x03 \x01(\r\x12\x10\n\x08tx_bytes\x18\x04 \x01(\x04\x12\x10\n\x08rx_bytes\x18\x05 \x01(\x04\x12\x12\n\nrx_retries\x18\x06 \x01(\r\x12\x12\n\ntx_retries\x18\x07 \x01(\r\x12\r\n\x05speed\x18\x08 \x01(\r\x12\x14\n\x0csignal_in_db\x18\t \x01(\r\x12\x0b\n\x03snr\x18\n \x01(\r\"\x9d\x05\n\x0eInterfaceStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\x1c\n\x07macaddr\x18\x02 \x01(\x0b\x32\x0b.MacAddress\x12\x11\n\ttimestamp\x18\x03 \x01(\r\x12\x10\n\x08tx_bytes\x18\x04 \x01(\x04\x12\x10\n\x08rx_bytes\x18\x05 \x01(\x04\x12\x19\n\x11power_consumption\x18\x06 \x01(\r\x12\x11\n\tin_errors\x18\x07 \x01(\r\x12\x12\n\nout_errors\x18\x08 \x01(\r\x12\x13\n\x0bin_discards\x18\t \x01(\r\x12\x14\n\x0cout_discards\x18\n \x01(\r\x12\x12\n\nin_packets\x18\x0b \x01(\r\x12\x13\n\x0bout_packets\x18\x0c \x01(\r\x12\x14\n\x0cin_other_err\x18\r \x01(\r\x12\x18\n\x10in_multicast_pkt\x18\x0e \x01(\r\x12\x18\n\x10in_broadcast_pkt\x18\x0f \x01(\r\x12\x16\n\x0ein_unicast_pkt\x18\x10 \x01(\r\x12\x19\n\x11out_multicast_pkt\x18\x11 \x01(\r\x12\x19\n\x11out_broadcast_pkt\x18\x12 \x01(\r\x12\x17\n\x0fout_unicast_pkt\x18\x13 \x01(\r\x12\x0e\n\x06in_fcs\x18\x14 \x01(\r\x12\x14\n\x0cin_alignment\x18\x15 \x01(\r\x12\x1f\n\x17out_excessive_collision\x18\x16 \x01(\r\x12\x12\n\nin_jabbers\x18\x17 \x01(\r\x12\x15\n\rin_fragmented\x18\x18 \x01(\r\x12\x10\n\x08in_giant\x18\x19 \x01(\r\x12\x0f\n\x07in_runt\x18\x1a \x01(\r\x12\x15\n\rout_collision\x18\x1b \x01(\r\x12\x1a\n\x12out_late_collision\x18\x1c \x01(\r\x12\x14\n\x0cout_deferred\x18\x1d \x01(\r\"\xbc\x01\n\x0bUplinkStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\x0f\n\x07link_id\x18\x02 \x01(\r\x12\x11\n\ttimestamp\x18\x03 \x01(\r\x12\x10\n\x08tx_bytes\x18\x04 \x01(\x04\x12\x10\n\x08rx_bytes\x18\x05 \x01(\x04\x12\x17\n\x0ftunnel_tx_bytes\x18\x06 \x01(\x04\x12\x17\n\x0ftunnel_rx_bytes\x18\x07 \x01(\x04\x12\x0e\n\x06map_id\x18\x08 \x01(\x04\x12\x10\n\x08map_name\x18\t \x01(\t\"\x94\x01\n\x0eUplinkWanStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\x0f\n\x07link_id\x18\x02 \x01(\r\x12\x11\n\ttimestamp\x18\x03 \x01(\r\x12\x18\n\x10\x63ompressed_bytes\x18\x04 \x01(\x04\x12\x1a\n\x12uncompressed_bytes\x18\x05 \x01(\x04\x12\x15\n\rsavings_bytes\x18\x06 \x01(\x04\"V\n\nModemStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\x11\n\ttimestamp\x18\x02 \x01(\r\x12\x10\n\x08tx_bytes\x18\x03 \x01(\x04\x12\x10\n\x08rx_bytes\x18\x04 \x01(\x04\"h\n\tRoleStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\x11\n\tuser_role\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\r\x12\x10\n\x08tx_bytes\x18\x04 \x01(\x04\x12\x10\n\x08rx_bytes\x18\x05 \x01(\x04\"c\n\tVlanStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\x0c\n\x04vlan\x18\x02 \x01(\r\x12\x11\n\ttimestamp\x18\x03 \x01(\r\x12\x10\n\x08tx_bytes\x18\x04 \x01(\x04\x12\x10\n\x08rx_bytes\x18\x05 \x01(\x04\"d\n\tSsidStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\r\n\x05\x65ssid\x18\x02 \x01(\x0c\x12\x11\n\ttimestamp\x18\x03 \x01(\r\x12\x10\n\x08tx_bytes\x18\x04 \x01(\x04\x12\x10\n\x08rx_bytes\x18\x05 \x01(\x04\"\xb8\x01\n\x12TunnelIpProbeStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\"\n\x0ctunnel_index\x18\x02 \x01(\x0e\x32\x0c.TunnelIndex\x12!\n\rprobe_ip_addr\x18\x03 \x01(\x0b\x32\n.IpAddress\x12\x14\n\x0cprobe_status\x18\x04 \x01(\r\x12\x1d\n\x15ip_probe_pkt_loss_pct\x18\x05 \x01(\r\x12\x13\n\x0btunnel_name\x18\x06 \x01(\t\"\xb0\x03\n\x12UplinkIpProbeStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\x0f\n\x07link_id\x18\x02 \x01(\r\x12\x11\n\ttimestamp\x18\x03 \x01(\r\x12\x1e\n\nip_address\x18\x04 \x01(\x0b\x32\n.IpAddress\x12\x0c\n\x04vlan\x18\x05 \x01(\r\x12\x0f\n\x07\x61vg_rtt\x18\x06 \x01(\x04\x12\x0f\n\x07max_rtt\x18\x07 \x01(\x04\x12\x0f\n\x07min_rtt\x18\x08 \x01(\x04\x12\x12\n\navg_jitter\x18\t \x01(\x04\x12\x12\n\nmax_jitter\x18\n \x01(\x04\x12\x12\n\nmin_jitter\x18\x0b \x01(\x04\x12\x13\n\x0bmos_quality\x18\x0c \x01(\x04\x12\x16\n\x0esd_avg_latency\x18\r \x01(\x04\x12\x16\n\x0e\x64s_avg_latency\x18\x0e \x01(\x04\x12\x15\n\rsd_avg_jitter\x18\x0f \x01(\x04\x12\x15\n\rds_avg_jitter\x18\x10 \x01(\x04\x12\x14\n\x0cprobe_status\x18\x11 \x01(\r\x12\x10\n\x08loss_pct\x18\x12 \x01(\r\x12\x14\n\x0cvpnc_ip_addr\x18\x13 \x01(\x04\x12\x15\n\rprobe_ip_addr\x18\x14 \x01(\x04\"\xd8\x01\n\x0fUplinkSpeedtest\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\x1d\n\tserver_ip\x18\x02 \x01(\x0b\x32\n.IpAddress\x12\x0c\n\x04vlan\x18\x03 \x01(\r\x12\x10\n\x08protocol\x18\x04 \x01(\t\x12\x14\n\x0cupstream_bps\x18\x05 \x01(\x04\x12\x16\n\x0e\x64ownstream_bps\x18\x06 \x01(\x04\x12\x11\n\ttime_secs\x18\x07 \x01(\r\x12\x17\n\x0fupstream_jitter\x18\x08 \x01(\x02\x12\x19\n\x11\x64ownstream_jitter\x18\t \x01(\x02\"\xe6\r\n\tWIDSEvent\x12\x1f\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x07.Action:\x06UPDATE\x12(\n\nevent_type\x18\x02 \x01(\x0e\x32\x14.WIDSEvent.EventType\x12\x1c\n\x07macaddr\x18\x03 \x01(\x0b\x32\x0b.MacAddress\x12\x13\n\x0b\x64\x65tected_ap\x18\x04 \x01(\t\x12*\n\x0b\x61ttack_type\x18\x05 \x01(\x0e\x32\x15.WIDSEvent.AttackType\x12\x0f\n\x07\x63hannel\x18\x06 \x01(\t\x12\x0f\n\x07network\x18\x07 \x01(\x0c\"U\n\tEventType\x12\t\n\x05ROGUE\x10\x01\x12\x0f\n\x0bINTERFERING\x10\x02\x12\x19\n\x15INFRASTRUCTURE_ATTACK\x10\x03\x12\x11\n\rCLIENT_ATTACK\x10\x04\"\xb5\x0b\n\nAttackType\x12\x1c\n\x18\x44\x45TECT_VALID_SSID_MISUSE\x10\x01\x12\x18\n\x14\x44\x45TECT_ADHOC_NETWORK\x10\x02\x12\x13\n\x0f\x44\x45TECT_AP_FLOOD\x10\x03\x12\x1a\n\x16\x44\x45TECT_WIRELESS_BRIDGE\x10\x04\x12\x1d\n\x19\x44\x45TECT_INVALID_MAC_OUI_AP\x10\x05\x12\x1e\n\x1a\x44\x45TECT_INVALID_MAC_OUI_STA\x10\x06\x12\x12\n\x0e\x44\x45TECT_BAD_WEP\x10\x07\x12\x1b\n\x17\x44\x45TECT_AP_IMPERSONATION\x10\x08\x12\x19\n\x15\x44\x45TECT_WINDOWS_BRIDGE\x10\t\x12!\n\x1dSIGNATURE_DEAUTH_BROADCAST_AP\x10\n\x12\"\n\x1eSIGNATURE_DEAUTH_BROADCAST_STA\x10\x0b\x12\x18\n\x14\x44\x45TECT_HT_GREENFIELD\x10\x0c\x12\"\n\x1e\x44\x45TECT_HT_40MHZ_INTOLERANCE_AP\x10\r\x12#\n\x1f\x44\x45TECT_HT_40MHZ_INTOLERANCE_STA\x10\x0e\x12\x17\n\x13\x44\x45TECT_CLIENT_FLOOD\x10\x0f\x12!\n\x1d\x44\x45TECT_ADHOC_USING_VALID_SSID\x10\x10\x12\x16\n\x12\x44\x45TECT_AP_SPOOFING\x10\x11\x12%\n!DETECT_INVALID_ADDRESSCOMBINATION\x10\x12\x12\x19\n\x15\x44\x45TECT_MALFORMED_HTIE\x10\x13\x12\x1e\n\x1a\x44\x45TECT_MALFORMED_ASSOC_REQ\x10\x14\x12\x16\n\x12\x44\x45TECT_OVERFLOW_IE\x10\x15\x12\x1d\n\x19\x44\x45TECT_OVERFLOW_EAPOL_KEY\x10\x16\x12#\n\x1f\x44\x45TECT_MALFORMED_LARGE_DURATION\x10\x17\x12(\n$DETECT_MALFORMED_FRAME_WRONG_CHANNEL\x10\x18\x12\x1f\n\x1b\x44\x45TECT_MALFORMED_FRAME_AUTH\x10\x19\x12\x1b\n\x17\x44\x45TECT_CTS_RATE_ANOMALY\x10\x1a\x12\x1b\n\x17\x44\x45TECT_RTS_RATE_ANOMALY\x10\x1b\x12\x1e\n\x1aSIGNATURE_DEAUTH_BROADCAST\x10\x1c\x12%\n!SIGNATURE_DEASSOCIATION_BROADCAST\x10\x1d\x12\x1f\n\x1b\x44\x45TECT_RATE_ANOMALIES_BY_AP\x10\x1e\x12 \n\x1c\x44\x45TECT_RATE_ANOMALIES_BY_STA\x10\x1f\x12\x1b\n\x17\x44\x45TECT_EAP_RATE_ANOMALY\x10 \x12\x19\n\x15\x44\x45TECT_DISCONNECT_STA\x10!\x12\x1c\n\x18SIGNATURE_ASLEAP_FROM_AP\x10\"\x12\x1d\n\x19SIGNATURE_ASLEAP_FROM_STA\x10#\x12\x1d\n\x19SIGNATURE_AIRJACK_FROM_AP\x10$\x12\x1e\n\x1aSIGNATURE_AIRJACK_FROM_STA\x10%\x12\'\n#DETECT_STATION_DISCONNECT_ATTACK_AP\x10&\x12\x1c\n\x18\x44\x45TECT_UNENCRYPTED_VALID\x10\'\x12\x18\n\x14\x44\x45TECT_OMERTA_ATTACK\x10(\x12\x1d\n\x19\x44\x45TECT_TKIP_REPLAY_ATTACK\x10)\x12\x1a\n\x16\x44\x45TECT_CHOPCHOP_ATTACK\x10*\x12\x13\n\x0f\x44\x45TECT_FATAJACK\x10+\x12&\n\"DETECT_VALID_CLIENT_MISASSOCIATION\x10,\x12\x1b\n\x17\x44\x45TECT_BLOCK_ACK_ATTACK\x10-\x12\x1c\n\x18\x44\x45TECT_HOTSPOTTER_ATTACK\x10.\x12 \n\x1c\x44\x45TECT_POWER_SAVE_DOS_ATTACK\x10/\"\xb1\x05\n\x13\x41irMonitorRogueInfo\x12;\n\nmatch_type\x18\x01 \x01(\x0e\x32\'.AirMonitorRogueInfo.wms_rap_match_type\x12\x1e\n\tmatch_mac\x18\x02 \x01(\x0b\x32\x0b.MacAddress\x12\x1c\n\x08match_ip\x18\x03 \x01(\x0b\x32\n.IpAddress\x12\x14\n\x0cmonitor_name\x18\x04 \x01(\t\x12\x43\n\x0enat_match_type\x18\x05 \x01(\x0e\x32+.AirMonitorRogueInfo.wms_rap_nat_match_type\"\xc6\x02\n\x12wms_rap_match_type\x12\x0f\n\x0bRAP_MT_NONE\x10\x00\x12\x11\n\rRAP_MT_CFG_WM\x10\x01\x12\x11\n\rRAP_MT_ETH_WM\x10\x02\x12\x10\n\x0cRAP_MT_AP_WM\x10\x03\x12\x11\n\rRAP_MT_EXT_WM\x10\x04\x12\x11\n\rRAP_MT_MANUAL\x10\x05\x12\x15\n\x11RAP_MT_BASE_BSSID\x10\x06\x12\x0e\n\nRAP_MT_EMS\x10\x07\x12\x14\n\x10RAP_MT_ETH_GW_WM\x10\x08\x12\x14\n\x10RAP_MT_CLASS_OFF\x10\t\x12\x13\n\x0fRAP_MT_AP_BSSID\x10\n\x12\x16\n\x12RAP_MT_PROP_ETH_WM\x10\x0b\x12\x12\n\x0eRAP_MT_AP_RULE\x10\x0c\x12\x14\n\x10RAP_MT_SYSTEM_WM\x10\r\x12\x17\n\x13RAP_MT_SYSTEM_GW_WM\x10\x0e\"{\n\x16wms_rap_nat_match_type\x12\x10\n\x0cRAP_NMT_NONE\x10\x00\x12\x11\n\rRAP_NMT_EQUAL\x10\x01\x12\x14\n\x10RAP_NMT_PLUS_ONE\x10\x02\x12\x15\n\x11RAP_NMT_MINUS_ONE\x10\x03\x12\x0f\n\x0bRAP_NMT_OUI\x10\x04\"\xe7\x02\n\nRogueEvent\x12\x1c\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x07.Action:\x03\x41\x44\x44\x12\x13\n\x0b\x64\x65tected_ap\x18\x02 \x01(\t\x12\x1c\n\x07macaddr\x18\x03 \x01(\x0b\x32\x0b.MacAddress\x12\x0f\n\x07\x63hannel\x18\x04 \x01(\r\x12\x0f\n\x07network\x18\x05 \x01(\x0c\x12\x35\n\tencr_type\x18\x06 \x01(\x0e\x32\".RogueEvent.wms_snmp_encr_protocol\x12&\n\x08\x61m_rogue\x18\x07 \x01(\x0b\x32\x14.AirMonitorRogueInfo\"\x86\x01\n\x16wms_snmp_encr_protocol\x12\x1a\n\x16WMS_SNMP_WPA_ENCR_OPEN\x10\x00\x12\x19\n\x15WMS_SNMP_WPA_ENCR_WEP\x10\x01\x12\x19\n\x15WMS_SNMP_WPA_ENCR_WPA\x10\x02\x12\x1a\n\x16WMS_SNMP_WPA_ENCR_WPA2\x10\x03\"\x9f\x01\n\x10\x44\x65viceNeighbours\x12\x1f\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x07.Action:\x06UPDATE\x12\x11\n\tdevice_id\x18\x02 \x01(\t\x12\x0c\n\x04port\x18\x03 \x01(\t\x12\x18\n\x10remote_device_id\x18\x04 \x01(\t\x12\x13\n\x0bremote_port\x18\x05 \x01(\t\x12\x1a\n\x12remote_port_number\x18\x06 \x01(\t\"\xf1\t\n\x15MonitoringInformation\x12\x13\n\x0b\x63ustomer_id\x18\x01 \x02(\t\x12#\n\rdata_elements\x18\x02 \x03(\x0e\x32\x0c.DataElement\x12\x16\n\x06swarms\x18\x03 \x03(\x0b\x32\x06.Swarm\x12\x10\n\x03\x61ps\x18\x04 \x03(\x0b\x32\x03.Ap\x12\x1a\n\x08networks\x18\x05 \x03(\x0b\x32\x08.Network\x12\x16\n\x06radios\x18\x06 \x03(\x0b\x32\x06.Radio\x12\x16\n\x04vaps\x18\x07 \x03(\x0b\x32\x08.VapInfo\x12\x1e\n\ninterfaces\x18\x08 \x03(\x0b\x32\n.Interface\x12\x18\n\x07tunnels\x18\t \x03(\x0b\x32\x07.Tunnel\x12)\n\x10wireless_clients\x18\n \x03(\x0b\x32\x0f.WirelessClient\x12\x19\n\x08switches\x18\x0b \x03(\x0b\x32\x07.Switch\x12#\n\rwired_clients\x18\x0c \x03(\x0b\x32\x0c.WiredClient\x12\"\n\x0c\x64\x65vice_stats\x18\r \x03(\x0b\x32\x0c.DeviceStats\x12 \n\x0bradio_stats\x18\x0e \x03(\x0b\x32\x0b.RadioStats\x12(\n\x0finterface_stats\x18\x0f \x03(\x0b\x32\x0f.InterfaceStats\x12\x1c\n\tvap_stats\x18\x10 \x03(\x0b\x32\t.VapStats\x12\"\n\x0c\x63lient_stats\x18\x11 \x03(\x0b\x32\x0c.ClientStats\x12\"\n\x0ctunnel_stats\x18\x12 \x03(\x0b\x32\x0c.TunnelStats\x12\x1f\n\x0bwids_events\x18\x13 \x03(\x0b\x32\n.WIDSEvent\x12 \n\x0bmodem_stats\x18\x14 \x03(\x0b\x32\x0b.ModemStats\x12\x1e\n\nrole_stats\x18\x15 \x03(\x0b\x32\n.RoleStats\x12\x1e\n\nvlan_stats\x18\x16 \x03(\x0b\x32\n.VlanStats\x12\x1e\n\nssid_stats\x18\x17 \x03(\x0b\x32\n.SsidStats\x12*\n\ripprobe_stats\x18\x18 \x03(\x0b\x32\x13.TunnelIpProbeStats\x12!\n\x0crogue_events\x18\x19 \x03(\x0b\x32\x0b.RogueEvent\x12\x31\n\x14mobility_controllers\x18\x1a \x03(\x0b\x32\x13.MobilityController\x12\x18\n\x07uplinks\x18\x1b \x03(\x0b\x32\x07.Uplink\x12\"\n\x0cuplink_stats\x18\x1c \x03(\x0b\x32\x0c.UplinkStats\x12)\n\x10uplink_wan_stats\x18\x1d \x03(\x0b\x32\x0f.UplinkWanStats\x12/\n\x12uplink_probe_stats\x18\x1e \x03(\x0b\x32\x13.UplinkIpProbeStats\x12*\n\x10uplink_speedtest\x18\x1f \x03(\x0b\x32\x10.UplinkSpeedtest\x12,\n\x11\x64\x65vice_neighbours\x18  \x03(\x0b\x32\x11.DeviceNeighbours\x12#\n\x0cnotification\x18! \x03(\x0b\x32\r.Notification\x12#\n\rswitch_stacks\x18\" \x03(\x0b\x32\x0c.SwitchStack\x12\x1f\n\x0bike_tunnels\x18# \x03(\x0b\x32\n.IkeTunnel\x12)\n\x10switch_vlan_info\x18$ \x01(\x0b\x32\x0f.SwitchVlanInfo\"\xdf\x03\n\x1aMonitoringStateInformation\x12\x13\n\x0b\x63ustomer_id\x18\x01 \x02(\t\x12\x31\n\x14mobility_controllers\x18\x02 \x03(\x0b\x32\x13.MobilityController\x12\x19\n\x08switches\x18\x03 \x03(\x0b\x32\x07.Switch\x12\x16\n\x06swarms\x18\x04 \x03(\x0b\x32\x06.Swarm\x12\x10\n\x03\x61ps\x18\x05 \x03(\x0b\x32\x03.Ap\x12\x16\n\x04vaps\x18\x06 \x03(\x0b\x32\x08.VapInfo\x12\x16\n\x06radios\x18\x07 \x03(\x0b\x32\x06.Radio\x12\x1e\n\ninterfaces\x18\x08 \x03(\x0b\x32\n.Interface\x12\x1a\n\x08networks\x18\t \x03(\x0b\x32\x08.Network\x12\x18\n\x07tunnels\x18\n \x03(\x0b\x32\x07.Tunnel\x12)\n\x10wireless_clients\x18\x0b \x03(\x0b\x32\x0f.WirelessClient\x12#\n\rwired_clients\x18\x0c \x03(\x0b\x32\x0c.WiredClient\x12\x18\n\x07uplinks\x18\r \x03(\x0b\x32\x07.Uplink\x12#\n\rswitch_stacks\x18\x0e \x03(\x0b\x32\x0c.SwitchStack\x12\x1f\n\x0bike_tunnels\x18\x0f \x03(\x0b\x32\n.IkeTunnel\"*\n\x0cKeyValueData\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\"\xe2\x02\n\x0cNotification\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x12\n\nsetting_id\x18\x03 \x01(\t\x12\x11\n\tdevice_id\x18\x04 \x01(\t\x12(\n\x08severity\x18\x05 \x01(\x0e\x32\x16.Notification.Severity\x12\x11\n\ttimestamp\x18\x06 \x01(\r\x12.\n\x05state\x18\x07 \x01(\x0e\x32\x1f.Notification.NotificationState\x12\x13\n\x0b\x64\x65scription\x18\x08 \x01(\t\x12\x1c\n\x05\x65xtra\x18\t \x03(\x0b\x32\r.KeyValueData\"G\n\x08Severity\x12\n\n\x06Normal\x10\x01\x12\x0b\n\x07Warning\x10\x02\x12\t\n\x05Minor\x10\x03\x12\t\n\x05Major\x10\x04\x12\x0c\n\x08\x43ritical\x10\x05\"(\n\x11NotificationState\x12\x08\n\x04Open\x10\x00\x12\t\n\x05\x43lose\x10\x01\"?\n\x0eSwitchVlanInfo\x12\x11\n\tdevice_id\x18\x01 \x02(\t\x12\x1a\n\x05vlans\x18\x02 \x03(\x0b\x32\x0b.SwitchVlan\"T\n\nSwitchVlan\x12\n\n\x02id\x18\x01 \x01(\r\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x14\n\x0ctagged_ports\x18\x03 \x03(\t\x12\x16\n\x0euntagged_ports\x18\x04 \x03(\t*)\n\x06\x41\x63tion\x12\x07\n\x03\x41\x44\x44\x10\x01\x12\n\n\x06\x44\x45LETE\x10\x02\x12\n\n\x06UPDATE\x10\x03*\x1a\n\x06Status\x12\x06\n\x02UP\x10\x01\x12\x08\n\x04\x44OWN\x10\x02*&\n\x0bTunnelIndex\x12\x0b\n\x07PRIMARY\x10\x00\x12\n\n\x06\x42\x41\x43KUP\x10\x01*\"\n\nCryptoType\x12\x0b\n\x07\x43\x41_CERT\x10\x00\x12\x07\n\x03PSK\x10\x01*\x84\x05\n\x0b\x44\x61taElement\x12\x14\n\x10STATE_CONTROLLER\x10\x01\x12\x10\n\x0cSTATE_SWITCH\x10\x02\x12\x0f\n\x0bSTATE_SWARM\x10\x03\x12\x0c\n\x08STATE_AP\x10\x04\x12\r\n\tSTATE_VAP\x10\x05\x12\x0f\n\x0bSTATE_RADIO\x10\x06\x12\x13\n\x0fSTATE_INTERFACE\x10\x07\x12\x11\n\rSTATE_NETWORK\x10\x08\x12\x10\n\x0cSTATE_TUNNEL\x10\t\x12\x18\n\x14STATE_WIRELESSCLIENT\x10\n\x12\x15\n\x11STATE_WIREDCLIENT\x10\x0b\x12\x10\n\x0cSTATE_UPLINK\x10\x0c\x12\x0f\n\x0bSTAT_DEVICE\x10\r\x12\x0e\n\nSTAT_RADIO\x10\x0e\x12\x0c\n\x08STAT_VAP\x10\x0f\x12\x12\n\x0eSTAT_INTERFACE\x10\x10\x12\x0f\n\x0bSTAT_CLIENT\x10\x11\x12\x0f\n\x0bSTAT_TUNNEL\x10\x12\x12\x0e\n\nSTAT_MODEM\x10\x13\x12\r\n\tSTAT_ROLE\x10\x14\x12\r\n\tSTAT_VLAN\x10\x15\x12\r\n\tSTAT_SSID\x10\x16\x12\x10\n\x0cSTAT_IPPROBE\x10\x17\x12\x0f\n\x0bSTAT_UPLINK\x10\x18\x12\x12\n\x0eSTAT_UPLINKWAN\x10\x19\x12\x16\n\x12STAT_UPLINKIPPROBE\x10\x1a\x12\x0f\n\x0b\x45VENTS_WIDS\x10\x1b\x12\x10\n\x0c\x45VENTS_ROGUE\x10\x1c\x12\x1a\n\x16STATS_UPLINK_SPEEDTEST\x10\x1d\x12\x15\n\x11\x44\x45VICE_NEIGHBOURS\x10\x1e\x12\x11\n\rNOTIFICATIONS\x10\x1f\x12\x10\n\x0cSWITCH_STACK\x10 \x12\x14\n\x10STATE_IKE_TUNNEL\x10!\x12\x0f\n\x0bSWITCH_VLAN\x10\"*\xf7\x05\n\x08\x41uthType\x12\x08\n\x04NONE\x10\x01\x12\x0c\n\x08MAC_AUTH\x10\x02\x12\x0e\n\nDOT1X_AUTH\x10\x03\x12\x0b\n\x07L3_AUTH\x10\x04\x12\x10\n\x0c\x43ONSOLE_AUTH\x10\x05\x12\x0f\n\x0bTELNET_AUTH\x10\x06\x12\x0e\n\nWEBUI_AUTH\x10\x07\x12\x0c\n\x08SSH_AUTH\x10\x08\x12\x0c\n\x08WEB_AUTH\x10\t\x12\r\n\tSNMP_AUTH\x10\n\x12\x11\n\rSSH_NONE_AUTH\x10\x0b\x12\x0c\n\x08LMA_AUTH\x10\x0c\x12\x0c\n\x08\x41NY_AUTH\x10\r\x12\x12\n\x0e\x43\x41PTIVE_PORTAL\x10\x0e\x12\x0c\n\x08VPN_AUTH\x10\x0f\x12\x15\n\x11STATEFUL_KERBEROS\x10\x10\x12\x15\n\x11RADIUS_ACCOUNTING\x10\x11\x12\r\n\tSECURE_ID\x10\x12\x12\x13\n\x0fSTATEFUL_RADIUS\x10\x13\x12\x15\n\x11SWITCH_MANAGEMENT\x10\x14\x12\x11\n\rDOT1X_MACHINE\x10\x15\x12\x0e\n\nDOT1X_USER\x10\x16\x12\x0f\n\x0b\x44OT1X_WIRED\x10\x17\x12\x17\n\x13\x44OT1X_WIRED_MACHINE\x10\x18\x12\x14\n\x10\x44OT1X_WIRED_USER\x10\x19\x12\x0e\n\nPUB_COOKIE\x10\x1a\x12\x10\n\x0cTACACAS_PLUS\x10\x1b\x12\x11\n\rWIRELESS_XSEC\x10\x1c\x12\x19\n\x15WIRELESS_XSEC_MACHINE\x10\x1d\x12\x16\n\x12WIRELESS_XSEC_USER\x10\x1e\x12\x17\n\x13WIRELESS_XSEC_WIRED\x10\x1f\x12\x1f\n\x1bWIRELESS_XSEC_WIRED_MACHINE\x10 \x12\x1c\n\x18WIRELESS_XSEC_WIRED_USER\x10!\x12\x11\n\rSTATEFUL_NTLM\x10\"\x12\n\n\x06RAP_AP\x10#\x12\x0b\n\x07VIA_WEB\x10$\x12\x1a\n\x16GENERIC_INTERFACE_SPEC\x10%\x12\x11\n\rTRANSPORT_VPN\x10&\x12\x0b\n\x07VIA_VPN\x10\'\x12\x13\n\x0fNUM_AUTH_CLIENT\x10(')
+  serialized_pb=_b('\n\x10monitoring.proto\x12\nMonitoring\"\x84\x01\n\tIpAddress\x12-\n\x02\x61\x66\x18\x01 \x02(\x0e\x32!.Monitoring.IpAddress.addr_family\x12\x0c\n\x04\x61\x64\x64r\x18\x02 \x02(\x0c\":\n\x0b\x61\x64\x64r_family\x12\x14\n\x10\x41\x44\x44R_FAMILY_INET\x10\x02\x12\x15\n\x11\x41\x44\x44R_FAMILY_INET6\x10\n\"\x1a\n\nMacAddress\x12\x0c\n\x04\x61\x64\x64r\x18\x01 \x02(\x0c\"\xf2\x01\n\x05Swarm\x12*\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x12.Monitoring.Action:\x06UPDATE\x12\x10\n\x08swarm_id\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12&\n\x06status\x18\x04 \x01(\x0e\x32\x12.Monitoring.Status:\x02UP\x12\x30\n\x11public_ip_address\x18\x05 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12)\n\nip_address\x18\x06 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12\x18\n\x10\x66irmware_version\x18\x07 \x01(\t\"\xdf\x02\n\x06Tunnel\x12*\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x12.Monitoring.Action:\x06UPDATE\x12\x10\n\x08swarm_id\x18\x02 \x01(\t\x12&\n\x05index\x18\x03 \x01(\x0e\x32\x17.Monitoring.TunnelIndex\x12+\n\x0b\x63rypto_type\x18\x04 \x01(\x0e\x32\x16.Monitoring.CryptoType\x12\x11\n\tpeer_name\x18\x05 \x01(\t\x12*\n\x0bpeer_tun_ip\x18\x06 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12(\n\ttunnel_ip\x18\x07 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12&\n\x06status\x18\x08 \x01(\x0e\x32\x12.Monitoring.Status:\x02UP\x12\x0e\n\x06\x61\x63tive\x18\t \x01(\x08\x12\x0e\n\x06uptime\x18\n \x01(\r\x12\x11\n\ttunnel_id\x18\x0b \x01(\x04\"\x81\t\n\tInterface\x12*\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x12.Monitoring.Action:\x06UPDATE\x12\x11\n\tdevice_id\x18\x02 \x01(\t\x12\'\n\x07macaddr\x18\x03 \x01(\x0b\x32\x16.Monitoring.MacAddress\x12&\n\x06status\x18\x04 \x01(\x0e\x32\x12.Monitoring.Status:\x02UP\x12%\n\x06ipaddr\x18\x05 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12\x31\n\x0b\x64uplex_mode\x18\x06 \x01(\x0e\x32\x1c.Monitoring.Interface.Duplex\x12\x0c\n\x04name\x18\x07 \x01(\t\x12\x13\n\x0bport_number\x18\x08 \x01(\t\x12,\n\x04type\x18\t \x01(\x0e\x32\x1e.Monitoring.Interface.IntfType\x12\x0c\n\x04mode\x18\n \x01(\t\x12\x0c\n\x04vlan\x18\x0b \x01(\r\x12\x35\n\x07has_poe\x18\x0c \x01(\x0e\x32 .Monitoring.Interface.PoeSupport:\x02NA\x12)\n\tpoe_state\x18\r \x01(\x0e\x32\x12.Monitoring.Status:\x02UP\x12*\n\noper_state\x18\x0e \x01(\x0e\x32\x12.Monitoring.Status:\x02UP\x12+\n\x0b\x61\x64min_state\x18\x0f \x01(\x0e\x32\x12.Monitoring.Status:\x02UP\x12.\n\x05speed\x18\x10 \x01(\x0e\x32\x1f.Monitoring.Interface.SpeedType\x12\x0b\n\x03mux\x18\x11 \x01(\r\x12\x0f\n\x07trusted\x18\x12 \x01(\r\x12\x0c\n\x04slot\x18\x13 \x01(\t\x12\x30\n\x08phy_type\x18\x14 \x01(\x0e\x32\x1e.Monitoring.Interface.PortType\x12\x10\n\x08sub_type\x18\x15 \x01(\t\x12\x14\n\x0c\x61llowed_vlan\x18\x16 \x03(\r\"&\n\x06\x44uplex\x12\x08\n\x04HALF\x10\x01\x12\x08\n\x04\x46ULL\x10\x02\x12\x08\n\x04\x41UTO\x10\x03\"\x91\x01\n\x08IntfType\x12\x0c\n\x08\x45THERNET\x10\x01\x12\x0c\n\x08LOOPBACK\x10\x02\x12\x08\n\x04VLAN\x10\x03\x12\n\n\x06TUNNEL\x10\x04\x12\x10\n\x0cPORT_CHANNEL\x10\x05\x12\x0b\n\x07STANDBY\x10\x06\x12\n\n\x06\x42RIDGE\x10\x07\x12\t\n\x05SPLIT\x10\x08\x12\t\n\x05STACK\x10\t\x12\x08\n\x04MGMT\x10\n\x12\x08\n\x04NONE\x10\x0b\"l\n\tSpeedType\x12\x11\n\rSPEED_INVALID\x10\x00\x12\x0e\n\nSPEED_AUTO\x10\x01\x12\x0c\n\x08SPEED_10\x10\x02\x12\r\n\tSPEED_100\x10\x03\x12\x0e\n\nSPEED_1000\x10\x04\x12\x0f\n\x0bSPEED_10000\x10\x05\"J\n\x08PortType\x12\x0b\n\x07PT_RJ45\x10\x00\x12\x0b\n\x07PT_GBIC\x10\x01\x12\r\n\tPT_SERIAL\x10\x02\x12\n\n\x06PT_USB\x10\x03\x12\t\n\x05PT_X2\x10\x04\"6\n\nPoeSupport\x12\x06\n\x02NA\x10\x00\x12\r\n\tSUPPORTED\x10\x01\x12\x11\n\rNOT_SUPPORTED\x10\x02\"\x82\x01\n\x07VapInfo\x12*\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x12.Monitoring.Action:\x06UPDATE\x12\x11\n\tdevice_id\x18\x02 \x01(\t\x12)\n\tradio_mac\x18\x03 \x01(\x0b\x32\x16.Monitoring.MacAddress\x12\r\n\x05\x65ssid\x18\x04 \x01(\x0c\"\xdc\x01\n\x05Radio\x12*\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x12.Monitoring.Action:\x06UPDATE\x12\x11\n\tdevice_id\x18\x02 \x01(\t\x12\r\n\x05index\x18\x03 \x01(\r\x12\'\n\x07macaddr\x18\x04 \x01(\x0b\x32\x16.Monitoring.MacAddress\x12&\n\x06status\x18\x05 \x01(\x0e\x32\x12.Monitoring.Status:\x02UP\x12\x0f\n\x07\x63hannel\x18\x06 \x01(\t\x12\x0c\n\x04\x62\x61nd\x18\x07 \x01(\r\x12\x15\n\rchannel_width\x18\x08 \x01(\r\"\xab\x03\n\x02\x41p\x12*\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x12.Monitoring.Action:\x06UPDATE\x12\x0e\n\x06serial\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\'\n\x07macaddr\x18\x04 \x01(\x0b\x32\x16.Monitoring.MacAddress\x12\x12\n\ncluster_id\x18\x05 \x01(\t\x12&\n\x06status\x18\x06 \x01(\x0e\x32\x12.Monitoring.Status:\x02UP\x12)\n\nip_address\x18\x07 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12\r\n\x05model\x18\x08 \x01(\t\x12\x11\n\tmesh_role\x18\t \x01(\t\x12\x0c\n\x04mode\x18\n \x01(\t\x12\x14\n\x0cswarm_master\x18\x0b \x01(\x08\x12\x17\n\x0fmodem_connected\x18\x0c \x01(\x08\x12.\n\x0buplink_type\x18\r \x01(\x0e\x32\x19.Monitoring.Ap.UplinkType\"<\n\nUplinkType\x12\x0c\n\x08\x45THERNET\x10\x01\x12\x08\n\x04MESH\x10\x02\x12\x0b\n\x07STATION\x10\x03\x12\t\n\x05MODEM\x10\x04\"v\n\x07Network\x12*\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x12.Monitoring.Action:\x06UPDATE\x12\x10\n\x08swarm_id\x18\x02 \x01(\t\x12\r\n\x05\x65ssid\x18\x03 \x01(\x0c\x12\x10\n\x08security\x18\x04 \x01(\t\x12\x0c\n\x04type\x18\x05 \x01(\t\"\xf5\x02\n\x0eWirelessClient\x12*\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x12.Monitoring.Action:\x06UPDATE\x12\'\n\x07macaddr\x18\x02 \x01(\x0b\x32\x16.Monitoring.MacAddress\x12\x0c\n\x04name\x18\x03 \x01(\t\x12)\n\nip_address\x18\x04 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12\x10\n\x08username\x18\x05 \x01(\t\x12\x19\n\x11\x61ssociated_device\x18\x06 \x01(\t\x12)\n\tradio_mac\x18\x07 \x01(\x0b\x32\x16.Monitoring.MacAddress\x12\x0f\n\x07network\x18\x08 \x01(\x0c\x12\x11\n\tuser_role\x18\t \x01(\t\x12\x14\n\x0cmanufacturer\x18\n \x01(\t\x12\x0f\n\x07os_type\x18\x0b \x01(\t\x12\x12\n\nconnection\x18\x0c \x01(\t\x12\x10\n\x08maxspeed\x18\r \x01(\r\x12\x0c\n\x04vlan\x18\x0e \x01(\r\"\xb8\x01\n\x0eHardwareModule\x12\r\n\x05index\x18\x01 \x01(\r\x12\x39\n\x06status\x18\x02 \x01(\x0e\x32).Monitoring.HardwareModule.HardwareStatus\"\\\n\x0eHardwareStatus\x12\x06\n\x02OK\x10\x00\x12\t\n\x05\x45RROR\x10\x01\x12\x11\n\rNOT_CONNECTED\x10\x02\x12\n\n\x06\x41\x43TIVE\x10\x03\x12\x0b\n\x07STANDBY\x10\x04\x12\x0b\n\x07OFFLINE\x10\x05\"\xc9\x05\n\x06Switch\x12*\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x12.Monitoring.Action:\x06UPDATE\x12\x0e\n\x06serial\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\'\n\x07macaddr\x18\x04 \x01(\x0b\x32\x16.Monitoring.MacAddress\x12\r\n\x05model\x18\x05 \x01(\t\x12&\n\x06status\x18\x06 \x01(\x0e\x32\x12.Monitoring.Status:\x02UP\x12\x30\n\x11public_ip_address\x18\x07 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12)\n\nip_address\x18\x08 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12\x18\n\x10\x66irmware_version\x18\t \x01(\t\x12.\n\x0f\x64\x65\x66\x61ult_gateway\x18\n \x01(\x0b\x32\x15.Monitoring.IpAddress\x12\x13\n\x0b\x64\x65vice_mode\x18\x0b \x01(\r\x12\x14\n\x0cuplink_ports\x18\x0c \x03(\t\x12\x11\n\tmax_slots\x18\r \x01(\r\x12\x12\n\nused_slots\x18\x0e \x03(\t\x12\x36\n\x12management_modules\x18\x0f \x03(\x0b\x32\x1a.Monitoring.HardwareModule\x12\x32\n\x0epower_supplies\x18\x10 \x03(\x0b\x32\x1a.Monitoring.HardwareModule\x12\x10\n\x08stack_id\x18\x11 \x01(\t\x12\x17\n\x0fstack_member_id\x18\x12 \x01(\r\x12=\n\x11stack_member_role\x18\x13 \x01(\x0e\x32\".Monitoring.Switch.StackMemberRole\"F\n\x0fStackMemberRole\x12\x0b\n\x07UNKNOWN\x10\x01\x12\r\n\tCOMMANDER\x10\x02\x12\x0b\n\x07STANDBY\x10\x03\x12\n\n\x06MEMBER\x10\x04\"\xdc\x03\n\x0bSwitchStack\x12*\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x12.Monitoring.Action:\x06UPDATE\x12\x10\n\x08stack_id\x18\x02 \x01(\t\x12&\n\x06status\x18\x03 \x01(\x0e\x32\x12.Monitoring.Status:\x02UP\x12\x37\n\x08topology\x18\x04 \x01(\x0e\x32%.Monitoring.SwitchStack.StackTopology\x12\x33\n\x06policy\x18\x05 \x01(\x0e\x32#.Monitoring.SwitchStack.StackPolicy\x12\x18\n\x10\x66irmware_version\x18\x06 \x01(\t\x12\x15\n\rvsf_domain_id\x18\x07 \x01(\r\"]\n\rStackTopology\x12\x0e\n\nSTANDALONE\x10\x01\x12\t\n\x05\x43HAIN\x10\x02\x12\x08\n\x04RING\x10\x03\x12\x08\n\x04MESH\x10\x04\x12\x10\n\x0cPARTIAL_MESH\x10\x05\x12\x0b\n\x07UNKNOWN\x10\x06\"i\n\x0bStackPolicy\x12\x17\n\x13STACK_SPLIT_UNKNOWN\x10\x00\x12\x1f\n\x1bSTACK_SPLIT_ONE_FRAGMENT_UP\x10\x01\x12 \n\x1cSTACK_SPLIT_ALL_FRAGMENTS_UP\x10\x02\"\xc1\x02\n\x0bWiredClient\x12*\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x12.Monitoring.Action:\x06UPDATE\x12\'\n\x07macaddr\x18\x02 \x01(\x0b\x32\x16.Monitoring.MacAddress\x12\x0c\n\x04name\x18\x03 \x01(\t\x12)\n\nip_address\x18\x04 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12\x10\n\x08username\x18\x05 \x01(\t\x12\x19\n\x11\x61ssociated_device\x18\x06 \x01(\t\x12-\n\rinterface_mac\x18\x07 \x01(\x0b\x32\x16.Monitoring.MacAddress\x12\x11\n\tuser_role\x18\x08 \x01(\t\x12\x0c\n\x04vlan\x18\t \x01(\r\x12\'\n\tauth_type\x18\n \x01(\x0e\x32\x14.Monitoring.AuthType\"\xe5\x02\n\x12MobilityController\x12*\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x12.Monitoring.Action:\x06UPDATE\x12\x0e\n\x06serial\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\'\n\x07macaddr\x18\x04 \x01(\x0b\x32\x16.Monitoring.MacAddress\x12\r\n\x05model\x18\x05 \x01(\t\x12&\n\x06status\x18\x06 \x01(\x0e\x32\x12.Monitoring.Status:\x02UP\x12\x30\n\x11public_ip_address\x18\x07 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12)\n\nip_address\x18\x08 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12\x18\n\x10\x66irmware_version\x18\t \x01(\t\x12.\n\x0f\x64\x65\x66\x61ult_gateway\x18\n \x01(\x0b\x32\x15.Monitoring.IpAddress\"\xe9\x02\n\x06Uplink\x12*\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x12.Monitoring.Action:\x06UPDATE\x12\x11\n\tdevice_id\x18\x02 \x01(\t\x12\x12\n\nlink_index\x18\x03 \x01(\x04\x12\x0c\n\x04name\x18\x04 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x05 \x01(\t\x12\x10\n\x08priority\x18\x06 \x01(\r\x12\"\n\x06status\x18\x07 \x01(\x0e\x32\x12.Monitoring.Status\x12&\n\nwan_status\x18\x08 \x01(\x0e\x32\x12.Monitoring.Status\x12\x0c\n\x04vlan\x18\t \x01(\r\x12\x18\n\x10vlan_description\x18\n \x01(\t\x12\x30\n\x11public_ip_address\x18\x0b \x01(\x0b\x32\x15.Monitoring.IpAddress\x12\x31\n\x12private_ip_address\x18\x0c \x01(\x0b\x32\x15.Monitoring.IpAddress\"\xb3\x02\n\tIkeTunnel\x12*\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x12.Monitoring.Action:\x06UPDATE\x12\x11\n\tdevice_id\x18\x02 \x01(\t\x12\x0e\n\x06map_id\x18\x03 \x01(\x04\x12(\n\x08peer_mac\x18\x04 \x01(\x0b\x32\x16.Monitoring.MacAddress\x12)\n\tlocal_mac\x18\x05 \x01(\x0b\x32\x16.Monitoring.MacAddress\x12%\n\x06src_ip\x18\x06 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12%\n\x06\x64st_ip\x18\x07 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12\"\n\x06status\x18\x08 \x01(\x0e\x32\x12.Monitoring.Status\x12\x10\n\x08map_name\x18\t \x01(\t\"\xc5\x02\n\x0b\x44\x65viceStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\x11\n\ttimestamp\x18\x02 \x01(\r\x12\x0e\n\x06uptime\x18\x03 \x01(\x04\x12\x17\n\x0f\x63pu_utilization\x18\x04 \x01(\r\x12\x11\n\tmem_total\x18\x05 \x01(\x04\x12\x10\n\x08mem_free\x18\x06 \x01(\x04\x12\x19\n\x11power_consumption\x18\x07 \x01(\r\x12\x11\n\tfan_speed\x18\x08 \x01(\r\x12\x13\n\x0btemperature\x18\t \x01(\r\x12&\n\nfan_status\x18\n \x01(\x0e\x32\x12.Monitoring.Status\x12\x11\n\tmax_power\x18\x0b \x01(\r\x12\x17\n\x0fpoe_consumption\x18\x0c \x01(\r\x12\x12\n\npoe_budget\x18\r \x01(\r\x12\x17\n\x0fmem_utilization\x18\x0e \x01(\x04\"\xdd\x01\n\nRadioStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\'\n\x07macaddr\x18\x02 \x01(\x0b\x32\x16.Monitoring.MacAddress\x12\x11\n\ttimestamp\x18\x03 \x01(\r\x12\x10\n\x08tx_bytes\x18\x04 \x01(\x04\x12\x10\n\x08rx_bytes\x18\x05 \x01(\x04\x12\x10\n\x08tx_drops\x18\x06 \x01(\r\x12\x10\n\x08tx_power\x18\x07 \x01(\r\x12\x13\n\x0bnoise_floor\x18\x08 \x01(\r\x12\x13\n\x0butilization\x18\t \x01(\r\x12\x0e\n\x06rx_bad\x18\n \x01(\x04\"\x90\x01\n\x08VapStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12)\n\tradio_mac\x18\x02 \x01(\x0b\x32\x16.Monitoring.MacAddress\x12\x0f\n\x07network\x18\x03 \x01(\x0c\x12\x11\n\ttimestamp\x18\x04 \x01(\r\x12\x10\n\x08tx_bytes\x18\x05 \x01(\x04\x12\x10\n\x08rx_bytes\x18\x06 \x01(\x04\"\x91\x01\n\x0bTunnelStats\x12\x10\n\x08swarm_id\x18\x01 \x01(\t\x12&\n\x05index\x18\x02 \x01(\x0e\x32\x17.Monitoring.TunnelIndex\x12\x11\n\ttimestamp\x18\x03 \x01(\r\x12\x10\n\x08tx_bytes\x18\x04 \x01(\x04\x12\x10\n\x08rx_bytes\x18\x05 \x01(\x04\x12\x11\n\ttunnel_id\x18\x06 \x01(\x04\"\xda\x01\n\x0b\x43lientStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\'\n\x07macaddr\x18\x02 \x01(\x0b\x32\x16.Monitoring.MacAddress\x12\x11\n\ttimestamp\x18\x03 \x01(\r\x12\x10\n\x08tx_bytes\x18\x04 \x01(\x04\x12\x10\n\x08rx_bytes\x18\x05 \x01(\x04\x12\x12\n\nrx_retries\x18\x06 \x01(\r\x12\x12\n\ntx_retries\x18\x07 \x01(\r\x12\r\n\x05speed\x18\x08 \x01(\r\x12\x14\n\x0csignal_in_db\x18\t \x01(\r\x12\x0b\n\x03snr\x18\n \x01(\r\"\xa8\x05\n\x0eInterfaceStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\'\n\x07macaddr\x18\x02 \x01(\x0b\x32\x16.Monitoring.MacAddress\x12\x11\n\ttimestamp\x18\x03 \x01(\r\x12\x10\n\x08tx_bytes\x18\x04 \x01(\x04\x12\x10\n\x08rx_bytes\x18\x05 \x01(\x04\x12\x19\n\x11power_consumption\x18\x06 \x01(\r\x12\x11\n\tin_errors\x18\x07 \x01(\r\x12\x12\n\nout_errors\x18\x08 \x01(\r\x12\x13\n\x0bin_discards\x18\t \x01(\r\x12\x14\n\x0cout_discards\x18\n \x01(\r\x12\x12\n\nin_packets\x18\x0b \x01(\r\x12\x13\n\x0bout_packets\x18\x0c \x01(\r\x12\x14\n\x0cin_other_err\x18\r \x01(\r\x12\x18\n\x10in_multicast_pkt\x18\x0e \x01(\r\x12\x18\n\x10in_broadcast_pkt\x18\x0f \x01(\r\x12\x16\n\x0ein_unicast_pkt\x18\x10 \x01(\r\x12\x19\n\x11out_multicast_pkt\x18\x11 \x01(\r\x12\x19\n\x11out_broadcast_pkt\x18\x12 \x01(\r\x12\x17\n\x0fout_unicast_pkt\x18\x13 \x01(\r\x12\x0e\n\x06in_fcs\x18\x14 \x01(\r\x12\x14\n\x0cin_alignment\x18\x15 \x01(\r\x12\x1f\n\x17out_excessive_collision\x18\x16 \x01(\r\x12\x12\n\nin_jabbers\x18\x17 \x01(\r\x12\x15\n\rin_fragmented\x18\x18 \x01(\r\x12\x10\n\x08in_giant\x18\x19 \x01(\r\x12\x0f\n\x07in_runt\x18\x1a \x01(\r\x12\x15\n\rout_collision\x18\x1b \x01(\r\x12\x1a\n\x12out_late_collision\x18\x1c \x01(\r\x12\x14\n\x0cout_deferred\x18\x1d \x01(\r\"\xbc\x01\n\x0bUplinkStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\x0f\n\x07link_id\x18\x02 \x01(\r\x12\x11\n\ttimestamp\x18\x03 \x01(\r\x12\x10\n\x08tx_bytes\x18\x04 \x01(\x04\x12\x10\n\x08rx_bytes\x18\x05 \x01(\x04\x12\x17\n\x0ftunnel_tx_bytes\x18\x06 \x01(\x04\x12\x17\n\x0ftunnel_rx_bytes\x18\x07 \x01(\x04\x12\x0e\n\x06map_id\x18\x08 \x01(\x04\x12\x10\n\x08map_name\x18\t \x01(\t\"\x94\x01\n\x0eUplinkWanStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\x0f\n\x07link_id\x18\x02 \x01(\r\x12\x11\n\ttimestamp\x18\x03 \x01(\r\x12\x18\n\x10\x63ompressed_bytes\x18\x04 \x01(\x04\x12\x1a\n\x12uncompressed_bytes\x18\x05 \x01(\x04\x12\x15\n\rsavings_bytes\x18\x06 \x01(\x04\"V\n\nModemStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\x11\n\ttimestamp\x18\x02 \x01(\r\x12\x10\n\x08tx_bytes\x18\x03 \x01(\x04\x12\x10\n\x08rx_bytes\x18\x04 \x01(\x04\"h\n\tRoleStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\x11\n\tuser_role\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\r\x12\x10\n\x08tx_bytes\x18\x04 \x01(\x04\x12\x10\n\x08rx_bytes\x18\x05 \x01(\x04\"c\n\tVlanStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\x0c\n\x04vlan\x18\x02 \x01(\r\x12\x11\n\ttimestamp\x18\x03 \x01(\r\x12\x10\n\x08tx_bytes\x18\x04 \x01(\x04\x12\x10\n\x08rx_bytes\x18\x05 \x01(\x04\"d\n\tSsidStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\r\n\x05\x65ssid\x18\x02 \x01(\x0c\x12\x11\n\ttimestamp\x18\x03 \x01(\r\x12\x10\n\x08tx_bytes\x18\x04 \x01(\x04\x12\x10\n\x08rx_bytes\x18\x05 \x01(\x04\"\xe1\x01\n\x12TunnelIpProbeStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12-\n\x0ctunnel_index\x18\x02 \x01(\x0e\x32\x17.Monitoring.TunnelIndex\x12,\n\rprobe_ip_addr\x18\x03 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12\x14\n\x0cprobe_status\x18\x04 \x01(\r\x12\x1d\n\x15ip_probe_pkt_loss_pct\x18\x05 \x01(\r\x12\x13\n\x0btunnel_name\x18\x06 \x01(\t\x12\x11\n\ttunnel_id\x18\x11 \x01(\x04\"\xbb\x03\n\x12UplinkIpProbeStats\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12\x0f\n\x07link_id\x18\x02 \x01(\r\x12\x11\n\ttimestamp\x18\x03 \x01(\r\x12)\n\nip_address\x18\x04 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12\x0c\n\x04vlan\x18\x05 \x01(\r\x12\x0f\n\x07\x61vg_rtt\x18\x06 \x01(\x04\x12\x0f\n\x07max_rtt\x18\x07 \x01(\x04\x12\x0f\n\x07min_rtt\x18\x08 \x01(\x04\x12\x12\n\navg_jitter\x18\t \x01(\x04\x12\x12\n\nmax_jitter\x18\n \x01(\x04\x12\x12\n\nmin_jitter\x18\x0b \x01(\x04\x12\x13\n\x0bmos_quality\x18\x0c \x01(\x04\x12\x16\n\x0esd_avg_latency\x18\r \x01(\x04\x12\x16\n\x0e\x64s_avg_latency\x18\x0e \x01(\x04\x12\x15\n\rsd_avg_jitter\x18\x0f \x01(\x04\x12\x15\n\rds_avg_jitter\x18\x10 \x01(\x04\x12\x14\n\x0cprobe_status\x18\x11 \x01(\r\x12\x10\n\x08loss_pct\x18\x12 \x01(\r\x12\x14\n\x0cvpnc_ip_addr\x18\x13 \x01(\x04\x12\x15\n\rprobe_ip_addr\x18\x14 \x01(\x04\"\xe3\x01\n\x0fUplinkSpeedtest\x12\x11\n\tdevice_id\x18\x01 \x01(\t\x12(\n\tserver_ip\x18\x02 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12\x0c\n\x04vlan\x18\x03 \x01(\r\x12\x10\n\x08protocol\x18\x04 \x01(\t\x12\x14\n\x0cupstream_bps\x18\x05 \x01(\x04\x12\x16\n\x0e\x64ownstream_bps\x18\x06 \x01(\x04\x12\x11\n\ttime_secs\x18\x07 \x01(\r\x12\x17\n\x0fupstream_jitter\x18\x08 \x01(\x02\x12\x19\n\x11\x64ownstream_jitter\x18\t \x01(\x02\"\x92\x0e\n\tWIDSEvent\x12*\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x12.Monitoring.Action:\x06UPDATE\x12\x33\n\nevent_type\x18\x02 \x01(\x0e\x32\x1f.Monitoring.WIDSEvent.EventType\x12\'\n\x07macaddr\x18\x03 \x01(\x0b\x32\x16.Monitoring.MacAddress\x12\x13\n\x0b\x64\x65tected_ap\x18\x04 \x01(\t\x12\x35\n\x0b\x61ttack_type\x18\x05 \x01(\x0e\x32 .Monitoring.WIDSEvent.AttackType\x12\x0f\n\x07\x63hannel\x18\x06 \x01(\t\x12\x0f\n\x07network\x18\x07 \x01(\x0c\"U\n\tEventType\x12\t\n\x05ROGUE\x10\x01\x12\x0f\n\x0bINTERFERING\x10\x02\x12\x19\n\x15INFRASTRUCTURE_ATTACK\x10\x03\x12\x11\n\rCLIENT_ATTACK\x10\x04\"\xb5\x0b\n\nAttackType\x12\x1c\n\x18\x44\x45TECT_VALID_SSID_MISUSE\x10\x01\x12\x18\n\x14\x44\x45TECT_ADHOC_NETWORK\x10\x02\x12\x13\n\x0f\x44\x45TECT_AP_FLOOD\x10\x03\x12\x1a\n\x16\x44\x45TECT_WIRELESS_BRIDGE\x10\x04\x12\x1d\n\x19\x44\x45TECT_INVALID_MAC_OUI_AP\x10\x05\x12\x1e\n\x1a\x44\x45TECT_INVALID_MAC_OUI_STA\x10\x06\x12\x12\n\x0e\x44\x45TECT_BAD_WEP\x10\x07\x12\x1b\n\x17\x44\x45TECT_AP_IMPERSONATION\x10\x08\x12\x19\n\x15\x44\x45TECT_WINDOWS_BRIDGE\x10\t\x12!\n\x1dSIGNATURE_DEAUTH_BROADCAST_AP\x10\n\x12\"\n\x1eSIGNATURE_DEAUTH_BROADCAST_STA\x10\x0b\x12\x18\n\x14\x44\x45TECT_HT_GREENFIELD\x10\x0c\x12\"\n\x1e\x44\x45TECT_HT_40MHZ_INTOLERANCE_AP\x10\r\x12#\n\x1f\x44\x45TECT_HT_40MHZ_INTOLERANCE_STA\x10\x0e\x12\x17\n\x13\x44\x45TECT_CLIENT_FLOOD\x10\x0f\x12!\n\x1d\x44\x45TECT_ADHOC_USING_VALID_SSID\x10\x10\x12\x16\n\x12\x44\x45TECT_AP_SPOOFING\x10\x11\x12%\n!DETECT_INVALID_ADDRESSCOMBINATION\x10\x12\x12\x19\n\x15\x44\x45TECT_MALFORMED_HTIE\x10\x13\x12\x1e\n\x1a\x44\x45TECT_MALFORMED_ASSOC_REQ\x10\x14\x12\x16\n\x12\x44\x45TECT_OVERFLOW_IE\x10\x15\x12\x1d\n\x19\x44\x45TECT_OVERFLOW_EAPOL_KEY\x10\x16\x12#\n\x1f\x44\x45TECT_MALFORMED_LARGE_DURATION\x10\x17\x12(\n$DETECT_MALFORMED_FRAME_WRONG_CHANNEL\x10\x18\x12\x1f\n\x1b\x44\x45TECT_MALFORMED_FRAME_AUTH\x10\x19\x12\x1b\n\x17\x44\x45TECT_CTS_RATE_ANOMALY\x10\x1a\x12\x1b\n\x17\x44\x45TECT_RTS_RATE_ANOMALY\x10\x1b\x12\x1e\n\x1aSIGNATURE_DEAUTH_BROADCAST\x10\x1c\x12%\n!SIGNATURE_DEASSOCIATION_BROADCAST\x10\x1d\x12\x1f\n\x1b\x44\x45TECT_RATE_ANOMALIES_BY_AP\x10\x1e\x12 \n\x1c\x44\x45TECT_RATE_ANOMALIES_BY_STA\x10\x1f\x12\x1b\n\x17\x44\x45TECT_EAP_RATE_ANOMALY\x10 \x12\x19\n\x15\x44\x45TECT_DISCONNECT_STA\x10!\x12\x1c\n\x18SIGNATURE_ASLEAP_FROM_AP\x10\"\x12\x1d\n\x19SIGNATURE_ASLEAP_FROM_STA\x10#\x12\x1d\n\x19SIGNATURE_AIRJACK_FROM_AP\x10$\x12\x1e\n\x1aSIGNATURE_AIRJACK_FROM_STA\x10%\x12\'\n#DETECT_STATION_DISCONNECT_ATTACK_AP\x10&\x12\x1c\n\x18\x44\x45TECT_UNENCRYPTED_VALID\x10\'\x12\x18\n\x14\x44\x45TECT_OMERTA_ATTACK\x10(\x12\x1d\n\x19\x44\x45TECT_TKIP_REPLAY_ATTACK\x10)\x12\x1a\n\x16\x44\x45TECT_CHOPCHOP_ATTACK\x10*\x12\x13\n\x0f\x44\x45TECT_FATAJACK\x10+\x12&\n\"DETECT_VALID_CLIENT_MISASSOCIATION\x10,\x12\x1b\n\x17\x44\x45TECT_BLOCK_ACK_ATTACK\x10-\x12\x1c\n\x18\x44\x45TECT_HOTSPOTTER_ATTACK\x10.\x12 \n\x1c\x44\x45TECT_POWER_SAVE_DOS_ATTACK\x10/\"\xdd\x05\n\x13\x41irMonitorRogueInfo\x12\x46\n\nmatch_type\x18\x01 \x01(\x0e\x32\x32.Monitoring.AirMonitorRogueInfo.wms_rap_match_type\x12)\n\tmatch_mac\x18\x02 \x01(\x0b\x32\x16.Monitoring.MacAddress\x12\'\n\x08match_ip\x18\x03 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12\x14\n\x0cmonitor_name\x18\x04 \x01(\t\x12N\n\x0enat_match_type\x18\x05 \x01(\x0e\x32\x36.Monitoring.AirMonitorRogueInfo.wms_rap_nat_match_type\"\xc6\x02\n\x12wms_rap_match_type\x12\x0f\n\x0bRAP_MT_NONE\x10\x00\x12\x11\n\rRAP_MT_CFG_WM\x10\x01\x12\x11\n\rRAP_MT_ETH_WM\x10\x02\x12\x10\n\x0cRAP_MT_AP_WM\x10\x03\x12\x11\n\rRAP_MT_EXT_WM\x10\x04\x12\x11\n\rRAP_MT_MANUAL\x10\x05\x12\x15\n\x11RAP_MT_BASE_BSSID\x10\x06\x12\x0e\n\nRAP_MT_EMS\x10\x07\x12\x14\n\x10RAP_MT_ETH_GW_WM\x10\x08\x12\x14\n\x10RAP_MT_CLASS_OFF\x10\t\x12\x13\n\x0fRAP_MT_AP_BSSID\x10\n\x12\x16\n\x12RAP_MT_PROP_ETH_WM\x10\x0b\x12\x12\n\x0eRAP_MT_AP_RULE\x10\x0c\x12\x14\n\x10RAP_MT_SYSTEM_WM\x10\r\x12\x17\n\x13RAP_MT_SYSTEM_GW_WM\x10\x0e\"{\n\x16wms_rap_nat_match_type\x12\x10\n\x0cRAP_NMT_NONE\x10\x00\x12\x11\n\rRAP_NMT_EQUAL\x10\x01\x12\x14\n\x10RAP_NMT_PLUS_ONE\x10\x02\x12\x15\n\x11RAP_NMT_MINUS_ONE\x10\x03\x12\x0f\n\x0bRAP_NMT_OUI\x10\x04\"\x93\x03\n\nRogueEvent\x12\'\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x12.Monitoring.Action:\x03\x41\x44\x44\x12\x13\n\x0b\x64\x65tected_ap\x18\x02 \x01(\t\x12\'\n\x07macaddr\x18\x03 \x01(\x0b\x32\x16.Monitoring.MacAddress\x12\x0f\n\x07\x63hannel\x18\x04 \x01(\r\x12\x0f\n\x07network\x18\x05 \x01(\x0c\x12@\n\tencr_type\x18\x06 \x01(\x0e\x32-.Monitoring.RogueEvent.wms_snmp_encr_protocol\x12\x31\n\x08\x61m_rogue\x18\x07 \x01(\x0b\x32\x1f.Monitoring.AirMonitorRogueInfo\"\x86\x01\n\x16wms_snmp_encr_protocol\x12\x1a\n\x16WMS_SNMP_WPA_ENCR_OPEN\x10\x00\x12\x19\n\x15WMS_SNMP_WPA_ENCR_WEP\x10\x01\x12\x19\n\x15WMS_SNMP_WPA_ENCR_WPA\x10\x02\x12\x1a\n\x16WMS_SNMP_WPA_ENCR_WPA2\x10\x03\"\xaa\x01\n\x10\x44\x65viceNeighbours\x12*\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x12.Monitoring.Action:\x06UPDATE\x12\x11\n\tdevice_id\x18\x02 \x01(\t\x12\x0c\n\x04port\x18\x03 \x01(\t\x12\x18\n\x10remote_device_id\x18\x04 \x01(\t\x12\x13\n\x0bremote_port\x18\x05 \x01(\t\x12\x1a\n\x12remote_port_number\x18\x06 \x01(\t\"\x93\r\n\x15MonitoringInformation\x12\x13\n\x0b\x63ustomer_id\x18\x01 \x02(\t\x12.\n\rdata_elements\x18\x02 \x03(\x0e\x32\x17.Monitoring.DataElement\x12!\n\x06swarms\x18\x03 \x03(\x0b\x32\x11.Monitoring.Swarm\x12\x1b\n\x03\x61ps\x18\x04 \x03(\x0b\x32\x0e.Monitoring.Ap\x12%\n\x08networks\x18\x05 \x03(\x0b\x32\x13.Monitoring.Network\x12!\n\x06radios\x18\x06 \x03(\x0b\x32\x11.Monitoring.Radio\x12!\n\x04vaps\x18\x07 \x03(\x0b\x32\x13.Monitoring.VapInfo\x12)\n\ninterfaces\x18\x08 \x03(\x0b\x32\x15.Monitoring.Interface\x12#\n\x07tunnels\x18\t \x03(\x0b\x32\x12.Monitoring.Tunnel\x12\x34\n\x10wireless_clients\x18\n \x03(\x0b\x32\x1a.Monitoring.WirelessClient\x12$\n\x08switches\x18\x0b \x03(\x0b\x32\x12.Monitoring.Switch\x12.\n\rwired_clients\x18\x0c \x03(\x0b\x32\x17.Monitoring.WiredClient\x12-\n\x0c\x64\x65vice_stats\x18\r \x03(\x0b\x32\x17.Monitoring.DeviceStats\x12+\n\x0bradio_stats\x18\x0e \x03(\x0b\x32\x16.Monitoring.RadioStats\x12\x33\n\x0finterface_stats\x18\x0f \x03(\x0b\x32\x1a.Monitoring.InterfaceStats\x12\'\n\tvap_stats\x18\x10 \x03(\x0b\x32\x14.Monitoring.VapStats\x12-\n\x0c\x63lient_stats\x18\x11 \x03(\x0b\x32\x17.Monitoring.ClientStats\x12-\n\x0ctunnel_stats\x18\x12 \x03(\x0b\x32\x17.Monitoring.TunnelStats\x12*\n\x0bwids_events\x18\x13 \x03(\x0b\x32\x15.Monitoring.WIDSEvent\x12+\n\x0bmodem_stats\x18\x14 \x03(\x0b\x32\x16.Monitoring.ModemStats\x12)\n\nrole_stats\x18\x15 \x03(\x0b\x32\x15.Monitoring.RoleStats\x12)\n\nvlan_stats\x18\x16 \x03(\x0b\x32\x15.Monitoring.VlanStats\x12)\n\nssid_stats\x18\x17 \x03(\x0b\x32\x15.Monitoring.SsidStats\x12\x35\n\ripprobe_stats\x18\x18 \x03(\x0b\x32\x1e.Monitoring.TunnelIpProbeStats\x12,\n\x0crogue_events\x18\x19 \x03(\x0b\x32\x16.Monitoring.RogueEvent\x12<\n\x14mobility_controllers\x18\x1a \x03(\x0b\x32\x1e.Monitoring.MobilityController\x12#\n\x07uplinks\x18\x1b \x03(\x0b\x32\x12.Monitoring.Uplink\x12-\n\x0cuplink_stats\x18\x1c \x03(\x0b\x32\x17.Monitoring.UplinkStats\x12\x34\n\x10uplink_wan_stats\x18\x1d \x03(\x0b\x32\x1a.Monitoring.UplinkWanStats\x12:\n\x12uplink_probe_stats\x18\x1e \x03(\x0b\x32\x1e.Monitoring.UplinkIpProbeStats\x12\x35\n\x10uplink_speedtest\x18\x1f \x03(\x0b\x32\x1b.Monitoring.UplinkSpeedtest\x12\x37\n\x11\x64\x65vice_neighbours\x18  \x03(\x0b\x32\x1c.Monitoring.DeviceNeighbours\x12.\n\x0cnotification\x18! \x03(\x0b\x32\x18.Monitoring.Notification\x12.\n\rswitch_stacks\x18\" \x03(\x0b\x32\x17.Monitoring.SwitchStack\x12*\n\x0bike_tunnels\x18# \x03(\x0b\x32\x15.Monitoring.IkeTunnel\x12\x34\n\x10switch_vlan_info\x18$ \x01(\x0b\x32\x1a.Monitoring.SwitchVlanInfo\x12\x1f\n\x05vlans\x18% \x03(\x0b\x32\x10.Monitoring.Vlan\"\xf9\x04\n\x1aMonitoringStateInformation\x12\x13\n\x0b\x63ustomer_id\x18\x01 \x02(\t\x12<\n\x14mobility_controllers\x18\x02 \x03(\x0b\x32\x1e.Monitoring.MobilityController\x12$\n\x08switches\x18\x03 \x03(\x0b\x32\x12.Monitoring.Switch\x12!\n\x06swarms\x18\x04 \x03(\x0b\x32\x11.Monitoring.Swarm\x12\x1b\n\x03\x61ps\x18\x05 \x03(\x0b\x32\x0e.Monitoring.Ap\x12!\n\x04vaps\x18\x06 \x03(\x0b\x32\x13.Monitoring.VapInfo\x12!\n\x06radios\x18\x07 \x03(\x0b\x32\x11.Monitoring.Radio\x12)\n\ninterfaces\x18\x08 \x03(\x0b\x32\x15.Monitoring.Interface\x12%\n\x08networks\x18\t \x03(\x0b\x32\x13.Monitoring.Network\x12#\n\x07tunnels\x18\n \x03(\x0b\x32\x12.Monitoring.Tunnel\x12\x34\n\x10wireless_clients\x18\x0b \x03(\x0b\x32\x1a.Monitoring.WirelessClient\x12.\n\rwired_clients\x18\x0c \x03(\x0b\x32\x17.Monitoring.WiredClient\x12#\n\x07uplinks\x18\r \x03(\x0b\x32\x12.Monitoring.Uplink\x12.\n\rswitch_stacks\x18\x0e \x03(\x0b\x32\x17.Monitoring.SwitchStack\x12*\n\x0bike_tunnels\x18\x0f \x03(\x0b\x32\x15.Monitoring.IkeTunnel\"*\n\x0cKeyValueData\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\"\x83\x03\n\x0cNotification\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x12\n\nsetting_id\x18\x03 \x01(\t\x12\x11\n\tdevice_id\x18\x04 \x01(\t\x12\x33\n\x08severity\x18\x05 \x01(\x0e\x32!.Monitoring.Notification.Severity\x12\x11\n\ttimestamp\x18\x06 \x01(\r\x12\x39\n\x05state\x18\x07 \x01(\x0e\x32*.Monitoring.Notification.NotificationState\x12\x13\n\x0b\x64\x65scription\x18\x08 \x01(\t\x12\'\n\x05\x65xtra\x18\t \x03(\x0b\x32\x18.Monitoring.KeyValueData\"G\n\x08Severity\x12\n\n\x06Normal\x10\x01\x12\x0b\n\x07Warning\x10\x02\x12\t\n\x05Minor\x10\x03\x12\t\n\x05Major\x10\x04\x12\x0c\n\x08\x43ritical\x10\x05\"(\n\x11NotificationState\x12\x08\n\x04Open\x10\x00\x12\t\n\x05\x43lose\x10\x01\"J\n\x0eSwitchVlanInfo\x12\x11\n\tdevice_id\x18\x01 \x02(\t\x12%\n\x05vlans\x18\x02 \x03(\x0b\x32\x16.Monitoring.SwitchVlan\"T\n\nSwitchVlan\x12\n\n\x02id\x18\x01 \x01(\r\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x14\n\x0ctagged_ports\x18\x03 \x03(\t\x12\x16\n\x0euntagged_ports\x18\x04 \x03(\t\"\xfe\x02\n\x04Vlan\x12*\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x12.Monitoring.Action:\x06UPDATE\x12\x0f\n\x07vlan_id\x18\x02 \x01(\r\x12#\n\x04ipv4\x18\x03 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12&\n\x07ipv6_ll\x18\x04 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12%\n\x06ipv6_1\x18\x05 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12%\n\x06ipv6_2\x18\x06 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12%\n\x06ipv6_3\x18\x07 \x01(\x0b\x32\x15.Monitoring.IpAddress\x12&\n\noper_state\x18\x08 \x01(\x0e\x32\x12.Monitoring.Status\x12\x13\n\x0b\x64\x65scription\x18\t \x01(\t\x12\'\n\x0b\x61\x64min_state\x18\n \x01(\x0e\x32\x12.Monitoring.Status\x12\x11\n\taddr_mode\x18\x0b \x01(\t*)\n\x06\x41\x63tion\x12\x07\n\x03\x41\x44\x44\x10\x01\x12\n\n\x06\x44\x45LETE\x10\x02\x12\n\n\x06UPDATE\x10\x03*\x1a\n\x06Status\x12\x06\n\x02UP\x10\x01\x12\x08\n\x04\x44OWN\x10\x02*&\n\x0bTunnelIndex\x12\x0b\n\x07PRIMARY\x10\x00\x12\n\n\x06\x42\x41\x43KUP\x10\x01*\"\n\nCryptoType\x12\x0b\n\x07\x43\x41_CERT\x10\x00\x12\x07\n\x03PSK\x10\x01*\x94\x05\n\x0b\x44\x61taElement\x12\x14\n\x10STATE_CONTROLLER\x10\x01\x12\x10\n\x0cSTATE_SWITCH\x10\x02\x12\x0f\n\x0bSTATE_SWARM\x10\x03\x12\x0c\n\x08STATE_AP\x10\x04\x12\r\n\tSTATE_VAP\x10\x05\x12\x0f\n\x0bSTATE_RADIO\x10\x06\x12\x13\n\x0fSTATE_INTERFACE\x10\x07\x12\x11\n\rSTATE_NETWORK\x10\x08\x12\x10\n\x0cSTATE_TUNNEL\x10\t\x12\x18\n\x14STATE_WIRELESSCLIENT\x10\n\x12\x15\n\x11STATE_WIREDCLIENT\x10\x0b\x12\x10\n\x0cSTATE_UPLINK\x10\x0c\x12\x0f\n\x0bSTAT_DEVICE\x10\r\x12\x0e\n\nSTAT_RADIO\x10\x0e\x12\x0c\n\x08STAT_VAP\x10\x0f\x12\x12\n\x0eSTAT_INTERFACE\x10\x10\x12\x0f\n\x0bSTAT_CLIENT\x10\x11\x12\x0f\n\x0bSTAT_TUNNEL\x10\x12\x12\x0e\n\nSTAT_MODEM\x10\x13\x12\r\n\tSTAT_ROLE\x10\x14\x12\r\n\tSTAT_VLAN\x10\x15\x12\r\n\tSTAT_SSID\x10\x16\x12\x10\n\x0cSTAT_IPPROBE\x10\x17\x12\x0f\n\x0bSTAT_UPLINK\x10\x18\x12\x12\n\x0eSTAT_UPLINKWAN\x10\x19\x12\x16\n\x12STAT_UPLINKIPPROBE\x10\x1a\x12\x0f\n\x0b\x45VENTS_WIDS\x10\x1b\x12\x10\n\x0c\x45VENTS_ROGUE\x10\x1c\x12\x1a\n\x16STATS_UPLINK_SPEEDTEST\x10\x1d\x12\x15\n\x11\x44\x45VICE_NEIGHBOURS\x10\x1e\x12\x11\n\rNOTIFICATIONS\x10\x1f\x12\x10\n\x0cSWITCH_STACK\x10 \x12\x14\n\x10STATE_IKE_TUNNEL\x10!\x12\x0f\n\x0bSWITCH_VLAN\x10\"\x12\x0e\n\nSTATE_VLAN\x10#*\xf7\x05\n\x08\x41uthType\x12\x08\n\x04NONE\x10\x01\x12\x0c\n\x08MAC_AUTH\x10\x02\x12\x0e\n\nDOT1X_AUTH\x10\x03\x12\x0b\n\x07L3_AUTH\x10\x04\x12\x10\n\x0c\x43ONSOLE_AUTH\x10\x05\x12\x0f\n\x0bTELNET_AUTH\x10\x06\x12\x0e\n\nWEBUI_AUTH\x10\x07\x12\x0c\n\x08SSH_AUTH\x10\x08\x12\x0c\n\x08WEB_AUTH\x10\t\x12\r\n\tSNMP_AUTH\x10\n\x12\x11\n\rSSH_NONE_AUTH\x10\x0b\x12\x0c\n\x08LMA_AUTH\x10\x0c\x12\x0c\n\x08\x41NY_AUTH\x10\r\x12\x12\n\x0e\x43\x41PTIVE_PORTAL\x10\x0e\x12\x0c\n\x08VPN_AUTH\x10\x0f\x12\x15\n\x11STATEFUL_KERBEROS\x10\x10\x12\x15\n\x11RADIUS_ACCOUNTING\x10\x11\x12\r\n\tSECURE_ID\x10\x12\x12\x13\n\x0fSTATEFUL_RADIUS\x10\x13\x12\x15\n\x11SWITCH_MANAGEMENT\x10\x14\x12\x11\n\rDOT1X_MACHINE\x10\x15\x12\x0e\n\nDOT1X_USER\x10\x16\x12\x0f\n\x0b\x44OT1X_WIRED\x10\x17\x12\x17\n\x13\x44OT1X_WIRED_MACHINE\x10\x18\x12\x14\n\x10\x44OT1X_WIRED_USER\x10\x19\x12\x0e\n\nPUB_COOKIE\x10\x1a\x12\x10\n\x0cTACACAS_PLUS\x10\x1b\x12\x11\n\rWIRELESS_XSEC\x10\x1c\x12\x19\n\x15WIRELESS_XSEC_MACHINE\x10\x1d\x12\x16\n\x12WIRELESS_XSEC_USER\x10\x1e\x12\x17\n\x13WIRELESS_XSEC_WIRED\x10\x1f\x12\x1f\n\x1bWIRELESS_XSEC_WIRED_MACHINE\x10 \x12\x1c\n\x18WIRELESS_XSEC_WIRED_USER\x10!\x12\x11\n\rSTATEFUL_NTLM\x10\"\x12\n\n\x06RAP_AP\x10#\x12\x0b\n\x07VIA_WEB\x10$\x12\x1a\n\x16GENERIC_INTERFACE_SPEC\x10%\x12\x11\n\rTRANSPORT_VPN\x10&\x12\x0b\n\x07VIA_VPN\x10\'\x12\x13\n\x0fNUM_AUTH_CLIENT\x10(')
 )
 
 _ACTION = _descriptor.EnumDescriptor(
   name='Action',
-  full_name='Action',
+  full_name='Monitoring.Action',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -45,15 +45,15 @@ _ACTION = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=13578,
-  serialized_end=13619,
+  serialized_start=15797,
+  serialized_end=15838,
 )
 _sym_db.RegisterEnumDescriptor(_ACTION)
 
 Action = enum_type_wrapper.EnumTypeWrapper(_ACTION)
 _STATUS = _descriptor.EnumDescriptor(
   name='Status',
-  full_name='Status',
+  full_name='Monitoring.Status',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -68,15 +68,15 @@ _STATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=13621,
-  serialized_end=13647,
+  serialized_start=15840,
+  serialized_end=15866,
 )
 _sym_db.RegisterEnumDescriptor(_STATUS)
 
 Status = enum_type_wrapper.EnumTypeWrapper(_STATUS)
 _TUNNELINDEX = _descriptor.EnumDescriptor(
   name='TunnelIndex',
-  full_name='TunnelIndex',
+  full_name='Monitoring.TunnelIndex',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -91,15 +91,15 @@ _TUNNELINDEX = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=13649,
-  serialized_end=13687,
+  serialized_start=15868,
+  serialized_end=15906,
 )
 _sym_db.RegisterEnumDescriptor(_TUNNELINDEX)
 
 TunnelIndex = enum_type_wrapper.EnumTypeWrapper(_TUNNELINDEX)
 _CRYPTOTYPE = _descriptor.EnumDescriptor(
   name='CryptoType',
-  full_name='CryptoType',
+  full_name='Monitoring.CryptoType',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -114,15 +114,15 @@ _CRYPTOTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=13689,
-  serialized_end=13723,
+  serialized_start=15908,
+  serialized_end=15942,
 )
 _sym_db.RegisterEnumDescriptor(_CRYPTOTYPE)
 
 CryptoType = enum_type_wrapper.EnumTypeWrapper(_CRYPTOTYPE)
 _DATAELEMENT = _descriptor.EnumDescriptor(
   name='DataElement',
-  full_name='DataElement',
+  full_name='Monitoring.DataElement',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -262,18 +262,22 @@ _DATAELEMENT = _descriptor.EnumDescriptor(
       name='SWITCH_VLAN', index=33, number=34,
       serialized_options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='STATE_VLAN', index=34, number=35,
+      serialized_options=None,
+      type=None),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=13726,
-  serialized_end=14370,
+  serialized_start=15945,
+  serialized_end=16605,
 )
 _sym_db.RegisterEnumDescriptor(_DATAELEMENT)
 
 DataElement = enum_type_wrapper.EnumTypeWrapper(_DATAELEMENT)
 _AUTHTYPE = _descriptor.EnumDescriptor(
   name='AuthType',
-  full_name='AuthType',
+  full_name='Monitoring.AuthType',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -440,8 +444,8 @@ _AUTHTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=14373,
-  serialized_end=15132,
+  serialized_start=16608,
+  serialized_end=17367,
 )
 _sym_db.RegisterEnumDescriptor(_AUTHTYPE)
 
@@ -489,6 +493,7 @@ NOTIFICATIONS = 31
 SWITCH_STACK = 32
 STATE_IKE_TUNNEL = 33
 SWITCH_VLAN = 34
+STATE_VLAN = 35
 NONE = 1
 MAC_AUTH = 2
 DOT1X_AUTH = 3
@@ -533,7 +538,7 @@ NUM_AUTH_CLIENT = 40
 
 _IPADDRESS_ADDR_FAMILY = _descriptor.EnumDescriptor(
   name='addr_family',
-  full_name='IpAddress.addr_family',
+  full_name='Monitoring.IpAddress.addr_family',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -548,14 +553,14 @@ _IPADDRESS_ADDR_FAMILY = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=83,
-  serialized_end=141,
+  serialized_start=107,
+  serialized_end=165,
 )
 _sym_db.RegisterEnumDescriptor(_IPADDRESS_ADDR_FAMILY)
 
 _INTERFACE_DUPLEX = _descriptor.EnumDescriptor(
   name='Duplex',
-  full_name='Interface.Duplex',
+  full_name='Monitoring.Interface.Duplex',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -574,14 +579,14 @@ _INTERFACE_DUPLEX = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1235,
-  serialized_end=1273,
+  serialized_start=1520,
+  serialized_end=1558,
 )
 _sym_db.RegisterEnumDescriptor(_INTERFACE_DUPLEX)
 
 _INTERFACE_INTFTYPE = _descriptor.EnumDescriptor(
   name='IntfType',
-  full_name='Interface.IntfType',
+  full_name='Monitoring.Interface.IntfType',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -632,14 +637,14 @@ _INTERFACE_INTFTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1276,
-  serialized_end=1421,
+  serialized_start=1561,
+  serialized_end=1706,
 )
 _sym_db.RegisterEnumDescriptor(_INTERFACE_INTFTYPE)
 
 _INTERFACE_SPEEDTYPE = _descriptor.EnumDescriptor(
   name='SpeedType',
-  full_name='Interface.SpeedType',
+  full_name='Monitoring.Interface.SpeedType',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -670,14 +675,14 @@ _INTERFACE_SPEEDTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1423,
-  serialized_end=1531,
+  serialized_start=1708,
+  serialized_end=1816,
 )
 _sym_db.RegisterEnumDescriptor(_INTERFACE_SPEEDTYPE)
 
 _INTERFACE_PORTTYPE = _descriptor.EnumDescriptor(
   name='PortType',
-  full_name='Interface.PortType',
+  full_name='Monitoring.Interface.PortType',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -704,14 +709,14 @@ _INTERFACE_PORTTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1533,
-  serialized_end=1607,
+  serialized_start=1818,
+  serialized_end=1892,
 )
 _sym_db.RegisterEnumDescriptor(_INTERFACE_PORTTYPE)
 
 _INTERFACE_POESUPPORT = _descriptor.EnumDescriptor(
   name='PoeSupport',
-  full_name='Interface.PoeSupport',
+  full_name='Monitoring.Interface.PoeSupport',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -730,14 +735,14 @@ _INTERFACE_POESUPPORT = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1609,
-  serialized_end=1663,
+  serialized_start=1894,
+  serialized_end=1948,
 )
 _sym_db.RegisterEnumDescriptor(_INTERFACE_POESUPPORT)
 
 _AP_UPLINKTYPE = _descriptor.EnumDescriptor(
   name='UplinkType',
-  full_name='Ap.UplinkType',
+  full_name='Monitoring.Ap.UplinkType',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -760,14 +765,14 @@ _AP_UPLINKTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2278,
-  serialized_end=2338,
+  serialized_start=2674,
+  serialized_end=2734,
 )
 _sym_db.RegisterEnumDescriptor(_AP_UPLINKTYPE)
 
 _HARDWAREMODULE_HARDWARESTATUS = _descriptor.EnumDescriptor(
   name='HardwareStatus',
-  full_name='HardwareModule.HardwareStatus',
+  full_name='Monitoring.HardwareModule.HardwareStatus',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -798,14 +803,14 @@ _HARDWAREMODULE_HARDWARESTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2863,
-  serialized_end=2955,
+  serialized_start=3325,
+  serialized_end=3417,
 )
 _sym_db.RegisterEnumDescriptor(_HARDWAREMODULE_HARDWARESTATUS)
 
 _SWITCH_STACKMEMBERROLE = _descriptor.EnumDescriptor(
   name='StackMemberRole',
-  full_name='Switch.StackMemberRole',
+  full_name='Monitoring.Switch.StackMemberRole',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -828,14 +833,14 @@ _SWITCH_STACKMEMBERROLE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=3502,
-  serialized_end=3572,
+  serialized_start=4063,
+  serialized_end=4133,
 )
 _sym_db.RegisterEnumDescriptor(_SWITCH_STACKMEMBERROLE)
 
 _SWITCHSTACK_STACKTOPOLOGY = _descriptor.EnumDescriptor(
   name='StackTopology',
-  full_name='SwitchStack.StackTopology',
+  full_name='Monitoring.SwitchStack.StackTopology',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -866,14 +871,14 @@ _SWITCHSTACK_STACKTOPOLOGY = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=3807,
-  serialized_end=3900,
+  serialized_start=4412,
+  serialized_end=4505,
 )
 _sym_db.RegisterEnumDescriptor(_SWITCHSTACK_STACKTOPOLOGY)
 
 _SWITCHSTACK_STACKPOLICY = _descriptor.EnumDescriptor(
   name='StackPolicy',
-  full_name='SwitchStack.StackPolicy',
+  full_name='Monitoring.SwitchStack.StackPolicy',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -892,14 +897,14 @@ _SWITCHSTACK_STACKPOLICY = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=3902,
-  serialized_end=4007,
+  serialized_start=4507,
+  serialized_end=4612,
 )
 _sym_db.RegisterEnumDescriptor(_SWITCHSTACK_STACKPOLICY)
 
 _WIDSEVENT_EVENTTYPE = _descriptor.EnumDescriptor(
   name='EventType',
-  full_name='WIDSEvent.EventType',
+  full_name='Monitoring.WIDSEvent.EventType',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -922,14 +927,14 @@ _WIDSEVENT_EVENTTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=8509,
-  serialized_end=8594,
+  serialized_start=9628,
+  serialized_end=9713,
 )
 _sym_db.RegisterEnumDescriptor(_WIDSEVENT_EVENTTYPE)
 
 _WIDSEVENT_ATTACKTYPE = _descriptor.EnumDescriptor(
   name='AttackType',
-  full_name='WIDSEvent.AttackType',
+  full_name='Monitoring.WIDSEvent.AttackType',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -1124,14 +1129,14 @@ _WIDSEVENT_ATTACKTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=8597,
-  serialized_end=10058,
+  serialized_start=9716,
+  serialized_end=11177,
 )
 _sym_db.RegisterEnumDescriptor(_WIDSEVENT_ATTACKTYPE)
 
 _AIRMONITORROGUEINFO_WMS_RAP_MATCH_TYPE = _descriptor.EnumDescriptor(
   name='wms_rap_match_type',
-  full_name='AirMonitorRogueInfo.wms_rap_match_type',
+  full_name='Monitoring.AirMonitorRogueInfo.wms_rap_match_type',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -1198,14 +1203,14 @@ _AIRMONITORROGUEINFO_WMS_RAP_MATCH_TYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=10299,
-  serialized_end=10625,
+  serialized_start=11462,
+  serialized_end=11788,
 )
 _sym_db.RegisterEnumDescriptor(_AIRMONITORROGUEINFO_WMS_RAP_MATCH_TYPE)
 
 _AIRMONITORROGUEINFO_WMS_RAP_NAT_MATCH_TYPE = _descriptor.EnumDescriptor(
   name='wms_rap_nat_match_type',
-  full_name='AirMonitorRogueInfo.wms_rap_nat_match_type',
+  full_name='Monitoring.AirMonitorRogueInfo.wms_rap_nat_match_type',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -1232,14 +1237,14 @@ _AIRMONITORROGUEINFO_WMS_RAP_NAT_MATCH_TYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=10627,
-  serialized_end=10750,
+  serialized_start=11790,
+  serialized_end=11913,
 )
 _sym_db.RegisterEnumDescriptor(_AIRMONITORROGUEINFO_WMS_RAP_NAT_MATCH_TYPE)
 
 _ROGUEEVENT_WMS_SNMP_ENCR_PROTOCOL = _descriptor.EnumDescriptor(
   name='wms_snmp_encr_protocol',
-  full_name='RogueEvent.wms_snmp_encr_protocol',
+  full_name='Monitoring.RogueEvent.wms_snmp_encr_protocol',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -1262,14 +1267,14 @@ _ROGUEEVENT_WMS_SNMP_ENCR_PROTOCOL = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=10978,
-  serialized_end=11112,
+  serialized_start=12185,
+  serialized_end=12319,
 )
 _sym_db.RegisterEnumDescriptor(_ROGUEEVENT_WMS_SNMP_ENCR_PROTOCOL)
 
 _NOTIFICATION_SEVERITY = _descriptor.EnumDescriptor(
   name='Severity',
-  full_name='Notification.Severity',
+  full_name='Monitoring.Notification.Severity',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -1296,14 +1301,14 @@ _NOTIFICATION_SEVERITY = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=13312,
-  serialized_end=13383,
+  serialized_start=15135,
+  serialized_end=15206,
 )
 _sym_db.RegisterEnumDescriptor(_NOTIFICATION_SEVERITY)
 
 _NOTIFICATION_NOTIFICATIONSTATE = _descriptor.EnumDescriptor(
   name='NotificationState',
-  full_name='Notification.NotificationState',
+  full_name='Monitoring.Notification.NotificationState',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -1318,28 +1323,28 @@ _NOTIFICATION_NOTIFICATIONSTATE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=13385,
-  serialized_end=13425,
+  serialized_start=15208,
+  serialized_end=15248,
 )
 _sym_db.RegisterEnumDescriptor(_NOTIFICATION_NOTIFICATIONSTATE)
 
 
 _IPADDRESS = _descriptor.Descriptor(
   name='IpAddress',
-  full_name='IpAddress',
+  full_name='Monitoring.IpAddress',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='af', full_name='IpAddress.af', index=0,
+      name='af', full_name='Monitoring.IpAddress.af', index=0,
       number=1, type=14, cpp_type=8, label=2,
       has_default_value=False, default_value=2,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='addr', full_name='IpAddress.addr', index=1,
+      name='addr', full_name='Monitoring.IpAddress.addr', index=1,
       number=2, type=12, cpp_type=9, label=2,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
@@ -1358,20 +1363,20 @@ _IPADDRESS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=20,
-  serialized_end=141,
+  serialized_start=33,
+  serialized_end=165,
 )
 
 
 _MACADDRESS = _descriptor.Descriptor(
   name='MacAddress',
-  full_name='MacAddress',
+  full_name='Monitoring.MacAddress',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='addr', full_name='MacAddress.addr', index=0,
+      name='addr', full_name='Monitoring.MacAddress.addr', index=0,
       number=1, type=12, cpp_type=9, label=2,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
@@ -1389,62 +1394,62 @@ _MACADDRESS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=143,
-  serialized_end=169,
+  serialized_start=167,
+  serialized_end=193,
 )
 
 
 _SWARM = _descriptor.Descriptor(
   name='Swarm',
-  full_name='Swarm',
+  full_name='Monitoring.Swarm',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='action', full_name='Swarm.action', index=0,
+      name='action', full_name='Monitoring.Swarm.action', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=3,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='swarm_id', full_name='Swarm.swarm_id', index=1,
+      name='swarm_id', full_name='Monitoring.Swarm.swarm_id', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='name', full_name='Swarm.name', index=2,
+      name='name', full_name='Monitoring.Swarm.name', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='status', full_name='Swarm.status', index=3,
+      name='status', full_name='Monitoring.Swarm.status', index=3,
       number=4, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='public_ip_address', full_name='Swarm.public_ip_address', index=4,
+      name='public_ip_address', full_name='Monitoring.Swarm.public_ip_address', index=4,
       number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ip_address', full_name='Swarm.ip_address', index=5,
+      name='ip_address', full_name='Monitoring.Swarm.ip_address', index=5,
       number=6, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='firmware_version', full_name='Swarm.firmware_version', index=6,
+      name='firmware_version', full_name='Monitoring.Swarm.firmware_version', index=6,
       number=7, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -1462,84 +1467,91 @@ _SWARM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=172,
-  serialized_end=370,
+  serialized_start=196,
+  serialized_end=438,
 )
 
 
 _TUNNEL = _descriptor.Descriptor(
   name='Tunnel',
-  full_name='Tunnel',
+  full_name='Monitoring.Tunnel',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='action', full_name='Tunnel.action', index=0,
+      name='action', full_name='Monitoring.Tunnel.action', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=3,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='swarm_id', full_name='Tunnel.swarm_id', index=1,
+      name='swarm_id', full_name='Monitoring.Tunnel.swarm_id', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='index', full_name='Tunnel.index', index=2,
+      name='index', full_name='Monitoring.Tunnel.index', index=2,
       number=3, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='crypto_type', full_name='Tunnel.crypto_type', index=3,
+      name='crypto_type', full_name='Monitoring.Tunnel.crypto_type', index=3,
       number=4, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='peer_name', full_name='Tunnel.peer_name', index=4,
+      name='peer_name', full_name='Monitoring.Tunnel.peer_name', index=4,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='peer_tun_ip', full_name='Tunnel.peer_tun_ip', index=5,
+      name='peer_tun_ip', full_name='Monitoring.Tunnel.peer_tun_ip', index=5,
       number=6, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tunnel_ip', full_name='Tunnel.tunnel_ip', index=6,
+      name='tunnel_ip', full_name='Monitoring.Tunnel.tunnel_ip', index=6,
       number=7, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='status', full_name='Tunnel.status', index=7,
+      name='status', full_name='Monitoring.Tunnel.status', index=7,
       number=8, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='active', full_name='Tunnel.active', index=8,
+      name='active', full_name='Monitoring.Tunnel.active', index=8,
       number=9, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='uptime', full_name='Tunnel.uptime', index=9,
+      name='uptime', full_name='Monitoring.Tunnel.uptime', index=9,
       number=10, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='tunnel_id', full_name='Monitoring.Tunnel.tunnel_id', index=10,
+      number=11, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -1556,167 +1568,167 @@ _TUNNEL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=373,
-  serialized_end=639,
+  serialized_start=441,
+  serialized_end=792,
 )
 
 
 _INTERFACE = _descriptor.Descriptor(
   name='Interface',
-  full_name='Interface',
+  full_name='Monitoring.Interface',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='action', full_name='Interface.action', index=0,
+      name='action', full_name='Monitoring.Interface.action', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=3,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='Interface.device_id', index=1,
+      name='device_id', full_name='Monitoring.Interface.device_id', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='macaddr', full_name='Interface.macaddr', index=2,
+      name='macaddr', full_name='Monitoring.Interface.macaddr', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='status', full_name='Interface.status', index=3,
+      name='status', full_name='Monitoring.Interface.status', index=3,
       number=4, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ipaddr', full_name='Interface.ipaddr', index=4,
+      name='ipaddr', full_name='Monitoring.Interface.ipaddr', index=4,
       number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='duplex_mode', full_name='Interface.duplex_mode', index=5,
+      name='duplex_mode', full_name='Monitoring.Interface.duplex_mode', index=5,
       number=6, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='name', full_name='Interface.name', index=6,
+      name='name', full_name='Monitoring.Interface.name', index=6,
       number=7, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='port_number', full_name='Interface.port_number', index=7,
+      name='port_number', full_name='Monitoring.Interface.port_number', index=7,
       number=8, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='type', full_name='Interface.type', index=8,
+      name='type', full_name='Monitoring.Interface.type', index=8,
       number=9, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='mode', full_name='Interface.mode', index=9,
+      name='mode', full_name='Monitoring.Interface.mode', index=9,
       number=10, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='vlan', full_name='Interface.vlan', index=10,
+      name='vlan', full_name='Monitoring.Interface.vlan', index=10,
       number=11, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='has_poe', full_name='Interface.has_poe', index=11,
+      name='has_poe', full_name='Monitoring.Interface.has_poe', index=11,
       number=12, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='poe_state', full_name='Interface.poe_state', index=12,
+      name='poe_state', full_name='Monitoring.Interface.poe_state', index=12,
       number=13, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='oper_state', full_name='Interface.oper_state', index=13,
+      name='oper_state', full_name='Monitoring.Interface.oper_state', index=13,
       number=14, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='admin_state', full_name='Interface.admin_state', index=14,
+      name='admin_state', full_name='Monitoring.Interface.admin_state', index=14,
       number=15, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='speed', full_name='Interface.speed', index=15,
+      name='speed', full_name='Monitoring.Interface.speed', index=15,
       number=16, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='mux', full_name='Interface.mux', index=16,
+      name='mux', full_name='Monitoring.Interface.mux', index=16,
       number=17, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='trusted', full_name='Interface.trusted', index=17,
+      name='trusted', full_name='Monitoring.Interface.trusted', index=17,
       number=18, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='slot', full_name='Interface.slot', index=18,
+      name='slot', full_name='Monitoring.Interface.slot', index=18,
       number=19, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='phy_type', full_name='Interface.phy_type', index=19,
+      name='phy_type', full_name='Monitoring.Interface.phy_type', index=19,
       number=20, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='sub_type', full_name='Interface.sub_type', index=20,
+      name='sub_type', full_name='Monitoring.Interface.sub_type', index=20,
       number=21, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='allowed_vlan', full_name='Interface.allowed_vlan', index=21,
+      name='allowed_vlan', full_name='Monitoring.Interface.allowed_vlan', index=21,
       number=22, type=13, cpp_type=3, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -1739,41 +1751,41 @@ _INTERFACE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=642,
-  serialized_end=1663,
+  serialized_start=795,
+  serialized_end=1948,
 )
 
 
 _VAPINFO = _descriptor.Descriptor(
   name='VapInfo',
-  full_name='VapInfo',
+  full_name='Monitoring.VapInfo',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='action', full_name='VapInfo.action', index=0,
+      name='action', full_name='Monitoring.VapInfo.action', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=3,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='VapInfo.device_id', index=1,
+      name='device_id', full_name='Monitoring.VapInfo.device_id', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='radio_mac', full_name='VapInfo.radio_mac', index=2,
+      name='radio_mac', full_name='Monitoring.VapInfo.radio_mac', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='essid', full_name='VapInfo.essid', index=3,
+      name='essid', full_name='Monitoring.VapInfo.essid', index=3,
       number=4, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
@@ -1791,69 +1803,69 @@ _VAPINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1665,
-  serialized_end=1773,
+  serialized_start=1951,
+  serialized_end=2081,
 )
 
 
 _RADIO = _descriptor.Descriptor(
   name='Radio',
-  full_name='Radio',
+  full_name='Monitoring.Radio',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='action', full_name='Radio.action', index=0,
+      name='action', full_name='Monitoring.Radio.action', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=3,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='Radio.device_id', index=1,
+      name='device_id', full_name='Monitoring.Radio.device_id', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='index', full_name='Radio.index', index=2,
+      name='index', full_name='Monitoring.Radio.index', index=2,
       number=3, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='macaddr', full_name='Radio.macaddr', index=3,
+      name='macaddr', full_name='Monitoring.Radio.macaddr', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='status', full_name='Radio.status', index=4,
+      name='status', full_name='Monitoring.Radio.status', index=4,
       number=5, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='channel', full_name='Radio.channel', index=5,
+      name='channel', full_name='Monitoring.Radio.channel', index=5,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='band', full_name='Radio.band', index=6,
+      name='band', full_name='Monitoring.Radio.band', index=6,
       number=7, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='channel_width', full_name='Radio.channel_width', index=7,
+      name='channel_width', full_name='Monitoring.Radio.channel_width', index=7,
       number=8, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -1871,104 +1883,104 @@ _RADIO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1776,
-  serialized_end=1963,
+  serialized_start=2084,
+  serialized_end=2304,
 )
 
 
 _AP = _descriptor.Descriptor(
   name='Ap',
-  full_name='Ap',
+  full_name='Monitoring.Ap',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='action', full_name='Ap.action', index=0,
+      name='action', full_name='Monitoring.Ap.action', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=3,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='serial', full_name='Ap.serial', index=1,
+      name='serial', full_name='Monitoring.Ap.serial', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='name', full_name='Ap.name', index=2,
+      name='name', full_name='Monitoring.Ap.name', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='macaddr', full_name='Ap.macaddr', index=3,
+      name='macaddr', full_name='Monitoring.Ap.macaddr', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='cluster_id', full_name='Ap.cluster_id', index=4,
+      name='cluster_id', full_name='Monitoring.Ap.cluster_id', index=4,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='status', full_name='Ap.status', index=5,
+      name='status', full_name='Monitoring.Ap.status', index=5,
       number=6, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ip_address', full_name='Ap.ip_address', index=6,
+      name='ip_address', full_name='Monitoring.Ap.ip_address', index=6,
       number=7, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='model', full_name='Ap.model', index=7,
+      name='model', full_name='Monitoring.Ap.model', index=7,
       number=8, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='mesh_role', full_name='Ap.mesh_role', index=8,
+      name='mesh_role', full_name='Monitoring.Ap.mesh_role', index=8,
       number=9, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='mode', full_name='Ap.mode', index=9,
+      name='mode', full_name='Monitoring.Ap.mode', index=9,
       number=10, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='swarm_master', full_name='Ap.swarm_master', index=10,
+      name='swarm_master', full_name='Monitoring.Ap.swarm_master', index=10,
       number=11, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='modem_connected', full_name='Ap.modem_connected', index=11,
+      name='modem_connected', full_name='Monitoring.Ap.modem_connected', index=11,
       number=12, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='uplink_type', full_name='Ap.uplink_type', index=12,
+      name='uplink_type', full_name='Monitoring.Ap.uplink_type', index=12,
       number=13, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
@@ -1987,48 +1999,48 @@ _AP = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1966,
-  serialized_end=2338,
+  serialized_start=2307,
+  serialized_end=2734,
 )
 
 
 _NETWORK = _descriptor.Descriptor(
   name='Network',
-  full_name='Network',
+  full_name='Monitoring.Network',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='action', full_name='Network.action', index=0,
+      name='action', full_name='Monitoring.Network.action', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=3,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='swarm_id', full_name='Network.swarm_id', index=1,
+      name='swarm_id', full_name='Monitoring.Network.swarm_id', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='essid', full_name='Network.essid', index=2,
+      name='essid', full_name='Monitoring.Network.essid', index=2,
       number=3, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='security', full_name='Network.security', index=3,
+      name='security', full_name='Monitoring.Network.security', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='type', full_name='Network.type', index=4,
+      name='type', full_name='Monitoring.Network.type', index=4,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -2046,111 +2058,111 @@ _NETWORK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2340,
-  serialized_end=2447,
+  serialized_start=2736,
+  serialized_end=2854,
 )
 
 
 _WIRELESSCLIENT = _descriptor.Descriptor(
   name='WirelessClient',
-  full_name='WirelessClient',
+  full_name='Monitoring.WirelessClient',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='action', full_name='WirelessClient.action', index=0,
+      name='action', full_name='Monitoring.WirelessClient.action', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=3,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='macaddr', full_name='WirelessClient.macaddr', index=1,
+      name='macaddr', full_name='Monitoring.WirelessClient.macaddr', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='name', full_name='WirelessClient.name', index=2,
+      name='name', full_name='Monitoring.WirelessClient.name', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ip_address', full_name='WirelessClient.ip_address', index=3,
+      name='ip_address', full_name='Monitoring.WirelessClient.ip_address', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='username', full_name='WirelessClient.username', index=4,
+      name='username', full_name='Monitoring.WirelessClient.username', index=4,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='associated_device', full_name='WirelessClient.associated_device', index=5,
+      name='associated_device', full_name='Monitoring.WirelessClient.associated_device', index=5,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='radio_mac', full_name='WirelessClient.radio_mac', index=6,
+      name='radio_mac', full_name='Monitoring.WirelessClient.radio_mac', index=6,
       number=7, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='network', full_name='WirelessClient.network', index=7,
+      name='network', full_name='Monitoring.WirelessClient.network', index=7,
       number=8, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='user_role', full_name='WirelessClient.user_role', index=8,
+      name='user_role', full_name='Monitoring.WirelessClient.user_role', index=8,
       number=9, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='manufacturer', full_name='WirelessClient.manufacturer', index=9,
+      name='manufacturer', full_name='Monitoring.WirelessClient.manufacturer', index=9,
       number=10, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='os_type', full_name='WirelessClient.os_type', index=10,
+      name='os_type', full_name='Monitoring.WirelessClient.os_type', index=10,
       number=11, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='connection', full_name='WirelessClient.connection', index=11,
+      name='connection', full_name='Monitoring.WirelessClient.connection', index=11,
       number=12, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='maxspeed', full_name='WirelessClient.maxspeed', index=12,
+      name='maxspeed', full_name='Monitoring.WirelessClient.maxspeed', index=12,
       number=13, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='vlan', full_name='WirelessClient.vlan', index=13,
+      name='vlan', full_name='Monitoring.WirelessClient.vlan', index=13,
       number=14, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -2168,27 +2180,27 @@ _WIRELESSCLIENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2450,
-  serialized_end=2779,
+  serialized_start=2857,
+  serialized_end=3230,
 )
 
 
 _HARDWAREMODULE = _descriptor.Descriptor(
   name='HardwareModule',
-  full_name='HardwareModule',
+  full_name='Monitoring.HardwareModule',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='index', full_name='HardwareModule.index', index=0,
+      name='index', full_name='Monitoring.HardwareModule.index', index=0,
       number=1, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='status', full_name='HardwareModule.status', index=1,
+      name='status', full_name='Monitoring.HardwareModule.status', index=1,
       number=2, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -2207,146 +2219,146 @@ _HARDWAREMODULE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2782,
-  serialized_end=2955,
+  serialized_start=3233,
+  serialized_end=3417,
 )
 
 
 _SWITCH = _descriptor.Descriptor(
   name='Switch',
-  full_name='Switch',
+  full_name='Monitoring.Switch',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='action', full_name='Switch.action', index=0,
+      name='action', full_name='Monitoring.Switch.action', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=3,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='serial', full_name='Switch.serial', index=1,
+      name='serial', full_name='Monitoring.Switch.serial', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='name', full_name='Switch.name', index=2,
+      name='name', full_name='Monitoring.Switch.name', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='macaddr', full_name='Switch.macaddr', index=3,
+      name='macaddr', full_name='Monitoring.Switch.macaddr', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='model', full_name='Switch.model', index=4,
+      name='model', full_name='Monitoring.Switch.model', index=4,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='status', full_name='Switch.status', index=5,
+      name='status', full_name='Monitoring.Switch.status', index=5,
       number=6, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='public_ip_address', full_name='Switch.public_ip_address', index=6,
+      name='public_ip_address', full_name='Monitoring.Switch.public_ip_address', index=6,
       number=7, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ip_address', full_name='Switch.ip_address', index=7,
+      name='ip_address', full_name='Monitoring.Switch.ip_address', index=7,
       number=8, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='firmware_version', full_name='Switch.firmware_version', index=8,
+      name='firmware_version', full_name='Monitoring.Switch.firmware_version', index=8,
       number=9, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='default_gateway', full_name='Switch.default_gateway', index=9,
+      name='default_gateway', full_name='Monitoring.Switch.default_gateway', index=9,
       number=10, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='device_mode', full_name='Switch.device_mode', index=10,
+      name='device_mode', full_name='Monitoring.Switch.device_mode', index=10,
       number=11, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='uplink_ports', full_name='Switch.uplink_ports', index=11,
+      name='uplink_ports', full_name='Monitoring.Switch.uplink_ports', index=11,
       number=12, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='max_slots', full_name='Switch.max_slots', index=12,
+      name='max_slots', full_name='Monitoring.Switch.max_slots', index=12,
       number=13, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='used_slots', full_name='Switch.used_slots', index=13,
+      name='used_slots', full_name='Monitoring.Switch.used_slots', index=13,
       number=14, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='management_modules', full_name='Switch.management_modules', index=14,
+      name='management_modules', full_name='Monitoring.Switch.management_modules', index=14,
       number=15, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='power_supplies', full_name='Switch.power_supplies', index=15,
+      name='power_supplies', full_name='Monitoring.Switch.power_supplies', index=15,
       number=16, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='stack_id', full_name='Switch.stack_id', index=16,
+      name='stack_id', full_name='Monitoring.Switch.stack_id', index=16,
       number=17, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='stack_member_id', full_name='Switch.stack_member_id', index=17,
+      name='stack_member_id', full_name='Monitoring.Switch.stack_member_id', index=17,
       number=18, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='stack_member_role', full_name='Switch.stack_member_role', index=18,
+      name='stack_member_role', full_name='Monitoring.Switch.stack_member_role', index=18,
       number=19, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
@@ -2365,62 +2377,62 @@ _SWITCH = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2958,
-  serialized_end=3572,
+  serialized_start=3420,
+  serialized_end=4133,
 )
 
 
 _SWITCHSTACK = _descriptor.Descriptor(
   name='SwitchStack',
-  full_name='SwitchStack',
+  full_name='Monitoring.SwitchStack',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='action', full_name='SwitchStack.action', index=0,
+      name='action', full_name='Monitoring.SwitchStack.action', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=3,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='stack_id', full_name='SwitchStack.stack_id', index=1,
+      name='stack_id', full_name='Monitoring.SwitchStack.stack_id', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='status', full_name='SwitchStack.status', index=2,
+      name='status', full_name='Monitoring.SwitchStack.status', index=2,
       number=3, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='topology', full_name='SwitchStack.topology', index=3,
+      name='topology', full_name='Monitoring.SwitchStack.topology', index=3,
       number=4, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='policy', full_name='SwitchStack.policy', index=4,
+      name='policy', full_name='Monitoring.SwitchStack.policy', index=4,
       number=5, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='firmware_version', full_name='SwitchStack.firmware_version', index=5,
+      name='firmware_version', full_name='Monitoring.SwitchStack.firmware_version', index=5,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='vsf_domain_id', full_name='SwitchStack.vsf_domain_id', index=6,
+      name='vsf_domain_id', full_name='Monitoring.SwitchStack.vsf_domain_id', index=6,
       number=7, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -2440,83 +2452,83 @@ _SWITCHSTACK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3575,
-  serialized_end=4007,
+  serialized_start=4136,
+  serialized_end=4612,
 )
 
 
 _WIREDCLIENT = _descriptor.Descriptor(
   name='WiredClient',
-  full_name='WiredClient',
+  full_name='Monitoring.WiredClient',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='action', full_name='WiredClient.action', index=0,
+      name='action', full_name='Monitoring.WiredClient.action', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=3,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='macaddr', full_name='WiredClient.macaddr', index=1,
+      name='macaddr', full_name='Monitoring.WiredClient.macaddr', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='name', full_name='WiredClient.name', index=2,
+      name='name', full_name='Monitoring.WiredClient.name', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ip_address', full_name='WiredClient.ip_address', index=3,
+      name='ip_address', full_name='Monitoring.WiredClient.ip_address', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='username', full_name='WiredClient.username', index=4,
+      name='username', full_name='Monitoring.WiredClient.username', index=4,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='associated_device', full_name='WiredClient.associated_device', index=5,
+      name='associated_device', full_name='Monitoring.WiredClient.associated_device', index=5,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='interface_mac', full_name='WiredClient.interface_mac', index=6,
+      name='interface_mac', full_name='Monitoring.WiredClient.interface_mac', index=6,
       number=7, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='user_role', full_name='WiredClient.user_role', index=7,
+      name='user_role', full_name='Monitoring.WiredClient.user_role', index=7,
       number=8, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='vlan', full_name='WiredClient.vlan', index=8,
+      name='vlan', full_name='Monitoring.WiredClient.vlan', index=8,
       number=9, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='auth_type', full_name='WiredClient.auth_type', index=9,
+      name='auth_type', full_name='Monitoring.WiredClient.auth_type', index=9,
       number=10, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
@@ -2534,83 +2546,83 @@ _WIREDCLIENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4010,
-  serialized_end=4276,
+  serialized_start=4615,
+  serialized_end=4936,
 )
 
 
 _MOBILITYCONTROLLER = _descriptor.Descriptor(
   name='MobilityController',
-  full_name='MobilityController',
+  full_name='Monitoring.MobilityController',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='action', full_name='MobilityController.action', index=0,
+      name='action', full_name='Monitoring.MobilityController.action', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=3,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='serial', full_name='MobilityController.serial', index=1,
+      name='serial', full_name='Monitoring.MobilityController.serial', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='name', full_name='MobilityController.name', index=2,
+      name='name', full_name='Monitoring.MobilityController.name', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='macaddr', full_name='MobilityController.macaddr', index=3,
+      name='macaddr', full_name='Monitoring.MobilityController.macaddr', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='model', full_name='MobilityController.model', index=4,
+      name='model', full_name='Monitoring.MobilityController.model', index=4,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='status', full_name='MobilityController.status', index=5,
+      name='status', full_name='Monitoring.MobilityController.status', index=5,
       number=6, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='public_ip_address', full_name='MobilityController.public_ip_address', index=6,
+      name='public_ip_address', full_name='Monitoring.MobilityController.public_ip_address', index=6,
       number=7, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ip_address', full_name='MobilityController.ip_address', index=7,
+      name='ip_address', full_name='Monitoring.MobilityController.ip_address', index=7,
       number=8, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='firmware_version', full_name='MobilityController.firmware_version', index=8,
+      name='firmware_version', full_name='Monitoring.MobilityController.firmware_version', index=8,
       number=9, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='default_gateway', full_name='MobilityController.default_gateway', index=9,
+      name='default_gateway', full_name='Monitoring.MobilityController.default_gateway', index=9,
       number=10, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -2628,85 +2640,99 @@ _MOBILITYCONTROLLER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4279,
-  serialized_end=4570,
+  serialized_start=4939,
+  serialized_end=5296,
 )
 
 
 _UPLINK = _descriptor.Descriptor(
   name='Uplink',
-  full_name='Uplink',
+  full_name='Monitoring.Uplink',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='action', full_name='Uplink.action', index=0,
+      name='action', full_name='Monitoring.Uplink.action', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=3,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='Uplink.device_id', index=1,
+      name='device_id', full_name='Monitoring.Uplink.device_id', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='link_index', full_name='Uplink.link_index', index=2,
+      name='link_index', full_name='Monitoring.Uplink.link_index', index=2,
       number=3, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='name', full_name='Uplink.name', index=3,
+      name='name', full_name='Monitoring.Uplink.name', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='description', full_name='Uplink.description', index=4,
+      name='description', full_name='Monitoring.Uplink.description', index=4,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='priority', full_name='Uplink.priority', index=5,
+      name='priority', full_name='Monitoring.Uplink.priority', index=5,
       number=6, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='status', full_name='Uplink.status', index=6,
+      name='status', full_name='Monitoring.Uplink.status', index=6,
       number=7, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='wan_status', full_name='Uplink.wan_status', index=7,
+      name='wan_status', full_name='Monitoring.Uplink.wan_status', index=7,
       number=8, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='vlan', full_name='Uplink.vlan', index=8,
+      name='vlan', full_name='Monitoring.Uplink.vlan', index=8,
       number=9, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='vlan_description', full_name='Uplink.vlan_description', index=9,
+      name='vlan_description', full_name='Monitoring.Uplink.vlan_description', index=9,
       number=10, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='public_ip_address', full_name='Monitoring.Uplink.public_ip_address', index=10,
+      number=11, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='private_ip_address', full_name='Monitoring.Uplink.private_ip_address', index=11,
+      number=12, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -2722,76 +2748,76 @@ _UPLINK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4573,
-  serialized_end=4800,
+  serialized_start=5299,
+  serialized_end=5660,
 )
 
 
 _IKETUNNEL = _descriptor.Descriptor(
   name='IkeTunnel',
-  full_name='IkeTunnel',
+  full_name='Monitoring.IkeTunnel',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='action', full_name='IkeTunnel.action', index=0,
+      name='action', full_name='Monitoring.IkeTunnel.action', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=3,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='IkeTunnel.device_id', index=1,
+      name='device_id', full_name='Monitoring.IkeTunnel.device_id', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='map_id', full_name='IkeTunnel.map_id', index=2,
+      name='map_id', full_name='Monitoring.IkeTunnel.map_id', index=2,
       number=3, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='peer_mac', full_name='IkeTunnel.peer_mac', index=3,
+      name='peer_mac', full_name='Monitoring.IkeTunnel.peer_mac', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='local_mac', full_name='IkeTunnel.local_mac', index=4,
+      name='local_mac', full_name='Monitoring.IkeTunnel.local_mac', index=4,
       number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='src_ip', full_name='IkeTunnel.src_ip', index=5,
+      name='src_ip', full_name='Monitoring.IkeTunnel.src_ip', index=5,
       number=6, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='dst_ip', full_name='IkeTunnel.dst_ip', index=6,
+      name='dst_ip', full_name='Monitoring.IkeTunnel.dst_ip', index=6,
       number=7, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='status', full_name='IkeTunnel.status', index=7,
+      name='status', full_name='Monitoring.IkeTunnel.status', index=7,
       number=8, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='map_name', full_name='IkeTunnel.map_name', index=8,
+      name='map_name', full_name='Monitoring.IkeTunnel.map_name', index=8,
       number=9, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -2809,111 +2835,111 @@ _IKETUNNEL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4803,
-  serialized_end=5044,
+  serialized_start=5663,
+  serialized_end=5970,
 )
 
 
 _DEVICESTATS = _descriptor.Descriptor(
   name='DeviceStats',
-  full_name='DeviceStats',
+  full_name='Monitoring.DeviceStats',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='DeviceStats.device_id', index=0,
+      name='device_id', full_name='Monitoring.DeviceStats.device_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='timestamp', full_name='DeviceStats.timestamp', index=1,
+      name='timestamp', full_name='Monitoring.DeviceStats.timestamp', index=1,
       number=2, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='uptime', full_name='DeviceStats.uptime', index=2,
+      name='uptime', full_name='Monitoring.DeviceStats.uptime', index=2,
       number=3, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='cpu_utilization', full_name='DeviceStats.cpu_utilization', index=3,
+      name='cpu_utilization', full_name='Monitoring.DeviceStats.cpu_utilization', index=3,
       number=4, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='mem_total', full_name='DeviceStats.mem_total', index=4,
+      name='mem_total', full_name='Monitoring.DeviceStats.mem_total', index=4,
       number=5, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='mem_free', full_name='DeviceStats.mem_free', index=5,
+      name='mem_free', full_name='Monitoring.DeviceStats.mem_free', index=5,
       number=6, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='power_consumption', full_name='DeviceStats.power_consumption', index=6,
+      name='power_consumption', full_name='Monitoring.DeviceStats.power_consumption', index=6,
       number=7, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='fan_speed', full_name='DeviceStats.fan_speed', index=7,
+      name='fan_speed', full_name='Monitoring.DeviceStats.fan_speed', index=7,
       number=8, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='temperature', full_name='DeviceStats.temperature', index=8,
+      name='temperature', full_name='Monitoring.DeviceStats.temperature', index=8,
       number=9, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='fan_status', full_name='DeviceStats.fan_status', index=9,
+      name='fan_status', full_name='Monitoring.DeviceStats.fan_status', index=9,
       number=10, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='max_power', full_name='DeviceStats.max_power', index=10,
+      name='max_power', full_name='Monitoring.DeviceStats.max_power', index=10,
       number=11, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='poe_consumption', full_name='DeviceStats.poe_consumption', index=11,
+      name='poe_consumption', full_name='Monitoring.DeviceStats.poe_consumption', index=11,
       number=12, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='poe_budget', full_name='DeviceStats.poe_budget', index=12,
+      name='poe_budget', full_name='Monitoring.DeviceStats.poe_budget', index=12,
       number=13, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='mem_utilization', full_name='DeviceStats.mem_utilization', index=13,
+      name='mem_utilization', full_name='Monitoring.DeviceStats.mem_utilization', index=13,
       number=14, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -2931,83 +2957,83 @@ _DEVICESTATS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5047,
-  serialized_end=5361,
+  serialized_start=5973,
+  serialized_end=6298,
 )
 
 
 _RADIOSTATS = _descriptor.Descriptor(
   name='RadioStats',
-  full_name='RadioStats',
+  full_name='Monitoring.RadioStats',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='RadioStats.device_id', index=0,
+      name='device_id', full_name='Monitoring.RadioStats.device_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='macaddr', full_name='RadioStats.macaddr', index=1,
+      name='macaddr', full_name='Monitoring.RadioStats.macaddr', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='timestamp', full_name='RadioStats.timestamp', index=2,
+      name='timestamp', full_name='Monitoring.RadioStats.timestamp', index=2,
       number=3, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tx_bytes', full_name='RadioStats.tx_bytes', index=3,
+      name='tx_bytes', full_name='Monitoring.RadioStats.tx_bytes', index=3,
       number=4, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='rx_bytes', full_name='RadioStats.rx_bytes', index=4,
+      name='rx_bytes', full_name='Monitoring.RadioStats.rx_bytes', index=4,
       number=5, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tx_drops', full_name='RadioStats.tx_drops', index=5,
+      name='tx_drops', full_name='Monitoring.RadioStats.tx_drops', index=5,
       number=6, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tx_power', full_name='RadioStats.tx_power', index=6,
+      name='tx_power', full_name='Monitoring.RadioStats.tx_power', index=6,
       number=7, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='noise_floor', full_name='RadioStats.noise_floor', index=7,
+      name='noise_floor', full_name='Monitoring.RadioStats.noise_floor', index=7,
       number=8, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='utilization', full_name='RadioStats.utilization', index=8,
+      name='utilization', full_name='Monitoring.RadioStats.utilization', index=8,
       number=9, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='rx_bad', full_name='RadioStats.rx_bad', index=9,
+      name='rx_bad', full_name='Monitoring.RadioStats.rx_bad', index=9,
       number=10, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -3025,55 +3051,55 @@ _RADIOSTATS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5364,
-  serialized_end=5574,
+  serialized_start=6301,
+  serialized_end=6522,
 )
 
 
 _VAPSTATS = _descriptor.Descriptor(
   name='VapStats',
-  full_name='VapStats',
+  full_name='Monitoring.VapStats',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='VapStats.device_id', index=0,
+      name='device_id', full_name='Monitoring.VapStats.device_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='radio_mac', full_name='VapStats.radio_mac', index=1,
+      name='radio_mac', full_name='Monitoring.VapStats.radio_mac', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='network', full_name='VapStats.network', index=2,
+      name='network', full_name='Monitoring.VapStats.network', index=2,
       number=3, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='timestamp', full_name='VapStats.timestamp', index=3,
+      name='timestamp', full_name='Monitoring.VapStats.timestamp', index=3,
       number=4, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tx_bytes', full_name='VapStats.tx_bytes', index=4,
+      name='tx_bytes', full_name='Monitoring.VapStats.tx_bytes', index=4,
       number=5, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='rx_bytes', full_name='VapStats.rx_bytes', index=5,
+      name='rx_bytes', full_name='Monitoring.VapStats.rx_bytes', index=5,
       number=6, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -3091,49 +3117,56 @@ _VAPSTATS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5577,
-  serialized_end=5710,
+  serialized_start=6525,
+  serialized_end=6669,
 )
 
 
 _TUNNELSTATS = _descriptor.Descriptor(
   name='TunnelStats',
-  full_name='TunnelStats',
+  full_name='Monitoring.TunnelStats',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='swarm_id', full_name='TunnelStats.swarm_id', index=0,
+      name='swarm_id', full_name='Monitoring.TunnelStats.swarm_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='index', full_name='TunnelStats.index', index=1,
+      name='index', full_name='Monitoring.TunnelStats.index', index=1,
       number=2, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='timestamp', full_name='TunnelStats.timestamp', index=2,
+      name='timestamp', full_name='Monitoring.TunnelStats.timestamp', index=2,
       number=3, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tx_bytes', full_name='TunnelStats.tx_bytes', index=3,
+      name='tx_bytes', full_name='Monitoring.TunnelStats.tx_bytes', index=3,
       number=4, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='rx_bytes', full_name='TunnelStats.rx_bytes', index=4,
+      name='rx_bytes', full_name='Monitoring.TunnelStats.rx_bytes', index=4,
       number=5, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='tunnel_id', full_name='Monitoring.TunnelStats.tunnel_id', index=5,
+      number=6, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -3150,83 +3183,83 @@ _TUNNELSTATS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5712,
-  serialized_end=5827,
+  serialized_start=6672,
+  serialized_end=6817,
 )
 
 
 _CLIENTSTATS = _descriptor.Descriptor(
   name='ClientStats',
-  full_name='ClientStats',
+  full_name='Monitoring.ClientStats',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='ClientStats.device_id', index=0,
+      name='device_id', full_name='Monitoring.ClientStats.device_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='macaddr', full_name='ClientStats.macaddr', index=1,
+      name='macaddr', full_name='Monitoring.ClientStats.macaddr', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='timestamp', full_name='ClientStats.timestamp', index=2,
+      name='timestamp', full_name='Monitoring.ClientStats.timestamp', index=2,
       number=3, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tx_bytes', full_name='ClientStats.tx_bytes', index=3,
+      name='tx_bytes', full_name='Monitoring.ClientStats.tx_bytes', index=3,
       number=4, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='rx_bytes', full_name='ClientStats.rx_bytes', index=4,
+      name='rx_bytes', full_name='Monitoring.ClientStats.rx_bytes', index=4,
       number=5, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='rx_retries', full_name='ClientStats.rx_retries', index=5,
+      name='rx_retries', full_name='Monitoring.ClientStats.rx_retries', index=5,
       number=6, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tx_retries', full_name='ClientStats.tx_retries', index=6,
+      name='tx_retries', full_name='Monitoring.ClientStats.tx_retries', index=6,
       number=7, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='speed', full_name='ClientStats.speed', index=7,
+      name='speed', full_name='Monitoring.ClientStats.speed', index=7,
       number=8, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='signal_in_db', full_name='ClientStats.signal_in_db', index=8,
+      name='signal_in_db', full_name='Monitoring.ClientStats.signal_in_db', index=8,
       number=9, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='snr', full_name='ClientStats.snr', index=9,
+      name='snr', full_name='Monitoring.ClientStats.snr', index=9,
       number=10, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -3244,216 +3277,216 @@ _CLIENTSTATS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5830,
-  serialized_end=6037,
+  serialized_start=6820,
+  serialized_end=7038,
 )
 
 
 _INTERFACESTATS = _descriptor.Descriptor(
   name='InterfaceStats',
-  full_name='InterfaceStats',
+  full_name='Monitoring.InterfaceStats',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='InterfaceStats.device_id', index=0,
+      name='device_id', full_name='Monitoring.InterfaceStats.device_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='macaddr', full_name='InterfaceStats.macaddr', index=1,
+      name='macaddr', full_name='Monitoring.InterfaceStats.macaddr', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='timestamp', full_name='InterfaceStats.timestamp', index=2,
+      name='timestamp', full_name='Monitoring.InterfaceStats.timestamp', index=2,
       number=3, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tx_bytes', full_name='InterfaceStats.tx_bytes', index=3,
+      name='tx_bytes', full_name='Monitoring.InterfaceStats.tx_bytes', index=3,
       number=4, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='rx_bytes', full_name='InterfaceStats.rx_bytes', index=4,
+      name='rx_bytes', full_name='Monitoring.InterfaceStats.rx_bytes', index=4,
       number=5, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='power_consumption', full_name='InterfaceStats.power_consumption', index=5,
+      name='power_consumption', full_name='Monitoring.InterfaceStats.power_consumption', index=5,
       number=6, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='in_errors', full_name='InterfaceStats.in_errors', index=6,
+      name='in_errors', full_name='Monitoring.InterfaceStats.in_errors', index=6,
       number=7, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='out_errors', full_name='InterfaceStats.out_errors', index=7,
+      name='out_errors', full_name='Monitoring.InterfaceStats.out_errors', index=7,
       number=8, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='in_discards', full_name='InterfaceStats.in_discards', index=8,
+      name='in_discards', full_name='Monitoring.InterfaceStats.in_discards', index=8,
       number=9, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='out_discards', full_name='InterfaceStats.out_discards', index=9,
+      name='out_discards', full_name='Monitoring.InterfaceStats.out_discards', index=9,
       number=10, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='in_packets', full_name='InterfaceStats.in_packets', index=10,
+      name='in_packets', full_name='Monitoring.InterfaceStats.in_packets', index=10,
       number=11, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='out_packets', full_name='InterfaceStats.out_packets', index=11,
+      name='out_packets', full_name='Monitoring.InterfaceStats.out_packets', index=11,
       number=12, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='in_other_err', full_name='InterfaceStats.in_other_err', index=12,
+      name='in_other_err', full_name='Monitoring.InterfaceStats.in_other_err', index=12,
       number=13, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='in_multicast_pkt', full_name='InterfaceStats.in_multicast_pkt', index=13,
+      name='in_multicast_pkt', full_name='Monitoring.InterfaceStats.in_multicast_pkt', index=13,
       number=14, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='in_broadcast_pkt', full_name='InterfaceStats.in_broadcast_pkt', index=14,
+      name='in_broadcast_pkt', full_name='Monitoring.InterfaceStats.in_broadcast_pkt', index=14,
       number=15, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='in_unicast_pkt', full_name='InterfaceStats.in_unicast_pkt', index=15,
+      name='in_unicast_pkt', full_name='Monitoring.InterfaceStats.in_unicast_pkt', index=15,
       number=16, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='out_multicast_pkt', full_name='InterfaceStats.out_multicast_pkt', index=16,
+      name='out_multicast_pkt', full_name='Monitoring.InterfaceStats.out_multicast_pkt', index=16,
       number=17, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='out_broadcast_pkt', full_name='InterfaceStats.out_broadcast_pkt', index=17,
+      name='out_broadcast_pkt', full_name='Monitoring.InterfaceStats.out_broadcast_pkt', index=17,
       number=18, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='out_unicast_pkt', full_name='InterfaceStats.out_unicast_pkt', index=18,
+      name='out_unicast_pkt', full_name='Monitoring.InterfaceStats.out_unicast_pkt', index=18,
       number=19, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='in_fcs', full_name='InterfaceStats.in_fcs', index=19,
+      name='in_fcs', full_name='Monitoring.InterfaceStats.in_fcs', index=19,
       number=20, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='in_alignment', full_name='InterfaceStats.in_alignment', index=20,
+      name='in_alignment', full_name='Monitoring.InterfaceStats.in_alignment', index=20,
       number=21, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='out_excessive_collision', full_name='InterfaceStats.out_excessive_collision', index=21,
+      name='out_excessive_collision', full_name='Monitoring.InterfaceStats.out_excessive_collision', index=21,
       number=22, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='in_jabbers', full_name='InterfaceStats.in_jabbers', index=22,
+      name='in_jabbers', full_name='Monitoring.InterfaceStats.in_jabbers', index=22,
       number=23, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='in_fragmented', full_name='InterfaceStats.in_fragmented', index=23,
+      name='in_fragmented', full_name='Monitoring.InterfaceStats.in_fragmented', index=23,
       number=24, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='in_giant', full_name='InterfaceStats.in_giant', index=24,
+      name='in_giant', full_name='Monitoring.InterfaceStats.in_giant', index=24,
       number=25, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='in_runt', full_name='InterfaceStats.in_runt', index=25,
+      name='in_runt', full_name='Monitoring.InterfaceStats.in_runt', index=25,
       number=26, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='out_collision', full_name='InterfaceStats.out_collision', index=26,
+      name='out_collision', full_name='Monitoring.InterfaceStats.out_collision', index=26,
       number=27, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='out_late_collision', full_name='InterfaceStats.out_late_collision', index=27,
+      name='out_late_collision', full_name='Monitoring.InterfaceStats.out_late_collision', index=27,
       number=28, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='out_deferred', full_name='InterfaceStats.out_deferred', index=28,
+      name='out_deferred', full_name='Monitoring.InterfaceStats.out_deferred', index=28,
       number=29, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -3471,76 +3504,76 @@ _INTERFACESTATS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=6040,
-  serialized_end=6709,
+  serialized_start=7041,
+  serialized_end=7721,
 )
 
 
 _UPLINKSTATS = _descriptor.Descriptor(
   name='UplinkStats',
-  full_name='UplinkStats',
+  full_name='Monitoring.UplinkStats',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='UplinkStats.device_id', index=0,
+      name='device_id', full_name='Monitoring.UplinkStats.device_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='link_id', full_name='UplinkStats.link_id', index=1,
+      name='link_id', full_name='Monitoring.UplinkStats.link_id', index=1,
       number=2, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='timestamp', full_name='UplinkStats.timestamp', index=2,
+      name='timestamp', full_name='Monitoring.UplinkStats.timestamp', index=2,
       number=3, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tx_bytes', full_name='UplinkStats.tx_bytes', index=3,
+      name='tx_bytes', full_name='Monitoring.UplinkStats.tx_bytes', index=3,
       number=4, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='rx_bytes', full_name='UplinkStats.rx_bytes', index=4,
+      name='rx_bytes', full_name='Monitoring.UplinkStats.rx_bytes', index=4,
       number=5, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tunnel_tx_bytes', full_name='UplinkStats.tunnel_tx_bytes', index=5,
+      name='tunnel_tx_bytes', full_name='Monitoring.UplinkStats.tunnel_tx_bytes', index=5,
       number=6, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tunnel_rx_bytes', full_name='UplinkStats.tunnel_rx_bytes', index=6,
+      name='tunnel_rx_bytes', full_name='Monitoring.UplinkStats.tunnel_rx_bytes', index=6,
       number=7, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='map_id', full_name='UplinkStats.map_id', index=7,
+      name='map_id', full_name='Monitoring.UplinkStats.map_id', index=7,
       number=8, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='map_name', full_name='UplinkStats.map_name', index=8,
+      name='map_name', full_name='Monitoring.UplinkStats.map_name', index=8,
       number=9, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -3558,55 +3591,55 @@ _UPLINKSTATS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=6712,
-  serialized_end=6900,
+  serialized_start=7724,
+  serialized_end=7912,
 )
 
 
 _UPLINKWANSTATS = _descriptor.Descriptor(
   name='UplinkWanStats',
-  full_name='UplinkWanStats',
+  full_name='Monitoring.UplinkWanStats',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='UplinkWanStats.device_id', index=0,
+      name='device_id', full_name='Monitoring.UplinkWanStats.device_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='link_id', full_name='UplinkWanStats.link_id', index=1,
+      name='link_id', full_name='Monitoring.UplinkWanStats.link_id', index=1,
       number=2, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='timestamp', full_name='UplinkWanStats.timestamp', index=2,
+      name='timestamp', full_name='Monitoring.UplinkWanStats.timestamp', index=2,
       number=3, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='compressed_bytes', full_name='UplinkWanStats.compressed_bytes', index=3,
+      name='compressed_bytes', full_name='Monitoring.UplinkWanStats.compressed_bytes', index=3,
       number=4, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='uncompressed_bytes', full_name='UplinkWanStats.uncompressed_bytes', index=4,
+      name='uncompressed_bytes', full_name='Monitoring.UplinkWanStats.uncompressed_bytes', index=4,
       number=5, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='savings_bytes', full_name='UplinkWanStats.savings_bytes', index=5,
+      name='savings_bytes', full_name='Monitoring.UplinkWanStats.savings_bytes', index=5,
       number=6, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -3624,41 +3657,41 @@ _UPLINKWANSTATS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=6903,
-  serialized_end=7051,
+  serialized_start=7915,
+  serialized_end=8063,
 )
 
 
 _MODEMSTATS = _descriptor.Descriptor(
   name='ModemStats',
-  full_name='ModemStats',
+  full_name='Monitoring.ModemStats',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='ModemStats.device_id', index=0,
+      name='device_id', full_name='Monitoring.ModemStats.device_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='timestamp', full_name='ModemStats.timestamp', index=1,
+      name='timestamp', full_name='Monitoring.ModemStats.timestamp', index=1,
       number=2, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tx_bytes', full_name='ModemStats.tx_bytes', index=2,
+      name='tx_bytes', full_name='Monitoring.ModemStats.tx_bytes', index=2,
       number=3, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='rx_bytes', full_name='ModemStats.rx_bytes', index=3,
+      name='rx_bytes', full_name='Monitoring.ModemStats.rx_bytes', index=3,
       number=4, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -3676,48 +3709,48 @@ _MODEMSTATS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=7053,
-  serialized_end=7139,
+  serialized_start=8065,
+  serialized_end=8151,
 )
 
 
 _ROLESTATS = _descriptor.Descriptor(
   name='RoleStats',
-  full_name='RoleStats',
+  full_name='Monitoring.RoleStats',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='RoleStats.device_id', index=0,
+      name='device_id', full_name='Monitoring.RoleStats.device_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='user_role', full_name='RoleStats.user_role', index=1,
+      name='user_role', full_name='Monitoring.RoleStats.user_role', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='timestamp', full_name='RoleStats.timestamp', index=2,
+      name='timestamp', full_name='Monitoring.RoleStats.timestamp', index=2,
       number=3, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tx_bytes', full_name='RoleStats.tx_bytes', index=3,
+      name='tx_bytes', full_name='Monitoring.RoleStats.tx_bytes', index=3,
       number=4, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='rx_bytes', full_name='RoleStats.rx_bytes', index=4,
+      name='rx_bytes', full_name='Monitoring.RoleStats.rx_bytes', index=4,
       number=5, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -3735,48 +3768,48 @@ _ROLESTATS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=7141,
-  serialized_end=7245,
+  serialized_start=8153,
+  serialized_end=8257,
 )
 
 
 _VLANSTATS = _descriptor.Descriptor(
   name='VlanStats',
-  full_name='VlanStats',
+  full_name='Monitoring.VlanStats',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='VlanStats.device_id', index=0,
+      name='device_id', full_name='Monitoring.VlanStats.device_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='vlan', full_name='VlanStats.vlan', index=1,
+      name='vlan', full_name='Monitoring.VlanStats.vlan', index=1,
       number=2, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='timestamp', full_name='VlanStats.timestamp', index=2,
+      name='timestamp', full_name='Monitoring.VlanStats.timestamp', index=2,
       number=3, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tx_bytes', full_name='VlanStats.tx_bytes', index=3,
+      name='tx_bytes', full_name='Monitoring.VlanStats.tx_bytes', index=3,
       number=4, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='rx_bytes', full_name='VlanStats.rx_bytes', index=4,
+      name='rx_bytes', full_name='Monitoring.VlanStats.rx_bytes', index=4,
       number=5, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -3794,48 +3827,48 @@ _VLANSTATS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=7247,
-  serialized_end=7346,
+  serialized_start=8259,
+  serialized_end=8358,
 )
 
 
 _SSIDSTATS = _descriptor.Descriptor(
   name='SsidStats',
-  full_name='SsidStats',
+  full_name='Monitoring.SsidStats',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='SsidStats.device_id', index=0,
+      name='device_id', full_name='Monitoring.SsidStats.device_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='essid', full_name='SsidStats.essid', index=1,
+      name='essid', full_name='Monitoring.SsidStats.essid', index=1,
       number=2, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='timestamp', full_name='SsidStats.timestamp', index=2,
+      name='timestamp', full_name='Monitoring.SsidStats.timestamp', index=2,
       number=3, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tx_bytes', full_name='SsidStats.tx_bytes', index=3,
+      name='tx_bytes', full_name='Monitoring.SsidStats.tx_bytes', index=3,
       number=4, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='rx_bytes', full_name='SsidStats.rx_bytes', index=4,
+      name='rx_bytes', full_name='Monitoring.SsidStats.rx_bytes', index=4,
       number=5, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -3853,57 +3886,64 @@ _SSIDSTATS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=7348,
-  serialized_end=7448,
+  serialized_start=8360,
+  serialized_end=8460,
 )
 
 
 _TUNNELIPPROBESTATS = _descriptor.Descriptor(
   name='TunnelIpProbeStats',
-  full_name='TunnelIpProbeStats',
+  full_name='Monitoring.TunnelIpProbeStats',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='TunnelIpProbeStats.device_id', index=0,
+      name='device_id', full_name='Monitoring.TunnelIpProbeStats.device_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tunnel_index', full_name='TunnelIpProbeStats.tunnel_index', index=1,
+      name='tunnel_index', full_name='Monitoring.TunnelIpProbeStats.tunnel_index', index=1,
       number=2, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='probe_ip_addr', full_name='TunnelIpProbeStats.probe_ip_addr', index=2,
+      name='probe_ip_addr', full_name='Monitoring.TunnelIpProbeStats.probe_ip_addr', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='probe_status', full_name='TunnelIpProbeStats.probe_status', index=3,
+      name='probe_status', full_name='Monitoring.TunnelIpProbeStats.probe_status', index=3,
       number=4, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ip_probe_pkt_loss_pct', full_name='TunnelIpProbeStats.ip_probe_pkt_loss_pct', index=4,
+      name='ip_probe_pkt_loss_pct', full_name='Monitoring.TunnelIpProbeStats.ip_probe_pkt_loss_pct', index=4,
       number=5, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tunnel_name', full_name='TunnelIpProbeStats.tunnel_name', index=5,
+      name='tunnel_name', full_name='Monitoring.TunnelIpProbeStats.tunnel_name', index=5,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='tunnel_id', full_name='Monitoring.TunnelIpProbeStats.tunnel_id', index=6,
+      number=17, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -3919,153 +3959,153 @@ _TUNNELIPPROBESTATS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=7451,
-  serialized_end=7635,
+  serialized_start=8463,
+  serialized_end=8688,
 )
 
 
 _UPLINKIPPROBESTATS = _descriptor.Descriptor(
   name='UplinkIpProbeStats',
-  full_name='UplinkIpProbeStats',
+  full_name='Monitoring.UplinkIpProbeStats',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='UplinkIpProbeStats.device_id', index=0,
+      name='device_id', full_name='Monitoring.UplinkIpProbeStats.device_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='link_id', full_name='UplinkIpProbeStats.link_id', index=1,
+      name='link_id', full_name='Monitoring.UplinkIpProbeStats.link_id', index=1,
       number=2, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='timestamp', full_name='UplinkIpProbeStats.timestamp', index=2,
+      name='timestamp', full_name='Monitoring.UplinkIpProbeStats.timestamp', index=2,
       number=3, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ip_address', full_name='UplinkIpProbeStats.ip_address', index=3,
+      name='ip_address', full_name='Monitoring.UplinkIpProbeStats.ip_address', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='vlan', full_name='UplinkIpProbeStats.vlan', index=4,
+      name='vlan', full_name='Monitoring.UplinkIpProbeStats.vlan', index=4,
       number=5, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='avg_rtt', full_name='UplinkIpProbeStats.avg_rtt', index=5,
+      name='avg_rtt', full_name='Monitoring.UplinkIpProbeStats.avg_rtt', index=5,
       number=6, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='max_rtt', full_name='UplinkIpProbeStats.max_rtt', index=6,
+      name='max_rtt', full_name='Monitoring.UplinkIpProbeStats.max_rtt', index=6,
       number=7, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='min_rtt', full_name='UplinkIpProbeStats.min_rtt', index=7,
+      name='min_rtt', full_name='Monitoring.UplinkIpProbeStats.min_rtt', index=7,
       number=8, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='avg_jitter', full_name='UplinkIpProbeStats.avg_jitter', index=8,
+      name='avg_jitter', full_name='Monitoring.UplinkIpProbeStats.avg_jitter', index=8,
       number=9, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='max_jitter', full_name='UplinkIpProbeStats.max_jitter', index=9,
+      name='max_jitter', full_name='Monitoring.UplinkIpProbeStats.max_jitter', index=9,
       number=10, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='min_jitter', full_name='UplinkIpProbeStats.min_jitter', index=10,
+      name='min_jitter', full_name='Monitoring.UplinkIpProbeStats.min_jitter', index=10,
       number=11, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='mos_quality', full_name='UplinkIpProbeStats.mos_quality', index=11,
+      name='mos_quality', full_name='Monitoring.UplinkIpProbeStats.mos_quality', index=11,
       number=12, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='sd_avg_latency', full_name='UplinkIpProbeStats.sd_avg_latency', index=12,
+      name='sd_avg_latency', full_name='Monitoring.UplinkIpProbeStats.sd_avg_latency', index=12,
       number=13, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ds_avg_latency', full_name='UplinkIpProbeStats.ds_avg_latency', index=13,
+      name='ds_avg_latency', full_name='Monitoring.UplinkIpProbeStats.ds_avg_latency', index=13,
       number=14, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='sd_avg_jitter', full_name='UplinkIpProbeStats.sd_avg_jitter', index=14,
+      name='sd_avg_jitter', full_name='Monitoring.UplinkIpProbeStats.sd_avg_jitter', index=14,
       number=15, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ds_avg_jitter', full_name='UplinkIpProbeStats.ds_avg_jitter', index=15,
+      name='ds_avg_jitter', full_name='Monitoring.UplinkIpProbeStats.ds_avg_jitter', index=15,
       number=16, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='probe_status', full_name='UplinkIpProbeStats.probe_status', index=16,
+      name='probe_status', full_name='Monitoring.UplinkIpProbeStats.probe_status', index=16,
       number=17, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='loss_pct', full_name='UplinkIpProbeStats.loss_pct', index=17,
+      name='loss_pct', full_name='Monitoring.UplinkIpProbeStats.loss_pct', index=17,
       number=18, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='vpnc_ip_addr', full_name='UplinkIpProbeStats.vpnc_ip_addr', index=18,
+      name='vpnc_ip_addr', full_name='Monitoring.UplinkIpProbeStats.vpnc_ip_addr', index=18,
       number=19, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='probe_ip_addr', full_name='UplinkIpProbeStats.probe_ip_addr', index=19,
+      name='probe_ip_addr', full_name='Monitoring.UplinkIpProbeStats.probe_ip_addr', index=19,
       number=20, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -4083,76 +4123,76 @@ _UPLINKIPPROBESTATS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=7638,
-  serialized_end=8070,
+  serialized_start=8691,
+  serialized_end=9134,
 )
 
 
 _UPLINKSPEEDTEST = _descriptor.Descriptor(
   name='UplinkSpeedtest',
-  full_name='UplinkSpeedtest',
+  full_name='Monitoring.UplinkSpeedtest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='UplinkSpeedtest.device_id', index=0,
+      name='device_id', full_name='Monitoring.UplinkSpeedtest.device_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='server_ip', full_name='UplinkSpeedtest.server_ip', index=1,
+      name='server_ip', full_name='Monitoring.UplinkSpeedtest.server_ip', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='vlan', full_name='UplinkSpeedtest.vlan', index=2,
+      name='vlan', full_name='Monitoring.UplinkSpeedtest.vlan', index=2,
       number=3, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='protocol', full_name='UplinkSpeedtest.protocol', index=3,
+      name='protocol', full_name='Monitoring.UplinkSpeedtest.protocol', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='upstream_bps', full_name='UplinkSpeedtest.upstream_bps', index=4,
+      name='upstream_bps', full_name='Monitoring.UplinkSpeedtest.upstream_bps', index=4,
       number=5, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='downstream_bps', full_name='UplinkSpeedtest.downstream_bps', index=5,
+      name='downstream_bps', full_name='Monitoring.UplinkSpeedtest.downstream_bps', index=5,
       number=6, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='time_secs', full_name='UplinkSpeedtest.time_secs', index=6,
+      name='time_secs', full_name='Monitoring.UplinkSpeedtest.time_secs', index=6,
       number=7, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='upstream_jitter', full_name='UplinkSpeedtest.upstream_jitter', index=7,
+      name='upstream_jitter', full_name='Monitoring.UplinkSpeedtest.upstream_jitter', index=7,
       number=8, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='downstream_jitter', full_name='UplinkSpeedtest.downstream_jitter', index=8,
+      name='downstream_jitter', full_name='Monitoring.UplinkSpeedtest.downstream_jitter', index=8,
       number=9, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
@@ -4170,62 +4210,62 @@ _UPLINKSPEEDTEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=8073,
-  serialized_end=8289,
+  serialized_start=9137,
+  serialized_end=9364,
 )
 
 
 _WIDSEVENT = _descriptor.Descriptor(
   name='WIDSEvent',
-  full_name='WIDSEvent',
+  full_name='Monitoring.WIDSEvent',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='action', full_name='WIDSEvent.action', index=0,
+      name='action', full_name='Monitoring.WIDSEvent.action', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=3,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='event_type', full_name='WIDSEvent.event_type', index=1,
+      name='event_type', full_name='Monitoring.WIDSEvent.event_type', index=1,
       number=2, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='macaddr', full_name='WIDSEvent.macaddr', index=2,
+      name='macaddr', full_name='Monitoring.WIDSEvent.macaddr', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='detected_ap', full_name='WIDSEvent.detected_ap', index=3,
+      name='detected_ap', full_name='Monitoring.WIDSEvent.detected_ap', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='attack_type', full_name='WIDSEvent.attack_type', index=4,
+      name='attack_type', full_name='Monitoring.WIDSEvent.attack_type', index=4,
       number=5, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='channel', full_name='WIDSEvent.channel', index=5,
+      name='channel', full_name='Monitoring.WIDSEvent.channel', index=5,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='network', full_name='WIDSEvent.network', index=6,
+      name='network', full_name='Monitoring.WIDSEvent.network', index=6,
       number=7, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
@@ -4245,48 +4285,48 @@ _WIDSEVENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=8292,
-  serialized_end=10058,
+  serialized_start=9367,
+  serialized_end=11177,
 )
 
 
 _AIRMONITORROGUEINFO = _descriptor.Descriptor(
   name='AirMonitorRogueInfo',
-  full_name='AirMonitorRogueInfo',
+  full_name='Monitoring.AirMonitorRogueInfo',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='match_type', full_name='AirMonitorRogueInfo.match_type', index=0,
+      name='match_type', full_name='Monitoring.AirMonitorRogueInfo.match_type', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='match_mac', full_name='AirMonitorRogueInfo.match_mac', index=1,
+      name='match_mac', full_name='Monitoring.AirMonitorRogueInfo.match_mac', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='match_ip', full_name='AirMonitorRogueInfo.match_ip', index=2,
+      name='match_ip', full_name='Monitoring.AirMonitorRogueInfo.match_ip', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='monitor_name', full_name='AirMonitorRogueInfo.monitor_name', index=3,
+      name='monitor_name', full_name='Monitoring.AirMonitorRogueInfo.monitor_name', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='nat_match_type', full_name='AirMonitorRogueInfo.nat_match_type', index=4,
+      name='nat_match_type', full_name='Monitoring.AirMonitorRogueInfo.nat_match_type', index=4,
       number=5, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -4306,62 +4346,62 @@ _AIRMONITORROGUEINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=10061,
-  serialized_end=10750,
+  serialized_start=11180,
+  serialized_end=11913,
 )
 
 
 _ROGUEEVENT = _descriptor.Descriptor(
   name='RogueEvent',
-  full_name='RogueEvent',
+  full_name='Monitoring.RogueEvent',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='action', full_name='RogueEvent.action', index=0,
+      name='action', full_name='Monitoring.RogueEvent.action', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='detected_ap', full_name='RogueEvent.detected_ap', index=1,
+      name='detected_ap', full_name='Monitoring.RogueEvent.detected_ap', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='macaddr', full_name='RogueEvent.macaddr', index=2,
+      name='macaddr', full_name='Monitoring.RogueEvent.macaddr', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='channel', full_name='RogueEvent.channel', index=3,
+      name='channel', full_name='Monitoring.RogueEvent.channel', index=3,
       number=4, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='network', full_name='RogueEvent.network', index=4,
+      name='network', full_name='Monitoring.RogueEvent.network', index=4,
       number=5, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='encr_type', full_name='RogueEvent.encr_type', index=5,
+      name='encr_type', full_name='Monitoring.RogueEvent.encr_type', index=5,
       number=6, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='am_rogue', full_name='RogueEvent.am_rogue', index=6,
+      name='am_rogue', full_name='Monitoring.RogueEvent.am_rogue', index=6,
       number=7, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -4380,55 +4420,55 @@ _ROGUEEVENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=10753,
-  serialized_end=11112,
+  serialized_start=11916,
+  serialized_end=12319,
 )
 
 
 _DEVICENEIGHBOURS = _descriptor.Descriptor(
   name='DeviceNeighbours',
-  full_name='DeviceNeighbours',
+  full_name='Monitoring.DeviceNeighbours',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='action', full_name='DeviceNeighbours.action', index=0,
+      name='action', full_name='Monitoring.DeviceNeighbours.action', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=True, default_value=3,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='DeviceNeighbours.device_id', index=1,
+      name='device_id', full_name='Monitoring.DeviceNeighbours.device_id', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='port', full_name='DeviceNeighbours.port', index=2,
+      name='port', full_name='Monitoring.DeviceNeighbours.port', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='remote_device_id', full_name='DeviceNeighbours.remote_device_id', index=3,
+      name='remote_device_id', full_name='Monitoring.DeviceNeighbours.remote_device_id', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='remote_port', full_name='DeviceNeighbours.remote_port', index=4,
+      name='remote_port', full_name='Monitoring.DeviceNeighbours.remote_port', index=4,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='remote_port_number', full_name='DeviceNeighbours.remote_port_number', index=5,
+      name='remote_port_number', full_name='Monitoring.DeviceNeighbours.remote_port_number', index=5,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -4446,267 +4486,274 @@ _DEVICENEIGHBOURS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=11115,
-  serialized_end=11274,
+  serialized_start=12322,
+  serialized_end=12492,
 )
 
 
 _MONITORINGINFORMATION = _descriptor.Descriptor(
   name='MonitoringInformation',
-  full_name='MonitoringInformation',
+  full_name='Monitoring.MonitoringInformation',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='customer_id', full_name='MonitoringInformation.customer_id', index=0,
+      name='customer_id', full_name='Monitoring.MonitoringInformation.customer_id', index=0,
       number=1, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='data_elements', full_name='MonitoringInformation.data_elements', index=1,
+      name='data_elements', full_name='Monitoring.MonitoringInformation.data_elements', index=1,
       number=2, type=14, cpp_type=8, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='swarms', full_name='MonitoringInformation.swarms', index=2,
+      name='swarms', full_name='Monitoring.MonitoringInformation.swarms', index=2,
       number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='aps', full_name='MonitoringInformation.aps', index=3,
+      name='aps', full_name='Monitoring.MonitoringInformation.aps', index=3,
       number=4, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='networks', full_name='MonitoringInformation.networks', index=4,
+      name='networks', full_name='Monitoring.MonitoringInformation.networks', index=4,
       number=5, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='radios', full_name='MonitoringInformation.radios', index=5,
+      name='radios', full_name='Monitoring.MonitoringInformation.radios', index=5,
       number=6, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='vaps', full_name='MonitoringInformation.vaps', index=6,
+      name='vaps', full_name='Monitoring.MonitoringInformation.vaps', index=6,
       number=7, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='interfaces', full_name='MonitoringInformation.interfaces', index=7,
+      name='interfaces', full_name='Monitoring.MonitoringInformation.interfaces', index=7,
       number=8, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tunnels', full_name='MonitoringInformation.tunnels', index=8,
+      name='tunnels', full_name='Monitoring.MonitoringInformation.tunnels', index=8,
       number=9, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='wireless_clients', full_name='MonitoringInformation.wireless_clients', index=9,
+      name='wireless_clients', full_name='Monitoring.MonitoringInformation.wireless_clients', index=9,
       number=10, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='switches', full_name='MonitoringInformation.switches', index=10,
+      name='switches', full_name='Monitoring.MonitoringInformation.switches', index=10,
       number=11, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='wired_clients', full_name='MonitoringInformation.wired_clients', index=11,
+      name='wired_clients', full_name='Monitoring.MonitoringInformation.wired_clients', index=11,
       number=12, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='device_stats', full_name='MonitoringInformation.device_stats', index=12,
+      name='device_stats', full_name='Monitoring.MonitoringInformation.device_stats', index=12,
       number=13, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='radio_stats', full_name='MonitoringInformation.radio_stats', index=13,
+      name='radio_stats', full_name='Monitoring.MonitoringInformation.radio_stats', index=13,
       number=14, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='interface_stats', full_name='MonitoringInformation.interface_stats', index=14,
+      name='interface_stats', full_name='Monitoring.MonitoringInformation.interface_stats', index=14,
       number=15, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='vap_stats', full_name='MonitoringInformation.vap_stats', index=15,
+      name='vap_stats', full_name='Monitoring.MonitoringInformation.vap_stats', index=15,
       number=16, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='client_stats', full_name='MonitoringInformation.client_stats', index=16,
+      name='client_stats', full_name='Monitoring.MonitoringInformation.client_stats', index=16,
       number=17, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tunnel_stats', full_name='MonitoringInformation.tunnel_stats', index=17,
+      name='tunnel_stats', full_name='Monitoring.MonitoringInformation.tunnel_stats', index=17,
       number=18, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='wids_events', full_name='MonitoringInformation.wids_events', index=18,
+      name='wids_events', full_name='Monitoring.MonitoringInformation.wids_events', index=18,
       number=19, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='modem_stats', full_name='MonitoringInformation.modem_stats', index=19,
+      name='modem_stats', full_name='Monitoring.MonitoringInformation.modem_stats', index=19,
       number=20, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='role_stats', full_name='MonitoringInformation.role_stats', index=20,
+      name='role_stats', full_name='Monitoring.MonitoringInformation.role_stats', index=20,
       number=21, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='vlan_stats', full_name='MonitoringInformation.vlan_stats', index=21,
+      name='vlan_stats', full_name='Monitoring.MonitoringInformation.vlan_stats', index=21,
       number=22, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ssid_stats', full_name='MonitoringInformation.ssid_stats', index=22,
+      name='ssid_stats', full_name='Monitoring.MonitoringInformation.ssid_stats', index=22,
       number=23, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ipprobe_stats', full_name='MonitoringInformation.ipprobe_stats', index=23,
+      name='ipprobe_stats', full_name='Monitoring.MonitoringInformation.ipprobe_stats', index=23,
       number=24, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='rogue_events', full_name='MonitoringInformation.rogue_events', index=24,
+      name='rogue_events', full_name='Monitoring.MonitoringInformation.rogue_events', index=24,
       number=25, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='mobility_controllers', full_name='MonitoringInformation.mobility_controllers', index=25,
+      name='mobility_controllers', full_name='Monitoring.MonitoringInformation.mobility_controllers', index=25,
       number=26, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='uplinks', full_name='MonitoringInformation.uplinks', index=26,
+      name='uplinks', full_name='Monitoring.MonitoringInformation.uplinks', index=26,
       number=27, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='uplink_stats', full_name='MonitoringInformation.uplink_stats', index=27,
+      name='uplink_stats', full_name='Monitoring.MonitoringInformation.uplink_stats', index=27,
       number=28, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='uplink_wan_stats', full_name='MonitoringInformation.uplink_wan_stats', index=28,
+      name='uplink_wan_stats', full_name='Monitoring.MonitoringInformation.uplink_wan_stats', index=28,
       number=29, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='uplink_probe_stats', full_name='MonitoringInformation.uplink_probe_stats', index=29,
+      name='uplink_probe_stats', full_name='Monitoring.MonitoringInformation.uplink_probe_stats', index=29,
       number=30, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='uplink_speedtest', full_name='MonitoringInformation.uplink_speedtest', index=30,
+      name='uplink_speedtest', full_name='Monitoring.MonitoringInformation.uplink_speedtest', index=30,
       number=31, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='device_neighbours', full_name='MonitoringInformation.device_neighbours', index=31,
+      name='device_neighbours', full_name='Monitoring.MonitoringInformation.device_neighbours', index=31,
       number=32, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='notification', full_name='MonitoringInformation.notification', index=32,
+      name='notification', full_name='Monitoring.MonitoringInformation.notification', index=32,
       number=33, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='switch_stacks', full_name='MonitoringInformation.switch_stacks', index=33,
+      name='switch_stacks', full_name='Monitoring.MonitoringInformation.switch_stacks', index=33,
       number=34, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ike_tunnels', full_name='MonitoringInformation.ike_tunnels', index=34,
+      name='ike_tunnels', full_name='Monitoring.MonitoringInformation.ike_tunnels', index=34,
       number=35, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='switch_vlan_info', full_name='MonitoringInformation.switch_vlan_info', index=35,
+      name='switch_vlan_info', full_name='Monitoring.MonitoringInformation.switch_vlan_info', index=35,
       number=36, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='vlans', full_name='Monitoring.MonitoringInformation.vlans', index=36,
+      number=37, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -4722,118 +4769,118 @@ _MONITORINGINFORMATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=11277,
-  serialized_end=12542,
+  serialized_start=12495,
+  serialized_end=14178,
 )
 
 
 _MONITORINGSTATEINFORMATION = _descriptor.Descriptor(
   name='MonitoringStateInformation',
-  full_name='MonitoringStateInformation',
+  full_name='Monitoring.MonitoringStateInformation',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='customer_id', full_name='MonitoringStateInformation.customer_id', index=0,
+      name='customer_id', full_name='Monitoring.MonitoringStateInformation.customer_id', index=0,
       number=1, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='mobility_controllers', full_name='MonitoringStateInformation.mobility_controllers', index=1,
+      name='mobility_controllers', full_name='Monitoring.MonitoringStateInformation.mobility_controllers', index=1,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='switches', full_name='MonitoringStateInformation.switches', index=2,
+      name='switches', full_name='Monitoring.MonitoringStateInformation.switches', index=2,
       number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='swarms', full_name='MonitoringStateInformation.swarms', index=3,
+      name='swarms', full_name='Monitoring.MonitoringStateInformation.swarms', index=3,
       number=4, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='aps', full_name='MonitoringStateInformation.aps', index=4,
+      name='aps', full_name='Monitoring.MonitoringStateInformation.aps', index=4,
       number=5, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='vaps', full_name='MonitoringStateInformation.vaps', index=5,
+      name='vaps', full_name='Monitoring.MonitoringStateInformation.vaps', index=5,
       number=6, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='radios', full_name='MonitoringStateInformation.radios', index=6,
+      name='radios', full_name='Monitoring.MonitoringStateInformation.radios', index=6,
       number=7, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='interfaces', full_name='MonitoringStateInformation.interfaces', index=7,
+      name='interfaces', full_name='Monitoring.MonitoringStateInformation.interfaces', index=7,
       number=8, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='networks', full_name='MonitoringStateInformation.networks', index=8,
+      name='networks', full_name='Monitoring.MonitoringStateInformation.networks', index=8,
       number=9, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tunnels', full_name='MonitoringStateInformation.tunnels', index=9,
+      name='tunnels', full_name='Monitoring.MonitoringStateInformation.tunnels', index=9,
       number=10, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='wireless_clients', full_name='MonitoringStateInformation.wireless_clients', index=10,
+      name='wireless_clients', full_name='Monitoring.MonitoringStateInformation.wireless_clients', index=10,
       number=11, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='wired_clients', full_name='MonitoringStateInformation.wired_clients', index=11,
+      name='wired_clients', full_name='Monitoring.MonitoringStateInformation.wired_clients', index=11,
       number=12, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='uplinks', full_name='MonitoringStateInformation.uplinks', index=12,
+      name='uplinks', full_name='Monitoring.MonitoringStateInformation.uplinks', index=12,
       number=13, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='switch_stacks', full_name='MonitoringStateInformation.switch_stacks', index=13,
+      name='switch_stacks', full_name='Monitoring.MonitoringStateInformation.switch_stacks', index=13,
       number=14, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ike_tunnels', full_name='MonitoringStateInformation.ike_tunnels', index=14,
+      name='ike_tunnels', full_name='Monitoring.MonitoringStateInformation.ike_tunnels', index=14,
       number=15, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -4851,27 +4898,27 @@ _MONITORINGSTATEINFORMATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=12545,
-  serialized_end=13024,
+  serialized_start=14181,
+  serialized_end=14814,
 )
 
 
 _KEYVALUEDATA = _descriptor.Descriptor(
   name='KeyValueData',
-  full_name='KeyValueData',
+  full_name='Monitoring.KeyValueData',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='key', full_name='KeyValueData.key', index=0,
+      name='key', full_name='Monitoring.KeyValueData.key', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='value', full_name='KeyValueData.value', index=1,
+      name='value', full_name='Monitoring.KeyValueData.value', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -4889,76 +4936,76 @@ _KEYVALUEDATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=13026,
-  serialized_end=13068,
+  serialized_start=14816,
+  serialized_end=14858,
 )
 
 
 _NOTIFICATION = _descriptor.Descriptor(
   name='Notification',
-  full_name='Notification',
+  full_name='Monitoring.Notification',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='id', full_name='Notification.id', index=0,
+      name='id', full_name='Monitoring.Notification.id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='type', full_name='Notification.type', index=1,
+      name='type', full_name='Monitoring.Notification.type', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='setting_id', full_name='Notification.setting_id', index=2,
+      name='setting_id', full_name='Monitoring.Notification.setting_id', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='Notification.device_id', index=3,
+      name='device_id', full_name='Monitoring.Notification.device_id', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='severity', full_name='Notification.severity', index=4,
+      name='severity', full_name='Monitoring.Notification.severity', index=4,
       number=5, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='timestamp', full_name='Notification.timestamp', index=5,
+      name='timestamp', full_name='Monitoring.Notification.timestamp', index=5,
       number=6, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='state', full_name='Notification.state', index=6,
+      name='state', full_name='Monitoring.Notification.state', index=6,
       number=7, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='description', full_name='Notification.description', index=7,
+      name='description', full_name='Monitoring.Notification.description', index=7,
       number=8, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='extra', full_name='Notification.extra', index=8,
+      name='extra', full_name='Monitoring.Notification.extra', index=8,
       number=9, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -4978,27 +5025,27 @@ _NOTIFICATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=13071,
-  serialized_end=13425,
+  serialized_start=14861,
+  serialized_end=15248,
 )
 
 
 _SWITCHVLANINFO = _descriptor.Descriptor(
   name='SwitchVlanInfo',
-  full_name='SwitchVlanInfo',
+  full_name='Monitoring.SwitchVlanInfo',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='device_id', full_name='SwitchVlanInfo.device_id', index=0,
+      name='device_id', full_name='Monitoring.SwitchVlanInfo.device_id', index=0,
       number=1, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='vlans', full_name='SwitchVlanInfo.vlans', index=1,
+      name='vlans', full_name='Monitoring.SwitchVlanInfo.vlans', index=1,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -5016,41 +5063,41 @@ _SWITCHVLANINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=13427,
-  serialized_end=13490,
+  serialized_start=15250,
+  serialized_end=15324,
 )
 
 
 _SWITCHVLAN = _descriptor.Descriptor(
   name='SwitchVlan',
-  full_name='SwitchVlan',
+  full_name='Monitoring.SwitchVlan',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='id', full_name='SwitchVlan.id', index=0,
+      name='id', full_name='Monitoring.SwitchVlan.id', index=0,
       number=1, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='name', full_name='SwitchVlan.name', index=1,
+      name='name', full_name='Monitoring.SwitchVlan.name', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tagged_ports', full_name='SwitchVlan.tagged_ports', index=2,
+      name='tagged_ports', full_name='Monitoring.SwitchVlan.tagged_ports', index=2,
       number=3, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='untagged_ports', full_name='SwitchVlan.untagged_ports', index=3,
+      name='untagged_ports', full_name='Monitoring.SwitchVlan.untagged_ports', index=3,
       number=4, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -5068,8 +5115,109 @@ _SWITCHVLAN = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=13492,
-  serialized_end=13576,
+  serialized_start=15326,
+  serialized_end=15410,
+)
+
+
+_VLAN = _descriptor.Descriptor(
+  name='Vlan',
+  full_name='Monitoring.Vlan',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='action', full_name='Monitoring.Vlan.action', index=0,
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=True, default_value=3,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='vlan_id', full_name='Monitoring.Vlan.vlan_id', index=1,
+      number=2, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='ipv4', full_name='Monitoring.Vlan.ipv4', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='ipv6_ll', full_name='Monitoring.Vlan.ipv6_ll', index=3,
+      number=4, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='ipv6_1', full_name='Monitoring.Vlan.ipv6_1', index=4,
+      number=5, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='ipv6_2', full_name='Monitoring.Vlan.ipv6_2', index=5,
+      number=6, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='ipv6_3', full_name='Monitoring.Vlan.ipv6_3', index=6,
+      number=7, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='oper_state', full_name='Monitoring.Vlan.oper_state', index=7,
+      number=8, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=1,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='description', full_name='Monitoring.Vlan.description', index=8,
+      number=9, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='admin_state', full_name='Monitoring.Vlan.admin_state', index=9,
+      number=10, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=1,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='addr_mode', full_name='Monitoring.Vlan.addr_mode', index=10,
+      number=11, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=15413,
+  serialized_end=15795,
 )
 
 _IPADDRESS.fields_by_name['af'].enum_type = _IPADDRESS_ADDR_FAMILY
@@ -5149,6 +5297,8 @@ _MOBILITYCONTROLLER.fields_by_name['default_gateway'].message_type = _IPADDRESS
 _UPLINK.fields_by_name['action'].enum_type = _ACTION
 _UPLINK.fields_by_name['status'].enum_type = _STATUS
 _UPLINK.fields_by_name['wan_status'].enum_type = _STATUS
+_UPLINK.fields_by_name['public_ip_address'].message_type = _IPADDRESS
+_UPLINK.fields_by_name['private_ip_address'].message_type = _IPADDRESS
 _IKETUNNEL.fields_by_name['action'].enum_type = _ACTION
 _IKETUNNEL.fields_by_name['peer_mac'].message_type = _MACADDRESS
 _IKETUNNEL.fields_by_name['local_mac'].message_type = _MACADDRESS
@@ -5218,6 +5368,7 @@ _MONITORINGINFORMATION.fields_by_name['notification'].message_type = _NOTIFICATI
 _MONITORINGINFORMATION.fields_by_name['switch_stacks'].message_type = _SWITCHSTACK
 _MONITORINGINFORMATION.fields_by_name['ike_tunnels'].message_type = _IKETUNNEL
 _MONITORINGINFORMATION.fields_by_name['switch_vlan_info'].message_type = _SWITCHVLANINFO
+_MONITORINGINFORMATION.fields_by_name['vlans'].message_type = _VLAN
 _MONITORINGSTATEINFORMATION.fields_by_name['mobility_controllers'].message_type = _MOBILITYCONTROLLER
 _MONITORINGSTATEINFORMATION.fields_by_name['switches'].message_type = _SWITCH
 _MONITORINGSTATEINFORMATION.fields_by_name['swarms'].message_type = _SWARM
@@ -5238,6 +5389,14 @@ _NOTIFICATION.fields_by_name['extra'].message_type = _KEYVALUEDATA
 _NOTIFICATION_SEVERITY.containing_type = _NOTIFICATION
 _NOTIFICATION_NOTIFICATIONSTATE.containing_type = _NOTIFICATION
 _SWITCHVLANINFO.fields_by_name['vlans'].message_type = _SWITCHVLAN
+_VLAN.fields_by_name['action'].enum_type = _ACTION
+_VLAN.fields_by_name['ipv4'].message_type = _IPADDRESS
+_VLAN.fields_by_name['ipv6_ll'].message_type = _IPADDRESS
+_VLAN.fields_by_name['ipv6_1'].message_type = _IPADDRESS
+_VLAN.fields_by_name['ipv6_2'].message_type = _IPADDRESS
+_VLAN.fields_by_name['ipv6_3'].message_type = _IPADDRESS
+_VLAN.fields_by_name['oper_state'].enum_type = _STATUS
+_VLAN.fields_by_name['admin_state'].enum_type = _STATUS
 DESCRIPTOR.message_types_by_name['IpAddress'] = _IPADDRESS
 DESCRIPTOR.message_types_by_name['MacAddress'] = _MACADDRESS
 DESCRIPTOR.message_types_by_name['Swarm'] = _SWARM
@@ -5280,6 +5439,7 @@ DESCRIPTOR.message_types_by_name['KeyValueData'] = _KEYVALUEDATA
 DESCRIPTOR.message_types_by_name['Notification'] = _NOTIFICATION
 DESCRIPTOR.message_types_by_name['SwitchVlanInfo'] = _SWITCHVLANINFO
 DESCRIPTOR.message_types_by_name['SwitchVlan'] = _SWITCHVLAN
+DESCRIPTOR.message_types_by_name['Vlan'] = _VLAN
 DESCRIPTOR.enum_types_by_name['Action'] = _ACTION
 DESCRIPTOR.enum_types_by_name['Status'] = _STATUS
 DESCRIPTOR.enum_types_by_name['TunnelIndex'] = _TUNNELINDEX
@@ -5291,296 +5451,303 @@ _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 IpAddress = _reflection.GeneratedProtocolMessageType('IpAddress', (_message.Message,), dict(
   DESCRIPTOR = _IPADDRESS,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:IpAddress)
+  # @@protoc_insertion_point(class_scope:Monitoring.IpAddress)
   ))
 _sym_db.RegisterMessage(IpAddress)
 
 MacAddress = _reflection.GeneratedProtocolMessageType('MacAddress', (_message.Message,), dict(
   DESCRIPTOR = _MACADDRESS,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:MacAddress)
+  # @@protoc_insertion_point(class_scope:Monitoring.MacAddress)
   ))
 _sym_db.RegisterMessage(MacAddress)
 
 Swarm = _reflection.GeneratedProtocolMessageType('Swarm', (_message.Message,), dict(
   DESCRIPTOR = _SWARM,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:Swarm)
+  # @@protoc_insertion_point(class_scope:Monitoring.Swarm)
   ))
 _sym_db.RegisterMessage(Swarm)
 
 Tunnel = _reflection.GeneratedProtocolMessageType('Tunnel', (_message.Message,), dict(
   DESCRIPTOR = _TUNNEL,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:Tunnel)
+  # @@protoc_insertion_point(class_scope:Monitoring.Tunnel)
   ))
 _sym_db.RegisterMessage(Tunnel)
 
 Interface = _reflection.GeneratedProtocolMessageType('Interface', (_message.Message,), dict(
   DESCRIPTOR = _INTERFACE,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:Interface)
+  # @@protoc_insertion_point(class_scope:Monitoring.Interface)
   ))
 _sym_db.RegisterMessage(Interface)
 
 VapInfo = _reflection.GeneratedProtocolMessageType('VapInfo', (_message.Message,), dict(
   DESCRIPTOR = _VAPINFO,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:VapInfo)
+  # @@protoc_insertion_point(class_scope:Monitoring.VapInfo)
   ))
 _sym_db.RegisterMessage(VapInfo)
 
 Radio = _reflection.GeneratedProtocolMessageType('Radio', (_message.Message,), dict(
   DESCRIPTOR = _RADIO,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:Radio)
+  # @@protoc_insertion_point(class_scope:Monitoring.Radio)
   ))
 _sym_db.RegisterMessage(Radio)
 
 Ap = _reflection.GeneratedProtocolMessageType('Ap', (_message.Message,), dict(
   DESCRIPTOR = _AP,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:Ap)
+  # @@protoc_insertion_point(class_scope:Monitoring.Ap)
   ))
 _sym_db.RegisterMessage(Ap)
 
 Network = _reflection.GeneratedProtocolMessageType('Network', (_message.Message,), dict(
   DESCRIPTOR = _NETWORK,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:Network)
+  # @@protoc_insertion_point(class_scope:Monitoring.Network)
   ))
 _sym_db.RegisterMessage(Network)
 
 WirelessClient = _reflection.GeneratedProtocolMessageType('WirelessClient', (_message.Message,), dict(
   DESCRIPTOR = _WIRELESSCLIENT,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:WirelessClient)
+  # @@protoc_insertion_point(class_scope:Monitoring.WirelessClient)
   ))
 _sym_db.RegisterMessage(WirelessClient)
 
 HardwareModule = _reflection.GeneratedProtocolMessageType('HardwareModule', (_message.Message,), dict(
   DESCRIPTOR = _HARDWAREMODULE,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:HardwareModule)
+  # @@protoc_insertion_point(class_scope:Monitoring.HardwareModule)
   ))
 _sym_db.RegisterMessage(HardwareModule)
 
 Switch = _reflection.GeneratedProtocolMessageType('Switch', (_message.Message,), dict(
   DESCRIPTOR = _SWITCH,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:Switch)
+  # @@protoc_insertion_point(class_scope:Monitoring.Switch)
   ))
 _sym_db.RegisterMessage(Switch)
 
 SwitchStack = _reflection.GeneratedProtocolMessageType('SwitchStack', (_message.Message,), dict(
   DESCRIPTOR = _SWITCHSTACK,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:SwitchStack)
+  # @@protoc_insertion_point(class_scope:Monitoring.SwitchStack)
   ))
 _sym_db.RegisterMessage(SwitchStack)
 
 WiredClient = _reflection.GeneratedProtocolMessageType('WiredClient', (_message.Message,), dict(
   DESCRIPTOR = _WIREDCLIENT,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:WiredClient)
+  # @@protoc_insertion_point(class_scope:Monitoring.WiredClient)
   ))
 _sym_db.RegisterMessage(WiredClient)
 
 MobilityController = _reflection.GeneratedProtocolMessageType('MobilityController', (_message.Message,), dict(
   DESCRIPTOR = _MOBILITYCONTROLLER,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:MobilityController)
+  # @@protoc_insertion_point(class_scope:Monitoring.MobilityController)
   ))
 _sym_db.RegisterMessage(MobilityController)
 
 Uplink = _reflection.GeneratedProtocolMessageType('Uplink', (_message.Message,), dict(
   DESCRIPTOR = _UPLINK,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:Uplink)
+  # @@protoc_insertion_point(class_scope:Monitoring.Uplink)
   ))
 _sym_db.RegisterMessage(Uplink)
 
 IkeTunnel = _reflection.GeneratedProtocolMessageType('IkeTunnel', (_message.Message,), dict(
   DESCRIPTOR = _IKETUNNEL,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:IkeTunnel)
+  # @@protoc_insertion_point(class_scope:Monitoring.IkeTunnel)
   ))
 _sym_db.RegisterMessage(IkeTunnel)
 
 DeviceStats = _reflection.GeneratedProtocolMessageType('DeviceStats', (_message.Message,), dict(
   DESCRIPTOR = _DEVICESTATS,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:DeviceStats)
+  # @@protoc_insertion_point(class_scope:Monitoring.DeviceStats)
   ))
 _sym_db.RegisterMessage(DeviceStats)
 
 RadioStats = _reflection.GeneratedProtocolMessageType('RadioStats', (_message.Message,), dict(
   DESCRIPTOR = _RADIOSTATS,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:RadioStats)
+  # @@protoc_insertion_point(class_scope:Monitoring.RadioStats)
   ))
 _sym_db.RegisterMessage(RadioStats)
 
 VapStats = _reflection.GeneratedProtocolMessageType('VapStats', (_message.Message,), dict(
   DESCRIPTOR = _VAPSTATS,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:VapStats)
+  # @@protoc_insertion_point(class_scope:Monitoring.VapStats)
   ))
 _sym_db.RegisterMessage(VapStats)
 
 TunnelStats = _reflection.GeneratedProtocolMessageType('TunnelStats', (_message.Message,), dict(
   DESCRIPTOR = _TUNNELSTATS,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:TunnelStats)
+  # @@protoc_insertion_point(class_scope:Monitoring.TunnelStats)
   ))
 _sym_db.RegisterMessage(TunnelStats)
 
 ClientStats = _reflection.GeneratedProtocolMessageType('ClientStats', (_message.Message,), dict(
   DESCRIPTOR = _CLIENTSTATS,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:ClientStats)
+  # @@protoc_insertion_point(class_scope:Monitoring.ClientStats)
   ))
 _sym_db.RegisterMessage(ClientStats)
 
 InterfaceStats = _reflection.GeneratedProtocolMessageType('InterfaceStats', (_message.Message,), dict(
   DESCRIPTOR = _INTERFACESTATS,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:InterfaceStats)
+  # @@protoc_insertion_point(class_scope:Monitoring.InterfaceStats)
   ))
 _sym_db.RegisterMessage(InterfaceStats)
 
 UplinkStats = _reflection.GeneratedProtocolMessageType('UplinkStats', (_message.Message,), dict(
   DESCRIPTOR = _UPLINKSTATS,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:UplinkStats)
+  # @@protoc_insertion_point(class_scope:Monitoring.UplinkStats)
   ))
 _sym_db.RegisterMessage(UplinkStats)
 
 UplinkWanStats = _reflection.GeneratedProtocolMessageType('UplinkWanStats', (_message.Message,), dict(
   DESCRIPTOR = _UPLINKWANSTATS,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:UplinkWanStats)
+  # @@protoc_insertion_point(class_scope:Monitoring.UplinkWanStats)
   ))
 _sym_db.RegisterMessage(UplinkWanStats)
 
 ModemStats = _reflection.GeneratedProtocolMessageType('ModemStats', (_message.Message,), dict(
   DESCRIPTOR = _MODEMSTATS,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:ModemStats)
+  # @@protoc_insertion_point(class_scope:Monitoring.ModemStats)
   ))
 _sym_db.RegisterMessage(ModemStats)
 
 RoleStats = _reflection.GeneratedProtocolMessageType('RoleStats', (_message.Message,), dict(
   DESCRIPTOR = _ROLESTATS,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:RoleStats)
+  # @@protoc_insertion_point(class_scope:Monitoring.RoleStats)
   ))
 _sym_db.RegisterMessage(RoleStats)
 
 VlanStats = _reflection.GeneratedProtocolMessageType('VlanStats', (_message.Message,), dict(
   DESCRIPTOR = _VLANSTATS,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:VlanStats)
+  # @@protoc_insertion_point(class_scope:Monitoring.VlanStats)
   ))
 _sym_db.RegisterMessage(VlanStats)
 
 SsidStats = _reflection.GeneratedProtocolMessageType('SsidStats', (_message.Message,), dict(
   DESCRIPTOR = _SSIDSTATS,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:SsidStats)
+  # @@protoc_insertion_point(class_scope:Monitoring.SsidStats)
   ))
 _sym_db.RegisterMessage(SsidStats)
 
 TunnelIpProbeStats = _reflection.GeneratedProtocolMessageType('TunnelIpProbeStats', (_message.Message,), dict(
   DESCRIPTOR = _TUNNELIPPROBESTATS,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:TunnelIpProbeStats)
+  # @@protoc_insertion_point(class_scope:Monitoring.TunnelIpProbeStats)
   ))
 _sym_db.RegisterMessage(TunnelIpProbeStats)
 
 UplinkIpProbeStats = _reflection.GeneratedProtocolMessageType('UplinkIpProbeStats', (_message.Message,), dict(
   DESCRIPTOR = _UPLINKIPPROBESTATS,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:UplinkIpProbeStats)
+  # @@protoc_insertion_point(class_scope:Monitoring.UplinkIpProbeStats)
   ))
 _sym_db.RegisterMessage(UplinkIpProbeStats)
 
 UplinkSpeedtest = _reflection.GeneratedProtocolMessageType('UplinkSpeedtest', (_message.Message,), dict(
   DESCRIPTOR = _UPLINKSPEEDTEST,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:UplinkSpeedtest)
+  # @@protoc_insertion_point(class_scope:Monitoring.UplinkSpeedtest)
   ))
 _sym_db.RegisterMessage(UplinkSpeedtest)
 
 WIDSEvent = _reflection.GeneratedProtocolMessageType('WIDSEvent', (_message.Message,), dict(
   DESCRIPTOR = _WIDSEVENT,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:WIDSEvent)
+  # @@protoc_insertion_point(class_scope:Monitoring.WIDSEvent)
   ))
 _sym_db.RegisterMessage(WIDSEvent)
 
 AirMonitorRogueInfo = _reflection.GeneratedProtocolMessageType('AirMonitorRogueInfo', (_message.Message,), dict(
   DESCRIPTOR = _AIRMONITORROGUEINFO,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:AirMonitorRogueInfo)
+  # @@protoc_insertion_point(class_scope:Monitoring.AirMonitorRogueInfo)
   ))
 _sym_db.RegisterMessage(AirMonitorRogueInfo)
 
 RogueEvent = _reflection.GeneratedProtocolMessageType('RogueEvent', (_message.Message,), dict(
   DESCRIPTOR = _ROGUEEVENT,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:RogueEvent)
+  # @@protoc_insertion_point(class_scope:Monitoring.RogueEvent)
   ))
 _sym_db.RegisterMessage(RogueEvent)
 
 DeviceNeighbours = _reflection.GeneratedProtocolMessageType('DeviceNeighbours', (_message.Message,), dict(
   DESCRIPTOR = _DEVICENEIGHBOURS,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:DeviceNeighbours)
+  # @@protoc_insertion_point(class_scope:Monitoring.DeviceNeighbours)
   ))
 _sym_db.RegisterMessage(DeviceNeighbours)
 
 MonitoringInformation = _reflection.GeneratedProtocolMessageType('MonitoringInformation', (_message.Message,), dict(
   DESCRIPTOR = _MONITORINGINFORMATION,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:MonitoringInformation)
+  # @@protoc_insertion_point(class_scope:Monitoring.MonitoringInformation)
   ))
 _sym_db.RegisterMessage(MonitoringInformation)
 
 MonitoringStateInformation = _reflection.GeneratedProtocolMessageType('MonitoringStateInformation', (_message.Message,), dict(
   DESCRIPTOR = _MONITORINGSTATEINFORMATION,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:MonitoringStateInformation)
+  # @@protoc_insertion_point(class_scope:Monitoring.MonitoringStateInformation)
   ))
 _sym_db.RegisterMessage(MonitoringStateInformation)
 
 KeyValueData = _reflection.GeneratedProtocolMessageType('KeyValueData', (_message.Message,), dict(
   DESCRIPTOR = _KEYVALUEDATA,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:KeyValueData)
+  # @@protoc_insertion_point(class_scope:Monitoring.KeyValueData)
   ))
 _sym_db.RegisterMessage(KeyValueData)
 
 Notification = _reflection.GeneratedProtocolMessageType('Notification', (_message.Message,), dict(
   DESCRIPTOR = _NOTIFICATION,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:Notification)
+  # @@protoc_insertion_point(class_scope:Monitoring.Notification)
   ))
 _sym_db.RegisterMessage(Notification)
 
 SwitchVlanInfo = _reflection.GeneratedProtocolMessageType('SwitchVlanInfo', (_message.Message,), dict(
   DESCRIPTOR = _SWITCHVLANINFO,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:SwitchVlanInfo)
+  # @@protoc_insertion_point(class_scope:Monitoring.SwitchVlanInfo)
   ))
 _sym_db.RegisterMessage(SwitchVlanInfo)
 
 SwitchVlan = _reflection.GeneratedProtocolMessageType('SwitchVlan', (_message.Message,), dict(
   DESCRIPTOR = _SWITCHVLAN,
   __module__ = 'monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:SwitchVlan)
+  # @@protoc_insertion_point(class_scope:Monitoring.SwitchVlan)
   ))
 _sym_db.RegisterMessage(SwitchVlan)
+
+Vlan = _reflection.GeneratedProtocolMessageType('Vlan', (_message.Message,), dict(
+  DESCRIPTOR = _VLAN,
+  __module__ = 'monitoring_pb2'
+  # @@protoc_insertion_point(class_scope:Monitoring.Vlan)
+  ))
+_sym_db.RegisterMessage(Vlan)
 
 
 # @@protoc_insertion_point(module_scope)

@@ -1,0 +1,11 @@
+{
+  "webclient_info": {
+	              "host": "localhost",
+	       	      "port": "<free-port-in-host>"
+                    },
+  "central_info": {
+	            "webhook": { "name": "<name-of-the-webhook>",
+                                 "token": "<token-of-the-webhook>"
+		              }
+                  }
+}
