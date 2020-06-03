@@ -7,6 +7,8 @@ This repository contains code samples for Aruba Central.
 
 - [Streaming API Websocket Client Application](streaming-api-client/)
 
+- [Webhook Client application](webhooks/)
+
 ## Aruba Central Custom Dashboard
 
 This folder contains a sample code for building your own Aruba Central Dashboard using the API Gateways
@@ -27,9 +29,7 @@ This folder contains a sample code for building your own Aruba Central Dashboard
 [rest-api-python-scripts/](rest-api-python-scripts/)
 
 This folder contains sample python libraries and scripts to make API Requests to Aruba Central. REST APIs are based on request-response model.
-Refer to Central's API Swagger documentation page (under `Maintenance App -> API Gateway -> APIs`) for the list of available APIs.
-
-For more information, [refer here](https://help.central.arubanetworks.com/latest/documentation/online_help/content/home.htm)
+Refer to the Aruba Central's API Swagger documentation page (under `ACCOUNT HOME -> GLOBAL SETTINGS -> API GATEWAY -> APIs`) for the list of available APIs.
 
 ## Aruba Central Streaming API
 
@@ -37,3 +37,11 @@ For more information, [refer here](https://help.central.arubanetworks.com/latest
 
 This folder contains sample websocket client application based on python programming language. 
 The sample python script would establish a websocket connection and decode the google protobuf message to human readable format.
+
+## Aruba Central Webhooks
+
+[webhooks/](webhooks/)
+
+This folder contains sample scripts and documentation for Aruba Central Webhooks and Alerts. The sample script in this section would start a HTTP(s) client to receive Alerts from Aruba Central via webhooks. To manage Webhooks in Aruba Central, go to `ACCOUNT HOME -> GLOBAL SETTINGS -> WEBHOOKS`.
+
+For more information about Aruba Central, [refer here](https://help.central.arubanetworks.com/latest/documentation/online_help/content/home.htm)
