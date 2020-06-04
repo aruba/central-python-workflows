@@ -105,9 +105,9 @@ If the user is in possession of a refresh token, the authorization process is tr
 
 This section provides information regarding source code available in this repository. Users with multiple programming skill levels can leverage this for their Aruba Central automation journey.  
 
-**Recommended Python Version is 3.5+**
-
 #### Setting Up Python environment and Installing Requirements
+
+**Recommended Python Version is 3.5+**
 
 To create the Python environment (macOS shown):
 
@@ -115,8 +115,11 @@ To create the Python environment (macOS shown):
 cd central-api-getting-started
 python3 -m venv venv
 source venv/bin/activate
+```
 
-pip install -r requirements.txt
+To install required python packages
+```bash
+pip3 install -r requirements.txt
 ```
 
 ### 1. [api_tutorial](/rest-api-python-scripts/api_tutorial)
@@ -145,7 +148,7 @@ Users need not know programming to use these modules. The modules are usefule fo
 Once the user learns what is OAUTH login, obtain API access_token and know how to make an API call using **api_tutorial**, they can make use of **central_lib**.
 
 This can be used in two different ways
- - Use the library as is. It simplifies and abstracts OAUTH 2.0 (login, auth and access), storing and managing tokens, refreshing expired access token and making an API call.
+ - Use the library as is. It simplifies automation by abstracting OAUTH 2.0 (login, auth and access), storing and managing tokens, refreshing expired access token and making an API call.
  - Extend the `ArubaCentralBase` class to add features based on user's requirement. 
 
 ## Security Considerations
