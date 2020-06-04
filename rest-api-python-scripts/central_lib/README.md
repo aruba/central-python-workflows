@@ -6,7 +6,7 @@ This library manages creation of API access token using OATUTH, storing the toke
 
 Provided below is the snippet of code from *central_lib_usage.py* python script. Using the central_lib consists of four simple steps,
 
-a. Fill Aruba Central information in inventory JSON file as shown in `input_credentials.json` file. 
+1. Fill Aruba Central information in inventory JSON file as shown in `input_credentials.json` file. 
 
 - 'lib_path': Path to *central_lib* folder
 
@@ -48,7 +48,7 @@ Optionally, central_lib works with just *access_token* variable instead of provi
 
 **Please Note: Providing Aruba Central details via JSON file in production may be vulnerable to security attack. Extend "ArubaCentralBase" class and implement your token management mechanism for secure token management.**
 
-b. Create instance of `ArubaCentralBase` class by initializing the required variables.
+2. Create instance of `ArubaCentralBase` class by initializing the required variables.
 
 ```python
     # Import Aruba Central Library
@@ -65,7 +65,7 @@ b. Create instance of `ArubaCentralBase` class by initializing the required vari
     central = ArubaCentralBase(central_info, token_store)
 ```
 
-c. Define variables for API call using some of these variables [apiPath, apiMethod, apiParams, apiData, headers and files]. *apiPath* and *apiMethod* are mandatory, other variables are optional based on Aruba Central API endpoint requirement. Execute the API Request by calling *command* function using *ArubaCentralBase* instance object created in the previous step.
+3. Define variables for API call using some of these variables [apiPath, apiMethod, apiParams, apiData, headers and files]. *apiPath* and *apiMethod* are mandatory, other variables are optional based on Aruba Central API endpoint requirement. Execute the API Request by calling *command* function using *ArubaCentralBase* instance object created in the previous step.
 
 Optional *files* variable accepted by *command* function is a file pointer to a file as accepted by Python 'requests' module. It is used to upload Aruba Central group template file and variable file via API. Refer to the commented code in the 'central_lib_usage.py' script for example API calls.
 
@@ -92,7 +92,7 @@ Optional *files* variable accepted by *command* function is a file pointer to a 
     
 ```
 
-d. Execute the script.
+4. Execute the script.
 
 ```bash
 python3 central_lib_usage.py -i=input_credentials.json
