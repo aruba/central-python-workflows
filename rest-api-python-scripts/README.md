@@ -10,15 +10,16 @@ This guide is split into two parts and the objectives are as follows:
    - Create a new application in Aruba Central
    - OAuth 2.0 Workflow
 2. Getting Started with Automation using Aruba Central API. This part, 
-   - Provides modules which can be used as-is without need to write any programming language.
-   - Educates the user in multiple programming approaches to interact with APIs and manage tokens.
-   - Provides Python library to kick start with automation.
+   - **api_tutorial:** Learn Aruba Central API OAUTH login and making an API Call with multiple programming approaches.
+   - **central_modules:** Provides ready to use modules based on *central_lib* which can be used to automate configuration tasks without programming.
+   - **central_lib:** Provides Python based library to kick start with automation. This library manages login, managing and refreshing tokens, making an API calls to Aruba Central.
 
 ## Getting Started with Aruba Central API
 
-This section is aimed at beginners to get started with the Aruba Central API and Python programming. A key aspect of creating an automated workflow to interact with Central's API is the acquistion, management and refresh of OAuth tokens. 
+This section is aimed at beginners to get started with the Aruba Central API. A key aspect of creating an automated workflow to interact with Aruba Central API is the acquistion, management and refresh of OAuth tokens. 
 
 Two workflows are described in this section.
+
 - OAuth 2.0 Workflow
 - Refresh Token Workflow
 
@@ -102,13 +103,9 @@ If the user is in possession of a refresh token, the authorization process is tr
 
 ## Getting Started with Automation using Aruba Central API
 
-This section presents three different branches, to get started with automation, targetting users with different skill levels.
+This section provides information regarding source code available in this repository. Users with multiple programming skill levels can leverage this for their Aruba Central automation journey.  
 
-1. [Beginner to Advanced](#1-beginner-to-advanced---automate-without-programming) - Automate without any programming knowledge. Pre-built and ready to use modules for Aruba Central. 
-
-2. [Beginner](#2-beginner---creating-api-token-using-oauth-and-making-an-api-call) - Learn with Python to create tokens using OAUTH protocol and making an API call 
-
-3. [Advanced](#3-advanced---base-library-for-api-token-management-and-http-requests) - Base library for Aruba Central API token management and HTTP requests
+**Recommended Python Version is 3.5+**
 
 #### Setting Up Python environment and Installing Requirements
 
@@ -121,10 +118,35 @@ source venv/bin/activate
 
 pip install -r requirements.txt
 ```
-### 1. [Beginner to Advanced] - Automate without programming
-This section shows how to use modules built for commonly and widely used automated tasks. The modules are written in Python and are located under `central_modules` folder for use. 
 
-Each module is built on a purpose and automates one or more tasks. They all follow same structure and execute the same way.
+### 1. [api_tutorial](/rest-api-python-scripts/api_tutorial)
+
+The aim of this section is to provide walkthrough and educate users to obtain API access token and make an API call using simple programming. Three different progamming approaches for authentication and authorization are shown.
+
+They all use Python and offers the same set of operations. 
+   - OAUTH Authorization (three steps involved are login, auth and access)
+   - Refreshing access token
+   - Making an API call
+
+a. [api_tutorial/central_global] - offers operations in a single Python file and all commands in global namespace.  
+
+b. [api_tutorial/central_function] - offers operations using Python functions()
+
+c. [api_tutorial/central_class] - offers operations using Python Class.
+
+### 2. [central_modules](/rest-api-python-scripts/central_modules)
+
+This section contains ready to use modules built for commonly and widely used automation tasks. The modules are written in Python and is based on *central_lib*. Each module is built on a purpose and automates one or more tasks. They all follow same structure and execute the same way.
+
+Users need not know programming to use these modules. The modules are usefule for users to perform repetitive operation like renaming hundreds of Access Points(AP) or doing a simple multi-step configuration like creating group, moving device to a group, creating site, adding device to a site without needing to write a program.
+
+### 3. [central_lib](rest-api-python-scripts/central_lib)
+
+Once the user learns what is OAUTH login, obtain API access_token and know how to make an API call using **api_tutorial**, they can make use of **central_lib**.
+
+This can be used in two different ways
+ - Use the library as is. It simplifies and abstracts OAUTH 2.0 (login, auth and access), storing and managing tokens, refreshing expired access token and making an API call.
+ - Extend the `ArubaCentralBase` class to add features based on user's requirement. 
 
 #### Module Execution:
 
@@ -282,157 +304,6 @@ SUCCESS: 0
 SKIPPED: 0
 FAILED : 1
 ```
-
-### 2. [Beginner] - Creating API token using OAUTH and Making an API Call
-
-In this section, two different approaches for authentication and authorization are shown. They all use Python and offers the same set of operations. 
-
-a. [central_global](/rest-api-python-scripts/central_global) - offers operations in a single Python file and all commands in global namespace.  
-
-b. [central_function](/rest-api-python-scripts/central_function) - offers operations using Python functions()
-
-#### a. central_global
-
-* Every variable and command in a single Python file and all commands in the global namespace. This is aimed at those inexperienced with the Python language and the author hopes that presenting the workflow in a series of sequential commands, the user will grasp the various steps of the script.
-* This folder comprises of two .py files. One to run a full authentication workflow, requiring the user's Central password, and one utilising a locally stored refresh token.
-* During the successful operation of the full authentication script 'central_full_auth_global.py' a YAML file is created in the folder from which the Python file is run, and the refresh token is written to this file named 'refresh_token.yaml'.
-* With a valid 'refresh_token.yaml' file, the user can choose to run the full authentication script again, requiring their password, or run the 'central_refresh_global.py' file.
-* Both approaches, if successful, create a new 'refresh_token.yaml' file.
-* As an example of how to use the access token, both scripts finish by making a GET call to the AP URL, printing the results of the call to screen.
-
-**central_global: Step-by-Step**
-
-1. Gather the required variables.
-
-* Username and password - these are the same as the credentials the user's login to Aruba Central.
-* All other variables can be found on the Aruba Central API Gateway and are generated when a user creates a new application. See 'How to create a new application'
-
-2. At the top of the script are the import statement for the Python libraries used by the script.
-3. Enter the required varibles in the central_full_auth_global.py script. **This is unsafe and for educational purposes only. Do not use this script in production networks and never share this script populated with credentials.**
-
-```python
-# Replace with your secret variables. DO NOT SHARE! THIS IS UNSAFE & FOR EDUCATIONAL PURPOSES ONLY!
-client_id = "your-client-id-here"
-client_secret = "your-client-secret-here"
-customer_id = "your-customer-id-here"
-username = "your-username-here"
-# Example URL "https://eu-apigw.central.arubanetworks.com"
-base_url = "https://your-central-url-here.com"
-```
-
-4. The next section deals with the Login authentication call. 
-    * The 'base_url' variable is combined with the login suffix
-    * The API call uses the client_id in its parameters and the username & password are part of the call payload.
-    * N.B. The user's password is not included in the script. The Python library 'getpass' is used. This will prompt the user to enter their password when the script is run. That string is then included in the call payload.
-    * The call is built and actioned, with simple error messages for login success and failure
-
-```python
-# Login - Password Input Required
-login_url = base_url + "/oauth2/authorize/central/api/login"
-login_params = {"client_id": client_id}
-payload = {"username": username, "password": getpass.getpass()}
-resp = requests.post(login_url, params=login_params, json=payload)
-if resp.json()["status"] == True:
-    print("Login Successful")
-else:
-    print("Login Failed")
-    exit()
-```
-
-5. If the login call is successful, the returned data contains the 'csrf' token' and 'session' information. This are required for the next call and are stored in a new variable, named 'codes'.
-  
-```python
-# If login is successful, variables for tokens created
-codes = {"csrf": resp.cookies["csrftoken"], "ses": resp.cookies["session"]}
-```
-
-6. Next, a call is built using the returned data from the previous call, combined with the 'client_id' and 'client_secret'. A successful call with return an authorization code, with is stored in a new variable 'auth_code'.
-  
-```python
-# Authorize API call using login generated tokens
-authcode_url = base_url + "/oauth2/authorize/central/api"
-ses = "session=" + codes["ses"]
-headers = {
-    "X-CSRF-TOKEN": codes["csrf"],
-    "Content-type": "application/json",
-    "Cookie": ses,
-}
-payload = {"customer_id": customer_id}
-params = {"client_id": client_id, "response_type": "code", "scope": "all"}
-resp = requests.post(authcode_url, params=params, json=payload, headers=headers)
-auth_code = resp.json()["auth_code"]
-```
-
-7. For the third and final API call as part of the authorization process, the 'client_id', 'client_secret' and the 'auth_code' variable are combined in the call parameters and send to the 'token' URL. If successful, the refresh token and the access token are returned, they are parsed into new variables.
-  
-```python
-# Access and Refresh Token API call
-token_url = base_url + "/oauth2/token"
-token_params = {
-    "client_id": client_id,
-    "grant_type": "authorization_code",
-    "client_secret": client_secret,
-    "code": auth_code,
-}
-resp = requests.post(token_url, params=token_params)
-
-# Extract tokens from the JSON response
-refresh_token = resp.json()["refresh_token"]
-access_token = resp.json()["access_token"]
-# Print tokens to screen - delete if preferred
-print("Refresh Token:{} Auth Token:{}".format(refresh_token, access_token))
-refresh_token_data = {"refresh_token": refresh_token}
-```
-
-8. The refresh token is written to a new YAML file, 'refresh_token.yaml'.
-  
-```python
-# Write refresh token to local yaml file for future reference
-with open("refresh_token.yaml", "w") as write_file:
-    yaml.dump(refresh_token_data, write_file)
-```
-
-9. To finish, an optional illustrative step is taken, to demonstrate how to utilise the access token. A GET call is sent to the AP URL to return and print to screen the AP data for the user.
-
-```python
-# Sample API call to GET Central APs and print JSON to screen
-get_ap_url = base_url + "/monitoring/v1/aps"
-ap_params = {"access_token": access_token}
-get_ap_call = requests.get(get_ap_url, params=ap_params)
-pprint.pprint(get_ap_call.json())
-```
-
-**central_refresh_global: Step-by-Step**
-
-1. A user can run this script if they are in possession of a valid refresh token. Run 'central_refresh_global.py' from a location local to the 'refresh_token.yaml' file.
-2. A subset of the required variables are still needed. These are 'client_id', 'client_secret' and the 'base_url'. N.B. the refresh script does not require the username & password log in steps.
-  
-```python
-# Replace with your secret variables. DO NOT SHARE! THIS IS UNSAFE & FOR EDUCATIONAL PURPOSES ONLY!
-client_id = "your-client-id-here"
-client_secret = "your-client-secret-here"
-# Example URL "https://eu-apigw.central.arubanetworks.com"
-base_url = "https://your-central-url-here.com"
-```
-
-3. The script imports the refresh token by reading the local yaml file.
-  
-```python
-# Import the refresh token from the local refresh_token.yaml file
-filename = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), 'refresh_token.yaml'))
-with open(filename, 'r') as input_file:
-    data = yaml.load(input_file, Loader=yaml.FullLoader)
-```
-
-4. The rest of the script is identical to the full authentication workflow. A token call returns the two tokens. The new refresh token is written to the YAML file and the access token is used to make a GET call to the AP URL.
-
-#### b. central_function
-
-* This script utilises Python functions so as not to write repetitive, unnecessary code.
-* Also, better code hygiene is used by separating the required variables from the main script file and placing them in a local YAML file, 'vars.yaml'. This ensures the script is portable. A user can share the script and check it into version control, without including their sensitive data.
-* Again, there are two separate Python scripts, one for full authentication and one for just the refresh workflow.
-* As an example of how to use the access token, both scripts finish by making a GET call to the AP URL, printing the results of the call to screen.
 
 ## 3. [Advanced] - Base library for API token management and HTTP requests
 This section consists of information on how to use the `central_lib` Python package to get started with automation with Aruba Central in a breeze. 
