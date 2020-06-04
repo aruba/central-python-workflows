@@ -4,6 +4,8 @@ This section consists of information on how to use the `central_lib` Python pack
 
 This library manages creation of API access token using OATUTH, storing the token for re-use and makes API calls using Python requests package. Upon receiving *HTTP 401 Unauthorized error*, the library will attempt to refresh stored token, update the storage with renewed token and retry the failed API request. 
 
+### Using central_lib
+
 Provided below is the snippet of code from *central_lib_usage.py* python script. Using the central_lib consists of four simple steps,
 
 1. Fill Aruba Central information in inventory JSON file as shown in `input_credentials.json` file. 
