@@ -2,6 +2,12 @@
 
 This folder contains modules that can be leveraged to automate time consuming and repetitive tasks without having to write any program. Each directory within 'central_modules' folder is a module and the name of the folder is the considered the *module_name*. All modules follow same execution and input structure. 
 
+### Requirements
+These modules are developed based on **central_lib** package as provided in this repository. Follow this part of the guide to install [requirements](/rest-api-python-scripts#getting-started-with-automation-using-aruba-central-api) needed for the *central_lib*.
+
+Also provide path of the central_lib in the inventory file.
+
+### Execute Module
 Command to Execute a module
 ```
 python3 execute_module.py -i=input_credentials.json -m=rename_ap/task_input.json 
