@@ -11,7 +11,7 @@ This guide is split into two parts and the objectives are as follows:
    - OAuth 2.0 Workflow
 2. Getting Started with Automation using Aruba Central API. This part, 
    - **api_tutorial:** Learn Aruba Central API OAUTH login and making an API Call with multiple programming approaches.
-   - **central_modules:** Provides ready to use modules based on *central_lib* which can be used to automate configuration tasks without programming.
+   - **central_modules:** Provides ready to use modules based on *central_lib* which can be used to automate configuration tasks without needing to write your own code.
    - **central_lib:** Provides Python based library to kick start with automation. This library manages login, managing and refreshing tokens, making an API calls to Aruba Central.
 
 ## Getting Started with Aruba Central API
