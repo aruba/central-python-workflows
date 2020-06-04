@@ -49,11 +49,13 @@ c) Click 'API Gateway'
 ![API Gateway](pictures/2-api-gateway.png).
 
 d) The API Gateway will display the 'base_url' variable. Look for the URL under the 'Documentation' header. Truncate this to end with '.com' E.G. 'https://eu-apigw.central.arubanetworks.com/swagger/central/' must be truncated to 'https://eu-apigw.central.arubanetworks.com'.
+
 e) Next click 'System Apps & Tokens'.
 
 ![System Apps](pictures/3-base_url.png).
 
 f) Click 'Add Apps & Tokens' and create a new application.
+
 g) Once the new app is created, it will be displayed in the 'System Apps & Tokens' table, along with the 'client_id' and 'client_secret'.
 
 ![App Client Info](pictures/4-clientx.png)
