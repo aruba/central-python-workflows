@@ -13,11 +13,11 @@ Provided below is the snippet of code from *central_lib_usage.py* python script.
 
 1. Fill Aruba Central information in inventory JSON file as shown in `input_credentials.json` file. 
 
-- 'lib_path': Path to *central_lib* folder
+   - 'lib_path': Path to *central_lib* folder
 
-- 'central_info': As provided in earlier sections, obtain these required variables and update the file.
+   - 'central_info': As provided in earlier sections, obtain these required variables and update the file.
 
-- 'token_store': Only type 'local' token storage and accessing of stored token for re-use is implemented. 'path' is the local file system path where a JSON file will be created to store access token and refresh token information. 
+   - 'token_store': Only type 'local' token storage and accessing of stored token for re-use is implemented. 'path' is the local file system path where a JSON file will be created to store access token and refresh token information. 
 
 ```json
 {
