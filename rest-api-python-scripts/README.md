@@ -143,7 +143,7 @@ c. [api_tutorial/central_class] - offers operations using Python Class.
 
 This section contains ready to use modules built for commonly and widely used automation tasks. The modules are written in Python and is based on *central_lib*. Each module is built on a purpose and automates one or more tasks. They all follow same structure and execute the same way.
 
-Users need not know programming to use these modules. The modules are usefule for users to perform repetitive operation like renaming hundreds of Access Points(AP) or doing a simple multi-step configuration like creating group, moving device to a group, creating site, adding device to a site without needing to write a program.
+Users need not know programming to use these modules. The modules are useful for users to perform repetitive operation like renaming hundreds of Access Points(AP) or doing a simple multi-step configuration like creating group, moving device to a group, creating site, adding device to a site without needing to write a program.
 
 ### 3. [central_lib](rest-api-python-scripts/central_lib)
 
