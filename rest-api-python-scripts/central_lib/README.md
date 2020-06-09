@@ -2,7 +2,7 @@
 
 This section consists of information on how to use the `central_lib` Python package to get started with automation with Aruba Central in a breeze. 
 
-This library manages creation of API access token using OATUTH, storing the token for re-use and makes API calls using Python requests package. Upon receiving *HTTP 401 Unauthorized error*, the library will attempt to refresh stored token, update the storage with renewed token and retry the failed API request. 
+This library manages creation of API access token using OAUTH, storing the token for re-use and makes API calls using Python requests package. Upon receiving *HTTP 401 Unauthorized error*, the library will attempt to refresh stored token, update the storage with renewed token and retry the failed API request. 
 
 ### Requirements
 Follow this part of the guide to install [requirements](/rest-api-python-scripts#getting-started-with-automation-using-aruba-central-api) needed for this library.
