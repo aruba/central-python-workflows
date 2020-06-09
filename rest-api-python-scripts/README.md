@@ -1,5 +1,5 @@
 # Aruba Central REST API Python Scripts
-### **[Download as Zip File](https://downgit.github.io/#/home?url=https://github.com/aruba/central-examples-only/tree/public-devel/rest-api-python-scripts)**
+### **[Download as Zip File](https://downgit.github.io/#/home?url=https://github.com/aruba/central-examples-only/tree/master/rest-api-python-scripts)**
 
 Aruba Central is a cloud-based network management and configuration platform.
 Aruba Central offers a REST API, allowing programmatic interaction with the platform for the collection of data and configuration of assets. The API is secured using OAuth 2.0, which provides authorization based on tokens issued to applications.
@@ -70,11 +70,6 @@ The Central REST API utilises an OAuth 2.0 authorization framework. Authorizatio
 
 * Access token - this is end result of a successful authentication and authorization process. The access token is combined with subsequent API calls, allowing users access to configure, manage and receive data from the API. However, the access token is time-limited.
 * Refresh token - this token is issued at the same time as the access token but is not subject to the same strict time limitations as the access token. The refresh token can be used to request a new access token.
-
-For more information about OAuth 2 frameworks please refer to the the following link:
-
-https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2
-
 
 The full authentication and authorization workflow is as follows:
 
