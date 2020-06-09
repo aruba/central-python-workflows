@@ -1,5 +1,7 @@
 certifi
 chardet
 idna
+PyYAML
 requests
 urllib3
+colorlog
