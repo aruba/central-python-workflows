@@ -140,7 +140,7 @@ This section contains ready to use modules built for commonly and widely used au
 
 Users need not know programming to use these modules. The modules are useful for users to perform repetitive operation like renaming hundreds of Access Points(AP) or doing a simple multi-step configuration like creating group, moving device to a group, creating site, adding device to a site without needing to write a program.
 
-### 3. [central_lib](rest-api-python-scripts/central_lib)
+### 3. [central_lib](/rest-api-python-scripts/central_lib)
 
 Once the user learns what is OAUTH login, obtain API access_token and know how to make an API call using **api_tutorial**, they can make use of **central_lib**.
 
