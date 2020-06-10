@@ -58,13 +58,12 @@ Optionally, central_lib works with just *access_token* variable instead of provi
 ```python
     # Import Aruba Central Library
     from central_lib.arubacentral_base import ArubaCentralBase
-    from central_lib.arubacentral_utilities import parseInputArgs
 
     # Read input JSON inventory file
     input_args = get_file_content(args.inventory)
     
     # Connection object for Aruba Central as 'central'
-    central_info = parseInputArgs(input_args["central_info"])
+    central_info = input_args["central_info"]
     token_store = input_args["token_store"]
      
     central = ArubaCentralBase(central_info, token_store)
