@@ -21,12 +21,11 @@
 # SOFTWARE.
 
 from urllib.request import Request, urlopen
-from urllib.parse import urlencode
 import json, re, os
 import requests
 from central_lib.arubacentral_utilities import tokenLocalStoreUtil
-from central_lib.arubacentral_utilities import C_DEFAULT_ARGS
-from central_lib.arubacentral_utilities import console_logger
+from central_lib.arubacentral_utilities import C_DEFAULT_ARGS, get_url
+from central_lib.arubacentral_utilities import console_logger, parseInputArgs
 
 class BearerAuth(requests.auth.AuthBase):
     def __init__(self, token):
@@ -38,24 +37,20 @@ class BearerAuth(requests.auth.AuthBase):
 class ArubaCentralBase:
     def __init__(self, central_info, token_store=None,
                  logger=None):
-        self.central_info = central_info
+        self.central_info = parseInputArgs(central_info)
         self.token_store = token_store
         self.logger = None
+        # Set logger
         if logger:
             self.logger = logger
         else:
             self.logger = console_logger("ARUBA_BASE")
-        self.client_id = central_info["client_id"]
-        self.client_secret = central_info["client_secret"]
-        self.username = central_info["username"]
-        self.password = central_info["password"]
-        self.customer_id = central_info["customer_id"]
-        self.base_url = central_info["base_url"]
-        self.token = None
-        if "token" in central_info and "access_token" in central_info["token"]:
-            self.token = central_info["token"]
+        # Set token
+        if "token" in self.central_info and self.central_info["token"]:
+            if "access_token" not in self.central_info["token"]:
+                self.central_info["token"] = self.getToken()
         else:
-            self.token = self.getToken()
+            self.central_info["token"] = self.getToken()
 
     def oauthLogin(self):
         """
@@ -66,14 +61,21 @@ class ArubaCentralBase:
         """
         csrf_token = None
         session_token = None
+        base_url = self.central_info["base_url"]
         headers = {'Content-Type': 'application/json'}
-        url1 = "/oauth2/authorize/central/api/login?client_id="
-        url1 = self.base_url + url1 + self.client_id
-        data = json.dumps({"username": self.username,
-                          "password": self.password}).encode("utf-8")
 
+        path = "/oauth2/authorize/central/api/login"
+        query = {
+            "client_id": self.central_info["client_id"]
+        }
+        url = get_url(base_url=self.central_info["base_url"],
+                      path=path, query=query)
+
+        data = json.dumps({"username": self.central_info["username"],
+                           "password": self.central_info["password"]})
+        data = data.encode("utf-8")
         try:
-            req = Request(url=url1, data=data, headers=headers, method="POST")
+            req = Request(url=url, data=data, headers=headers, method="POST")
             resp = urlopen(req)
             if resp.code == 200:
                 cookie = resp.getheader("Set-Cookie")
@@ -96,15 +98,22 @@ class ArubaCentralBase:
             auth_code (str): Obtained from response payload
         """
         auth_code = None
-        headers = {'Content-Type': 'application/json'}
-        url2 = self.base_url + "/oauth2/authorize/central/api?client_id="
-        url2 = url2 + self.client_id + "&response_type=code&scope=all"
-        data2 = json.dumps({'customer_id': self.customer_id}).encode("utf-8")
-        headers2 = {'X-CSRF-TOKEN': csrf_token,
+        path = "/oauth2/authorize/central/api"
+        query = {
+            "client_id": self.central_info["client_id"],
+            "response_type": "code",
+            "scope": "all"
+        }
+        url = get_url(base_url=self.central_info["base_url"],
+                      path=path, query=query)
+
+        customer_id = self.central_info["customer_id"]
+        data = json.dumps({'customer_id': customer_id}).encode("utf-8")
+        headers = {'X-CSRF-TOKEN': csrf_token,
                     'Content-Type': 'application/json',
                     'Cookie': "session="+session_token}
         try:
-            req = Request(url2, data2, headers2, method="POST")
+            req = Request(url, data, headers, method="POST")
             resp = urlopen(req)
             if resp.code == 200:
                 result = json.loads(resp.read().decode('utf8'))
@@ -125,11 +134,18 @@ class ArubaCentralBase:
         """
         access_token = None
         headers = {'Content-Type': 'application/json'}
-        url3 = self.base_url + "/oauth2/token?client_id=" + self.client_id
-        url3 = url3 + "&grant_type=authorization_code&client_secret="
-        url3 = url3 + self.client_secret + "&code=" + auth_code
+
+        path =  "/oauth2/token"
+        query = {
+            "client_id": self.central_info["client_id"],
+            "client_secret": self.central_info["client_secret"],
+            "grant_type": "authorization_code",
+            "code": auth_code
+        }
+        url = get_url(base_url=self.central_info["base_url"],
+                      path=path, query=query)
         try:
-            req = Request(url=url3, method="POST")
+            req = Request(url=url, method="POST")
             resp = urlopen(req)
             if resp.code == 200:
                 result = json.loads(resp.read().decode('utf8'))
@@ -148,13 +164,15 @@ class ArubaCentralBase:
         oauth_keys = ["client_id", "client_secret", "customer_id",
                       "username", "password", "base_url"]
         oauth_keys = set(oauth_keys)
-        input_keys = set(C_DEFAULT_ARGS.keys())
-        if not oauth_keys.issubset(input_keys):
-            self.logger.error("Missing input parameters required for OAUTH")
-            exit("exiting...")
+        input_keys = set(self.central_info.keys())
+        # if not oauth_keys.issubset(input_keys):
+        #     self.logger.error("Missing input parameters required for OAUTH")
+        #     exit("exiting...")
         missing_keys = []
         for key in oauth_keys:
-            if not getattr(self, key):
+            if key not in input_keys:
+                missing_keys.append(key)
+            if not self.central_info[key]:
                 missing_keys.append(key)
         if missing_keys:
             self.logger.error("Missing input parameters "
@@ -168,12 +186,12 @@ class ArubaCentralBase:
         """
         required_keys = ["base_url", "client_id", "client_secret"]
         required_keys = set(required_keys)
-        input_keys = set(C_DEFAULT_ARGS.keys())
+        input_keys = set(self.central_info.keys())
         missing_keys = []
         for key in required_keys:
             if key not in input_keys:
                 missing_keys.append(key)
-            if key in input_keys and not getattr(self, key):
+            if not self.central_info[key]:
                 missing_keys.append(key)
         if missing_keys:
             self.logger.warning("Missing required parameters for refresh "
@@ -211,19 +229,25 @@ class ArubaCentralBase:
             token (dict): Obtained from response payload. Contains renewed
                           access_token and refresh_token
         """
+        token = None
+        resp = ''
         try:
             if not self.validateRefreshTokenParams():
                 raise UserWarning("")
-            url = self.base_url + "/oauth2/token?client_id="
-            url = url + self.client_id + "&grant_type=refresh_token&client_secret="
-            url = url + self.client_secret + "&refresh_token="
-            token = None
-            resp = ''
-
             if "refresh_token" not in old_token:
                 raise UserWarning("refresh_token not present in the input "
                                   "token dict")
-            url = url + old_token['refresh_token']
+
+            path = "/oauth2/token"
+            query = {
+                "client_id": self.central_info["client_id"],
+                "client_secret": self.central_info["client_secret"],
+                "grant_type": "refresh_token",
+                "refresh_token": old_token["refresh_token"]
+            }
+            url = get_url(base_url=self.central_info["base_url"],
+                          path=path, query=query)
+
             req = Request(url, method="POST")
             resp = urlopen(req)
             if resp.code == 200:
@@ -243,7 +267,8 @@ class ArubaCentralBase:
             token (dict): A token dict containg "access_token" & "refresh_token"
         """
         fullName = tokenLocalStoreUtil(self.token_store,
-                                       self.customer_id, self.client_id)
+                                       self.central_info["customer_id"],
+                                       self.central_info["client_id"])
         if not os.path.exists(os.path.dirname(fullName)):
             try:
                 os.makedirs(os.path.dirname(fullName))
@@ -271,7 +296,8 @@ class ArubaCentralBase:
                                  renewed access_token and refresh_token
         """
         fullName = tokenLocalStoreUtil(self.token_store,
-                                       self.customer_id, self.client_id)
+                                       self.central_info["customer_id"],
+                                       self.central_info["client_id"])
         token = None
         try:
             with open(fullName, 'r') as fp:
@@ -294,14 +320,14 @@ class ArubaCentralBase:
                  attempt to create new access token. Store new token.
         """
         self.logger.info("Handling Token Expiry...")
-        token = self.refreshToken(self.token)
+        token = self.refreshToken(self.central_info["token"])
         if token:
             self.logger.info("Expired access token refreshed!")
         else:
             self.logger.info("Attemping to create new token...")
             token = self.createToken()
         if token:
-            self.token = token
+            self.central_info["token"] = token
             self.storeToken(token)
         else:
             self.log.error("Failed to get API access token")
@@ -351,7 +377,7 @@ class ArubaCentralBase:
             str1 = "HTTP method '%s' not supported.. " % method
             self.logger.error(str1)
 
-        auth = BearerAuth(self.token["access_token"])
+        auth = BearerAuth(self.central_info["token"]["access_token"])
         s = requests.Session()
         req = requests.Request(method=method, url=url, headers=headers,
                                files=files, auth=auth, params=params,
@@ -388,7 +414,7 @@ class ArubaCentralBase:
         result = ''
         method = apiMethod
         while retry <= 1:
-            url = self.base_url + apiPath
+            url = self.central_info["base_url"] + apiPath
             if not headers and not files:
                 headers = {
                             "Content-Type": "application/json",

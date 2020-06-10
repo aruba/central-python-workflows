@@ -123,10 +123,9 @@ if __name__ == "__main__":
 
     # Import Aruba Central Library
     from central_lib.arubacentral_base import ArubaCentralBase
-    from central_lib.arubacentral_utilities import parseInputArgs
 
     # Connection object for Aruba Central as 'central'
-    central_info = parseInputArgs(input_args["central_info"])
+    central_info = input_args["central_info"]
     token_store = None
     if "token_store" in input_args:
         token_store = input_args["token_store"]

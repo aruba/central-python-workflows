@@ -21,11 +21,12 @@
 # SOFTWARE.
 
 import logging, os, sys, json
+from urllib.parse import urlencode, urlparse, urlunparse
 try:
     from pip import get_installed_distributions
 except:
     from pip._internal.utils.misc import get_installed_distributions
-    
+
 C_LOG_LEVEL = {
   "CRITICAL": 50,
   "ERROR": 40,
@@ -84,6 +85,25 @@ def tokenLocalStoreUtil(token_store, customer_id="customer",
         filePath = os.path.join(token_store["path"])
     fullName = os.path.join(filePath, fileName)
     return fullName
+
+def get_url(base_url, path='', params='', query={}, fragment=''):
+    """
+    Summary: This method returns constructed URL based in input args
+    Parameters:
+        base_url (str): Domain URL in the format 'https://example.com'
+        path (str): path of the API endpoint (if any)
+        params (str): params (if any)
+        query (dict): query params for the url in dictionary format
+        fragment (str): Defaults to ''
+    Returns:
+        url (str): Fully constructed URL
+    """
+    parsed_baseurl = urlparse(base_url)
+    scheme = parsed_baseurl.scheme
+    netloc = parsed_baseurl.netloc
+    query = urlencode(query)
+    url = urlunparse((scheme, netloc, path, params, query, fragment))
+    return url
 
 def console_logger(name, level="DEBUG"):
     """
