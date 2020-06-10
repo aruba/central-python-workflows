@@ -51,12 +51,10 @@ class ArubaCentralBase:
         self.password = central_info["password"]
         self.customer_id = central_info["customer_id"]
         self.base_url = central_info["base_url"]
-        self.token = central_info["token"]
-        if not self.token:
-            self.token = self.getToken()
-        elif self.token and "access_token" not in self.token:
-            self.logger.error("Invalid token dict in input file.. "
-                              "access_token not present")
+        self.token = None
+        if "token" in central_info and "access_token" in central_info["token"]:
+            self.token = central_info["token"]
+        else:
             self.token = self.getToken()
 
     def oauthLogin(self):
