@@ -182,7 +182,7 @@ FAILED : 1
 ```
 
 ## MODULE LIST
-In this section, lets look at list of available modules, its purpose and usage.
+In this section, let's look at list of available modules, its purpose and usage.
 
 ### 1. api_request
 This module is built to make any HTTP request Aruba Central has to offer. It basically makes an API call and prints the output on the screen. Multiple tasks can be stacked to create a simple automation workflow that doesn't need input and output parsing.
@@ -240,7 +240,7 @@ Sample Module Input File that Gets list of groups and Creates a new group.
 
 ### 2. rename_ap
 
-The purpose of this module is rename hundreds of IAPs in Aruba Central via automation. A `.csv` file should be created with columns ["serial_number", "name", ip_address"] in the following format. An IAP will be identified based on the serial number and an API call will be executed to rename the IAP. 
+The purpose of this module is to rename hundreds of IAPs in Aruba Central via automation. A `.csv` file should be created with columns ["serial_number", "hostname", ip_address"] in the following format. An IAP will be identified based on the serial number and an API call will be made to rename the IAP. 
 
 **Please Note: If you are conscious about Aruba Central API usage limit, one API call per IAP is required.**
 
@@ -250,7 +250,7 @@ AAAAAAAAAA,AP1,0.0.0.0
 BBBBBBBBBB,AP2,0.0.0.0
 ```
 
-The *ip_address* should be set to "0.0.0.0" if IAP get ip_address from DHCP server. Otherwise provide the ip_address of the IAP.
+The *ip_address* should be set to "0.0.0.0" if the Access Point gets ip_address from DHCP server. Otherwise provide the ip_address of the IAP.
 
 Sample module input JSON file as follows,
 
