@@ -61,6 +61,6 @@ with open("refresh_token.yaml", "w") as write_file:
 
 # Sample API call to GET Central APs and print JSON to screen
 get_ap_url = base_url + "/monitoring/v1/aps"
-ap_params = {"access_token": access_token}
-get_ap_call = requests.get(get_ap_url, params=ap_params)
+header = {"authorization": f"Bearer {access_token}"}
+get_ap_call = requests.get(get_ap_url, headers=header)
 pprint.pprint(get_ap_call.json())
