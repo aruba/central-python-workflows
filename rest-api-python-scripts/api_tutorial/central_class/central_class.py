@@ -91,13 +91,15 @@ class CentralApi:
         :rtype: String
         """
         token_url = self.vars["base_url"] + "/oauth2/token"
-        params = {
-            "client_id": self.vars["client_id"],
+        data = {
             "grant_type": "refresh_token",
-            "client_secret": self.vars["client_secret"],
             "refresh_token": str(self.refresh_token["refresh_token"]),
         }
-        resp = requests.post(token_url, params=params)
+        resp = requests.post(
+            token_url,
+            data=data,
+            auth=(self.vars["client_id"], self.vars["client_secret"]),
+        )
         refresh_token = resp.json()["refresh_token"]
         access_token = resp.json()["access_token"]
         self.write_to_file(refresh_token)
@@ -114,13 +116,12 @@ class CentralApi:
         :rtype: String
         """
         auth_url = self.vars["base_url"] + "/oauth2/token"
-        params = {
-            "client_id": self.vars["client_id"],
-            "grant_type": "authorization_code",
-            "client_secret": self.vars["client_secret"],
-            "code": self.auth_code,
-        }
-        resp = requests.post(auth_url, params=params)
+        data = {"grant_type": "authorization_code", "code": self.auth_code}
+        resp = requests.post(
+            auth_url,
+            data=data,
+            auth=(self.vars["client_id"], self.vars["client_secret"]),
+        )
         refresh_token = resp.json()["refresh_token"]
         access_token = resp.json()["access_token"]
         self.write_to_file(refresh_token)
