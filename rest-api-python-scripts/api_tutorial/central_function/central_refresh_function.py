@@ -35,13 +35,13 @@ def tokens(vars):
         )
         exit()
     token_url = vars["base_url"] + "/oauth2/token"
-    params = {
-        "client_id": vars["client_id"],
+    data = {
         "grant_type": "refresh_token",
-        "client_secret": vars["client_secret"],
         "refresh_token": str(refresh_token["refresh_token"]),
     }
-    resp = requests.post(token_url, params=params)
+    resp = requests.post(
+        token_url, data=data, auth=(vars["client_id"], vars["client_secret"])
+    )
     refresh_token = resp.json()["refresh_token"]
     access_token = resp.json()["access_token"]
     write_to_file(refresh_token)
