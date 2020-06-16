@@ -60,19 +60,19 @@ def write_to_file(token):
     print("Writing refresh token to refresh_token.yaml")
 
 
-def get_call(vars, url, params):
+def get_call(vars, url, header):
     """Generic GET call
     
     :param vars: Imported variables
     :type vars: Python dict
     :param url: GET call URL
     :type url: String
-    :param params: GET call parameters
-    :type params: Python dict
+    :param header: GET call parameters
+    :type header: Python dict
     :return: GET call response JSON
     :rtype: Python dict
     """
-    r = requests.get(vars["base_url"] + url, params=params)
+    r = requests.get(vars["base_url"] + url, headers=header)
     return r.json()
 
 
@@ -84,8 +84,8 @@ def get_ap(access_token):
     """
     vars = read_yaml("vars.yaml")
     url = "/monitoring/v1/aps"
-    params = {"access_token": access_token}
-    resp = get_call(vars, url, params)
+    header = {"authorization": f"Bearer {access_token}"}
+    resp = get_call(vars, url, header)
     pprint.pprint(resp)
 
 
