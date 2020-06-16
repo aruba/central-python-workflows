@@ -137,19 +137,19 @@ class CentralApi:
             yaml.dump(data, write_file)
         print("Writing refresh token to refresh_token.yaml")
 
-    def get_call(self, url, params):
+    def get_call(self, url, header):
         """Generic GET call
         
         :param vars: Imported variables
         :type vars: Python dict
         :param url: GET call URL
         :type url: String
-        :param params: GET call parameters
-        :type params: Python dict
+        :param header: GET call parameters
+        :type header: Python dict
         :return: GET call response JSON
         :rtype: Python dict
         """
-        r = requests.get(self.vars["base_url"] + url, params=params)
+        r = requests.get(self.vars["base_url"] + url, headers=header)
         return r.json()
 
     def get_ap(self):
@@ -159,8 +159,8 @@ class CentralApi:
         :type access_token: String
         """
         url = "/monitoring/v1/aps"
-        params = {"access_token": self.access_token}
-        resp = self.get_call(url, params)
+        header = {"authorization": f"Bearer {self.access_token}"}
+        resp = self.get_call(url, header)
         pprint.pprint(resp)
 
 
