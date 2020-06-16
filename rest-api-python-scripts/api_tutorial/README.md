@@ -215,7 +215,7 @@ else:
 codes = {"csrf": resp.cookies["csrftoken"], "ses": resp.cookies["session"]}
 ```
 
-6. Next, a call is built using the returned data from the previous call, combined with the 'client_id' and 'client_secret'. A successful call with return an authorization code, with is stored in a new variable 'auth_code'.
+6. Next, a call is built using the returned data from the previous call, combined with the 'customer_id' and 'client_id'. A successful call with return an authorization code, with is stored in a new variable 'auth_code'.
   
 ```python
 # Authorize API call using login generated tokens
@@ -232,18 +232,17 @@ resp = requests.post(authcode_url, params=params, json=payload, headers=headers)
 auth_code = resp.json()["auth_code"]
 ```
 
-7. For the third and final API call as part of the authorization process, the 'client_id', 'client_secret' and the 'auth_code' variable are combined in the call parameters and send to the 'token' URL. If successful, the refresh token and the access token are returned, they are parsed into new variables.
+1. For the third and final API call as part of the authorization process, the 'client_id', 'client_secret' and the 'auth_code' variable are send to the 'token' URL. If successful, the refresh token and the access token are returned, they are parsed into new variables.
   
 ```python
 # Access and Refresh Token API call
 token_url = base_url + "/oauth2/token"
-token_params = {
-    "client_id": client_id,
+token_data = {
     "grant_type": "authorization_code",
-    "client_secret": client_secret,
-    "code": auth_code,
+    "code": auth_code
 }
-resp = requests.post(token_url, params=token_params)
+resp = requests.post(token_url, data=token_data, auth=(client_id, client_secret))
+
 
 # Extract tokens from the JSON response
 refresh_token = resp.json()["refresh_token"]
@@ -266,8 +265,8 @@ with open("refresh_token.yaml", "w") as write_file:
 ```python
 # Sample API call to GET Central APs and print JSON to screen
 get_ap_url = base_url + "/monitoring/v1/aps"
-ap_params = {"access_token": access_token}
-get_ap_call = requests.get(get_ap_url, params=ap_params)
+header = {"authorization": f"Bearer {access_token}"}
+get_ap_call = requests.get(get_ap_url, headers=header)
 pprint.pprint(get_ap_call.json())
 ```
 
