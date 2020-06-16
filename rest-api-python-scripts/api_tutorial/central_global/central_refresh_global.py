@@ -18,13 +18,11 @@ with open(filename, "r") as input_file:
 
 # Build API call with the refresh token to obtain a new access token and refresh token
 token_url = "/oauth2/token"
-params = {
-    "client_id": client_id,
+data = {
     "grant_type": "refresh_token",
-    "client_secret": client_secret,
     "refresh_token": str(data["refresh_token"]),
 }
-resp = requests.post(base_url + token_url, params=params)
+resp = requests.post(base_url + token_url, data=data, auth=(client_id, client_secret))
 
 # Extract tokens from the JSON response
 refresh_token = resp.json()["refresh_token"]
@@ -38,5 +36,5 @@ with open("refresh_token.yaml", "w") as write_file:
 # Sample API call to GET Central APs and print JSON to screen
 get_ap_url = base_url + "/monitoring/v1/aps"
 header = {"authorization": f"Bearer {access_token}"}
-get_ap_call = requests.get(get_ap_url, header=header)
+get_ap_call = requests.get(get_ap_url, headers=header)
 pprint.pprint(get_ap_call.json())
