@@ -91,13 +91,15 @@ class CentralApi:
         :rtype: String
         """
         token_url = self.vars["base_url"] + "/oauth2/token"
-        params = {
-            "client_id": self.vars["client_id"],
+        data = {
             "grant_type": "refresh_token",
-            "client_secret": self.vars["client_secret"],
             "refresh_token": str(self.refresh_token["refresh_token"]),
         }
-        resp = requests.post(token_url, params=params)
+        resp = requests.post(
+            token_url,
+            data=data,
+            auth=(self.vars["client_id"], self.vars["client_secret"]),
+        )
         refresh_token = resp.json()["refresh_token"]
         access_token = resp.json()["access_token"]
         self.write_to_file(refresh_token)
@@ -114,13 +116,12 @@ class CentralApi:
         :rtype: String
         """
         auth_url = self.vars["base_url"] + "/oauth2/token"
-        params = {
-            "client_id": self.vars["client_id"],
-            "grant_type": "authorization_code",
-            "client_secret": self.vars["client_secret"],
-            "code": self.auth_code,
-        }
-        resp = requests.post(auth_url, params=params)
+        data = {"grant_type": "authorization_code", "code": self.auth_code}
+        resp = requests.post(
+            auth_url,
+            data=data,
+            auth=(self.vars["client_id"], self.vars["client_secret"]),
+        )
         refresh_token = resp.json()["refresh_token"]
         access_token = resp.json()["access_token"]
         self.write_to_file(refresh_token)
@@ -137,19 +138,19 @@ class CentralApi:
             yaml.dump(data, write_file)
         print("Writing refresh token to refresh_token.yaml")
 
-    def get_call(self, url, params):
+    def get_call(self, url, header):
         """Generic GET call
         
         :param vars: Imported variables
         :type vars: Python dict
         :param url: GET call URL
         :type url: String
-        :param params: GET call parameters
-        :type params: Python dict
+        :param header: GET call parameters
+        :type header: Python dict
         :return: GET call response JSON
         :rtype: Python dict
         """
-        r = requests.get(self.vars["base_url"] + url, params=params)
+        r = requests.get(self.vars["base_url"] + url, headers=header)
         return r.json()
 
     def get_ap(self):
@@ -159,8 +160,8 @@ class CentralApi:
         :type access_token: String
         """
         url = "/monitoring/v1/aps"
-        params = {"access_token": self.access_token}
-        resp = self.get_call(url, params)
+        header = {"authorization": f"Bearer {self.access_token}"}
+        resp = self.get_call(url, header)
         pprint.pprint(resp)
 
 

@@ -40,13 +40,11 @@ auth_code = resp.json()["auth_code"]
 
 # Access and Refresh Token API call
 token_url = base_url + "/oauth2/token"
-token_params = {
-    "client_id": client_id,
+token_data = {
     "grant_type": "authorization_code",
-    "client_secret": client_secret,
-    "code": auth_code,
+    "code": auth_code
 }
-resp = requests.post(token_url, params=token_params)
+resp = requests.post(token_url, data=token_data, auth=(client_id, client_secret))
 
 # Extract tokens from the JSON response
 refresh_token = resp.json()["refresh_token"]
@@ -61,6 +59,6 @@ with open("refresh_token.yaml", "w") as write_file:
 
 # Sample API call to GET Central APs and print JSON to screen
 get_ap_url = base_url + "/monitoring/v1/aps"
-ap_params = {"access_token": access_token}
-get_ap_call = requests.get(get_ap_url, params=ap_params)
+header = {"authorization": f"Bearer {access_token}"}
+get_ap_call = requests.get(get_ap_url, headers=header)
 pprint.pprint(get_ap_call.json())
