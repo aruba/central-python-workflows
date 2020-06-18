@@ -207,3 +207,22 @@ For Example to subscribe to multiple topics per customer and multiple customers,
   }
 }
 ```
+
+**Please Note:** The proto messages of type *bytes* are *base64* encoded in the decoded data. Example message fields of type bytes are MAC Address, IP Address and ESSID. You can know the type of a certain message field from the proto files.
+
+To decode the bytes data field, a snippet of python code is provided below
+```python
+import base64
+mac_address = base64.b64decode("<mac-address-value>")
+```
+
+In some instances, the fields needs to processed further, after base64 decoding.
+To get MAC Address in format *FF:FF:FF:FF:FF:FF*
+```python
+print(':'.join('%02x' % ord(byte) for byte in mac_address))
+```
+
+Similarly for IP address received as *b'\n\x01\ng'*, is *10.1.10.103* after processing.
+```python
+print('.'.join('%d' % byte for byte in ip_address))
+```
