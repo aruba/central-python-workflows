@@ -93,9 +93,9 @@ ssl_verify: true
 
 **Please Note:**
 
-- Providing Aruba Central details in clear text in production might be a security risk. Extend "ArubaCentralBase" class and implement your token management mechanism for secure token management.
+    - Providing Aruba Central details in clear text in production might be a security risk. Extend "ArubaCentralBase" class and implement your token management mechanism for secure token management.
 
-- If previously generated access token is not used over a period of 2 weeks, they will be revoked by Aruba Central. In this case, either provide new token or provide user credentials to generate a new token.
+    - If previously generated access token is not used over a period of 2 weeks, they will be revoked by Aruba Central. In this case, either provide new token or provide user credentials to generate a new token.
 
 2. Create instance of `ArubaCentralBase` class by initializing the required variables.
 

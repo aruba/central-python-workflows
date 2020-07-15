@@ -119,7 +119,7 @@ Please Note: Multiple tasks can be executed by adding additional block within ta
 
 Sample module input file with single task
 
-**JSON:**
+JSON:
 
 ```json
 {
@@ -135,7 +135,7 @@ Sample module input file with single task
 }
 ```
 
-**YAML:**
+YAML:
 
 ```yaml
 tasks:
@@ -146,7 +146,7 @@ tasks:
 ```
 Sample module input file with multiple tasks. Tasks with different module names can be called from single execution. In addition, same module name can be used in multiple tasks.
 
-**JSON:**
+JSON:
 
 ```json
 {
@@ -169,7 +169,7 @@ Sample module input file with multiple tasks. Tasks with different module names 
 }
 ```
 
-**YAML:**
+YAML:
 
 ```yaml
 tasks:
@@ -197,7 +197,7 @@ BBBBBBBBBB,AP2,0.0.0.0
 
 2. Create an input JSON file for the rename_ap module.
 
-**JSON:**
+JSON:
 
 ```json
 {
@@ -211,7 +211,7 @@ BBBBBBBBBB,AP2,0.0.0.0
 }
 ```
 
-**YAML:**
+YAML:
 
 ```yaml
 tasks:
@@ -265,7 +265,7 @@ This module is built to make any HTTP request Aruba Central has to offer. It bas
 
 Input Paramerts to tasks list is as follow,
 
-**JSON:**
+JSON:
 
 ```json
 {
@@ -285,7 +285,7 @@ Input Paramerts to tasks list is as follow,
 }
 ```
 
-**YAML:**
+YAML:
 ```yaml
 tasks:
   - api_request:
