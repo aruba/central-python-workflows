@@ -20,9 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import sys
+import sys, os
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
-import json
+import json, yaml
 from pprint import pprint
 
 # Example API Calls to Aruba Central
@@ -84,9 +84,17 @@ def get_file_content(file_name):
     input_args = ""
     try:
         with open(file_name, "r") as fp:
-            input_args = json.loads(fp.read())
+            file_dummy, file_ext = os.path.splitext(file_name)
+            if ".json" in file_ext:
+                input_args = json.loads(fp.read())
+            elif file_ext in ['.yaml', '.yml']:
+                input_args = yaml.safe_load(fp.read())
+            else:
+                raise UserWarning("Provide valid inventory file "
+                                  "format/extension [.json/.yaml/.yml]!")
         return input_args
     except Exception as err:
+        print(str(err))
         exit("exiting.. Unable to open file %s!" % file_name)
 
 def define_arguments():
@@ -99,7 +107,7 @@ def define_arguments():
     parser = ArgumentParser(description=description,
                             formatter_class=RawDescriptionHelpFormatter)
     parser.add_argument('-i', '--inventory', required=True,
-                        help=('Inventory file in JSON format which has \
+                        help=('Inventory file in JSON/YAML format which has \
                               variables and configuration '
                               'required by this script.'))
     return parser.parse_args()
@@ -127,9 +135,12 @@ if __name__ == "__main__":
     # Connection object for Aruba Central as 'central'
     central_info = input_args["central_info"]
     token_store = None
+    ssl_verify = True
     if "token_store" in input_args:
         token_store = input_args["token_store"]
-    central = ArubaCentralBase(central_info, token_store)
+    if "ssl_verify" in input_args:
+        ssl_verify = input_args["ssl_verify"]
+    central = ArubaCentralBase(central_info, token_store, ssl_verify=ssl_verify)
 
     # - Sample API call. More examples in form of code comment at beginning
     # - of this script

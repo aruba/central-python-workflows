@@ -46,8 +46,14 @@ if __name__ == "__main__":
     token_store = None
     if "token_store" in inventory_args:
         token_store = inventory_args["token_store"]
+
+    ssl_verify = True
+    if "ssl_verify" in inventory_args:
+        ssl_verify = inventory_args["ssl_verify"]
+
     central_logger = utils.console_logger("ARUBA_CENTRAL_BASE")
-    central_conn = ArubaCentralBase(central_info, token_store, central_logger)
+    central_conn = ArubaCentralBase(central_info, token_store, central_logger,
+                                    ssl_verify=ssl_verify)
 
     # Get sub-directory list of current dir
     dir_list = utils.get_subdir_list(dir_name='.', with_path=False)
