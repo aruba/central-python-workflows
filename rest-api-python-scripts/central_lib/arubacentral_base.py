@@ -20,7 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from urllib.request import Request, urlopen
 import json, re, os
 import requests
 from central_lib.arubacentral_utilities import tokenLocalStoreUtil
@@ -36,10 +35,11 @@ class BearerAuth(requests.auth.AuthBase):
 
 class ArubaCentralBase:
     def __init__(self, central_info, token_store=None,
-                 logger=None):
+                 logger=None, ssl_verify=True):
         self.central_info = parseInputArgs(central_info)
         self.token_store = token_store
         self.logger = None
+        self.ssl_verify = ssl_verify
         # Set logger
         if logger:
             self.logger = logger
@@ -75,16 +75,16 @@ class ArubaCentralBase:
                            "password": self.central_info["password"]})
         data = data.encode("utf-8")
         try:
-            req = Request(url=url, data=data, headers=headers, method="POST")
-            resp = urlopen(req)
-            if resp.code == 200:
-                cookie = resp.getheader("Set-Cookie")
-                match = re.search(r"csrftoken=(.*); Secure; Path=/, "
-                                  r"session=(.*); Secure; HttpOnly; Path=/",
-                                  cookie)
-                csrf_token = match.group(1)
-                session_token = match.group(2)
-                return csrf_token, session_token
+            s = requests.Session()
+            req = requests.Request(method="POST", url=url, data=data,
+                                   headers=headers)
+            prepped = s.prepare_request(req)
+            settings = s.merge_environment_settings(prepped.url, {},
+                                                    None, self.ssl_verify, None)
+            resp = s.send(prepped, **settings)
+            if resp.status_code == 200:
+                cookies = resp.cookies.get_dict()
+                return cookies['csrftoken'], cookies['session']
         except Exception as e:
             self.logger.error("Central Login Step1 failed.."
                               " Unable to obtain CSRF token!")
@@ -113,10 +113,15 @@ class ArubaCentralBase:
                     'Content-Type': 'application/json',
                     'Cookie': "session="+session_token}
         try:
-            req = Request(url, data, headers, method="POST")
-            resp = urlopen(req)
-            if resp.code == 200:
-                result = json.loads(resp.read().decode('utf8'))
+            s = requests.Session()
+            req = requests.Request(method="POST", url=url, data=data,
+                                   headers=headers)
+            prepped = s.prepare_request(req)
+            settings = s.merge_environment_settings(prepped.url, {},
+                                                    None, self.ssl_verify, None)
+            resp = s.send(prepped, **settings)
+            if resp.status_code == 200:
+                result = json.loads(resp.text)
                 auth_code = result['auth_code']
                 return auth_code
         except Exception as e:
@@ -144,11 +149,16 @@ class ArubaCentralBase:
         }
         url = get_url(base_url=self.central_info["base_url"],
                       path=path, query=query)
+
         try:
-            req = Request(url=url, method="POST")
-            resp = urlopen(req)
-            if resp.code == 200:
-                result = json.loads(resp.read().decode('utf8'))
+            s = requests.Session()
+            req = requests.Request(method="POST", url=url)
+            prepped = s.prepare_request(req)
+            settings = s.merge_environment_settings(prepped.url, {},
+                                                    None, self.ssl_verify, None)
+            resp = s.send(prepped, **settings)
+            if resp.status_code == 200:
+                result = json.loads(resp.text)
                 token = result
                 return token
         except Exception as e:
@@ -248,10 +258,14 @@ class ArubaCentralBase:
             url = get_url(base_url=self.central_info["base_url"],
                           path=path, query=query)
 
-            req = Request(url, method="POST")
-            resp = urlopen(req)
-            if resp.code == 200:
-                result = json.loads(resp.read().decode('utf8'))
+            s = requests.Session()
+            req = requests.Request(method="POST", url=url)
+            prepped = s.prepare_request(req)
+            settings = s.merge_environment_settings(prepped.url, {},
+                                                    None, self.ssl_verify, None)
+            resp = s.send(prepped, **settings)
+            if resp.status_code == 200:
+                result = json.loads(resp.text)
                 token = result
             return token
         except Exception as err:
@@ -384,7 +398,7 @@ class ArubaCentralBase:
                                data=data)
         prepped = s.prepare_request(req)
         settings = s.merge_environment_settings(prepped.url, {},
-                                                None, None, None)
+                                                None, self.ssl_verify, None)
         try:
             resp = s.send(prepped, **settings)
             return resp

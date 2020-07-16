@@ -1,6 +1,6 @@
 import os
 import sys
-import json
+import json, yaml
 import logging
 import glob
 from os.path import dirname, basename, isfile, join
@@ -70,7 +70,14 @@ def get_file_content(file_name):
     input_args = ""
     try:
         with open(file_name, "r") as fp:
-            input_args = json.loads(fp.read())
+            file_dummy, file_ext = os.path.splitext(file_name)
+            if ".json" in file_ext:
+                input_args = json.loads(fp.read())
+            elif file_ext in ['.yaml', '.yml']:
+                input_args = yaml.safe_load(fp.read())
+            else:
+                raise UserWarning("Provide valid inventory file "
+                                  "format/extension [.json/.yaml/.yml]!")
         return input_args
     except Exception as err:
         exit("exiting.. Unable to open file " + \

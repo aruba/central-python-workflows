@@ -1,0 +1,3 @@
+tasks:
+  - rename_ap:
+      ap_info: "rename_ap/csv_file.csv"
