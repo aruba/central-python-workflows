@@ -149,7 +149,7 @@ def validate_customer_dict(customerDict):
         topic_str = "Topic not in {} for customers {}".format(str(C_TOPIC),
                     str(customer_topic_error))
         error_str = error_str + "\nError: " + topic_str
-    if error_str and error_str is not "":
+    if error_str and error_str != "":
         sys.exit(error_str)
 
 def validate_refresh_token(hostname, oldtok):
