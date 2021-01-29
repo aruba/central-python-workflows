@@ -1,4 +1,3 @@
-syntax = "proto2";
 package Presence;
 
 message mac_address {
@@ -83,3 +82,5 @@ message presence_event {
     optional pa_rssi_event pa_rssi_event = 6;
     optional pa_proximity_event pa_proximity_event = 7;
 }
+
+

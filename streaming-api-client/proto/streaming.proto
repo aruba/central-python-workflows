@@ -6,5 +6,5 @@ message MsgProto {
   bytes  data        = 3;  // payload
   int64  timestamp   = 4;  // received timestamp
   string customer_id = 5; // customer id to which this data belongs
-  string msp_id      = 6; // optional field indicating the msp_id
+  string msp_id      = 6; // optional field indicating the msp_id 
 }

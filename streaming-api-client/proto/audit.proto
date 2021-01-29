@@ -1,4 +1,5 @@
 syntax = "proto2";
+
 package Audit;
 
 message mac_address

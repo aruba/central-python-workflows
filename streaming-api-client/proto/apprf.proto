@@ -1,4 +1,3 @@
-syntax = "proto2";
 package Apprf;
 
 message mac_address
@@ -33,29 +32,49 @@ message apprf_session {
 
 
 message client_firewall_session {
-
     optional ip_address client_ip = 1;
     optional mac_address client_mac = 2;
     optional ip_address dest_ip = 3;
-    optional uint64 app_id = 4;
-    optional uint64 app_cat_id = 5;
-    optional uint32 web_cat_id = 6;
-    optional uint32 web_rep_score = 7;
+    optional ingress_type_t ingress_type = 4;
+    enum ingress_type_t
+    {
+        INGRESS_WLAN  = 0;
+        INGRESS_WIRED = 1;
+        INGRESS_VPN  = 2;
+    }
+    optional uint32 ip_proto = 5;
+    optional string vlan = 6;
+    optional uint32 uplink_id = 7;
+    optional string uplink_name = 8;
+    optional uint32 app_id = 9;
+    optional string app_name = 10;
+    optional uint32 app_cat_id = 11;
+    optional string app_cat = 12;
+    optional uint32 web_cat_id = 13;
+    optional string web_cat = 14;
+    optional uint32 web_rep_score = 15;
+    optional string web_rep = 16;
+    optional string dest_url_prefix = 17;
+    optional string domain = 18;
     enum app_enforcement_status
     {
         ENF_PERMIT = 0;
         ENF_DENY = 1;
     }
-    optional app_enforcement_status session_flags = 8;
-    optional string ssid = 9;
-    optional string user_role = 10;
-    optional string device_type = 11;
-    optional uint64 tx_bytes = 12;
-    optional uint64 rx_bytes = 13;
-    optional string dest_url_prefix = 14;
-    optional string user_name = 15;
-    optional string vlan = 16;
-
+    optional app_enforcement_status session_flags = 19;
+    optional uint64 tx_bytes = 20;
+    optional uint64 rx_bytes = 21;
+    optional uint64 rtt = 22;
+    optional uint64 c2s_rtt = 23;
+    optional uint64 s2c_rtt = 24;
+    optional uint64 packet_loss = 25;
+    optional uint64 c2s_packet_loss = 26;
+    optional uint64 s2c_packet_loss = 27;
+    optional string ssid = 28;
+    optional string user_name = 29;
+    optional string user_role = 30;
+    optional string device_type = 31;
+    optional uint64 timestamp = 32;
 }
 
 message url_detail_record {

@@ -1,8 +1,7 @@
-syntax = "proto2";
-package Monitoring;
-
 //File: streaming/monitoring.proto
 //Contains structures used by all Devices protobuf schema files for Streaming API
+package Monitoring;
+
 message IpAddress {
     enum addr_family {
          ADDR_FAMILY_INET = 2;   		// Internet IP Protocol
@@ -79,6 +78,7 @@ enum DataElement {
     STATE_IKE_TUNNEL = 33;
     SWITCH_VLAN = 34;
     STATE_VLAN = 35;
+    STATE_VSX = 36;
 }
 
 enum AuthType {
@@ -121,7 +121,11 @@ enum AuthType {
     GENERIC_INTERFACE_SPEC = 37;
     TRANSPORT_VPN = 38;
     VIA_VPN = 39;
-    NUM_AUTH_CLIENT = 40;
+    PUTN_DOT1X = 40;
+    PUTN_MAC = 41;
+    PUTN_CP = 42;
+    PUTN_LMA = 43;
+    NUM_AUTH_CLIENT = 44;
 }
 
 //Swarm protobuf contains Swarm information and the action is one of new, update and delete.
@@ -140,7 +144,7 @@ message Swarm {
 message Tunnel {
     optional Action action = 1 [default = UPDATE];		// Mandatory
     optional string swarm_id = 2;						// Mandatory
-    optional TunnelIndex index = 3;						// Mandatory
+    optional TunnelIndex index = 3;						// Deprecated for APs
     optional CryptoType crypto_type = 4;				// Mandatory
     optional string peer_name = 5;						// Mandatory
     optional IpAddress peer_tun_ip = 6;
@@ -196,6 +200,34 @@ message Interface {
         NOT_SUPPORTED = 2;
     }
 
+    enum StateDownReason {
+        UNINITIALIZED = 1;
+        WAITING_FOR_LINK = 2;
+        ADMIN_INTERFACE_DOWN = 3;
+        MODULE_MISSING = 4;
+        MODULE_UNRECOGNIZED = 5;
+        MODULE_UNSUPPORTED = 6;
+        MODULE_INCOMPATIBLE = 7;
+        MODULE_FAULT = 8;
+        GROUP_SPEED_MISMATCH = 9;
+        LANES_SPLIT = 10;
+        LANES_NOT_SPLIT = 11;
+        INVALID_MTU = 12;
+        INVALID_SPEEDS = 13;
+        AUTONEG_NOT_SUPPORTED = 14;
+        AUTONEG_REQUIRED = 15;
+        INTERFACE_ABSENT = 16;
+        PHYSICAL_INTERFACE_FAILED = 17;
+        PSPO_ENABLEMENT_LAYER_DOWN = 18;
+        CARD_INTERFACE_ERRORS = 19;
+        INTERFACE_OK = 20;
+    }
+    enum VlanModes {
+        ACCESS = 1;
+        NATIVE_TAGGED = 2;
+        NATIVE_UNTAGGED = 3;
+    }
+
     optional Action action = 1 [default = UPDATE];		// Mandatory
     optional string device_id = 2;						// Mandatory
     optional MacAddress macaddr = 3;					// Mandatory
@@ -218,6 +250,10 @@ message Interface {
     optional PortType phy_type = 20;
     optional string sub_type = 21;
     repeated uint32 allowed_vlan = 22;
+    optional uint32 native_vlan = 23;
+    optional bool vsx_enabled = 24;
+    optional StateDownReason state_down_reason = 25;
+    optional VlanModes vlan_mode = 26;
 }
 
 //Ap protobuf contains AP information and action is one of new, update and delete.
@@ -226,6 +262,8 @@ message VapInfo {
     optional string device_id = 2; 						// Mandatory
     optional MacAddress radio_mac = 3;					// Mandatory
     optional bytes essid = 4;							// Mandatory
+    optional MacAddress ap_mac = 5;
+    optional MacAddress bssid = 6;
 }
 
 message Radio {
@@ -237,6 +275,7 @@ message Radio {
     optional string channel = 6;						// Mandatory
     optional uint32 band = 7;							// Mandatory
     optional uint32 channel_width = 8;					// Mandatory
+    optional MacAddress ap_mac = 9;
 }
 
 message Ap {
@@ -259,6 +298,7 @@ message Ap {
     optional bool swarm_master = 11;					// Mandatory
     optional bool modem_connected = 12;
     optional UplinkType uplink_type = 13;
+    optional string firmware_version = 14;
 }
 
 //Network protobuf contains Network information and action is one of new, update and delete.
@@ -328,6 +368,7 @@ message Switch {
     optional string stack_id = 17;
     optional uint32 stack_member_id = 18;
     optional StackMemberRole stack_member_role = 19;
+    optional MacAddress stack_macaddr = 20;
 }
 
 message SwitchStack {
@@ -371,6 +412,10 @@ message WiredClient {
 //MobilityController protobuf contains controller information.
 //Action is one of Add, update and delete.
 message MobilityController {
+    enum ControllerMode {
+        GATEWAY = 0;
+        VPNC = 1;
+    }
     optional Action action = 1 [default = UPDATE];		// Mandatory
     optional string serial = 2;							// Mandatory
     optional string name = 3;							// Mandatory
@@ -381,6 +426,7 @@ message MobilityController {
     optional IpAddress ip_address = 8;
     optional string firmware_version = 9;				// Mandatory
     optional IpAddress default_gateway = 10;
+    optional ControllerMode mode = 11;                  // Mandatory
 }
 
 //Uplink protobuf contains controller uplink information.
@@ -456,11 +502,12 @@ message VapStats {
 
 message TunnelStats {
     optional string swarm_id = 1;				// Mandatory
-    optional TunnelIndex index = 2;				// Mandatory
+    optional TunnelIndex index = 2;				// Deprecated for APs
     optional uint32 timestamp = 3;				// Mandatory
     optional uint64 tx_bytes = 4;				// Mandatory
     optional uint64 rx_bytes = 5;				// Mandatory
     optional uint64 tunnel_id = 6;              // Mandatory
+    optional string tunnel_name = 7;
 }
 
 message ClientStats {
@@ -483,27 +530,27 @@ message InterfaceStats {
     optional uint64 tx_bytes = 4;				// Mandatory
     optional uint64 rx_bytes = 5;				// Mandatory
     optional uint32 power_consumption = 6;
-    optional uint32 in_errors = 7;
-    optional uint32 out_errors = 8;
-    optional uint32 in_discards = 9;
-    optional uint32 out_discards = 10;
-    optional uint32 in_packets = 11;
-    optional uint32 out_packets = 12;
+    optional uint64 in_errors = 7;
+    optional uint64 out_errors = 8;
+    optional uint64 in_discards = 9;
+    optional uint64 out_discards = 10;
+    optional uint64 in_packets = 11;
+    optional uint64 out_packets = 12;
     optional uint32 in_other_err = 13;
-    optional uint32 in_multicast_pkt = 14;
-    optional uint32 in_broadcast_pkt = 15;
-    optional uint32 in_unicast_pkt = 16;
-    optional uint32 out_multicast_pkt = 17;
-    optional uint32 out_broadcast_pkt = 18;
-    optional uint32 out_unicast_pkt = 19;
-    optional uint32 in_fcs = 20;
-    optional uint32 in_alignment = 21;
+    optional uint64 in_multicast_pkt = 14;
+    optional uint64 in_broadcast_pkt = 15;
+    optional uint64 in_unicast_pkt = 16;
+    optional uint64 out_multicast_pkt = 17;
+    optional uint64 out_broadcast_pkt = 18;
+    optional uint64 out_unicast_pkt = 19;
+    optional uint64 in_fcs = 20;
+    optional uint64 in_alignment = 21;
     optional uint32 out_excessive_collision = 22;
-    optional uint32 in_jabbers = 23;
-    optional uint32 in_fragmented = 24;
+    optional uint64 in_jabbers = 23;
+    optional uint64 in_fragmented = 24;
     optional uint32 in_giant = 25;
     optional uint32 in_runt = 26;
-    optional uint32 out_collision = 27;
+    optional uint64 out_collision = 27;
     optional uint32 out_late_collision = 28;
     optional uint32 out_deferred = 29;
 }
@@ -562,7 +609,7 @@ message SsidStats {
 
 message TunnelIpProbeStats {
     optional string device_id = 1;					// Mandatory
-    optional TunnelIndex tunnel_index = 2;			// Mandatory
+    optional TunnelIndex tunnel_index = 2;			// Deprecated for APs
     optional IpAddress probe_ip_addr = 3;			// Mandatory
     optional uint32 probe_status = 4;				// Mandatory
     optional uint32 ip_probe_pkt_loss_pct = 5;		// Mandatory
@@ -591,6 +638,17 @@ message UplinkIpProbeStats {
     optional uint32 loss_pct = 18;
     optional uint64 vpnc_ip_addr = 19;
     optional uint64 probe_ip_addr = 20;
+    optional float avg_rtt_float = 21;
+    optional float max_rtt_float = 22;
+    optional float min_rtt_float = 23;
+    optional float avg_jitter_float = 24;
+    optional float max_jitter_float = 25;
+    optional float min_jitter_float = 26;
+    optional float mos_quality_float = 27;
+    optional float sd_avg_latency_float = 28;
+    optional float ds_avg_latency_float = 29;
+    optional float sd_avg_jitter_float = 30;
+    optional float ds_avg_jitter_float = 31;
 
 }
 
@@ -735,6 +793,7 @@ message DeviceNeighbours {
     optional string remote_device_id = 4;
     optional string remote_port = 5;
     optional string remote_port_number = 6;
+    optional string vlan_id = 7;
 }
 
 //The following protobuf is a collection of all the above PB structures. For each state/stats processing, the worker will generate the MonitoringInformation protobuf and will publish it to streaming API.
@@ -776,6 +835,8 @@ message MonitoringInformation {
     repeated IkeTunnel ike_tunnels = 35;
     optional SwitchVlanInfo switch_vlan_info = 36;
     repeated Vlan vlans = 37;
+    optional VSXState vsx = 38;
+    optional uint32 timestamp = 39;                     // Time of occurrence of the event
 }
 
 //Protobuf published for monitoring state changes
@@ -795,6 +856,8 @@ message MonitoringStateInformation {
     repeated Uplink uplinks = 13;
     repeated SwitchStack switch_stacks = 14;
     repeated IkeTunnel ike_tunnels = 15;
+    repeated DataElement data_elements = 16;
+    optional uint32 timestamp = 17;                     // Time of occurrence of the event
 }
 
 message KeyValueData {
@@ -835,18 +898,91 @@ message SwitchVlan {
     optional string name = 2;
     repeated string tagged_ports = 3;
     repeated string untagged_ports = 4;
+    optional uint32 primary_vlan_id = 5;
+    optional string primary_vlan_type = 6;
+    repeated string promiscuous_ports = 7;
+    repeated string isl_ports = 8;
+    optional bool is_management_vlan = 9;
+    optional bool is_voice_enabled = 10;
+    optional bool is_jumbo_enabled = 11;
+    optional bool is_igmp_enabled = 12;
+    optional IpAddress ipaddress = 13;
+    enum VlanStatus {
+       UP = 1;
+       DOWN = 2;
+    }
+    optional VlanStatus status = 14;
+    optional string oper_state_reason = 15;
+    enum VlanType  {
+        STATIC = 1;
+        DYNAMIC = 2;
+        INTERNAL = 3;
+        DEFAULT= 4;
+    }
+    optional VlanType type = 16;
+    repeated string access_ports = 17;
 }
 
 message Vlan {
     optional Action action = 1 [default = UPDATE]; // Mandatory
     optional uint32 vlan_id = 2; // Mandatory
-	optional IpAddress ipv4 = 3;
-	optional IpAddress ipv6_ll = 4;
-	optional IpAddress ipv6_1 = 5;
-	optional IpAddress ipv6_2 = 6;
-	optional IpAddress ipv6_3 = 7;
-	optional Status oper_state = 8;
-	optional string description = 9;
-	optional Status admin_state = 10;
-	optional string addr_mode = 11;
+    optional IpAddress ipv4 = 3;
+    optional IpAddress ipv6_ll = 4;
+    optional IpAddress ipv6_1 = 5;
+    optional IpAddress ipv6_2 = 6;
+    optional IpAddress ipv6_3 = 7;
+    optional Status oper_state = 8;
+    optional string description = 9;
+    optional Status admin_state = 10;
+    optional string addr_mode = 11;
+}
+
+message VSXState {
+
+    enum DeviceRole {
+        PRIMARY = 1;
+        SECONDARY = 2;
+    }
+    optional Action action = 1 [default = UPDATE]; // Mandatory
+    optional string device_id = 2; //Serial number of the device
+    optional DeviceRole role = 3;
+    optional DeviceRole peer_role = 4;
+    optional string isl_port = 5;
+    optional string peer_isl_port = 6;
+    optional IpAddress keepalive_peer_ip  = 7;
+    optional IpAddress keepalive_src_ip  = 8;
+    optional uint64 last_sync_timestamp = 9;
+    optional MacAddress mac = 10;
+    optional MacAddress peer_mac = 11;
+    optional bool config_sync_disable = 12;
+    enum ISLPDeviceState {
+        WAITING_FOR_PEER = 1;
+        PEER_ESTABLISHED = 2;
+        SPLIT_SYSTEM_PRIMARY = 3;
+        SPLIT_SYSTEM_SECONDARY = 4;
+        SYNC_PRIMARY = 5;
+        SYNC_SECONDARY= 6;
+        SYNC_SECONDARY_LINKUP_DELAY=7;
+    }
+    optional ISLPDeviceState islp_device_state_value = 13;
+    enum ISLState {
+        IN_SYNC = 1;
+        DISABLED = 2;
+        SW_IMAGE_VERSION_MISMATCH_ERROR = 3;
+        CONFLICTING_OR_MISSING_DEV_ROLES = 4;
+        PEER_DB_CONNECTION_ERROR = 5;
+        CONFIGURATION_SYNC_CONFLICT= 6;
+        CONFIGURATION_SYNC_MISSING_REFERENCE=7;
+        PEER_REACHABLE = 8;
+        PEER_UNREACHABLE = 9;
+        OPERATIONAL = 10;
+        INTER_SWITCH_LINK_MGMT_INIT = 11;
+        CONFLICTING_OR_MISSING_DEVICE_ROLES = 12;
+        INTER_SWITCH_LINK_DOWN = 13;
+        INTERNAL_ERROR = 14;
+    }
+    optional ISLState config_sync_state_value = 14;
+    optional ISLState isl_mgmt_state_value = 15;
+    optional ISLState nae_state_value = 16;
+    optional ISLState https_server_state_value = 17;
 }
