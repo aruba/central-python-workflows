@@ -40,6 +40,7 @@ threadLock = threading.Lock()
 class Decoder():
     def __init__(self, topic):
         self.event_decoder = self.get_message_decoder(topic)
+        self.topic = topic
 
     def get_message_decoder(self, topic):
         """
@@ -90,13 +91,11 @@ class Decoder():
             if stream_info:
                 data_decoder = self.event_decoder
                 data_decoder.ParseFromString(stream_info["data"])
-                stream_info["data"] = json_format.MessageToDict(data_decoder)
+                stream_info["data"] = json_format.MessageToDict(data_decoder, preserving_proto_field_name=True)
             return stream_info
-        except DecodeError as e:
-            print("Decode Error: %s" % str(e))
         except Exception as e:
             print("Exception Received for customer " +
-                  "%s: %s" % (self.subject, str(e)))
+                  "%s: %s" % (self.topic, str(e)))
 
 class presenceExport():
     def __init__(self, topic, export_type):
