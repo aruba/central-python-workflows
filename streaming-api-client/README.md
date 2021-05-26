@@ -12,8 +12,6 @@ Data from Aruba Central will be in Google Protocol Buffer format. Most current p
 
 Upon running the script, if there are issues in decoding the output in human readable format try re-compiling the file in your machine. More info on compiling proto files [can be found here](https://developers.google.com/protocol-buffers/docs/pythontutorial#compiling-your-protocol-buffers).
 
-Please Note: If you decide to download proto files from Aruba Central and compile yourself, read this note. Package name might be missing for proto files downloaded from Aruba Central. To avoid errors, add a package name to proto file before compilation. Package name could be any valid alphabetic string and doesn't affect script execution. For Example `package Apprf;` defined in `proto/apprf.proto` file.
-
 ### Validate WebSocket Key
 
 WebSocket key obtain from Aruba Central `Account Home -> Webhooks -> Streaming -> Key` expires every 7 days. The WebSocket key is renewed by Aruba Central internally. To obtain the renewed WebSocket key programmatically without having to visit the WebUI, a REST API endpoint is available. This API accepts a WebSocket key and validates it. It returns the same key if it is valid otherwise returns the renewed key.
