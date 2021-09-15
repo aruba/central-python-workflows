@@ -47,7 +47,7 @@ def verifyHeaderAuth(header, data):
 
     # Construct HMAC digest message
     sign_data = str(data) + header['X-Central-Service'] + \
-                header['X-Central-Delivery-ID'] + \
+                header['X-Central-Delivery-Id'] + \
                 header['X-Central-Delivery-Timestamp']
     sign_data = sign_data.encode('utf-8')
 
