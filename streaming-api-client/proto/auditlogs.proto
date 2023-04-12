@@ -1,0 +1,38 @@
+syntax = "proto2";
+
+package AuditLogs;
+message ip_address
+{
+    enum addr_family
+    {
+        ADDR_FAMILY_UNSPEC = 0;
+        ADDR_FAMILY_INET = 1;
+        ADDR_FAMILY_INET6 = 2;
+    }
+    optional addr_family af = 1;
+    optional bytes addr = 2;
+}
+
+message audit_stream{
+    required string data = 1;
+    optional string detailed_data = 2;
+}
+message audit_stream_message{
+    required string customer_id = 1;
+    required uint32 timestamp = 2;
+    optional sint32 group_id = 3;
+    optional string target = 4; //swarm_id, device_id
+    optional ip_address client_ip = 5;  // User details
+    optional string username = 6;
+    optional string customer_name = 7;
+    required string classification = 8;
+    optional string device_type = 9;
+    optional string description = 10;
+    optional string app_name = 11;
+    optional string msp_id = 12;
+    optional bool has_details = 13;
+    repeated string details = 14;
+    optional string header = 15;
+    // placeholder for any extra data
+    optional audit_stream others = 16;
+}
