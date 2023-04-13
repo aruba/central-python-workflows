@@ -75,6 +75,8 @@ message client_firewall_session {
     optional string user_role = 30;
     optional string device_type = 31;
     optional uint64 timestamp = 32;
+    optional bool preauth_flag = 33;
+    optional uint32 dest_port = 34;
 }
 
 message url_detail_record {

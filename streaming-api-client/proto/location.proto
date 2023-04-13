@@ -30,6 +30,24 @@ enum measurement_unit
     PIXELS = 2;
 }
 
+message record {
+	required uint32 timestamp = 1;
+	required mac_address radio_mac = 2;
+	required int32 rssi_val = 3;
+	optional uint32 channel = 4;
+}
+
+enum error_code {
+	ERROR_CODE_NO_ERROR = 0; // No error (a new fix is available)
+	ERROR_CODE_0_RSSI = 1; // 0 RSSI could be used with the PDB
+	ERROR_CODE_ONLY_1_RSSI = 2; // 1 RSSI could be used with the PDB
+	ERROR_CODE_ONLY_2_RSSI = 3; // 2 RSSI could be used with the PDB
+	ERROR_CODE_RSSI_QUALITY = 4; // RSSIs measurement are poor quality
+	ERROR_CODE_RSSI_OLD_TIMESTAMP = 8; // timestamps of RSSI is too old
+	ERROR_CODE_RSSI_CLOSE_TIMESTAMP = 16; // time since last fix computed is under threshold
+	ERROR_CODE_LEGACY = 0xFFFFF; // This is the legacy error code for ALE version < 2.0.0.15 (internal usage)
+}
+
 message stream_location
 {
 	optional float sta_location_x               = 1;
@@ -48,4 +66,6 @@ message stream_location
 	optional string floor_id_string             = 18;
 	optional target_dev_type target_type        = 19 [default=TARGET_TYPE_UNKNOWN];
     optional bool associated                    = 20;
+	optional error_code err_code                = 21;
+	repeated record records                     = 22;
 }

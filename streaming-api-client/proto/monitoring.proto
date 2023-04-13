@@ -935,6 +935,8 @@ message Vlan {
     optional string description = 9;
     optional Status admin_state = 10;
     optional string addr_mode = 11;
+    optional uint32 timestamp = 12;
+    optional string device_id = 13;
 }
 
 message VSXState {
