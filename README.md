@@ -10,7 +10,9 @@ This repository contains Python based workflows & code samples that utilize [Aru
 - [MSP Customer Onboarding](msp_customer_onboarding/)\
   ![Device Onboarding Demo Workflow](msp_customer_onboarding/media/workflow_overview.png)
 - [Inventory to Excel Workflows](inventory_to_excel/)\
-This workflow creates excel files populated with device details from devices currently in inventory.
+  This workflow creates excel files populated with device details from devices currently in inventory.
+- [Postman Collections](Postman-Collections/)\
+  Postman is a popular tool to test and make HTTP Requests to API endpoints. This folder contains Postman collections in JSON format for Aruba Central REST APIs.
 
 To manage REST APIs in Aruba Central, go to `MAINTAIN -> ORGANIZATION -> PLATFORM INTEGRATION -> REST API`.\
 Learn more about Aruba Central REST APIs [here](https://developer.arubanetworks.com/aruba-central/docs/api-getting-started).
