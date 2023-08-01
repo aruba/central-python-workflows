@@ -1,9 +1,0 @@
-<!-- <h2 class="chart-header">{{config.name}}<span *ngIf="config.data.total">: {{config.data.total}}</span></h2>
-<svg attr.width="{{totalWidth}}" width="900" height="225" id="{{id}}"></svg> -->
-
-<div class="multi-bar-chart-wrapper">
-    <h2 class="chart-header">{{config.name}}</h2>
-    <div>
-        <nvd3 [options]="options" [data]="data"></nvd3>
-    </div>
-</div>
