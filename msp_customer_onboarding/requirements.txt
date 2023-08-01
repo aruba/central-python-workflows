@@ -1,0 +1,14 @@
+certifi==2023.7.22
+charset-normalizer==3.2.0
+colorama==0.4.6
+colored==2.2.3
+halo==0.0.31
+idna==3.4
+log-symbols==0.0.14
+pycentral @ git+https://github.com/aruba/pycentral.git@a7fd846bd8199fffd59f8f0aee75de5136d1b58c
+PyYAML==6.0.1
+requests==2.31.0
+six==1.16.0
+spinners==0.0.24
+termcolor==2.3.0
+urllib3==2.0.4
