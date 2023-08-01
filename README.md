@@ -3,8 +3,6 @@
 This repository contains code samples for Aruba Central. 
 - [Custom Dashboard](customized-dashboard/)
 
-- [REST API Python Libraries and Scripts](rest-api-python-scripts/)
-
 - [Streaming API Websocket Client Application](streaming-api-client/)
 
 - [Webhook Client application](webhooks/)
