@@ -22,12 +22,6 @@ This folder contains a sample code for building your own Aruba Central Dashboard
 5. Edit the file `vi src/config/service.config.ts` and provide a valid App URL and access token. Save this file.
 6. Open 'localhost:4200' in your browser to see the home page
 
-## Aruba Central REST API Python Sample Scripts
-
-[rest-api-python-scripts/](rest-api-python-scripts/)
-
-This folder contains sample python libraries and scripts to make API Requests to Aruba Central. REST APIs are based on request-response model.
-Refer to the Aruba Central's API Swagger documentation page (under `ACCOUNT HOME -> GLOBAL SETTINGS -> API GATEWAY -> APIs`) for the list of available APIs.
 
 ## Aruba Central Streaming API
 
