@@ -1,0 +1,64 @@
+{
+    "device_details": {
+        "SWITCH": {
+            "<device-serial-1>": {
+                "mac_address": "<device-1-mac-address-1>",
+                "central_subscription": "<subscription-type-for-device-1>"
+            },
+            "<device-serial-2>": {
+                "mac_address": "<device-2-mac-address>",
+                "central_subscription": "<subscription-type-for-device-2>"
+            }
+        },
+        "IAP": {
+            "<device-serial-3>": {
+                "mac_address": "<device-3-mac-address>",
+                "central_subscription": "<subscription-type-for-device-2>"
+            }
+        }
+    },
+    "group_details": {
+        "name": "<group-name>",
+        "attributes": {
+            "template_info": {
+                "Wired": true,
+                "Wireless": true
+            },
+            "group_properties": {
+                "AllowedDevTypes": [
+                    "AccessPoints",
+                    "Switches"
+                ],
+                "Architecture": "Instant",
+                "ApNetworkRole": "Standard",
+                "AllowedSwitchTypes": [
+                    "AOS_CX"
+                ]
+            }
+        },
+        "config_templates": {
+            "CX": {
+                "template_name": "<template_name>",
+                "template_filename": "<template_file_path>",
+                "version": "<version>",
+                "model": "<model>"
+            },
+            "IAP": {
+                "template_name": "<template_name>",
+                "template_filename": "<template_file_path>",
+                "version": "<version>",
+                "model": "<model>"
+            }
+        }
+    },
+    "site_details": {
+        "name": "<site-name>",
+        "address": {
+            "address": "",
+            "city": "",
+            "state": "",
+            "country": "",
+            "zipcode": ""
+        }
+    }
+}

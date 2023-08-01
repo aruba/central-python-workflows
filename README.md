@@ -1,47 +1,36 @@
-# central-examples-only
+# central-python-workflows
 
-This repository contains code samples for Aruba Central. 
-- [Custom Dashboard](customized-dashboard/)
+This repository contains Python based workflows & code samples that utilize [Aruba Central's automation capabilities](https://developer.arubanetworks.com/aruba-central/docs/aruba-central-extensibility) and the Python SDK [pycentral](https://pypi.org/project/pycentral/)
 
-- [REST API Python Libraries and Scripts](rest-api-python-scripts/)
+## Aruba Central REST APIs
+- [Device Provisioning](device_provisioning/)\
+  ![Device Provisioning Demo Workflow](device_provisioning/media/workflow_overview.png) 
+- [Device Onboarding](device_onboarding/)\
+  ![Device Onboarding Demo Workflow](device_onboarding/media/workflow_overview.png)
+- [MSP Customer Onboarding](msp_customer_onboarding/)\
+  ![Device Onboarding Demo Workflow](msp_customer_onboarding/media/workflow_overview.png)
+- [Inventory to Excel Workflows](inventory_to_excel/)\
+  This workflow creates excel files populated with device details from devices currently in inventory.
+- [Postman Collections](Postman-Collections/)\
+  Postman is a popular tool to test and make HTTP Requests to API endpoints. This folder contains Postman collections in JSON format for Aruba Central REST APIs.
 
-- [Streaming API Websocket Client Application](streaming-api-client/)
-
-- [Webhook Client application](webhooks/)
-
-## Aruba Central Custom Dashboard
-
-This folder contains a sample code for building your own Aruba Central Dashboard using the API Gateways
-[Aruba Central Custom Dashboard](customized-dashboard/)
-
-
-### Instructions for using the "customized-dashboard" folder
-
-1. Clone the repo
-2. `cd customized-dashboard/`
-3. `npm install`
-4. `ng serve`. This should have your web-app up and running
-5. Edit the file `vi src/config/service.config.ts` and provide a valid App URL and access token. Save this file.
-6. Open 'localhost:4200' in your browser to see the home page
-
-## Aruba Central REST API Python Sample Scripts
-
-[rest-api-python-scripts/](rest-api-python-scripts/)
-
-This folder contains sample python libraries and scripts to make API Requests to Aruba Central. REST APIs are based on request-response model.
-Refer to the Aruba Central's API Swagger documentation page (under `ACCOUNT HOME -> GLOBAL SETTINGS -> API GATEWAY -> APIs`) for the list of available APIs.
+To manage REST APIs in Aruba Central, go to `MAINTAIN -> ORGANIZATION -> PLATFORM INTEGRATION -> REST API`.\
+Learn more about Aruba Central REST APIs [here](https://developer.arubanetworks.com/aruba-central/docs/api-getting-started).
 
 ## Aruba Central Streaming API
-
-[streaming-api-client/](streaming-api-client/)
-
-This folder contains sample websocket client application based on python programming language. 
+- [Streaming API Websocket Client Application](streaming-api-client/)\
+The sample script in this section contains sample websocket client application based on python. 
 The sample python script would establish a websocket connection and decode the google protobuf message to human readable format.
+
+To manage Streaming APIs in Aruba Central, go to `MAINTAIN -> ORGANIZATION -> PLATFORM INTEGRATION -> STREAMING`.\
+Learn more about Aruba Central Streaming APIs [here](https://developer.arubanetworks.com/aruba-central/docs/streaming-api-getting-started).
 
 ## Aruba Central Webhooks
 
-[webhooks/](webhooks/)
+- [Webhook Client application](webhooks/)\
+The sample script in this section would start a HTTP(s) client to receive Alerts from Aruba Central via webhooks. 
 
-This folder contains sample scripts and documentation for Aruba Central Webhooks and Alerts. The sample script in this section would start a HTTP(s) client to receive Alerts from Aruba Central via webhooks. To manage Webhooks in Aruba Central, go to `ACCOUNT HOME -> GLOBAL SETTINGS -> WEBHOOKS`.
+To manage Webhooks in Aruba Central, go to `MAINTAIN -> ORGANIZATION -> PLATFORM INTEGRATION -> WEBHOOKS`.\
+Learn more about Aruba Central Webhooks [here](https://developer.arubanetworks.com/aruba-central/docs/webhooks-getting-started).
 
-For more information about Aruba Central, [refer here](https://help.central.arubanetworks.com/latest/documentation/online_help/content/home.htm)
+For more information about Aruba Central, [refer here](https://www.arubanetworks.com/techdocs/central/latest/content/home.htm)

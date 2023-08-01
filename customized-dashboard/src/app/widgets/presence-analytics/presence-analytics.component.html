@@ -1,7 +1,0 @@
-<div *ngIf="config" class="widget-filter" [ngStyle]="{'top':'10px'}">
-    <mat-button-toggle-group appearance="legacy" #portalFilter="matButtonToggleGroup" [value]="selectedFilter" (change)="onFilterChange(portalFilter.value)">
-        <mat-button-toggle value="AGGREGATES">Aggregates</mat-button-toggle>
-        <mat-button-toggle value="TRENDS">Trends</mat-button-toggle>
-    </mat-button-toggle-group>
-</div>
-<scatter-chart *ngIf="analyticsConfig" [config]="analyticsConfig"></scatter-chart>

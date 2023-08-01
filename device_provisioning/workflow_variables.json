@@ -1,0 +1,56 @@
+{
+    "group_details": {
+        "name": "<group-name>",
+        "attributes": {
+            "template_info": {
+                "Wired": true,
+                "Wireless": true
+            },
+            "group_properties": {
+                "AllowedDevTypes": [
+                    "AccessPoints",
+                    "Switches"
+                ],
+                "Architecture": "Instant",
+                "ApNetworkRole": "Standard",
+                "AllowedSwitchTypes": [
+                    "AOS_CX"
+                ]
+            }
+        },
+        "config_templates": {
+            "CX": {
+                "template_name": "<template_name>",
+                "template_filename": "<template_file_path>",
+                "version": "<version>",
+                "model": "<model>"
+            },
+            "IAP": {
+                "template_name": "<template_name>",
+                "template_filename": "<template_file_path>",
+                "version": "<version>",
+                "model": "<model>"
+            }
+        }
+    },
+    "site_details": {
+        "name": "<site-name>",
+        "address": {
+            "address": "",
+            "city": "",
+            "state": "",
+            "country": "",
+            "zipcode": ""
+        }
+    },
+    "device_details": {
+        "SWITCH": [
+            "<device-serial-1>",
+            "<device-serial-2>"
+        ],
+        "IAP": [
+            "<device-serial-1>",
+            "<device-serial-2>"
+        ]
+    }
+}
