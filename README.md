@@ -1,4 +1,4 @@
-# central-examples-only
+# central-python-workflows
 
 This repository contains code samples for Aruba Central. 
 - [Streaming API Websocket Client Application](streaming-api-client/)
