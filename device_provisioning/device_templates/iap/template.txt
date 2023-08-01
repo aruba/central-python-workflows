@@ -1,0 +1,221 @@
+version 8.6.0.0-8.6.0
+virtual-controller-country US
+virtual-controller-key 11fac9b001e32b7bd122b96ecfe9fffce3a67f10111cc0ee94
+name SetMeUp-C2:18:CC
+terminal-access
+clock timezone none 00 00
+rf-band all
+report-rssi-to-central unassociated-and-associated-clients
+
+
+allowed-ap 7c:57:3c:c2:18:cc
+
+
+
+arm
+ wide-bands 5ghz
+ 80mhz-support
+ min-tx-power 9
+ max-tx-power 127
+ band-steering-mode prefer-5ghz
+ air-time-fairness-mode default-access
+ channel-quality-aware-arm-disable
+ client-aware
+ scanning
+
+rf dot11g-radio-profile
+ max-distance 0
+ max-tx-power 9
+ min-tx-power 6
+ disable-arm-wids-functions off
+ free-channel-index 40
+
+rf dot11a-radio-profile
+ max-distance 0
+ max-tx-power 18
+ min-tx-power 12
+ disable-arm-wids-functions off
+
+
+syslog-level warn ap-debug 
+syslog-level warn network 
+syslog-level warn security 
+syslog-level warn system 
+syslog-level warn user 
+syslog-level warn user-debug 
+syslog-level warn wireless 
+
+
+
+extended-ssid
+
+
+
+
+
+
+
+
+
+
+
+
+
+hash-mgmt-password
+hash-mgmt-user admin password hash 28908c8d02cca71001258beb0c3330db01bb017b4c11b053cb197112cb0de2cc9c80761d91
+
+
+
+wlan access-rule SetMeUp
+ index 0
+ rule masterip 0.0.0.0 match 6 80 80 permit
+ rule masterip 0.0.0.0 match 6 4343 4343 permit
+ rule any any match 17 67 68 permit
+ rule any any match 17 53 53 permit
+
+wlan access-rule default_wired_port_profile
+ index 1
+ rule any any match any any any permit
+
+wlan access-rule wired-SetMeUp
+ index 2
+ rule masterip 0.0.0.0 match tcp 80 80 permit
+ rule masterip 0.0.0.0 match tcp 4343 4343 permit
+ rule any any match udp 67 68 permit
+ rule any any match udp 53 53 permit
+
+wlan ssid-profile SetMeUp
+ enable
+ index 0
+ type employee
+ essid SetMeUp$APMAC3
+ opmode opensystem
+ max-authentication-failures 0
+ vlan guest
+ rf-band 2.4
+ captive-portal disable
+ dtim-period 1
+ broadcast-filter none
+ dmo-channel-utilization-threshold 90
+ local-probe-req-thresh 0
+ max-clients-threshold 64
+
+auth-survivability cache-time-out 24
+
+
+
+wlan captive-portal
+ background-color 16777215
+ banner-color 15329769
+ banner-text "Welcome to Guest Network"
+ terms-of-use "This network is not secure and use it at your own risk."
+ use-policy "Please read and accept terms and conditions and then login."
+
+wlan external-captive-portal
+ server localhost
+ port 80
+ url "/"
+ auth-text "Authenticated"
+ auto-whitelist-disable
+ https
+
+
+blacklist-time 3600
+auth-failure-blacklist-time 3600
+
+
+ids
+ wireless-containment none
+
+
+wired-port-profile wired-SetMeUp
+ switchport-mode access
+ allowed-vlan all
+ native-vlan guest
+ no shutdown
+ access-rule-name wired-SetMeUp
+ speed auto
+ duplex auto
+ no poe
+ type guest
+ captive-portal disable
+ no dot1x
+
+wired-port-profile default_wired_port_profile
+ switchport-mode trunk
+ allowed-vlan all
+ native-vlan 1
+ no shutdown
+ access-rule-name default_wired_port_profile
+ speed auto
+ duplex full
+ no poe
+ type employee
+ captive-portal disable
+ no dot1x
+
+
+enet0-port-profile default_wired_port_profile
+
+uplink
+ preemption
+ enforce none
+ failover-internet-pkt-lost-cnt 10
+ failover-internet-pkt-send-freq 30
+ failover-vpn-timeout 180
+
+
+
+airgroup
+ disable
+
+airgroupservice airplay
+ disable
+ description AirPlay
+
+airgroupservice airprint
+ disable
+ description AirPrint
+
+airgroupservice DIAL
+ disable
+
+airgroupservice remotemgmt
+ disable
+
+airgroupservice AmazonTV
+ disable
+
+airgroupservice allowall
+ disable
+
+airgroupservice googlecast
+ disable
+
+airgroupservice itunes
+ disable
+
+airgroupservice sharing
+ disable
+
+airgroupservice chat
+ disable
+
+airgroupservice "DLNA Print"
+ disable
+
+airgroupservice "DLNA Media"
+ disable
+
+
+
+
+
+clarity
+ inline-sta-stats
+ inline-auth-stats
+ inline-dhcp-stats
+ inline-dns-stats
+
+cluster-security
+ allow-low-assurance-devices
