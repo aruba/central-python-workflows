@@ -1,0 +1,9 @@
+# Add target Groupname, GUID, or Serial number to add SSID at.
+targets:
+  - group1
+  - group2
+# Add SSID's to be deleted in a list format
+delete_list:
+  - ssid
+  - ssid2
+  - ssid3
