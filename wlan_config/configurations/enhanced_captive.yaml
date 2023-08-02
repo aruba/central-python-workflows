@@ -1,4 +1,4 @@
-# Sample for creating a generic enhanced open netowrk with captive portal.
+# Sample for creating a generic enhanced open network with captive portal.
 targets:
   - groupname
 wlans:
