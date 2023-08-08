@@ -11,9 +11,11 @@ configuration file details.  The workflow will create a new SSID configured to
 the YAML files settings.
 """
 from pycentral.workflows.workflows_utils import get_conn_from_file
+from ap_cli import ApCLIConfig
 from argparse import ArgumentParser
 import sys
 import os
+import pdb
 
 
 def main():
@@ -23,8 +25,18 @@ def main():
     # Create ArubaCentralBase Instance.
     central = get_conn_from_file(args.central_auth)
 
-    # Open and load wlan data.
-    file_info = open(args.config_path)
+    # Setup values
+    with open(args.cli_path) as in_file:
+        input_cli = in_file.read().splitlines()
+    target = args.ap
+
+    ap = ApCLIConfig()
+    # Get existing CLI and merge with input.
+    ap_cli = ap.get_ap_config(central, target)
+    post_data = {"clis": ap.merge_config(ap_cli, input_cli)}
+    pdb.set_trace()
+    # Post merged config to target.
+    ap.replace_config(central, target, post_data)
 
 
 def define_arguments():
@@ -43,12 +55,12 @@ def define_arguments():
 
     parser = ArgumentParser(description=description)
 
-    parser.add_argument('--central_auth', help=('Central Credential auth'
-                                                ' filepath'),
-                        default='central_token.yaml')
-    parser.add_argument('--config', help=('AP CLI commands filepath'),
+    parser.add_argument('ap', metavar='target', type=str,
+                        help=('Central groupname or AOS10 AP serial'))
+    parser.add_argument('--central_auth', default='central_token.yaml',
+                        help=('Central Credential auth filepath'))
+    parser.add_argument('--cli_path', help=('CLI config filepath'),
                         required=True, type=validate_path)
-
     return parser.parse_args()
 
 
@@ -64,3 +76,7 @@ def validate_path(path):
         sys.exit("Invalid file path for config_path argument. Exiting...")
 
     return path
+
+
+if __name__ == "__main__":
+    main()
