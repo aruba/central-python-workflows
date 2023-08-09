@@ -2,7 +2,7 @@ certifi==2023.7.22
 charset-normalizer==3.2.0
 colored==2.2.3
 idna==3.4
-pycentral @ git+https://github.com/aruba/pycentral.git@8eda51cf7b5f8e8b580892cb4dffedcf3de11f57
+pycentral==1.0.0
 PyYAML==6.0.1
 requests==2.31.0
 urllib3==2.0.4
