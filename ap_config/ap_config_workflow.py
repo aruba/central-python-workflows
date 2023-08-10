@@ -15,7 +15,6 @@ from ap_cli import ApCLIConfig
 from argparse import ArgumentParser
 import sys
 import os
-import pdb
 
 
 def main():
@@ -33,8 +32,8 @@ def main():
     ap = ApCLIConfig()
     # Get existing CLI and merge with input.
     ap_cli = ap.get_ap_config(central, target)
+    # Format data for post.
     post_data = {"clis": ap.merge_config(ap_cli, input_cli)}
-    pdb.set_trace()
     # Post merged config to target.
     ap.replace_config(central, target, post_data)
 

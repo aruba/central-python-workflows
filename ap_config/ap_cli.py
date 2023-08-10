@@ -51,6 +51,9 @@ class ApCLIConfig(object):
             sys.exit(
                 "Bad request for get_ap_config() response code: %d. "
                 "%s. Exiting..." % resp["code"], resp["msg"]["description"])
+        else:
+            print("Existing configurations loaded successfully from %s"
+                  % group_name)
 
         return resp["msg"]
 
@@ -101,6 +104,8 @@ class ApCLIConfig(object):
             sys.exit(
                 "Bad request for get_ap_config() response code: %d. "
                 "%s. Exiting..." % resp["code"], resp["msg"]["description"])
+        else:
+            print("Successfully configured access point")
 
         return resp["msg"]
 
@@ -139,26 +144,25 @@ class ApCLIConfig(object):
         :param result: result list to append commands to.
         :type result: list of strings.
 
-        :return: modified result list with all context commands.
+        :return: modified cli list with copied commands removed.
         :rtype: list
         """
 
         index = cli.index(context)
         regex = re.compile('\\s\\s\\S')
-        result = copy.deepcopy(cli)
+        cli_copy = copy.deepcopy(cli)
+        next = self.get_next_context(cli, index)
 
         # Check for out of bounds.
         if index + 1 > len(cli):
             return
 
         # Copy until next context.
-        for i in range(index + 1, len(cli)):
-            if regex.match(cli[i]) is None:
+        for i in range(index + 1, len(cli_copy)):
+            if regex.match(cli_copy[i]) is None:
                 break
-            result.append(cli[i])
-            # Cleanup input
-            del result[i]
+            result.append(cli_copy[i])
 
-        # Cleanup input
-        del result[index]
-        return result
+        del cli[index:next]
+
+        return cli
