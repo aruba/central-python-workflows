@@ -81,7 +81,7 @@ class ApCLIConfig(object):
         regex = re.compile('\\S')
 
         for line in range(len(current)):
-            # Skip if context was replaced.
+            # Skip to next block if a context was replaced.
             if line < next_block:
                 continue
             if current[line] in input:
@@ -93,6 +93,7 @@ class ApCLIConfig(object):
             else:
                 result.append(current[line])
 
+        # Add unmatched commands.
         for line in input:
             result.append(line)
 
