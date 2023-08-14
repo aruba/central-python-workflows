@@ -40,6 +40,21 @@ def main():
         post_data = {"clis": input_cli}
         ap.replace_config(central, target, post_data)
 
+    updated_config = ap.get_ap_config(central, target)
+    debug_list = []
+
+    print("Validating posted configuration...")
+    for line in input_cli:
+        if line not in updated_config:
+            debug_list.append(line)
+
+    if len(debug_list) > 0:
+        print("Error, some commands not posted successfully:")
+        for line in debug_list:
+            print(" " + line)
+    else:
+        print("All configurations posted successfully!")
+
 
 def define_arguments():
     """
