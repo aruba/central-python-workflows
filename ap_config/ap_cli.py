@@ -50,7 +50,7 @@ class ApCLIConfig(object):
                 "Bad request for get_ap_config() response code: %d. "
                 "%s. Exiting..." % resp["code"], resp["msg"]["description"])
         else:
-            print("Existing configurations loaded successfully from %s"
+            print("Configuration loaded successfully from %s"
                   % group_name)
 
         return resp["msg"]
@@ -116,7 +116,7 @@ class ApCLIConfig(object):
                 "Bad request for get_ap_config() response code: %d. "
                 "%s. Exiting..." % resp["code"], resp["msg"]["description"])
         else:
-            print("Successfully configured %s" % group_name)
+            print("Configuration posted at %s" % group_name)
 
         return resp["msg"]
 
