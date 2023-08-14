@@ -23,7 +23,6 @@
 from pycentral.configuration import ApConfiguration as ap
 import sys
 import re
-import pdb
 
 
 class ApCLIConfig(object):
