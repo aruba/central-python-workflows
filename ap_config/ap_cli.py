@@ -23,7 +23,6 @@
 from pycentral.configuration import ApConfiguration as ap
 import sys
 import re
-import copy
 import pdb
 
 
@@ -118,7 +117,7 @@ class ApCLIConfig(object):
                 "Bad request for get_ap_config() response code: %d. "
                 "%s. Exiting..." % resp["code"], resp["msg"]["description"])
         else:
-            print("Successfully configured access point")
+            print("Successfully configured %s" % group_name)
 
         return resp["msg"]
 
@@ -132,8 +131,9 @@ class ApCLIConfig(object):
         :param index: Starting index for cli parameter.
         :type index: int
 
-        :return: index of the next CLI context.
-        :rtype: int
+        :return: index of the next CLI context, or None if no other
+            context in list.
+        :rtype: int/None
         """
 
         # Check for out of bounds.
@@ -163,7 +163,6 @@ class ApCLIConfig(object):
 
         index = cli.index(context)
         regex = re.compile('\\s\\s\\S')
-        cli_copy = copy.deepcopy(cli)
         next = self.get_next_context(cli, index)
 
         # Check for out of bounds.
@@ -171,11 +170,11 @@ class ApCLIConfig(object):
             return
 
         # Copy until next context.
-        for i in range(index + 1, len(cli_copy)):
-            if regex.match(cli_copy[i]) is None:
+        for i in range(index + 1, len(cli)):
+            if regex.match(cli[i]) is None:
                 break
-            result.append(cli_copy[i])
+            result.append(cli[i])
 
+        # Clean up input.
         del cli[index:next]
-
         return cli
