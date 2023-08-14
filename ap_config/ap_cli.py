@@ -57,11 +57,23 @@ class ApCLIConfig(object):
 
         return resp["msg"]
 
-    def merge_config(self, current, new):
+    def merge_config(self, current, input):
         """
         Combine current AP configuration with additional configurations.
         the return value of get_ap_config() should be used for the current
-        parameter to avoid corrupting the configuration.
+        parameter to avoid corrupting the configuration. Matching contexts
+        are replaced with input commands.  Any input not matched in current
+        is added.
+
+        :param current: Current AP CLI config for a Central group. List of
+            strings in CLI format.
+        :type param: List
+        :param input: AP CLI commands to add/replace over current.  List of
+            strings in CLI format.
+        :type input: List
+
+        :return: Merged list of strings from current and input.
+        :rtype: List
         """
 
         result = []
@@ -72,16 +84,16 @@ class ApCLIConfig(object):
             # Skip if context was replaced.
             if line < next_block:
                 continue
-            if current[line] in new:
+            if current[line] in input:
                 # Replace current context block with input from new CLI.
                 if regex.match(current[line]) is not None:
                     next_block = self.get_next_context(current, line)
                     result.append(current[line])
-                    new = self.copy_context(new, current[line], result)
+                    input = self.copy_context(input, current[line], result)
             else:
                 result.append(current[line])
 
-        for line in new:
+        for line in input:
             result.append(line)
 
         return result
