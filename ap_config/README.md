@@ -105,7 +105,7 @@ AP configuration is provided in a .txt file in CLI format.
       rule any any match any any any permit
     ```
    
-    A directory of sample configurations has been provided as a reference in the configurations folder under the ap_config directory [here](fix link)
+    A directory of sample configurations has been provided as a reference in the configurations folder under the ap_config directory [here](https://github.com/aruba/central-python-workflows/tree/main/ap_config/configurations)
    
 ## Executing The Workflow    
 1. With the input file configured the workflow can now be executed.
