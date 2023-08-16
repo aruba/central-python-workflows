@@ -1,5 +1,5 @@
-wlan ssid-profile test
-  essid test
+wlan ssid-profile captive-open
+  essid captive-open
   opmode enhanced-open
   type guest
   captive-portal external
@@ -13,6 +13,6 @@ wlan ssid-profile test
   enable
   utf8
   auth-server InternalServer
-wlan access-rule test
+wlan access-rule captive-open
   utf8
   rule any any match any any any permit
