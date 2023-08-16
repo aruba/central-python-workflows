@@ -1,0 +1,19 @@
+wlan ssid-profile psk-network
+  essid psk-network
+  opmode wpa3-sae-aes
+  wpa-passphrase password
+  type employee
+  captive-portal disable
+  dtim-period 1
+  broadcast-filter arp
+  inactivity-timeout 1000
+  max-authentication-failures 0
+  blacklist
+  dmo-channel-utilization-threshold 90
+  max-clients-threshold 64
+  enable
+  utf8
+  auth-server InternalServer
+wlan access-rule psk-network
+  utf8
+  rule any any match any any any permit

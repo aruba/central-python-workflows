@@ -11,7 +11,7 @@ Configuration of a new Aruba Central group with default settings.
    - Security level open
    - Open key management
 2. Captive portal
-   - Security level visitors
+   - Security level visitors - captive portal
    - External captive portal
    - Enhanced open key management
 3. WPA3 PSK network
