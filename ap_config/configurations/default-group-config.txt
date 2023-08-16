@@ -1,0 +1,70 @@
+enet0-port-profile default_wired_port_profile
+hash-mgmt-password
+hash-mgmt-user admin password hash ********
+wlan access-rule default_wired_port_profile
+  index 1
+  rule any any match any any any permit
+wlan access-rule wired-SetMeUp
+  index 2
+  rule masterip 0.0.0.0 match tcp 80 80 permit
+  rule masterip 0.0.0.0 match tcp 4343 4343 permit
+  rule any any match udp 67 68 permit
+  rule any any match udp 53 53 permit
+wlan external-captive-portal
+  server localhost
+  url \"/\"
+  auth-text \"Authenticated\"
+  port 80
+  auto-whitelist-disable
+  https
+ids
+  wireless-containment none
+wired-port-profile default_wired_port_profile
+  no shutdown
+  switchport-mode trunk
+  allowed-vlan all
+  native-vlan ap-ip-vlan
+  access-rule-name default_wired_port_profile
+  speed auto
+  duplex full
+  type employee
+  captive-portal disable
+  inactivity-timeout 1000
+  port-bonding
+wired-port-profile wired-SetMeUp
+  no shutdown
+  switchport-mode access
+  allowed-vlan all
+  native-vlan guest
+  access-rule-name wired-SetMeUp
+  speed auto
+  duplex auto
+  type guest
+  captive-portal disable
+  inactivity-timeout 1000
+uplink
+  preemption
+  enforce none
+  failover-internet-pkt-lost-cnt 10
+  failover-internet-pkt-send-freq 30
+  failover-vpn-timeout 180
+enet0-port-profile default_wired_port_profile
+blacklist-time 3600
+auth-failure-blacklist-time 3600
+auth-survivability cache-time-out 24
+rf-band all
+extended-ssid
+syslog-level warn ap-debug
+syslog-level warn network
+syslog-level warn security
+syslog-level warn system
+syslog-level warn user
+syslog-level warn user-debug
+syslog-level warn wireless
+clock timezone none 0 0
+terminal-access
+deny-local-routing
+cp-cert-checksum 4b625464fd509d449e24e4c3c9fd6cc0
+enable-automatic-placement
+cluster-security
+  allow-low-assurance-devices

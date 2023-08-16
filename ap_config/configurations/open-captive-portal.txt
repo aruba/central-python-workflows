@@ -1,0 +1,18 @@
+wlan ssid-profile captive-open
+  essid captive-open
+  opmode enhanced-open
+  type guest
+  captive-portal external
+  dtim-period 1
+  broadcast-filter arp
+  max-authentication-failures 0
+  blacklist
+  inactivity-timeout 1000
+  dmo-channel-utilization-threshold 90
+  max-clients-threshold 1024
+  enable
+  utf8
+  auth-server InternalServer
+wlan access-rule captive-open
+  utf8
+  rule any any match any any any permit

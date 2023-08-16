@@ -1,0 +1,2 @@
+pycentral
+colorama
