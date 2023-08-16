@@ -145,6 +145,8 @@ class ApCLIConfig(object):
             if regex.match(cli[i]) is None:
                 return i
 
+        return 0
+
     def copy_context(self, cli, context, result):
         """
         Copy the commands of a CLI context into an array.
