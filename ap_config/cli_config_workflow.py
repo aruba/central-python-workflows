@@ -12,6 +12,7 @@ refer to the README for full details.
 from pycentral.workflows.workflows_utils import get_conn_from_file
 from ap_cli import ApCLIConfig
 from argparse import ArgumentParser
+from colorama import Fore, Style, init
 import sys
 import os
 
@@ -40,20 +41,23 @@ def main():
         post_data = {"clis": input_cli}
         ap.replace_config(central, target, post_data)
 
+    # Initialize colorama.
+    init()
+    # Setup validation values.
+    print(Fore.GREEN + "Validating posted configuration..." + Style.RESET_ALL)
     updated_config = ap.get_ap_config(central, target)
     debug_list = []
 
-    print("Validating posted configuration...")
     for line in input_cli:
         if (line not in updated_config) and ('passphrase' not in line):
             debug_list.append(line)
 
     if len(debug_list) > 0:
-        print("Error, some commands not posted successfully:")
+        print(Fore.RED + "Error, some commands not posted successfully:")
         for line in debug_list:
-            print(" " + line)
+            print("    " + Fore.RED + line)
     else:
-        print("All configurations posted successfully!")
+        print(Fore.GREEN + "    All configurations posted successfully!")
 
 
 def define_arguments():

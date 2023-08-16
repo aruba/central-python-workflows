@@ -21,6 +21,7 @@
 # SOFTWARE.
 
 from pycentral.configuration import ApConfiguration as ap
+import copy
 import sys
 import re
 
@@ -74,6 +75,8 @@ class ApCLIConfig(object):
         :rtype: List
         """
 
+        # Setup values
+        input = copy.deepcopy(input)
         result = []
         next_block = 0
         regex = re.compile('\\S')
