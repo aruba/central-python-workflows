@@ -45,7 +45,7 @@ def main():
 
     print("Validating posted configuration...")
     for line in input_cli:
-        if line not in updated_config:
+        if (line not in updated_config) and ('passphrase' not in line):
             debug_list.append(line)
 
     if len(debug_list) > 0:
