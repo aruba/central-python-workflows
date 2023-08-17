@@ -1,0 +1,5 @@
+# Sample for delete all workflow option. Add designated Central UI groupname that you want to delete all SSIDs from.
+targets:
+  - group1
+  - group2
+  - group3

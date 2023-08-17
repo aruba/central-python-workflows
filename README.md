@@ -13,6 +13,8 @@ This repository contains Python based workflows & code samples that utilize [Aru
   This workflow creates excel files populated with device details from devices currently in inventory.
 - [AP CLI Workflows](ap_config/)\
   ![AP CLI Config Demo Workflow](ap_config/media/ap-flowchart.png)
+- [WLAN Workflows](wlan_config/)\
+  This workflow can be used to create and manage WLANs in groups on an Aruba Central.
 - [Postman Collections](Postman-Collections/)\
   Postman is a popular tool to test and make HTTP Requests to API endpoints. This folder contains Postman collections in JSON format for Aruba Central REST APIs.
 
