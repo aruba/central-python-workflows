@@ -1,0 +1,81 @@
+# Sample for generating multiple personal wpa2 SSIDs using the basic wlan API.
+# This sample also demonstrates creating SSDIs at multiple targets.
+targets:
+  - group1
+  - group2
+wlans:
+  - wlan:
+      essid: ssid_workflow
+      type: employee
+      hide_ssid: true
+      vlan: '10'
+      zone: '1'
+      wpa_passphrase: password
+      wpa+passphrase_changed: true
+      is_locked: true
+      captive_profile_name: guest_profile
+      bandwidth_limit_up: '34'
+      bandwidth_limit_down: '25'
+      bandwidth_limit_peruser_up: '45'
+      bandwidth_limit_peruser_down: '34'
+      access_rules:
+        - action: allow
+          netmask: 255.255.255.0
+          protocol: tcp
+          sport: '20'
+          eport: '21'
+          match: test.com
+          service_name: bittorrent
+          service_type: network
+          throttle_upstream: '20'
+          throttle_downstream: '25'
+  - wlan:
+      essid: ssid_workflow2
+      type: employee
+      hide_ssid: true
+      vlan: '10'
+      zone: '2'
+      wpa_passphrase: password
+      wpa+passphrase_changed: true
+      is_locked: true
+      captive_profile_name: guest_profile
+      bandwidth_limit_up: '34'
+      bandwidth_limit_down: '25'
+      bandwidth_limit_peruser_up: '45'
+      bandwidth_limit_peruser_down: '34'
+      access_rules:
+        - action: allow
+          netmask: 255.255.255.0
+          protocol: tcp
+          sport: '20'
+          eport: '21'
+          match: test.com
+          service_name: bittorrent
+          service_type: network
+          throttle_upstream: '20'
+          throttle_downstream: '25'
+  - wlan:
+      essid: ssid_workflow3
+      type: employee
+      hide_ssid: true
+      vlan: '10'
+      zone: '3'
+      wpa_passphrase: password
+      wpa+passphrase_changed: true
+      is_locked: true
+      captive_profile_name: guest_profile
+      bandwidth_limit_up: '34'
+      bandwidth_limit_down: '25'
+      bandwidth_limit_peruser_up: '45'
+      bandwidth_limit_peruser_down: '34'
+      access_rules:
+        - action: allow
+          netmask: 255.255.255.0
+          protocol: tcp
+          sport: '20'
+          eport: '21'
+          match: test.com
+          service_name: bittorrent
+          service_type: network
+          throttle_upstream: '20'
+          throttle_downstream: '25'
