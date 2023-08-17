@@ -11,6 +11,8 @@ This repository contains Python based workflows & code samples that utilize [Aru
   ![Device Onboarding Demo Workflow](msp_customer_onboarding/media/workflow_overview.png)
 - [Inventory to Excel Workflows](inventory_to_excel/)\
   This workflow creates excel files populated with device details from devices currently in inventory.
+- [AP CLI Workflows](ap_config/)\
+  ![AP CLI Config Demo Workflow](ap_config/media/ap-flowchart.png)
 - [WLAN Workflows](wlan_config/)\
   This workflow can be used to create and manage WLANs in groups on an Aruba Central.
 - [Postman Collections](Postman-Collections/)\

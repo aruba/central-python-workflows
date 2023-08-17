@@ -1,0 +1,17 @@
+wlan ssid-profile enterprise-test
+  essid enterprise-test
+  opmode wpa3-aes-ccm-128
+  type employee
+  captive-portal disable
+  dtim-period 1
+  broadcast-filter arp
+  inactivity-timeout 1000
+  max-authentication-failures 0
+  blacklist
+  dmo-channel-utilization-threshold 90
+  max-clients-threshold 64
+  enable
+  utf8
+wlan access-rule enterprise-test
+  utf8
+  rule any any match any any any deny
