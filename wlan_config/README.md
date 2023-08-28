@@ -112,7 +112,7 @@ Providing configuration details for SSID creation is mandatory.
            - wlan:
                settings here
 
-    A directory of sample configurations has been provided as a reference in the configurations folder under the wlan_config directory [here](https://github.hpe.com/collin-koss/central-python-workflows/tree/create-ssid/wlan_config/configurations)  
+    A directory of sample configurations has been provided as a reference in the configurations folder under the wlan_config directory [here](https://github.com/aruba/central-python-workflows/tree/main/wlan_config/configurations)  
 
     * Note: Not all values are mandatory. Some settings can be contingent on other settings. You can view the limited API reference [here](https://developer.arubanetworks.com/aruba-central/reference/apifull_wlancreate_wlan).
 
