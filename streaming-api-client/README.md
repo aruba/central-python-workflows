@@ -139,7 +139,7 @@ python3 wsclient_public.py --help
 
 The required script arguments are,
 
-- `--hostname` - The base url obtained from Aruba Central `Account Home -> Webhooks -> Streaming -> Endpoint`. For example "wss://**internal-ui.central.arubanetworks.com**/streaming/api"
+- `--hostname` - The base url obtained from Aruba Central `Maintain -> Organization -> Platform Integration -> API Gateway -> Streaming -> Endpoint`. For example "wss://**internal-ui.central.arubanetworks.com**/streaming/api"
 
 - `--jsoninput` - Input File where the Aruba Central customer information is provided in JSON format.
 
@@ -149,8 +149,6 @@ To view data on screen,
 Complete list of arguments accepted by the script
 ```
   wsclient_public.py [-h] --hostname HOSTNAME --jsoninput JSONINPUT
-                          [--start_seq START_SEQ] [--deliver_last]             
-                          [--deliver_all] [--since_time SINCE_TIME]
                           [--decode_data] [--no_valid_cert]
                           [--export_data EXPORT_DATA]
  ```                         
@@ -178,7 +176,7 @@ This format is to subscribe to a single topic for a single customer
 
 - "username" --> A valid central user email address through which Streaming API will be accessed
 
-- "wsskey" --> obtained from Aruba Central (Account Home -> Webhooks -> Streaming -> Key)
+- "wsskey" --> obtained from Aruba Central (`Maintain -> Organization -> Platform Integration -> API Gateway -> Streaming -> Streaming Key`)
 
 - "topic" --> provide one of the following [audit, apprf, location, monitoring, presence, security]
 

@@ -57,19 +57,6 @@ def define_arguments():
                         required=True,
                         help='Json input file containing customers details \
                         such as username, wsskey and topic to subscribe.')
-    parser.add_argument('--start_seq', required=False,
-                        help='A valid sequence number to start getting \
-                        events from that sequence (optional)')
-    parser.add_argument('--deliver_last', required=False,
-                        help='X-Deliver-Last get latest events (Optional)',
-                        action='store_true')
-    parser.add_argument('--deliver_all', required=False,
-                        help='Deliver-All get all events(optional)',
-                        action='store_true')
-    parser.add_argument('--since_time', required=False,
-                        help='X-Since-Time receive events after the time \
-                        stamp in predefined string format like 1h, 5m, 10s \
-                        etc (optional)')
     parser.add_argument('--decode_data', required=False,
                         help='Print the decoded data on screen',
                         action='store_true')
@@ -104,14 +91,6 @@ def process_arguments(args):
         sys.exit("Error: json file does not have 'customers' list. "
                  "exiting...")
 
-    if args.start_seq is not None:
-        header['X-Start-Seq'] = int(args.start_seq)
-    if args.deliver_last:
-        header['X-Deliver-Last'] = "true"
-    if args.deliver_all:
-        header['X-Deliver-All'] = "true"
-    if args.since_time is not None:
-        header['X-Since-Time'] = args.since_time
 
     param_dict['no_valid_cert'] = args.no_valid_cert
     if args.no_valid_cert:
