@@ -1,4 +1,4 @@
-# Device Inventory Migration Workflow
+# Device Inventory Migration
 
 Some of our customers may be managing multiple instances of Central. In such a scenario, they may sometimes have to move devices between instances of Central. Its possible to do this through the the GLCP & Central User Interface and via Central APIs. When multiple devices have to be moved between accounts, this can lead to the customer have to click through multiple lot of clicks  has to be done for multiple devices, this workflow could result in multiple clicks. This makes the workflow prone to accidental clicks and human error. 
 
