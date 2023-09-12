@@ -89,8 +89,7 @@ def define_arguments():
 @Halo(text='Fetching current Central account\'s device inventory...',
       spinner='simpleDots')
 def get_current_account_devices(central_conn):
-    """This function fetches & formate the device inventory of the Central
-    account
+    """This function fetches and organizes the device inventory of the Central account
 
     Args:
                     central_conn (pycentral.base.ArubaCentralBase): PyCentral connection to Central Account
@@ -145,7 +144,7 @@ def simplify_inventory_response(inventory_resp):
 
 
 def filter_device_details(device_serial_list, device_inventory):
-    """Filters the central account's device inventory based of the provided
+    """Filters the Central account's device inventory based off of the provided
     device serial list
 
     Args:
@@ -204,7 +203,7 @@ def create_subscription_device_matrix(device_list):
                     device_list (list): List of dictionaries of devices
 
     Returns:
-                    dict: Dictionary with each key corresponding to a subscripti
+                    dict: Dictionary with each key corresponding to a subscription
     """
     subscription_device_matrix = {}
     for device in device_list:
@@ -288,7 +287,7 @@ def add_devices(central_conn, device_list):
 # @Halo(text='Assigning subscriptions to devices in new Central account...',
 #       spinner='simpleDots')
 def assign_subscriptions(central_conn, device_list):
-    """Assign Central subsciptions to devices
+    """Assign Central subscriptions to devices
 
     Args:
         central_conn (pycentral.base.ArubaCentralBase): PyCentral connection to Central Account
