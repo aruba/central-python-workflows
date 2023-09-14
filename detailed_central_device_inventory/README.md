@@ -1,6 +1,6 @@
 # Detailed Central Device Inventory
 
-Currently, HPE Greenlake Cloud Platform provides users with the ability to export device inventory details in the form of a CSV file. Users sometimes require application-level(Aruba Central) details of devices like site details. This workflow leverages Central APIs & [Pycentral](https://pypi.org/project/pycentral/) to help you get this information. After exporting the device inventory CSV from HPE GLCP, you can run this script to get the following details of the devices in a CSV format. The CSV will have the following fields for each device in the device inventory -
+Currently, HPE Greenlake Cloud Platform provides users with the ability to export device inventory details in the form of a CSV file. Users sometimes require application-level(Aruba Central) details of devices like site details. This workflow leverages Central APIs & [Pycentral](https://pypi.org/project/pycentral/) to help you get this information. After exporting the device inventory CSV from HPE GLCP, you can run this script to get the following details of the devices in a CSV format. The CSV will have the following fields for each device in the device inventory for Standard Enterprise accounts -
 * Serial Number
 * Device Model
 * Mac Address
@@ -22,6 +22,8 @@ Currently, HPE Greenlake Cloud Platform provides users with the ability to expor
   * State
   * Country
   * Zipcode
+
+For devices in an MSP account, an additional field called *Account name* would be present indicating the customer in which the device is assigned to.
 
 This script is just a starting point on the device details that you can get for devices from Aruba Central. Please feel free to modify the script to fetch and export additional details that are needed for your specific use-case. If you would like to share your modifications with our developer community, please raise a pull request with the modifications in this repository.
 
