@@ -17,6 +17,8 @@ This repository contains Python based workflows & code samples that utilize [Aru
   This workflow can be used to create and manage WLANs in groups on an Aruba Central.
 - [Detailed Central Device Inventory](https://github.com/aruba/central-python-workflows/tree/main/detailed_central_device_inventory/)\
   This workflow can be used to fetch additional details for device inventory in Aruba Central & export it as a CSV.
+- [Device Inventory Migration](https://github.com/aruba/central-python-workflows/tree/main/device_inventory_migration/)
+  ![Device Inventory Migration Overview](device_inventory_migration/media/workflow_overview.png)
 - [Postman Collections](https://github.com/aruba/central-python-workflows/tree/main/Postman-Collections)
   Postman is a popular tool to test and make HTTP Requests to API endpoints. This folder contains Postman collections in JSON format for Aruba Central REST APIs.
 
