@@ -97,3 +97,6 @@ In order to run the script, please complete the steps below:
 4. [Unarchive devices using Serial list](https://developer.arubanetworks.com/aruba-central/reference/acp_servicenb_apiapidevice_inventoryunarchive_devices)
 5. [Add device using Mac and Serial number](https://developer.arubanetworks.com/aruba-central/reference/acp_servicenb_apiapidevice_inventoryadd_device)
 6. [Assign subscription to a device](https://developer.arubanetworks.com/aruba-central/reference/acp_servicelicensewebviewsadmin_licenseapigw_assign_licenses-1)
+
+## Note
+This Python script was tested on Central version 2.5.7
