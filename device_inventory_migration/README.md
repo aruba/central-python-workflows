@@ -50,7 +50,7 @@ In order to run the script, please complete the steps below:
     ```bash
     python -m pip install -r requirements.txt
     ```
-5. Provide the Central API Gateway Base URL & Access Token in the [current_central_token.json](central_token.json) and [new_central_token.json](new_central_token.json) for both the Current & New Central Account Instances.
+5. Provide the Central API Gateway Base URL & Access Token in the [current_central_token.json](current_central_token.json) and [new_central_token.json](new_central_token.json) for both the Current & New Central Account Instances.
     ```json
     {
         "central_info": {
