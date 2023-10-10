@@ -1,0 +1,13 @@
+{
+    "nms": {
+        "role": "Aruba Central View Only",
+        "scope": {
+            "groups": [
+                "allgroups"
+            ]
+        }
+    },
+    "account_setting": {
+        "role": "Observer"
+    }
+}
