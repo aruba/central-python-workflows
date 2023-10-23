@@ -1,28 +1,24 @@
 {
     "customer_details": {
-        "name": "<customer-name>",
+        "customer_name": "<customer-name>",
         "group_name": "<default-group>",
-        "address": {
-            "street_address": "<street-address>",
-            "city": "<city>",
-            "state": "<state>",
-            "zip_postal_code": "<zip>",
-            "country": "<country>"
-        },
+        "street_address": "<street-address>",
+        "city": "<city>",
+        "state": "<state>",
+        "zip_postal_code": "<zip>",
+        "country": "<country>",
         "description": "<description>",
-        "lock_ssids": "<enable-disable-ssid>"
+        "lock_msp_ssids": "<enable-disable-ssid>"
     },
     "device_details": {
         "SWITCH": {
             "<device-serial-1>": {
-                "mac_address": "<device-mac-address-1>",
-                "central_subscription": "<subscription-type-for-device-1>"
+                "mac_address": "<device-mac-address-1>"
             }
         },
         "IAP": {
             "<device-serial-2>": {
-                "mac_address": "<device-mac-address-2>",
-                "central_subscription": "<subscription-type-for-device-2>"
+                "mac_address": "<device-mac-address-2>"
             }
         }
     },
