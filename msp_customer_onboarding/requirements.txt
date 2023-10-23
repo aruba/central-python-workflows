@@ -5,7 +5,7 @@ colored==2.2.3
 halo==0.0.31
 idna==3.4
 log-symbols==0.0.14
-pycentral==1.0.0
+pycentral==1.3
 PyYAML==6.0.1
 requests==2.31.0
 six==1.16.0

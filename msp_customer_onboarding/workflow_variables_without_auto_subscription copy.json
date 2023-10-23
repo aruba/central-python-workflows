@@ -10,11 +10,6 @@
         "description": "<description>",
         "lock_msp_ssids": "<enable-disable-ssid>"
     },
-    "auto_subscription": [
-        "<central-services-1>",
-        "<central-services-2>",
-        "<central-services-3>"
-    ],
     "device_details": {
         "SWITCH": {
             "<device-serial-1>": {
