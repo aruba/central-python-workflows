@@ -1,16 +1,14 @@
 {
     "customer_details": {
-        "name": "<customer-name>",
+        "customer_name": "<customer-name>",
         "group_name": "<default-group>",
-        "address": {
-            "street_address": "<street-address>",
-            "city": "<city>",
-            "state": "<state>",
-            "zip_postal_code": "<zip>",
-            "country": "<country>"
-        },
+        "street_address": "<street-address>",
+        "city": "<city>",
+        "state": "<state>",
+        "zip_postal_code": "<zip>",
+        "country": "<country>",
         "description": "<description>",
-        "lock_ssids": "<enable-disable-ssid>"
+        "lock_msp_ssids": "<enable-disable-ssid>"
     },
     "device_details": {
         "SWITCH": {
