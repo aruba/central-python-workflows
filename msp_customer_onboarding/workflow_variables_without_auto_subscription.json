@@ -13,12 +13,14 @@
     "device_details": {
         "SWITCH": {
             "<device-serial-1>": {
-                "mac_address": "<device-mac-address-1>"
+                "mac_address": "<device-mac-address-1>",
+                "central_subscription": "<subscription-type-for-device-1>"
             }
         },
         "IAP": {
             "<device-serial-2>": {
-                "mac_address": "<device-mac-address-2>"
+                "mac_address": "<device-mac-address-2>",
+                "central_subscription": "<subscription-type-for-device-2>"
             }
         }
     },
