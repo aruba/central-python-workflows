@@ -69,3 +69,18 @@ message stream_location
 	optional error_code err_code                = 21;
 	repeated record records                     = 22;
 }
+
+enum zone_event {
+	ZONE_IN = 0;
+	ZONE_OUT = 1;
+}
+
+message stream_geofence_notify {
+	optional zone_event geofence_event = 1;
+	optional bytes geofence_id = 2;
+	optional string geofence_name = 3;
+	optional mac_address sta_eth_mac = 4;
+	optional bool associated = 5;
+	optional uint32 dwell_time = 6 [default=0];
+	optional string hashed_sta_eth_mac = 7;
+}
