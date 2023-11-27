@@ -29,7 +29,7 @@ WLAN config workflows use the “configuration/full-wlan” API endpoints of Aru
 # Setup
 1. Clone this repository and ```cd``` into the workflow directory:
    ```
-   git clone https://github.hpe.com/hpe/central-python-workflows.git
+   git clone https://github.com/aruba/central-python-workflows.git
    cd central-python-workflows/wlan_config
    ```
 

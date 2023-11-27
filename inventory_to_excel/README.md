@@ -20,7 +20,7 @@ In order to run the workflow script please install the requirements which includ
 above for more information on installing Pycentral.
 1. Clone the repository.
    ```
-   $ git clone https://github.hpe.com/hpe/central-python-workflows.git
+   $ git clone https://github.com/aruba/central-python-workflows.git
    ```
 
 2. install requirements.txt. Make sure python version 3 is installed in system.
