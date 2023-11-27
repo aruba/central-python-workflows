@@ -20,7 +20,8 @@ In order to run the workflow script please install the requirements which includ
 above for more information on installing Pycentral.
 1. Clone the repository.
    ```
-   $ git clone https://github.com/aruba/central-python-workflows.git
+   git clone https://github.com/aruba/central-python-workflows.git
+   cd inventory_to_excel
    ```
 
 2. install requirements.txt. Make sure python version 3 is installed in system.
