@@ -1,8 +1,8 @@
 {
     "central_info": {
-        "base_url": "https://internal-apigw.central.arubanetworks.com/",
+        "base_url": "<api-gateway-domain-url>",
         "token": {
-            "access_token": "5Gzn28K0XWbmXReFIgXoyfyjgDi0ouLE"
+            "access_token": "<api-gateway-access-token>"
         }
     },
     "ssl_verify": true
