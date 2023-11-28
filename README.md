@@ -8,7 +8,8 @@ This repository contains Python based workflows & code samples that utilize [Aru
 - [Device Onboarding](https://github.com/aruba/central-python-workflows/tree/main/device_onboarding) 
   ![Device Onboarding Demo Workflow](device_onboarding/media/workflow_overview.png)
 - [MSP Customer Onboarding](https://github.com/aruba/central-python-workflows/tree/main/msp_customer_onboarding) 
-  ![Device Onboarding Demo Workflow](msp_customer_onboarding/media/workflow_overview.png)
+  ![MSP Customer Onboarding Demo Workflow](msp_customer_onboarding/media/workflow_overview.png)
+- [MSP Customer Deletion](https://github.com/aruba/central-python-workflows/tree/main/msp_customer_deletion)
 - [Inventory to Excel Workflows](https://github.com/aruba/central-python-workflows/tree/main/inventory_to_excel)\
   This workflow creates excel files populated with device details from devices currently in inventory.
 - [AP CLI Workflows](https://github.com/aruba/central-python-workflows/tree/main/ap_config)
