@@ -21,8 +21,8 @@ This repository contains Python based workflows & code samples that utilize [Aru
   ![Device Inventory Migration Overview](device_inventory_migration/media/workflow_overview.png)
 - [User Provisioning](https://github.com/aruba/central-python-workflows/tree/main/user_provisioning)\
   This workflow can be used to provision new users to HPE Greenlake and Aruba Central.
-- [Postman Collections](https://github.com/aruba/central-python-workflows/tree/main/Postman-Collections)
-  Postman is a popular tool to test and make HTTP Requests to API endpoints. This folder contains Postman collections in JSON format for Aruba Central REST APIs.
+- [Postman Collections](https://www.postman.com/hpe-aruba-networking/workspace/aruba-central/)
+  Postman is a popular tool used to test HTTP Requests to API endpoints. Aruba Central offers a Postman collection and environment that you can use to test REST APIs with Aruba Central.
 
 To manage REST APIs in Aruba Central, go to `MAINTAIN -> ORGANIZATION -> PLATFORM INTEGRATION -> REST API`.\
 Learn more about Aruba Central REST APIs [here](https://developer.arubanetworks.com/aruba-central/docs/api-getting-started).
