@@ -22,7 +22,7 @@ for detailed information on installing pycentral and getting setup to execute wo
 # Setup
 1. Clone this repository and ```cd``` into the workflow directory:
    ```
-   git clone https://github.hpe.com/hpe/central-python-workflows.git
+   git clone https://github.com/aruba/central-python-workflows.git
    cd central-python-workflows/ap_config
    ```
 
