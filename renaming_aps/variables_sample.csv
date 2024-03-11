@@ -1,0 +1,3 @@
+sys_serial,new_name
+{ap1_serial_number},{ap1_new_name}
+{ap2_serial_number},{ap2_new_name}
