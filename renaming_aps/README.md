@@ -82,6 +82,11 @@ In order to run the script, please complete the steps below:
 9. An [output.csv] file will be created with the output of the script results
    - Columns will consist of: serial_number, old_name, new_name, status
    - The status variable shows whether or not the AP was successfully renamed
+   ```csv
+   serial_number,old_name,new_name,status
+   {ap1_serial_number},{ap1_old_name},{ap1_new_name},success
+   {ap2_serial_number},{ap2_old_name},{ap2_new_name},failure
+   ```
 
 ## Central APIs used for this workflow - 
 1. [Get Per AP Setting](https://developer.arubanetworks.com/aruba-central/reference/apiap_clisget_ap_settings_clis)
