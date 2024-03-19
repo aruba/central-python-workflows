@@ -13,7 +13,7 @@ This is a Python script that uses the [Pycentral](https://pypi.org/project/pycen
 In order to run the script, please complete the steps below:
 1. Clone this repository and `cd` into the workflow directory:
     ```bash
-    git clone https://github.hpe.com/hpe/central-python-workflows
+    git clone https://github.com/aruba/central-python-workflows
     cd central-python-workflows/renaming_aps
     ```
    
