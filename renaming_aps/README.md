@@ -1,14 +1,13 @@
 # Renaming APs
 This is a Python script that uses the [Pycentral](https://pypi.org/project/pycentral/) library to achieve the following steps on an Aruba Central account- 
-1. Copy device configuration
-2. Change device hostname
-3. Replace old device configuration with newly named configuration
+1. Copy AP configuration
+2. Change AP hostname
+3. Replace old AP configuration with new AP configuration that has the new hostname
 
 ## Prerequisite
-1. All devices have valid Central licenses before the workflow is run
-2. Devices are all online and configurable
-3. Devices aren't offline or not able to be configured
-4. Devices do not need to be in the same group
+1. All Access Points have valid Central licenses before the workflow is run
+2. Access Points are all online and configurable
+3. Access Points do not need to be in the same group
 
 ## Installation Steps
 In order to run the script, please complete the steps below:
@@ -54,8 +53,15 @@ In order to run the script, please complete the steps below:
    - [BaseURLs of Aruba Central Clusters](https://developer.arubanetworks.com/aruba-central/docs/api-oauth-access-token#table-domain-urls-for-api-gateway-access)
    - [Generating Access token from Central UI](https://developer.arubanetworks.com/aruba-central/docs/api-gateway-creating-application-token)
    - [Generating Access token using OAuth APIs](https://developer.arubanetworks.com/aruba-central/docs/api-oauth-access-token)
+
+6. Update the [variables_sample.csv] (variables_sample.csv is the default csv file) with AP serial numbers and new names OR create a custom csv of the same format to be used as an argument when executing the script
+   ```csv
+    sys_serial,new_name
+    {ap1_serial_number},{ap1_new_name}
+    {ap2_serial_number},{ap2_new_name}
+   ```
   
-6. Once **central_token.json** is updated with the relevant information, you can execute the script with the following command:
+7. Once **central_token.json** & **variables_sample.csv** are updated with the relevant information, you can execute the script with the following command:
    ```bash
     python renaming_aps.py
     ```
@@ -68,10 +74,19 @@ In order to run the script, please complete the steps below:
     python renaming_aps.py --central_auth <central_token_file> --csv_names <csv_names_file>
     ```
 
-7. If the script runs successfully, your terminal output should look like this -
+8. If the script runs successfully, your terminal output should look like this -
     <p align="center">
         <img src="media/script_terminal_output.gif"/>
     </p>
+
+9. An [output.csv] file will be created with the output of the script results
+   - Columns will consist of: serial_number, old_name, new_name, status
+   - The status variable shows whether or not the AP was successfully renamed
+   ```csv
+   serial_number,old_name,new_name,status
+   {ap1_serial_number},{ap1_old_name},{ap1_new_name},success
+   {ap2_serial_number},{ap2_old_name},{ap2_new_name},failure
+   ```
 
 ## Central APIs used for this workflow - 
 1. [Get Per AP Setting](https://developer.arubanetworks.com/aruba-central/reference/apiap_clisget_ap_settings_clis)
