@@ -2,7 +2,7 @@ certifi==2023.7.22
 charset-normalizer==3.2.0
 colorama==0.4.6
 halo==0.0.31
-idna==3.4
+idna==3.7
 log-symbols==0.0.14
 pycentral==1.2.1
 PyYAML==6.0.1
