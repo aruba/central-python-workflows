@@ -151,6 +151,7 @@ def checking_aps(central_conn, serial_number):
 			if(resp['code'] == get_error_codes[i]['code']):
 				print(f"  Response code: {colored(resp['code'], 'red')} - {get_error_codes[i]['reply']} could not rename {colored(serial_number, 'blue')} device in Central."
 				"\n")
+				settings.append("null")
 				old_names.append("null")
 				status.append("failure")
 				return
