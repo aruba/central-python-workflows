@@ -196,7 +196,7 @@ def create_output(output_file):
 
 		write.writerows(data)
 	
-	print(f"\n    CSV ouput file '{colored(output_file, 'light_blue')}' of this table ^^^ has been created in this directory.")
+	print(f"\n    CSV output file '{colored(output_file, 'light_blue')}' of this table ^^^ has been created in this directory.")
     
 if __name__ == "__main__":
   main()
