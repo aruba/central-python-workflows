@@ -60,8 +60,15 @@ In order to run the script, please complete the steps below:
         ]
     }
     ```
+7. The default timeframes preset within this script are 3 hours, 24 hours, 1 week, and 1 month. The <timeframe> list variable within the connected_clients.py file is responsible for using all of those preset variables. If you would only like the see connected clients that connected last within just one week, you can make one_week_ago the only item within the <timeframe> list variable.  Otherwise if no changes are made, the connected_clients.py script will output the 4 default timeframes.
+    ```bash
+    # timeframe = [one_day_ago, one_week_ago]
+    # timeframe = [one_week_ago]
+    # timeframe = [one_month_ago]
+    timeframe = [three_hours_ago, one_day_ago, one_week_ago, one_month_ago]
+    ```
   
-7. Once **central_token.json** & **site_names.json** are updated with the relevant information, you can execute the script with the following command:
+8. Once **central_token.json** & **site_names.json** are updated with the relevant information, you can execute the script with the following command:
    ```bash
     python connected_clients.py
     ```
@@ -73,12 +80,12 @@ In order to run the script, please complete the steps below:
     python connected_clients.py --central_auth <central_token_file>
     ```
 
-8. If the script runs successfully, your terminal output should look like this -
+9. If the script runs successfully, your terminal output should look like this -
     <p align="center">
         <img src="media/script_terminal_output.png"/>
     </p>
 
-9. Depending on the site name and time frame inputs, one or more output csv files will be created with the output of the script results
+10. Depending on the site name and time frame inputs, one or more output csv files will be created with the output of the script results
    - Columns will consist of: 'Client Username', 'Client IP Address', 'Client MAC Address', 'Association Time', 'AP Name', 'Site Name'
    ```csv
     Generated:,2024-08-01 16:45:00.730098
