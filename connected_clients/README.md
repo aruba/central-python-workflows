@@ -1,10 +1,10 @@
 # Connected Clients
-This is a Python script that uses the [Pycentral](https://pypi.org/project/pycentral/) library to achieve the following steps on an Aruba Central account- 
+This is a Python script that uses the [Pycentral](https://pypi.org/project/pycentral/) library to achieve the following steps on an HPE Aruba Networking Central account- 
 1. Gather connected client information based on site name and time frame
 2. Output csv files are generated and created within workflow folder
 
 ## Guide
-A full guide has been made for this workflow and can be referenced [here](https://developer.arubanetworks.com/hpe-aruba-networking-central/docs/connected-clients)
+A comprehensive guide has been made for this workflow and can be referenced [here](https://developer.arubanetworks.com/hpe-aruba-networking-central/docs/connected-clients) on our HPE Aruba Networking Developer Hub
 
 ## Prerequisites
 1. Connected Clients need to be online and connected
