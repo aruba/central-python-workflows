@@ -1,7 +1,13 @@
 certifi==2024.7.4
 charset-normalizer==3.3.2
+colorama==0.4.6
+halo==0.0.31
 idna==3.7
+log-symbols==0.0.14
 pycentral==1.4.1
 PyYAML==6.0.1
 requests==2.31.0
+six==1.16.0
+spinners==0.0.24
+termcolor==2.4.0
 urllib3==2.2.2
