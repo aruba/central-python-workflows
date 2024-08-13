@@ -4,23 +4,40 @@ This repository contains Python based workflows & code samples that utilize [Aru
 
 ## Aruba Central REST APIs
 - [Device Provisioning](https://github.com/aruba/central-python-workflows/tree/main/device_provisioning) 
-  ![Device Provisioning Demo Workflow](device_provisioning/media/workflow_overview.png) 
-- [Device Onboarding](https://github.com/aruba/central-python-workflows/tree/main/device_onboarding) 
-  ![Device Onboarding Demo Workflow](device_onboarding/media/workflow_overview.png)
-- [MSP Customer Onboarding](https://github.com/aruba/central-python-workflows/tree/main/msp_customer_onboarding) 
-  ![MSP Customer Onboarding Workflow](msp_customer_onboarding/media/workflow_overview.png)
-- [MSP Customer Deletion](https://github.com/aruba/central-python-workflows/tree/main/msp_customer_deletion) 
-  ![MSP Customer Deletion Workflow](msp_customer_deletion/media/workflow_overview.png)
+  - Create a group (Template-based group)
+  - Upload Configuration Template to Group
+  - Move Devices to the newly created Group.
+  - Create a Site
+  - Move Devices to the newly created Site.
+- [Device Onboarding](https://github.com/aruba/central-python-workflows/tree/main/device_onboarding)
+  - Assign Devices to Central Application Instance
+  - Provide Devices with Central Subscriptions.
+  - Create a template group (Template-based group)
+  - Upload Configuration Template to Group
+  - Move Devices to the newly created Group.
+  - Create a Site
+  - Move Devices to the newly created Site.
+- [MSP Customer Onboarding](https://github.com/aruba/central-python-workflows/tree/main/msp_customer_onboarding)
+  - Create a customer account within the Greenlake MSP account
+  - Install an Aruba Central instance in the customer account & set the default group.
+  - Move & assign subscriptions to devices in the customer's Central Instance
+  - Optional Steps
+    - Create a Site in the customer's Central instance
+    - Move Devices to the newly created Site.
+- [MSP Customer Deletion](https://github.com/aruba/central-python-workflows/tree/main/msp_customer_deletion)
+  - Unassigns all devices & licenses within the customer's Aruba Central Instance. The devices & licenses will be moved back to the MSP's inventory.
+  - Uninstall the customer's Aruba Central instance
+  - Delete the customer's Greenlake Instance
 - [Inventory to Excel Workflows](https://github.com/aruba/central-python-workflows/tree/main/inventory_to_excel)\
   This workflow creates excel files populated with device details from devices currently in inventory.
-- [AP CLI Workflows](https://github.com/aruba/central-python-workflows/tree/main/ap_config)
-  ![AP CLI Config Demo Workflow](ap_config/media/ap-flowchart.png)
+- [AP CLI Workflows](https://github.com/aruba/central-python-workflows/tree/main/ap_config)\
+  Access point(AP) config workflows use direct command line interface(CLI) commands to configure APs in an Aruba Central group or directly to an AOS10 AP.
 - [WLAN Workflows](https://github.com/aruba/central-python-workflows/tree/main/wlan_config)\
   This workflow can be used to create and manage WLANs in groups on an Aruba Central.
 - [Detailed Central Device Inventory](https://github.com/aruba/central-python-workflows/tree/main/detailed_central_device_inventory/)\
   This workflow can be used to fetch additional details for device inventory in Aruba Central & export it as a CSV.
 - [Device Inventory Migration](https://github.com/aruba/central-python-workflows/tree/main/device_inventory_migration/)
-  ![Device Inventory Migration Overview](device_inventory_migration/media/workflow_overview.png)
+  This workflow automates the migration of multiple devices between two Aruba Central accounts.
 - [User Provisioning](https://github.com/aruba/central-python-workflows/tree/main/user_provisioning)\
   This workflow can be used to provision new users to HPE Greenlake and Aruba Central.
 - [Bulk Renaming of APs (with CSV)](https://github.com/aruba/central-python-workflows/tree/main/renaming_aps)\
