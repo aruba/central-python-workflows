@@ -42,6 +42,9 @@ This repository contains Python based workflows & code samples that utilize [Aru
   This workflow can be used to provision new users to HPE Greenlake and Aruba Central.
 - [Bulk Renaming of APs (with CSV)](https://github.com/aruba/central-python-workflows/tree/main/renaming_aps)\
   This workflow can be used to rename access points in Aruba Central with a custom CSV upload of serial numbers and names.
+- [Connected Clients](https://github.com/aruba/central-python-workflows/tree/main/connected_clients)
+  - Gather connected client information based on site name and time frame
+  - Output csv files are generated and created within workflow folder
 - [Aruba Central Postman Collection](https://www.postman.com/hpe-aruba-networking/workspace/hpe-aruba-networking-central/overview)\
   Postman is a popular tool used to test HTTP Requests to API endpoints. Aruba Central offers a [Postman collection](https://www.postman.com/hpe-aruba-networking/workspace/hpe-aruba-networking-central/collection/32717089-b3b1c3e4-7d04-4af1-be8c-e5c51e2453bb) and [Postman environment](https://www.postman.com/hpe-aruba-networking/workspace/hpe-aruba-networking-central/environment/30369652-60b80c56-ad11-40d3-a4a6-5cde71abf2e4?action=share&creator=32717089&active-environment=30369652-60b80c56-ad11-40d3-a4a6-5cde71abf2e4) that you can use to test REST APIs with Aruba Central.
 
