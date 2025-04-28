@@ -6,7 +6,7 @@ idna==3.7
 log-symbols==0.0.14
 pycentral==1.4.1
 PyYAML==6.0.1
-requests==2.31.0
+requests==2.32.2
 six==1.16.0
 spinners==0.0.24
 termcolor==2.3.0
