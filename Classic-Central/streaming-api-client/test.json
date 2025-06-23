@@ -1,0 +1,54 @@
+{
+"module": [
+{
+"type": "AP_DEBUG",
+"severity": "EMERGENCY",
+"process": "SYSMON",
+"subcategory": "SYSMON_CONFIG"
+},
+{
+"type": "NETWORK",
+"severity": "CRITICAL",
+"process": "SYSMON",
+"subcategory": "SYSMON_CONFIG"
+},
+{
+"type": "SECURITY",
+"severity": "ERROR",
+"process": "SYSMON",
+"subcategory": "SYSMON_CONFIG"
+},
+{
+"type": "SYSTEM",
+"severity": "WARNING",
+"process": "SYSMON",
+"subcategory": "SYSMON_CONFIG"
+},
+{
+"type": "USER",
+"severity": "NOTICE",
+"process": "SYSMON",
+"subcategory": "SYSMON_CONFIG"
+},
+{
+"type": "USER_DEBUG",
+"severity": "DEBUG",
+"process": "SYSMON",
+"subcategory": "SYSMON_CONFIG"
+},
+{
+"type": "WIRELESS",
+"severity": "INFO",
+"process": "SYSMON",
+"subcategory": "SYSMON_CONFIG"
+}
+],
+"remote-syslog": [
+{
+"host": "10.48.1.107"
+}
+],
+"name": "test1",
+"severity": "ALERT",
+"description": "Create logging module configuration"
+}

@@ -22,6 +22,7 @@
 
 import gevent
 from gevent import monkey, pool
+
 monkey.patch_all()
 
 import argparse
@@ -36,9 +37,9 @@ from lib.utilities import read_jsonfile, write_jsonfile
 from pprint import pprint
 
 # Constants
-C_TOPIC = ['monitoring', 'apprf', 'presence',
-           'audit', 'location', 'security']
+C_TOPIC = ["monitoring", "apprf", "presence", "audit", "location", "security"]
 C_MAX_RETRY = 1
+
 
 def define_arguments():
     """
@@ -48,26 +49,43 @@ def define_arguments():
         parser (ArgumentParser): A ArgumentParser varaible that contains all
                                  input parameters passed during script execution
     """
-    parser = argparse.ArgumentParser(description='........ \
-             Websocket Client App for Aruba Central API Streaming .....')
-    parser.add_argument('--hostname', required=True,
-                        help='Websocket server host from streaming API page. \
-                        Provide only the base URL.')
-    parser.add_argument('--jsoninput',
-                        required=True,
-                        help='Json input file containing customers details \
-                        such as username, wsskey and topic to subscribe.')
-    parser.add_argument('--decode_data', required=False,
-                        help='Print the decoded data on screen',
-                        action='store_true')
-    parser.add_argument('--no_valid_cert', required=False,
-                        help='Disable SSL cert validation',
-                        action='store_true')
-    parser.add_argument('--export_data', required=False,
-                        help=' Develop your own streaming API data export \
+    parser = argparse.ArgumentParser(
+        description="........ \
+             Websocket Client App for Aruba Central API Streaming ....."
+    )
+    parser.add_argument(
+        "--hostname",
+        required=True,
+        help="Websocket server host from streaming API page. \
+                        Provide only the base URL.",
+    )
+    parser.add_argument(
+        "--jsoninput",
+        required=True,
+        help="Json input file containing customers details \
+                        such as username, wsskey and topic to subscribe.",
+    )
+    parser.add_argument(
+        "--decode_data",
+        required=False,
+        help="Print the decoded data on screen",
+        action="store_true",
+    )
+    parser.add_argument(
+        "--no_valid_cert",
+        required=False,
+        help="Disable SSL cert validation",
+        action="store_true",
+    )
+    parser.add_argument(
+        "--export_data",
+        required=False,
+        help=" Develop your own streaming API data export \
                         logic and provide type of export as value. Some types \
-                        to implement are json, csv, tcp, etc')
+                        to implement are json, csv, tcp, etc",
+    )
     return parser
+
 
 def process_arguments(args):
     """
@@ -85,21 +103,20 @@ def process_arguments(args):
     if not jsondict:
         sys.exit("Error: Input JSON file is empty. exiting...")
 
-    if 'customers' in jsondict:
-        param_dict['customers'] = jsondict['customers']
+    if "customers" in jsondict:
+        param_dict["customers"] = jsondict["customers"]
     else:
-        sys.exit("Error: json file does not have 'customers' list. "
-                 "exiting...")
+        sys.exit("Error: json file does not have 'customers' list. exiting...")
 
-
-    param_dict['no_valid_cert'] = args.no_valid_cert
+    param_dict["no_valid_cert"] = args.no_valid_cert
     if args.no_valid_cert:
         print("WARNING: SSL Cert Validation Disabled!")
-    param_dict['decode_data'] = args.decode_data
-    param_dict['header'] = header
-    param_dict['export_data'] = args.export_data
+    param_dict["decode_data"] = args.decode_data
+    param_dict["header"] = header
+    param_dict["export_data"] = args.export_data
 
     return param_dict
+
 
 def validate_customer_dict(customerDict):
     """
@@ -107,29 +124,32 @@ def validate_customer_dict(customerDict):
     key of input JSON file.
     """
     print("Validating Input Customer Dict...")
-    required_keys = ["username", "wsskey", "topic"]
+    # required_keys = ["username", "wsskey", "topic"]
 
     # Check if required keys are present in the input for all customers
     # And check if topic is a valid streaming topic
     customer_key_error = []
     customer_topic_error = []
-    for name,info in customerDict.items():
-        if not set(required_keys).issubset(set(info.keys())):
-            customer_key_error.append(str(name))
+    for name, info in customerDict.items():
+        # if not set(required_keys).issubset(set(info.keys())):
+        #     customer_key_error.append(str(name))
         if "topic" in info.keys() and str(info["topic"]) not in C_TOPIC:
             customer_topic_error.append(str(name))
 
     error_str = ""
-    if customer_key_error:
-        key_str = "Required key(s) {} missing for customers {}".format(
-                  str(required_keys), str(customer_key_error))
-        error_str = error_str + "\nError: " + key_str
+    # if customer_key_error:
+    # key_str = "Required key(s) {} missing for customers {}".format(
+    #     str(required_keys), str(customer_key_error)
+    # )
+    # error_str = error_str + "\nError: " + key_str
     if customer_topic_error:
-        topic_str = "Topic not in {} for customers {}".format(str(C_TOPIC),
-                    str(customer_topic_error))
+        topic_str = "Topic not in {} for customers {}".format(
+            str(C_TOPIC), str(customer_topic_error)
+        )
         error_str = error_str + "\nError: " + topic_str
     if error_str and error_str != "":
         sys.exit(error_str)
+
 
 def validate_refresh_token(hostname, oldtok):
     """
@@ -146,17 +166,18 @@ def validate_refresh_token(hostname, oldtok):
         None: If unable to fetch the token
     """
     url = "https://{}/streaming/token/validate".format(hostname)
-    headers = { "Authorization" : oldtok }
+    headers = {"Authorization": oldtok}
     print("Validating wss key....\n")
     try:
         res = requests.get(url, headers=headers)
         if res.status_code == 200:
-            #print("new token : {}".format(res.json()["token"]))
+            # print("new token : {}".format(res.json()["token"]))
             return res.json()["token"]
         return None
     except Exception as err:
         print("Unable to validate/refresh WSS key ...")
         return None
+
 
 def update_wsskey_jsoninput(filename, name, newtok):
     """
@@ -166,9 +187,10 @@ def update_wsskey_jsoninput(filename, name, newtok):
     # Fetch JSON data from jsoninput
     jsondict = read_jsonfile(filename)
     # Update the jsoninput dictionary
-    jsondict['customers'][name]["wsskey"] = newtok
+    jsondict["customers"][name]["wsskey"] = newtok
     # Update jsoninput file with new tok
     write_jsonfile(filename, jsondict)
+
 
 def get_websocket_connection(hostname, c_entry, customer):
     """
@@ -194,17 +216,19 @@ def get_websocket_connection(hostname, c_entry, customer):
         print("URL: {}".format(url))
 
         # Define header for WebSocket Connection
-        header = param_dict['header']
-        header["UserName"] = customer['username']
-        header["Authorization"] = customer['wsskey']
-        header["Topic"] = customer['topic']
+        header = param_dict["header"]
+        # header["UserName"] = customer["username"]
+        header["Authorization"] = customer["wsskey"]
+        header["Topic"] = customer["topic"]
         print("HEADERS:")
         print(header)
         try:
             if param_dict["no_valid_cert"]:
-                conn = create_connection(url, header=header,
-                                         sslopt={"cert_reqs": ssl.CERT_NONE,
-                                                 "check_hostname": False})
+                conn = create_connection(
+                    url,
+                    header=header,
+                    sslopt={"cert_reqs": ssl.CERT_NONE, "check_hostname": False},
+                )
             else:
                 conn = create_connection(url, header=header)
 
@@ -217,9 +241,10 @@ def get_websocket_connection(hostname, c_entry, customer):
                 # If the WebSocket key is expired use the new WebSocket Key
                 newtok = validate_refresh_token(hostname, customer["wsskey"])
                 if not newtok:
-                    raise ConnectionError("Error 401 Unauthorized. "
-                    "Unable to validate wss key for" +
-                    " customer %s" % c_entry)
+                    raise ConnectionError(
+                        "Error 401 Unauthorized. "
+                        "Unable to validate wss key for" + " customer %s" % c_entry
+                    )
                 elif newtok and newtok != customer["wsskey"]:
                     customer["wsskey"] = newtok
 
@@ -228,6 +253,7 @@ def get_websocket_connection(hostname, c_entry, customer):
                 retry += 1
             else:
                 raise err
+
 
 def get_export_obj(topic, export_type):
     """
@@ -247,6 +273,7 @@ def get_export_obj(topic, export_type):
     except Exception as err:
         raise err
 
+
 def streamClient(c_entry, param_dict):
     """
     Summary: Websocket Client to stream data from Aruba Central Streaming API.
@@ -260,19 +287,20 @@ def streamClient(c_entry, param_dict):
     # Defining WebSocket Client
     client = param_dict["customers"][c_entry]["conn"]
     if not client:
-        raise RuntimeError('Unable to establish WebSocket Connection')
+        raise RuntimeError("Unable to establish WebSocket Connection")
 
     print("Start time for customer %s: %s" % (c_entry, str(time.time())))
 
     decoder = None
-    if param_dict['decode_data']:
-        topic = param_dict['customers'][c_entry]['topic']
+    if param_dict["decode_data"]:
+        topic = param_dict["customers"][c_entry]["topic"]
         decoder = streamingExport.Decoder(topic)
 
     export_obj = None
-    if param_dict['export_data']:
-        export_obj = get_export_obj(param_dict['customers'][c_entry]['topic'],
-                                    param_dict['export_data'])
+    if param_dict["export_data"]:
+        export_obj = get_export_obj(
+            param_dict["customers"][c_entry]["topic"], param_dict["export_data"]
+        )
 
     try:
         # Infinite loop to stream indefinitely or until connection breaks
@@ -281,13 +309,13 @@ def streamClient(c_entry, param_dict):
             msg = client.recv()
 
             # Export data
-            if param_dict['decode_data']:
+            if param_dict["decode_data"]:
                 print("Decode data for customer %s" % c_entry)
                 if decoder:
                     decoded_data = decoder.decodeData(msg)
                     pprint(decoded_data)
 
-            if param_dict['export_data'] and export_obj:
+            if param_dict["export_data"] and export_obj:
                 data_handler = streamingExport.dataHandler(msg, export_obj)
                 data_handler.run()
 
@@ -299,33 +327,30 @@ def streamClient(c_entry, param_dict):
         print("End time for customer %s: %s" % (c_entry, str(time.time())))
         raise e
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     # Parsing script arguments
     parser = define_arguments()
     args = parser.parse_args()
     param_dict = process_arguments(args)
 
     # Validate if required customer details are provided
-    validate_customer_dict(param_dict['customers'])
+    validate_customer_dict(param_dict["customers"])
 
     print("Websocket server to connect : {}".format(args.hostname))
 
     # Create Connection for all customers
-    for name,info in param_dict['customers'].items():
-        conn = get_websocket_connection(args.hostname,
-                                        name,
-                                        info)
+    for name, info in param_dict["customers"].items():
+        conn = get_websocket_connection(args.hostname, name, info)
         param_dict["customers"][name]["conn"] = conn
 
     # Creating gevent pool based on the number of provided customers
     jobs = []
-    p = pool.Pool(len(param_dict['customers']))
+    p = pool.Pool(len(param_dict["customers"]))
 
     # Spawning concurrent async greenlet for every customer
-    for name,info in param_dict['customers'].items():
-        jobs.append(
-            p.spawn(streamClient, name, param_dict)
-        )
+    for name, info in param_dict["customers"].items():
+        jobs.append(p.spawn(streamClient, name, param_dict))
     try:
         gevent.joinall(jobs)
     except KeyboardInterrupt:

@@ -1,0 +1,8 @@
+{
+  "customers": {
+    "test": {
+      "wsskey": "eyJhbGciOiJIUzI1NiIsInR5cGUiOiJqd3QifQ.eyJjdXN0b21lcl9pZCI6ImUyYmUwZGU5ZDc1ZDRiNTJiYmIzZWM3ZmZmODE0MGQ4IiwiY3JlYXRpb25fZGF0ZSI6MTc0NzI2MzM0M30.CQSF-2jMApfpaJAFO2MUUvBCojcDSqac8T-ghAunmm8",
+      "topic": "monitoring"
+    }
+  }
+}

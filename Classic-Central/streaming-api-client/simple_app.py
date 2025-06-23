@@ -57,9 +57,9 @@ if __name__ == "__main__":
     # Construct Header for WebSocket Connection
     header = {}
     # Central User email
-    header["UserName"] = "abc@gmail.com"
+    header["UserName"] = "karthik.satheesh-kumar@hpe.com"
     # WebSocket Key from Streaming API Page
-    header["Authorization"] = "XXXXXX"
+    header["Authorization"] = "eyJhbGciOiJIUzI1NiIsInR5cGUiOiJqd3QifQ.eyJjdXN0b21lcl9pZCI6ImUyYmUwZGU5ZDc1ZDRiNTJiYmIzZWM3ZmZmODE0MGQ4IiwiY3JlYXRpb25fZGF0ZSI6MTczMTYyMDAyOH0.HWGXt_ble8jMtX-K0QQ9D461QI_XoQMZMNNMHhfiAmw"
     # Subscription TOPIC for Streaming API
     # (audit|apprf|location|monitoring|presence|security)
     header["Topic"] = "monitoring"
