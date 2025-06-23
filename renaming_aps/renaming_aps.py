@@ -123,7 +123,7 @@ def read_csv(file_path):
 
 		for row in csv_reader:
 			serial_numbers.append(row[0])
-			new_names.append(row[1])
+			new_names.append(json.dumps(row[1].replace('"', '')))
 	return serial_numbers, new_names
 
 @Halo(text='Checking AP Name...', spinner='simpleDots')
