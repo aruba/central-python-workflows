@@ -1,0 +1,53 @@
+roles:
+  - name: "role-tj25-overlay"
+    description: "overlay-role-creation"
+
+policies:
+  - name: "overlay-tj25-policy"
+    type: "POLICY_TYPE_SECURITY"
+    association: "ASSOCIATION_ROLE"
+    security-policy:
+      type: "SECURITY_POLICY_TYPE_DEFAULT"
+      policy-rule:
+        - position: 1
+          condition:
+            rule-type: "RULE_ANY"
+            source:
+              type: "ADDRESS_ROLE"
+              role: "role-tj25-overlay"
+            destination:
+              type: "ADDRESS_ANY"
+          action:
+            type: "ACTION_ALLOW"
+
+policy-group:
+  policy-group-list:
+    - name: "overlay-tj25-policy"
+      position: 3
+
+ssids:
+  - opmode: "WPA2_PERSONAL"
+    personal-security:
+      passphrase-format: "STRING"
+      wpa-passphrase: "Aruba321"
+    essid:
+      name: "overlay_tj25_wpa2"
+    ssid: "overlay_tj25_wpa2"
+    enable: true
+    forward-mode: "FORWARD_MODE_L2"
+    default-role: "role-tj25-overlay"
+    vlan-id-range:
+      - "42"
+    vlan-selector: "VLAN_RANGES"
+
+overlay-wlan:
+  profile: "overlay_tj25_wpa2"
+  overlay-profile-type: "WIRELESS_PROFILE"
+  gw-cluster-list:
+    - cluster: "zulu_cluster"
+      # Change the cluster-scope-id to match your AP Device Group
+      # You can find this by executing a GET on /network-config/v1alpha1/hierarchy?scopeType=device&scopeId=<AP_SCOPE_ID>
+      cluster-scope-id: 11111222233333
+      cluster-redundancy-type: "PRIMARY"
+      cluster-type: "CLUSTER_ID"
+      tunnel-type: "GRE"
