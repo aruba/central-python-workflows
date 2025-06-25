@@ -1,0 +1,3 @@
+serial,new_hostname,persona
+{device1_serial_number},{device1_new_name},{device1_persona}
+{device2_serial_number},{device2_new_name},{device2_persona}

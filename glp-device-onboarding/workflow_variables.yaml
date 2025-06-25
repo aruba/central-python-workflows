@@ -1,0 +1,21 @@
+# Assign device to application (optional)
+application_assignment:
+  - application_name: HPE Aruba Networking Central
+    region: <region>
+    device_serial_numbers:
+      - <device-serial-number>
+      - <device-serial-number>
+  - application_name: HPE Aruba Networking Central
+    region: <region>
+    device_serial_numbers:
+      - <device-serial-number>
+      - <device-serial-number>
+
+# Assign subscription to device (optional)
+subscription_assignment:
+  - subscription_key: <subscription-key>
+    device_serial_numbers:
+      - <device-serial-number>
+  - subscription_key: <subscription-key>
+    device_serial_numbers:
+      - <device-serial-number>

@@ -1,0 +1,2 @@
+Serial Number,Device Function,Site,Device Group,Device Name,Create Site,Assign Device to Site,Assign Device Function to Device,Validate or Create Device Group,Assign Device to Device Group,Set Device Name
+<serial-number>,Access Switch,Coffee Shop,Onboarding_Group,Coffee_Shop_Switch,Success,Success,Success,Success,Success,Success

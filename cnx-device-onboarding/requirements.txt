@@ -1,0 +1,4 @@
+pycentral==2.0a6
+halo==0.0.31
+rich==14.0.0
+tabulate==0.9.0

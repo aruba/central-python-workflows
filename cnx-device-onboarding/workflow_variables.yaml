@@ -1,0 +1,16 @@
+devices:
+  - serial_number: <serial_number>     
+    type: <device_type>                 #e.g. AP, SWITCH, GATEWAY
+    device_function: <device_function>  #e.g. Campus AP, Access Switch, Core Switch, Aggregation Switch, Mobility Gateway
+    site: <site_name>
+    device_group: <device_group>
+    name: <device_name>
+
+site:
+  name: <site_name>        
+  address: <site_address>  
+  city: <site_city>         
+  state: <site_state>       # e.g. California
+  country: <site_country>   # e.g. United States
+  zipcode: <site_zipcode>   # e.g. "95747"
+  timezone: <site_timezone> # e.g. America/Los_Angeles

@@ -1,0 +1,2 @@
+halo==0.0.31
+pycentral==2.0a6

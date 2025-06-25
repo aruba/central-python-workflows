@@ -1,0 +1,566 @@
+{
+	"info": {
+		"_postman_id": "961b35d8-a689-4472-bb6c-75303f2ef1e6",
+		"name": "Device Onboarding (GLP)",
+		"description": "This workflow is designed to onboard devices to the HPE GreenLake Cloud Platform (GLP) and HPE Aruba Networking Central using GLP API calls. It supports the following steps:\n\n- Adding devices\n    \n- Assigning devices to a Central application\n    \n- Applying subscriptions to devices\n    \n\n## Prerequisites\n\nThis workflow requires that a user has access to the HPE GreenLake Cloud Platform. The first step in executing this workflow is to fill out the Variables section of the Device Onboarding collection. The list of variables is used throughout the workflow to make a series of sequential API requests. Pay attention when filling out these variables. If they are incorrect or not in the proper format, errors may occur.\n\n### Import the Postman Collection\n\n1. Download the [provided Postman Collection](https://Device-Onboarding.json).\n    \n2. Open Postman, click on the \"Import\" button, and select the collection file.\n    \n3. Once imported, you will see all the available API endpoints in the collection.\n    \n\n### Update Variables in the Collection\n\n1. Go to the **Variables** tab in the imported collection.\n    \n2. Update the following variables before making any API calls in this collection:\n    \n\n| **Name** | **Description** | **Example** |\n| --- | --- | --- |\n| glp_client_id | HPE GreenLake Cloud Platform credential client ID | 34a47b6e-1789-435d-bk0f-3bd547art5f8 |\n| glp_client_secret | HPE GreenLake Cloud Platform credential client secret | 45ad273a695f12ek83a4360765e04a2e |\n| glp_token | HPE GreenLake Cloud Platform token obtained by following the guide below | JWT Bearer Token |\n| device_mac | Device MAC Address | xx:xx:xx:xx:xx:xx |\n| device_sn | Device Serial Number | SGxxxxxxx |\n| central_application_id | Application ID | 373a74a1-xxxx-xxxx-xxxx-xxxxxxxxx |\n| central_application_region | Region of Application Deployment | us-west |\n| glp_device_id | Device ID | 22206f15-xxxx-xxxx-xxxx-xxxxxxxxx |\n| glp_subscription_id | Subscription ID | 73428f10-xxxx-xxxx-xxxx-xxxxxxxxx |\n\n## API Workflow\n\n### Authentication\n\nTo obtain API client credentials for GLP, follow [this guide](https://developer.arubanetworks.com/hpe-aruba-networking-central/docs/generating-a-hpe-greenlake-cloud-platform-token) on the HPE Aruba Networking Developer Hub. Fill out the `glp_client_id` and `glp_client_secret` variables, then run **Generate Access Token** to generate a token. If the API call is successful, the generated GLP access token will automatically be saved as the Postman variable `glp_token`. The GLP access token is valid for 15 minutes.\n\n> \\[!NOTE\\]  \nFor each step in the onboarding workflow, all required API calls are organized in folders within the Postman collection. This structure is intended to help guide you through each step of the process. \n  \n\n### 1\\. Add Devices\n\nThe first step of onboarding is to add devices to the GLP workspace. For this step, you need the device's unique Serial Number and MAC Address. The device Serial Number and MAC Address are listed physically on the device itself. Each device type has a slightly different location for this information:\n\n- Access Points: Bottom of the device\n    \n- AOS-CX Switch: A tab you can pull out and view\n    \n- Gateways: Back of the device\n    \n\nOn the CLI of the device, you can also run an equivalent 'show system' command, which differs depending on whether you're on AOS-CX, AOS8, or AOS10.\n\n- AOS-CX Switch CLI: `show system`\n    \n- AOS10 CLI: `show inventory`\n    \n\nOnce you have identified the device's serial number and MAC address, save these as the `device_sn` and `device_mac` Postman collection variables, respectively. You can then run the **Add Device(s)** API call.  \nThis is an asynchronous operation. If the add device API call has been accepted, you will receive a 202 API response code. You need to verify the device was added by logging into the GLP workspace. You can now continue with the rest of the onboarding process.\n\n### 2\\. Assign Devices to Application\n\nAfter devices have been added to a GLP workspace, they need to be assigned to a Central application. Ensure that the following collection variables are populated:\n\n1. `central_application_id` - The central application ID can be determined by making a **Get Service Manager(s)** API call. The \"id\" variable in the same array element as the Central application whose name matches the \"name\" key is the central application ID.\n    \n2. `central_application_region` - The central application region that corresponds to the region's deployment can be found in the following [list here](https://developer.greenlake.hpe.com/docs/greenlake/services/service-catalog/public/glossary/#region).\n    \n3. `glp_device_id` - This can be found with the **Get Device** API call. For each device, the device's GLP ID will be returned with the 'id' attribute. You need to save the \"id\" attribute for the device you would like to assign to the application.\n    \n\nThe **Assign Device(s) to Application** API call is an asynchronous operation. If the API call has been accepted, you will receive a 202 response with a transaction_id. The transaction ID will automatically be saved to the `device_app_transaction_id` Postman variable.\n\nYou can then run the **Get Device Assignment Status** API call to verify that the device assignment operation was successful. The API response will include `status` and `results` attributes, which will indicate if the device assignment to the application was successful or failed.\n\n### 3\\. Apply Subscription to Devices\n\nThe next onboarding step is applying subscriptions to devices. There are two variables needed for this step:\n\n1. `glp_device_id` - This can be found with the **Get Device(s)** API call. For each device, the device's GLP ID will be returned with the 'id' attribute. You need to save the \"id\" attribute for the device you would like to apply the subscription to.\n    \n2. `glp_subscription_id` - This can be found with the **Get Subscription(s)** API call. For each subscription, the subscription's GLP ID will be returned with the 'id' attribute. You need to save the \"id\" attribute for the subscription you would like to apply to the device.\n    \n\nThe **Apply Subscription to Device(s)** API call is an asynchronous operation. If the API call has been accepted, you will receive a 202 response with a transaction_id. The transaction ID will automatically be saved to the `device_sub_transaction_id` Postman variable.\n\nYou can then run the **Get Subscription Assignment Status** API call to verify that the subscription assignment operation was successful. The API response will include `status` and `results` attributes, which will indicate if the subscription assignment to the device was successful or failed.\n\n## Conclusion\n\nBy following this workflow and utilizing the organized API call folders in the Postman collection, you can efficiently onboard devices to HPE GreenLake Cloud Platform and HPE Aruba Networking Central. Ensure all required variables are set correctly and refer to the documentation links for additional guidance. If you encounter any issues, please contact the [Automation team](https://mailto:aruba-automation@hpe.com).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32717089"
+	},
+	"item": [
+		{
+			"name": "Authorization",
+			"item": [
+				{
+					"name": "Generate Access Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code == 200){",
+									"    console.log('Successfully obtained Access Token')",
+									"    const response = pm.response.json()",
+									"    var access_token = response['access_token']",
+									"    console.info('Setting Access Token(glp_token) in Postman collection')",
+									"    pm.collectionVariables.set(\"glp_token\", access_token);",
+									"    console.log('You are now ready & authenticated to make API calls to your HPE GreenLake account')",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log('Generating Access Token...')",
+									"var required_variables = [\"client_id\", \"client_secret\"]",
+									"",
+									"required_variables.forEach(variable => {",
+									"    if (!pm.collectionVariables.get(variable)) {",
+									"        console.error('Missing required variable ' + variable + ' in Postman collection variables. Please add required variables before running the collection')",
+									"        pm.execution.skipRequest()",
+									"    }",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://sso.common.cloud.hpe.com/as/token.oauth2",
+							"protocol": "https",
+							"host": [
+								"sso",
+								"common",
+								"cloud",
+								"hpe",
+								"com"
+							],
+							"path": [
+								"as",
+								"token.oauth2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Step 1 - Add Device",
+			"item": [
+				{
+					"name": "Add Device(s)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"network\": [\n    {\n      \"serialNumber\": \"{{device_sn}}\",\n      \"macAddress\": \"{{device_mac}}\"\n    }\n  ],\n  \"compute\": [],\n  \"storage\": []\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://global.api.greenlake.hpe.com/devices/v1/devices",
+							"protocol": "https",
+							"host": [
+								"global",
+								"api",
+								"greenlake",
+								"hpe",
+								"com"
+							],
+							"path": [
+								"devices",
+								"v1",
+								"devices"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "The first step of onboarding is to add devices to the GLP workspace. For this step, you need the device's unique Serial Number and MAC Address. The device Serial Number and MAC Address are listed physically on the device itself. Each device type has a slightly different location for this information:\n\n- Access Points: Bottom of the device\n    \n- AOS-CX Switch: A tab you can pull out and view\n    \n- Gateways: Back of the device\n    \n\nOn the CLI of the device, you can also run an equivalent 'show system' command, which differs depending on whether you're on AOS-CX, AOS8, or AOS10.\n\n- AOS-CX Switch CLI: `show system`\n    \n- AOS10 CLI: `show inventory`\n    \n\nOnce you have identified the device's serial number and MAC address, save these as the `device_sn` and `device_mac` Postman collection variables, respectively. You can then run the **Add Device(s)** API call.  \nThis is an asynchronous operation. If the add device API call has been accepted, you will receive a 202 API response code. You need to verify the device was added by logging into the GLP workspace. You can now continue with the rest of the onboarding process."
+		},
+		{
+			"name": "Step 2 - Assign Device to Application",
+			"item": [
+				{
+					"name": "Get Service Manager(s)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://global.api.greenlake.hpe.com/service-catalog/v1/service-managers",
+							"protocol": "https",
+							"host": [
+								"global",
+								"api",
+								"greenlake",
+								"hpe",
+								"com"
+							],
+							"path": [
+								"service-catalog",
+								"v1",
+								"service-managers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Device(s)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://global.api.greenlake.hpe.com/devices/v1/devices?select=id,serialNumber,macAddress",
+							"protocol": "https",
+							"host": [
+								"global",
+								"api",
+								"greenlake",
+								"hpe",
+								"com"
+							],
+							"path": [
+								"devices",
+								"v1",
+								"devices"
+							],
+							"query": [
+								{
+									"key": "select",
+									"value": "id,serialNumber,macAddress"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Device(s) to Application",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 202) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.transactionId) {",
+									"        pm.collectionVariables.set(\"device_app_transaction_id\", jsonData.transactionId);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const requiredVars = ['glp_token', 'glp_device_id', 'central_application_id', 'central_application_region']; ",
+									"let missingVars = [];",
+									"",
+									"requiredVars.forEach(varName => {",
+									"    if (!pm.collectionVariables.has(varName) || !pm.collectionVariables.get(varName)) {",
+									"        missingVars.push(varName);",
+									"    }",
+									"});",
+									"",
+									"if (missingVars.length > 0) {",
+									"    throw new Error(",
+									"        `Missing required collection variable(s): ${missingVars.join(', ')}. Please set them in your collection variables.`",
+									"    );",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"application\": {\n    \"id\": \"{{central_application_id}}\"\n  },\n   \"region\": \"{{central_application_region}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://global.api.greenlake.hpe.com/devices/v1/devices?id={{glp_device_id}}",
+							"protocol": "https",
+							"host": [
+								"global",
+								"api",
+								"greenlake",
+								"hpe",
+								"com"
+							],
+							"path": [
+								"devices",
+								"v1",
+								"devices"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{glp_device_id}}",
+									"description": "GLP ID of device"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Device Assignment Status (Get progress of async operations in devices)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://global.api.greenlake.hpe.com/devices/v1/async-operations/{{device_app_transaction_id}}",
+							"protocol": "https",
+							"host": [
+								"global",
+								"api",
+								"greenlake",
+								"hpe",
+								"com"
+							],
+							"path": [
+								"devices",
+								"v1",
+								"async-operations",
+								"{{device_app_transaction_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "After devices have been added to a GLP workspace, they need to be assigned to a Central application. Ensure that the following collection variables are populated:\n\n1. `central_application_id` - The central application ID can be determined by making a **Get Service Manager(s)** API call. The \"id\" variable in the same array element as the Central application whose name matches the \"name\" key is the central application ID.\n    \n2. `central_application_region` - The central application region that corresponds to the region's deployment can be found in the following [list here](https://developer.greenlake.hpe.com/docs/greenlake/services/service-catalog/public/glossary/#region).\n    \n3. `glp_device_id` - This can be found with the **Get Device** API call. For each device, the device's GLP ID will be returned with the 'id' attribute. You need to save the \"id\" attribute for the device you would like to assign to the application.\n    \n\nThe **Assign Device(s) to Application** API call is an asynchronous operation. If the API call has been accepted, you will receive a 202 response with a transaction_id. The transaction ID will automatically be saved to the `device_app_transaction_id` Postman variable.\n\nYou can then run the **Get Device Assignment Status** API call to verify that the device assignment operation was successful. The API response will include `status` and `results` attributes, which will indicate if the device assignment to the application was successful or failed."
+		},
+		{
+			"name": "Step 3 - Apply Subscription to Device",
+			"item": [
+				{
+					"name": "Get Subscription(s)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://global.api.greenlake.hpe.com/subscriptions/v1/subscriptions?select=id,key",
+							"protocol": "https",
+							"host": [
+								"global",
+								"api",
+								"greenlake",
+								"hpe",
+								"com"
+							],
+							"path": [
+								"subscriptions",
+								"v1",
+								"subscriptions"
+							],
+							"query": [
+								{
+									"key": "select",
+									"value": "id,key"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Device(s)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://global.api.greenlake.hpe.com/devices/v1/devices?select=id,serialNumber,macAddress",
+							"protocol": "https",
+							"host": [
+								"global",
+								"api",
+								"greenlake",
+								"hpe",
+								"com"
+							],
+							"path": [
+								"devices",
+								"v1",
+								"devices"
+							],
+							"query": [
+								{
+									"key": "select",
+									"value": "id,serialNumber,macAddress"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Apply Subscription to Device(s)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 202) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.transactionId) {",
+									"        pm.collectionVariables.set(\"device_sub_transaction_id\", jsonData.transactionId);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const requiredVars = ['glp_token', 'glp_device_id', 'glp_subscription_id']; ",
+									"let missingVars = [];",
+									"",
+									"requiredVars.forEach(varName => {",
+									"    if (!pm.collectionVariables.has(varName) || !pm.collectionVariables.get(varName)) {",
+									"        missingVars.push(varName);",
+									"    }",
+									"});",
+									"",
+									"if (missingVars.length > 0) {",
+									"    throw new Error(",
+									"        `Missing required collection variable(s): ${missingVars.join(', ')}. Please set them in your collection variables.`",
+									"    );",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"subscription\": [\n    {\n      \"id\": \"{{glp_subscription_id}}\"\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://global.api.greenlake.hpe.com/devices/v1/devices?id={{glp_device_id}}",
+							"protocol": "https",
+							"host": [
+								"global",
+								"api",
+								"greenlake",
+								"hpe",
+								"com"
+							],
+							"path": [
+								"devices",
+								"v1",
+								"devices"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{glp_device_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Subscription Assignment Status (Get progress of async operations in devices)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://global.api.greenlake.hpe.com/devices/v1/async-operations/{{device_sub_transaction_id}}",
+							"protocol": "https",
+							"host": [
+								"global",
+								"api",
+								"greenlake",
+								"hpe",
+								"com"
+							],
+							"path": [
+								"devices",
+								"v1",
+								"async-operations",
+								"{{device_sub_transaction_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "The next onboarding step is applying subscriptions to devices. There are two variables needed for this step:\n\n1. `glp_device_id` - This can be found with the **Get Device(s)** API call. For each device, the device's GLP ID will be returned with the 'id' attribute. You need to save the \"id\" attribute for the device you would like to apply the subscription to.\n    \n2. `glp_subscription_id` - This can be found with the **Get Subscription(s)** API call. For each subscription, the subscription's GLP ID will be returned with the 'id' attribute. You need to save the \"id\" attribute for the subscription you would like to apply to the device.\n    \n\nThe **Apply Subscription to Device(s)** API call is an asynchronous operation. If the API call has been accepted, you will receive a 202 response with a transaction_id. The transaction ID will automatically be saved to the `device_sub_transaction_id` Postman variable.\n\nYou can then run the **Get Subscription Assignment Status** API call to verify that the subscription assignment operation was successful. The API response will include `status` and `results` attributes, which will indicate if the subscription assignment to the device was successful or failed."
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{glp_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "client_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "client_secret",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "glp_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "device_mac",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "device_sn",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "central_application_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "central_application_region",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "glp_device_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "glp_subscription_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "device_app_transaction_id",
+			"value": ""
+		},
+		{
+			"key": "device_sub_transaction_id",
+			"value": ""
+		}
+	]
+}

@@ -1,0 +1,15 @@
+device_group:
+  group_attributes:
+    template_info:
+      Wired: false
+    group_properties:
+      AllowedDevTypes:
+        - AccessPoints
+        - Gateways
+        - Switches
+      Architecture: AOS10
+      ApNetworkRole: Standard
+      GwNetworkRole: BranchGateway
+      AllowedSwitchTypes:
+        - AOS_CX
+      NewCentral: true

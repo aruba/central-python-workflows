@@ -1,0 +1,8 @@
+TJ25-Orlando:
+    - device_type: IAP
+      devices:
+          - PHQSLBN5HB
+          - PHQSLBN56K
+# Change this to match your AP Device Group
+# You can find this by executing a GET on /network-config/v1alpha1/hierarchy?scopeType=device&scopeId=<AP_SCOPE_ID>          
+AP_GROUP: 11111222233333          
