@@ -9,7 +9,7 @@ This repository contains Python based workflows & code samples that utilize [Cla
   - Move Devices to the newly created Group.
   - Create a Site
   - Move Devices to the newly created Site.
-- [Device Onboarding](/Classic-Central/device_onboarding)
+- [Device Onboarding](/Classic-Central/device_onboarding/)
   - Assign Devices to Central Application Instance
   - Provide Devices with Central Subscriptions.
   - Create a template group (Template-based group)
@@ -17,14 +17,14 @@ This repository contains Python based workflows & code samples that utilize [Cla
   - Move Devices to the newly created Group.
   - Create a Site
   - Move Devices to the newly created Site.
-- [MSP Customer Onboarding](/Classic-Central/msp_customer_onboarding)
+- [MSP Customer Onboarding](/Classic-Central/msp_customer_onboarding/)
   - Create a customer account within the Greenlake MSP account
   - Install an Classic Central instance in the customer account & set the default group.
   - Move & assign subscriptions to devices in the customer's Central Instance
   - Optional Steps
     - Create a Site in the customer's Central instance
     - Move Devices to the newly created Site.
-- [MSP Customer Deletion](/Classic-Central/msp_customer_deletion)
+- [MSP Customer Deletion](/Classic-Central/msp_customer_deletion/)
   - Unassigns all devices & licenses within the customer's Classic Central Instance. The devices & licenses will be moved back to the MSP's inventory.
   - Uninstall the customer's Classic Central instance
   - Delete the customer's Greenlake Instance
@@ -38,11 +38,11 @@ This repository contains Python based workflows & code samples that utilize [Cla
   This workflow can be used to fetch additional details for device inventory in Classic Central & export it as a CSV.
 - [Device Inventory Migration](/Classic-Central/device_inventory_migration/)
   This workflow automates the migration of multiple devices between two Classic Central accounts.
-- [User Provisioning](/Classic-Central/user_provisioning)\
+- [User Provisioning](/Classic-Central/user_provisioning/)\
   This workflow can be used to provision new users to HPE Greenlake and Classic Central.
-- [Bulk Renaming of APs (with CSV)](/Classic-Central/renaming_aps)\
+- [Bulk Renaming of APs (with CSV)](/Classic-Central/renaming_aps/)\
   This workflow can be used to rename access points in Classic Central with a custom CSV upload of serial numbers and names.
-- [Connected Clients](/Classic-Central/connected_clients)
+- [Connected Clients](/Classic-Central/connected_clients/)
   - Gather connected client information based on site name and time frame
   - Output csv files are generated and created within workflow folder
 - [Classic Central Postman Collection](https://www.postman.com/hpe-aruba-networking/workspace/hpe-aruba-networking-central/overview)\
@@ -52,7 +52,7 @@ To manage REST APIs in Classic Central, go to `MAINTAIN -> ORGANIZATION -> PLATF
 Learn more about Classic Central REST APIs [here](https://developer.arubanetworks.com/central/docs/api-getting-started).
 
 ## Classic Central Streaming API
-- [Streaming API Websocket Client Application](/Classic-Central/streaming-api-client)
+- [Streaming API Websocket Client Application](/Classic-Central/streaming-api-client/)
 The sample script in this section contains sample websocket client application based on python. 
 The sample python script would establish a websocket connection and decode the google protobuf message to human readable format.
 
@@ -61,7 +61,7 @@ Learn more about Classic Central Streaming APIs [here](https://developer.arubane
 
 ## Classic Central Webhooks
 
-- [Webhook Client application](/Classic-Central/webhooks)
+- [Webhook Client application](/Classic-Central/webhooks/)
 The sample script in this section would start a HTTP(s) client to receive Alerts from Classic Central via webhooks. 
 
 To manage Webhooks in Classic Central, go to `MAINTAIN -> ORGANIZATION -> PLATFORM INTEGRATION -> WEBHOOKS`.\
