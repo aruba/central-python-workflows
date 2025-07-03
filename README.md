@@ -20,7 +20,7 @@ Each folder represents a self-contained workflow. Inside each, you’ll find:
 > 
 >We will make every effort to keep these workflows up to date. If you encounter any issues or inconsistencies, please open an issue in this repository.
 
-### [Onboarding](/cnx-device-onboarding/)
+### [Onboarding](/central-device-onboarding/)
 This script automates onboarding of devices in HPE Aruba Networking Central to make them ready for configuration via **New Central**. It simplifies and sequences key onboarding steps needed after a device is assigned & subscribed to the Central application.
 - Assign Device to Site
   - Site Creation(Optional)

@@ -39,7 +39,7 @@ The script performs the following onboarding steps:
 Clone this repository and `cd` into the workflow directory:
 ```bash
 git clone -b "v2(pre-release)" https://github.com/aruba/central-python-workflows.git
-cd central-python-workflows/cnx-device-onboarding
+cd central-python-workflows/central-device-onboarding
 ```
    
 Create and activate a virtual environment:
