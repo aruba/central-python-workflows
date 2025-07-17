@@ -37,6 +37,14 @@ This workflow can:
 - Assigns these configurations to the appropriate scopes (global or group)
 - Associates devices with sites based on the inventory configuration
 
+### [Open SSID Workflow](/open-ssid-overlay/)
+This Python script automates the configuration of an **Open SSID (Opportunistic Wireless Encryption)** in New HPE Aruba Networking Central. The script performs the following actions:
+- Creates configuration profiles such as roles and policies in New Central.
+- Modifies policy groups and associates policies with them.
+- Creates Open SSID configurations with associated roles.
+- Assigns these configurations to the appropriate scopes (site or global).
+- Moves devices into site with Open SSID configuration to inherit profile.
+  
 ### [Configuration Hierarchy Report](/configuration-hierarchy/)
 This script simplifies the visualization of the configuration hierarchy in New Central via APIs. It retrieves and displays hierarchical data such as:
  - Global
