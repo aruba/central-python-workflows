@@ -1,0 +1,49 @@
+site_details:
+  name: "Open-SSID-Site"
+  address: "6280 America Center Dr"
+  city: "San Jose"
+  state: "California"
+  country: "United States"
+  zipcode: "95002"
+  timezone: "America/Los_Angeles"
+
+role_details:
+  role:
+    - name: "open-ssid-role"
+      description: "open-ssid-role description"
+
+policy_details:
+  policy:
+    - name: "open-ssid-policy"
+      type: "POLICY_TYPE_SECURITY"
+      description: "open-ssid-policy description"
+      security-policy:
+        type: "SECURITY_POLICY_TYPE_DEFAULT"
+        policy-rule:
+          - position: 1
+            description: "Allow All"
+            condition:
+              type: "CONDITION_DEFAULT"
+              rule-type: "RULE_ANY"
+              source:
+                type: "ADDRESS_ROLE"
+                role: "open-ssid-role"
+              destination:
+                type: "ADDRESS_ANY"
+            action:
+              type: "ACTION_ALLOW"
+
+policy_group_details:
+  policy-group:
+    policy-group-list:
+      - name: "open-ssid-policy"
+        position: 4
+        description: "open-ssid-policy description"
+
+ssid_details:
+  wlan-ssid:
+    - ssid: "open-ssid-wlan"
+      enable: true
+      forward-mode: "FORWARD_MODE_BRIDGE"
+      opmode: "ENHANCED_OPEN"
+      default-role: "open-ssid-role"

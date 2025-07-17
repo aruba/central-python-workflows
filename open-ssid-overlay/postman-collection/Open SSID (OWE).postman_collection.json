@@ -1,0 +1,531 @@
+{
+	"info": {
+		"_postman_id": "b04e9420-84e1-4c01-ad37-562f3b62ddce",
+		"name": "Open SSID (OWE)",
+		"description": "### **Site Management - Open SSID (OWE)**\n\n#### Use Case:\n\nAn administrator wants to set up a guest Wi-Fi network with an Open SSID. The **Open SSID (OWE)** workflow focuses on creating and managing Open SSIDs (Opportunistic Wireless Encryption) for sites. This includes creating SSIDs, associating them with roles, assigning them to specific sites, and managing role-based policies and policy groups.\n\n---\n\n#### **Key Functionalities**:\n\n- Define an open SSID with specific properties such as name, encryption type, and associated roles.\n    \n- Link an open SSID to a specific site for enabling guest or public Wi-Fi access.\n    \n- Create roles and assign them to sites or SSIDs for access control.\n    \n- Define role-based policies and assign them to sites for enforcing access control rules.\n    \n- Group multiple policies together for easier management and application.\n    \n\n---\n\n#### **Relevant POST Requests**:\n\n1. **Create Role**: Creates a role that can be associated with an open SSID.\n    \n2. **Assign Role to Site**: Assigns a role to a specific site for access control.\n    \n3. **Create Role-Based Policy**: Creates a role-based policy with specific rules and descriptions.\n    \n4. **Add to Policy Groups**: Adds a role-based policy to a policy group for easier management.\n    \n5. **Assign Role-Based Policy to Site**: Assigns a role-based policy to a specific site.\n    \n6. **Create Open SSID w/ Role**: Creates an open SSID with properties such as name, encryption type, and associated roles.\n    \n7. **Assign Open SSID to Site**: Assigns an open SSID to a specific site.\n    \n\n---\n\n#### **Steps**:\n\n1. **Create a Role**: Use the `Create Role` request to define roles for access control.\n    \n2. **Assign the Role to a Site**: Use the `Assign Role to Site` request to associate the role with a specific site.\n    \n3. **Create a Role-Based Policy**: Use the `Create Role-Based Policy` request to define a policy with specific rules.\n    \n4. **Add the Policy to a Group**: Use the `Add to Policy Groups` request to group the policy with others for easier management.\n    \n5. **Assign the Role-Based Policy to a Site**: Use the `Assign Role-Based Policy to Site` request to apply the policy to a specific site.\n    \n6. **Create an Open SSID**: Use the `Create Open SSID w/ Role` request to define the SSID properties and associate it with roles.\n    \n7. **Assign the Open SSID to a Site**: Use the `Assign Open SSID to Site` request to link the SSID to a specific site.\n    \n\n---\n\n#### **API Automation Opportunities**:\n\n- Automate the creation of roles and their assignment to sites.\n    \n- Automate the creation and assignment of role-based policies to sites.\n    \n- Automate the grouping of policies for streamlined management.\n    \n- Automate the creation and assignment of open SSIDs to sites for guest or public Wi-Fi access.\n    \n\n---",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16823413"
+	},
+	"item": [
+		{
+			"name": "1. Create Site",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{site_name}}\",\n    \"address\": \"{{site_address}}\",\n    \"city\": \"{{site_city}}\",\n    \"state\": \"{{site_state}}\",\n    \"country\": \"{{site_country}}\",\n    \"zipcode\": \"{{site_zipcode}}\",\n    \"timezone\": {\n        \"timezoneName\": \"{{site_timezone_name}}\",\n        \"rawOffset\": {{site_raw_offset}},\n        \"timezoneId\": \"{{site_timezone_id}}\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/sites",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"sites"
+					]
+				},
+				"description": "Create Site with properties"
+			},
+			"response": []
+		},
+		{
+			"name": "2. Get Sites",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/sites",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"sites"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. Get Devices",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/network-monitoring/v1alpha1/devices?filter=siteId eq '{{site_id}}'",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-monitoring",
+						"v1alpha1",
+						"devices"
+					],
+					"query": [
+						{
+							"key": "filter",
+							"value": "siteId eq '{{site_id}}'"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4. Create Role",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"role\": [\r\n    {\r\n      \"name\": \"{{role_name}}\",\r\n      \"description\": \"{{role_description}}\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/roles",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"roles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5. Assign Role to Site",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"scope-map\": [\r\n        {\r\n            \"scope-name\": \"{{site_id}}\",\r\n            \"persona\": \"{{site_profile_persona}}\",\r\n            \"resource\": \"/roles/{{role_name}}\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/scope-maps",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"scope-maps"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. Get Roles",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/roles",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"roles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7. Create Role-Based Policy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"policy\": [\r\n    {\r\n        \"name\": \"{{role_based_policy_name}}\",\r\n        \"type\": \"POLICY_TYPE_SECURITY\",\r\n        \"description\": \"{{role_based_policy_description}}\",\r\n        \"security-policy\": {\r\n            \"type\": \"SECURITY_POLICY_TYPE_DEFAULT\",\r\n            \"policy-rule\": [\r\n                {\r\n                    \"position\": 1,\r\n                    \"description\": \"Allow All\",\r\n                    \"condition\": {\r\n                        \"type\": \"CONDITION_DEFAULT\",\r\n                        \"rule-type\": \"RULE_ANY\",\r\n                        \"source\": {\r\n                            \"type\": \"ADDRESS_ROLE\",\r\n                            \"role\": \"{{role_name}}\"\r\n                        },\r\n                        \"destination\": {\r\n                            \"type\": \"ADDRESS_ANY\"\r\n                        }\r\n                    },\r\n                    \"action\": {\r\n                        \"type\": \"ACTION_ALLOW\"\r\n                    }\r\n                }\r\n            ]\r\n        }\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/policies",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"policies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8. Get Role-Based Policy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/policies",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"policies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "9. Add to Policy Groups",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"policy-group\": {\n    \"policy-group-list\": [\n      {\n        \"name\": \"{{role_based_policy_name}}\",\n        \"position\": 4,\n        \"description\": \"{{role_based_policy_description}}\"\n      }\n    ]\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/policy-groups",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"policy-groups"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "10. Get Policy Groups",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"policy-group\": {\n    \"policy-group-list\": [\n      {\n        \"name\": \"{{role_based_policy_name}}\",\n        \"position\": 4,\n        \"description\": \"{{role_based_policy_description}}\"\n      }\n    ]\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/policy-groups",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"policy-groups"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "11. Assign Role-Based Policy to Site",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"scope-map\": [\r\n        {\r\n            \"scope-name\": \"{{site_id}}\",\r\n            \"persona\": \"{{site_profile_persona}}\",\r\n            \"resource\": \"/policies/{{role_based_policy_name}}\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/scope-maps",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"scope-maps"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "12. Create Open SSID w/ Role",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"wlan-ssid\": [\r\n        {\r\n            \"ssid\": \"lsv-wlan\",\r\n            \"enable\": true,\r\n            \"forward-mode\": \"FORWARD_MODE_BRIDGE\",\r\n            \"dmo\": {\r\n                \"enable\": true,\r\n                \"channel-utilization-threshold\": 90,\r\n                \"clients-threshold\": 6\r\n            },\r\n            \"broadcast-filter-ipv4\": \"BCAST_FILTER_ARP\",\r\n            \"broadcast-filter-ipv6\": \"UCAST_FILTER_RA\",\r\n            \"optimize-mcast-rate\": false,\r\n            \"ssid-utf8\": true,\r\n            \"essid\": {\r\n                \"use-alias\": false,\r\n                \"name\": \"lsv-wlan\"\r\n            },\r\n            \"advertise-apname\": false,\r\n            \"disable-on-6ghz-mesh\": false,\r\n            \"dot11k\": true,\r\n            \"dtim-period\": 1,\r\n            \"ftm-responder\": false,\r\n            \"hide-ssid\": false,\r\n            \"auth-req-thresh\": 0,\r\n            \"explicit-ageout-client\": false,\r\n            \"inactivity-timeout\": 1000,\r\n            \"local-probe-req-thresh\": 0,\r\n            \"max-clients-threshold\": 1024,\r\n            \"rf-band\": \"24GHZ_5GHZ\",\r\n            \"rrm-quiet-ie\": false,\r\n            \"high-throughput\": {\r\n                \"enable\": true,\r\n                \"very-high-throughput\": true\r\n            },\r\n            \"g-legacy-rates\": {\r\n                \"basic-rates\": [\r\n                    \"RATE_12MB\",\r\n                    \"RATE_24MB\"\r\n                ],\r\n                \"tx-rates\": [\r\n                    \"RATE_12MB\",\r\n                    \"RATE_18MB\",\r\n                    \"RATE_24MB\",\r\n                    \"RATE_36MB\",\r\n                    \"RATE_48MB\",\r\n                    \"RATE_54MB\"\r\n                ]\r\n            },\r\n            \"a-legacy-rates\": {\r\n                \"basic-rates\": [\r\n                    \"RATE_12MB\",\r\n                    \"RATE_24MB\"\r\n                ],\r\n                \"tx-rates\": [\r\n                    \"RATE_12MB\",\r\n                    \"RATE_18MB\",\r\n                    \"RATE_24MB\",\r\n                    \"RATE_36MB\",\r\n                    \"RATE_48MB\",\r\n                    \"RATE_54MB\"\r\n                ]\r\n            },\r\n            \"high-efficiency\": {\r\n                \"enable\": true\r\n            },\r\n            \"extremely-high-throughput\": {\r\n                \"enable\": true,\r\n                \"mlo\": false\r\n            },\r\n            \"opmode\": \"ENHANCED_OPEN\",\r\n            \"mac-authentication\": false,\r\n            \"use-ip-for-calling-station-id\": false,\r\n            \"called-station-id\": {\r\n                \"type\": \"MAC_ADDRESS\",\r\n                \"include-ssid\": false\r\n            },\r\n            \"cloud-auth\": false,\r\n            \"default-role\": \"lsv-role\",\r\n            \"wpa3-transition-mode-enable\": true,\r\n            \"denylist\": true,\r\n            \"max-authentication-failures\": 0,\r\n            \"enforce-dhcp\": false,\r\n            \"pan\": false,\r\n            \"vlan-selector\": \"VLAN_RANGES\",\r\n            \"vlan-id-range\": [\r\n                \"1\"\r\n            ],\r\n            \"out-of-service\": \"NONE\",\r\n            \"client-isolation\": false\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/wlan-ssids",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"wlan-ssids"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "13. Assign Open SSID to Site",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"scope-map\": [\r\n        {\r\n            \"scope-name\": \"{{site_id}}\",\r\n            \"persona\": \"{{site_profile_persona}}\",\r\n            \"resource\": \"/wlan-ssids/{{open_ssid_name}}\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/scope-maps",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"scope-maps"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "14. Get Open SSIDs",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/wlan-ssids?view_type=LOCAL&scope_id={{scope_id}}&persona={{persona}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"wlan-ssids"
+					],
+					"query": [
+						{
+							"key": "view_type",
+							"value": "LOCAL"
+						},
+						{
+							"key": "scope_id",
+							"value": "{{scope_id}}"
+						},
+						{
+							"key": "persona",
+							"value": "{{persona}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
