@@ -50,7 +50,8 @@ This script simplifies the visualization of the configuration hierarchy in New C
  - Global
  - Site collections
  - Sites
- - Devices 
+ - Devices
+
 You’ll get this data in a terminal-friendly summary as well as in a CSV file, with key attributes like scope-id and persona which are required for configuration and monitoring APIs.
 
 ### [Rename Hostnames](/rename-hostnames/)
