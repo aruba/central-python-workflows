@@ -1,6 +1,6 @@
 # Configuration Hierarchy Report
 
-This script simplifies the reporting of the configuration hierarchy from HPE Aruba Networking Central using new Central APIs. It retrieves hierarchical data—including sites, site collections, and devices (note: device groups are not currently supported) and presents it in both a terminal summary table and a CSV file.
+This script simplifies the reporting of the configuration hierarchy from HPE Aruba Networking Central using new Central APIs. It retrieves hierarchical data—including sites, site collections, devices, & device groups and presents it in both a terminal summary table and a CSV file.
 
 By visualizing the configuration hierarchy, network administrators can quickly understand the structure of their Central environment, and locate key attributes such as `scope-id` and `persona`. These attributes are essential for making configuration changes via the New Central APIs.
 
@@ -15,21 +15,16 @@ By visualizing the configuration hierarchy, network administrators can quickly u
 
 ## Setup
 
-**Clone this repository and `cd` into the workflow directory:**
-```bash
-git clone -b "v2(pre-release)" https://github.com/aruba/central-python-workflows.git
-cd central-python-workflows/configuration-hierarchy
-```
-**Create a virtual environment (recommended):**
-```sh
-python -m venv env
-source env/bin/activate  # On Windows: env\Scripts\activate
-```
+1. **Create a virtual environment (recommended):**
+    ```sh
+    python -m venv env
+    source env/bin/activate  # On Windows: env\Scripts\activate
+    ```
 
-**Install required packages:**
-```bash
-pip install -r requirements.txt
-```
+2. **Install required packages:**
+    ```sh
+    pip install -r requirements.txt
+    ```
 
 ## Input Files
 
@@ -64,10 +59,22 @@ python hierarchy_report.py -c account_credentials.yaml -o my_hierarchy.csv
 ```
 
 ## Output
+The script generates configuration hierarchy information in two formats:
 
-- **Terminal Table**: Displays the configuration hierarchy in a formatted table.
-- **CSV File**: Saves the hierarchy report to the specified CSV file (default: `hierarchy_report.csv`).
-- **Sample Output**: ![Sample Output](configuration_hierarchy.gif)
+- **Terminal Table**: Displays the hierarchy in a formatted table for immediate viewing
+- **CSV File**: Saves the complete report to the specified CSV file (default: `hierarchy_report.csv`)
+
+### Understanding the Output Table
+
+Each row in the output(terminal table or csv file) represents a scope component in your Central configuration hierarchy. The table contains the following columns:
+
+- **Type**: The hierarchical level - Global (top-level), Site Collection, Site, Device, or Device Group
+- **Name**: The display name of the scope element as it appears in Central
+- **Scope-ID**: The ID of the scope element. This is the unique identifier needed to identify the scope element for any new Central APIs.
+- **Serial**: Device serial number (only for Devices)
+- **Device Function (Persona)**: Role of the device along with it's configuration persona in parentheses, which is needed for new Central APIs (only for Devices)
+
+**Sample Output**: ![Sample Output](configuration_hierarchy.gif)
 
 ## Troubleshooting
 
