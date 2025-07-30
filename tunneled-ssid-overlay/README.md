@@ -17,7 +17,7 @@ This script assumes the following regarding your New Central environment:
 - Underlay is configured with Gateways in established cluster
 
 This script relies on the following Python packages:
-- `pycentral` - New Central's API client library [(beta version v2.0beta2)](https://github.hpe.com/hpe/pycentral/releases/tag/2.0beta2)
+- `pycentral` - New Central's API client library
 - `PyYAML` - YAML parsing for configuration files
 - `termcolor` - For colorized console output
 
