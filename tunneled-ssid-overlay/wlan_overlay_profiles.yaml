@@ -47,6 +47,7 @@ overlay-wlan:
     - cluster: "zulu_cluster"
       # Change the cluster-scope-id to match your AP Device Group
       # You can find this by executing a GET on /network-config/v1alpha1/hierarchy?scopeType=device&scopeId=<AP_SCOPE_ID>
+      # Script will also automatically set this to the device group ID of the IAP group
       cluster-scope-id: 11111222233333
       cluster-redundancy-type: "PRIMARY"
       cluster-type: "CLUSTER_ID"
