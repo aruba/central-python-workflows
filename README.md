@@ -1,4 +1,7 @@
 # central-python-workflows
+> [!NOTE]
+> If you’re looking for Classic Central workflows, please click [here](/Classic-Central/)
+
 This repository contains Python-based workflows, code samples, and where applicable, Postman collections to help automate and integrate with New Central and HPE GreenLake Platform (GLP) APIs.
 It leverages the [pycentral SDK](https://pypi.org/project/pycentral/) to interact with Central’s APIs and extensibility features.
 
@@ -7,8 +10,6 @@ Each folder represents a self-contained workflow. Inside each, you’ll find:
 - All required scripts, data files (like CSVs), and Postman collections (if applicable)
 - Clear setup and execution instructions
 
-> [!NOTE]
-> If you’re looking for Classic Central workflows, please click [here](/Classic-Central/)
 
 
 ## New Central Workflows
@@ -56,6 +57,12 @@ You’ll get this data in a terminal-friendly summary as well as in a CSV file, 
 
 ### [Rename Hostnames](/rename-hostnames/)
 This script can help you rename the hostname of devices. You can provide a CSV file containing device serial numbers and their corresponding new hostnames. The script reads this file and updates each device's hostname in Central accordingly, automating the renaming process at scale.
+
+### [Profile Operations](/profile-operations/)
+This workflow showcases how to connect to Central and demonstrates the two main approaches to profile operations with Pycentral:
+- Connecting to Central with the Pycentral base object
+- Individual Profile Operations
+- Bulk Profile Operations
 
 ## HPE Greenlake Platform Workflows
 
