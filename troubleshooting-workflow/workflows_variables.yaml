@@ -1,0 +1,5 @@
+devices:
+  - serial: DL0006931
+    name: BO-BLR-GTW02
+    ping_destination: 8.8.8.8
+    iperf_server: 154.81.51.4

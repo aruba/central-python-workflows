@@ -17,17 +17,11 @@ This script assumes the following regarding your New Central environment:
 - Underlay is configured with Gateways in established cluster
 
 This script relies on the following Python packages:
-- `pycentral` - New Central's API client library
+- `pycentral` - New Central's API client library [(beta version v2.0beta2)](https://github.hpe.com/hpe/pycentral/releases/tag/2.0beta2)
 - `PyYAML` - YAML parsing for configuration files
 - `termcolor` - For colorized console output
 
 ## Installation
-
-Clone this repository and `cd` into the workflow directory:
-```bash
-  git clone -b "v2(pre-release)" https://github.com/aruba/central-python-workflows.git
-  cd central-python-workflows/tunneled-ssid-overlay
-```
 
 ### Setting up a Virtual Environment
 

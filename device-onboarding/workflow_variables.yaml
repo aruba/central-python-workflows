@@ -1,0 +1,62 @@
+devices:
+  - serial_number: "CNXXXXXXXX"
+    # GLP Variables (Required for complete onboarding)
+    application_assignment:
+      name: "HPE Aruba Networking Central"
+      region: "US West"
+    subscription_assignment:
+      key: "your-subscription-key"
+    # Central Variables (Required)
+    device_type: ACCESS_POINT
+    persona: Campus AP
+    device_group: Onboarding_Device
+    site: "Building_A"
+
+  - serial_number: "CNXXXXXXXY"
+    # GLP Variables (Required for complete onboarding)
+    application_assignment:
+      name: "HPE Aruba Networking Central"
+      region: "US West"
+    subscription_assignment:
+      key: "your-subscription-key"
+    # Central Variables (Required)
+    device_type: SWITCH
+    persona: Access Switch
+    device_group: Onboarding_Device
+    site: "Building_B"
+
+# Site definitions (will be created if they don't exist)
+sites:
+  - name: "Building_A"
+    address: "123 Main Street"
+    city: "San Jose"
+    state: "California"
+    country: "United States"
+    zipcode: "95110"
+    timezone: "America/Los_Angeles"
+
+  - name: "Building_B"
+    address: "456 Oak Avenue"
+    city: "San Jose"
+    state: "California"
+    country: "United States"
+    zipcode: "95111"
+    timezone: "America/Los_Angeles"
+
+# Device group definitions (will be created if they don't exist)
+device_groups:
+  - group: Onboarding_Device
+    group_attributes:
+      template_info:
+        Wired: false
+      group_properties:
+        AllowedDevTypes:
+          - AccessPoints
+          - Gateways
+          - Switches
+        Architecture: AOS10
+        ApNetworkRole: Standard
+        GwNetworkRole: BranchGateway
+        AllowedSwitchTypes:
+          - AOS_CX
+        NewCentral: true
