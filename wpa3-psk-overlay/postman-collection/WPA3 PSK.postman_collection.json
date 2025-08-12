@@ -1,0 +1,531 @@
+{
+	"info": {
+		"_postman_id": "8a281dda-bda9-45e7-b116-19e9c1ad3154",
+		"name": "WPA3 PSK",
+		"description": "### **Site Management - WPA3 PSK**\n\n#### Use Case:\n\nAn administrator wants to set up a secure Wi-Fi network with a WPA3 PSK (Wi-Fi Protected Access 3 - Pre-Shared Key). The **WPA3 PSK** workflow focuses on creating and managing WPA3 PSKs for sites. This includes creating WPA3 PSKs, associating them with roles, assigning them to specific sites, and managing role-based policies and policy groups.\n\n---\n\n#### **Key Functionalities**:\n\n- Define a WPA3 PSK SSID with specific properties such as name, encryption type, and associated roles.\n    \n- Link a WPA3 PSK SSID to a specific site for enabling secure Wi-Fi access.\n    \n- Create roles and assign them to sites or WPA3 PSKs for access control.\n    \n- Define role-based policies and assign them to sites for enforcing access control rules.\n    \n- Group multiple policies together for easier management and application.\n    \n\n---\n\n#### **Relevant POST Requests**:\n\n1. **Create Role**: Creates a role that can be associated with a WPA3 PSK SSID.\n    \n2. **Assign Role to Site**: Assigns a role to a specific site for access control.\n    \n3. **Create Role-Based Policy**: Creates a role-based policy with specific rules and descriptions.\n    \n4. **Add to Policy Groups**: Adds a role-based policy to a policy group for easier management.\n    \n5. **Assign Role-Based Policy to Site**: Assigns a role-based policy to a specific site.\n    \n6. **Create WPA3 PSK SSID w/ Role**: Creates a WPA3 PSK SSID with properties such as name, encryption type, and associated roles.\n    \n7. **Assign WPA3 PSK SSID to Site**: Assigns a WPA3 PSK SSID to a specific site.\n    \n\n---\n\n#### **Steps**:\n\n1. **Create a Role**: Use the `Create Role` request to define roles for access control.\n    \n2. **Assign the Role to a Site**: Use the `Assign Role to Site` request to associate the role with a specific site.\n    \n3. **Create a Role-Based Policy**: Use the `Create Role-Based Policy` request to define a policy with specific rules.\n    \n4. **Add the Policy to a Group**: Use the `Add to Policy Groups` request to group the policy with others for easier management.\n    \n5. **Assign the Role-Based Policy to a Site**: Use the `Assign Role-Based Policy to Site` request to apply the policy to a specific site.\n    \n6. **Create a WPA3 PSK SSID**: Use the `Create WPA3 PSK w/ Role` request to define the SSID properties and associate it with roles.\n    \n7. **Assign the WPA3 PSK SSID to a Site**: Use the `Assign WPA3 PSK to Site` request to link the SSID to a specific site.\n    \n\n---\n\n#### **API Automation Opportunities**:\n\n- Automate the creation of roles and their assignment to sites.\n    \n- Automate the creation and assignment of role-based policies to sites.\n    \n- Automate the grouping of policies for streamlined management.\n    \n- Automate the creation and assignment of WPA3 PSKs to sites for secure Wi-Fi access.\n    \n\n---",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16823413"
+	},
+	"item": [
+		{
+			"name": "1. Create Site",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{site_name}}\",\n    \"address\": \"{{site_address}}\",\n    \"city\": \"{{site_city}}\",\n    \"state\": \"{{site_state}}\",\n    \"country\": \"{{site_country}}\",\n    \"zipcode\": \"{{site_zipcode}}\",\n    \"timezone\": {\n        \"timezoneName\": \"{{site_timezone_name}}\",\n        \"rawOffset\": {{site_raw_offset}},\n        \"timezoneId\": \"{{site_timezone_id}}\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/sites",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"sites"
+					]
+				},
+				"description": "Create Site with properties"
+			},
+			"response": []
+		},
+		{
+			"name": "2. Get Sites",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/sites",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"sites"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. Get Devices",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/network-monitoring/v1alpha1/devices?filter=siteId eq '{{site_id}}'",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-monitoring",
+						"v1alpha1",
+						"devices"
+					],
+					"query": [
+						{
+							"key": "filter",
+							"value": "siteId eq '{{site_id}}'"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4. Create Role",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"role\": [\r\n    {\r\n      \"name\": \"{{role_name}}\",\r\n      \"description\": \"{{role_description}}\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/roles",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"roles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5. Assign Role to Site",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"scope-map\": [\r\n        {\r\n            \"scope-name\": \"{{site_id}}\",\r\n            \"persona\": \"{{site_profile_persona}}\",\r\n            \"resource\": \"/roles/{{role_name}}\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/scope-maps",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"scope-maps"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. Get Roles",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/roles",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"roles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7. Create Role-Based Policy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"policy\": [\r\n    {\r\n        \"name\": \"{{role_based_policy_name}}\",\r\n        \"type\": \"POLICY_TYPE_SECURITY\",\r\n        \"description\": \"{{role_based_policy_description}}\",\r\n        \"security-policy\": {\r\n            \"type\": \"SECURITY_POLICY_TYPE_DEFAULT\",\r\n            \"policy-rule\": [\r\n                {\r\n                    \"position\": 1,\r\n                    \"description\": \"Allow All\",\r\n                    \"condition\": {\r\n                        \"type\": \"CONDITION_DEFAULT\",\r\n                        \"rule-type\": \"RULE_ANY\",\r\n                        \"source\": {\r\n                            \"type\": \"ADDRESS_ROLE\",\r\n                            \"role\": \"{{role_name}}\"\r\n                        },\r\n                        \"destination\": {\r\n                            \"type\": \"ADDRESS_ANY\"\r\n                        }\r\n                    },\r\n                    \"action\": {\r\n                        \"type\": \"ACTION_ALLOW\"\r\n                    }\r\n                }\r\n            ]\r\n        }\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/policies",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"policies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8. Get Role-Based Policy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/policies",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"policies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "9. Add to Policy Groups",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"policy-group\": {\n    \"policy-group-list\": [\n      {\n        \"name\": \"{{role_based_policy_name}}\",\n        \"position\": 4,\n        \"description\": \"{{role_based_policy_description}}\"\n      }\n    ]\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/policy-groups",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"policy-groups"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "10. Get Policy Groups",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"policy-group\": {\n    \"policy-group-list\": [\n      {\n        \"name\": \"{{role_based_policy_name}}\",\n        \"position\": 4,\n        \"description\": \"{{role_based_policy_description}}\"\n      }\n    ]\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/policy-groups",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"policy-groups"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "11. Assign Role-Based Policy to Site",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"scope-map\": [\r\n        {\r\n            \"scope-name\": \"{{site_id}}\",\r\n            \"persona\": \"{{site_profile_persona}}\",\r\n            \"resource\": \"/policies/{{role_based_policy_name}}\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/scope-maps",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"scope-maps"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "12. Create WPA3 PSK w/ Role",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"wlan-ssid\": [\r\n    {\r\n      \"ssid\": \"lsv-wpa3-psk\",\r\n      \"enable\": true,\r\n      \"forward-mode\": \"FORWARD_MODE_BRIDGE\",\r\n      \"opmode\": \"WPA3_SAE\",\r\n      \"default-role\": \"wpa3-psk-role\",\r\n      \"personal-security\": {\r\n        \"passphrase-format\": \"STRING\",\r\n        \"wpa-passphrase\": \"vault:v4:gitIEOZL4YzPm8mHE6BlyBe++MBrvoWRyZXxfCD9ovq8u2xWUBS/0g==\"\r\n      },\r\n      \"wpa3-transition-mode-enable\": true\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/wlan-ssids",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"wlan-ssids"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "13. Assign WPA3 PSK to Site",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"scope-map\": [\r\n        {\r\n            \"scope-name\": \"{{site_id}}\",\r\n            \"persona\": \"{{site_profile_persona}}\",\r\n            \"resource\": \"/wlan-ssids/{{open_ssid_name}}\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/scope-maps",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"scope-maps"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "14. Get WPA3 PSKs",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/network-config/v1alpha1/wlan-ssids?view_type=LOCAL&scope_id={{scope_id}}&persona={{persona}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"network-config",
+						"v1alpha1",
+						"wlan-ssids"
+					],
+					"query": [
+						{
+							"key": "view_type",
+							"value": "LOCAL"
+						},
+						{
+							"key": "scope_id",
+							"value": "{{scope_id}}"
+						},
+						{
+							"key": "persona",
+							"value": "{{persona}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
