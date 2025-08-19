@@ -59,7 +59,7 @@ The dictionary structure:
     }
 }
 ```
-For best practice credentials should be loaded from a seperate file. Reference 
+For best practice credentials should be loaded from a separate file. Reference 
 [central_token.json](central_token.json) for an example.
 Learn more about obtaining credentials with the following links:
 - [Base URLs of Central Clusters](https://developer.arubanetworks.com/new-hpe-anw-central/docs/getting-started-with-rest-apis#base-urls)  
@@ -87,7 +87,7 @@ page
 We refer to the bulk key in Pycentral as the key for the body object of the payload.
 Most often, the bulk key will simply be 'profile', however some APIs will use a 
 unique identifier. In the example image for DNS we can see that the bulk key is 
-'profile'.
+'profile'.  
 ![alt text](bulk_key.png)
 
 3. Profile configurations  
@@ -115,10 +115,10 @@ profile with Pycentral.
 The script can be run as is with valid credentials to see how Pycentral runs 
 operations in the terminal.
 
-With the API credentials filled out in the profiles_operations.py file, and in the 
-profile-operations directory:
+With the API credentials filled out in the [central_token.json](central_token.json)
+file, and in the working directory of profile-operations:
 ```bash
-python profiles_operations.py
+python profile_operations.py
 ```
 
 ### Script Operations
@@ -136,6 +136,9 @@ python profiles_operations.py
 
 ## Documentation
 
+- [Profile Operations Developer Hub Guide](https://developer.arubanetworks.com/new-central/docs/profile-operations)
 - [Central Configuration API Reference](https://developer.arubanetworks.com/new-central-config/reference/)
 - [Getting Started with Pycentral](https://developer.arubanetworks.com/new-central/docs/getting-started-with-python)
 - [Getting Started with Central APIs](https://developer.arubanetworks.com/new-central/docs/getting-started-with-rest-apis)
+- [Generating Access Token from Central UI](https://developer.arubanetworks.com/new-hpe-anw-central/docs/generating-and-managing-access-tokens#using-hpe-greenlake-ui)  
+- [Generating Access Token using OAuth APIs](https://developer.arubanetworks.com/new-hpe-anw-central/docs/generating-and-managing-access-tokens#using-hpe-greenlake-api) 
