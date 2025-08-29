@@ -4,16 +4,6 @@ This Python script automates the configuration of an Open SSID (Opportunistic Wi
 
 ---
 
-## Dependencies
-
-This script relies on the following Python packages:
-
-- **pycentral**: Aruba Central's API client library [(beta version v2.0beta2)](https://github.hpe.com/hpe/pycentral/releases/tag/2.0beta6)
-- **PyYAML**: YAML parsing for configuration files
-- **termcolor**: For colorized console output
-
----
-
 ## Installation
 
 ### Setting up a Virtual Environment
@@ -40,22 +30,20 @@ pip install -r requirements.txt
 
 #### account_credentials.yaml
 
-This file contains the credentials required to authenticate with Aruba Central.
+This file contains the credentials required to authenticate with New Central.
 
 ```yaml
 new_central:
   base_url: <your_base_url>
   client_id: <your_client_id>
   client_secret: <your_client_secret>
-classic:
-  base_url: <your_base_url>
 ```
 
 ### 
 
 #### classic_account_credentials.yaml
 
-This file contains the credentials required to authenticate with the Classic Aruba Central API.
+This file contains the credentials required to authenticate with the Classic Central API.
 
 ```yaml
 central_info:
@@ -70,6 +58,9 @@ ssl_verify: true
 #### wlan_overlay_profiles.yaml
 
 This file contains the configuration details for the Open SSID workflow.
+
+> [!IMPORTANT]
+>Ensure that the `site_details` section is properly configured. The `ssid` variable is the name of your wlan ssid profile. The `default-role` should match the name of the `role_details` role name so that the role created in this workflow is correctly applied to the wlan ssid profile when it is created. An Open SSID must have the `enable` parameter set to true in order to enable the SSID profile. The `opmode` or operation mode must be set to either OPEN: no authentication and encryption or ENHANCED_OPEN: Improved data encryption in open Wi-Fi networks and protects data from sniffing. Enhanced open replaces open system as the default opmode.
 
 ```yaml
 site_details:
@@ -123,8 +114,6 @@ ssid_details:
       default-role: "open-ssid-role"
 ```
 
->**⚠️ Important Note:** Ensure that the `site_details` section is properly configured. The `ssid` variable is the name of your wlan ssid profile. The `default-role` should match the name of the `role_details` role name so that the role created in this workflow is correctly applied to the wlan ssid profile when it is created. An Open SSID must have the `enable` parameter set to true in order to enable the SSID profile. The `opmode` or operation mode must be set to either OPEN: no authentication and encryption or ENHANCED_OPEN: Improved data encryption in open Wi-Fi networks and protects data from sniffing. Enhanced open replaces open system as the default opmode.
-
 ### 
 
 #### inventory.yaml
@@ -143,6 +132,11 @@ Open-SSID-Site:
 ## Workflow Steps
 
 This workflow automates the configuration of an Open SSID in HPE Aruba Networking Central, including site creation, role and policy assignment, and device management. Ensure that all configuration files are properly set up before running the script.
+
+> [!NOTE]
+> **Please make sure the device is provisioned to New Central before assigning it to a site.**
+>
+> The script currently supports assigning devices managed by both Classic and New Central, but only devices in New Central can inherit site-level configurations. Since the goal of the script is to apply these inherited profiles, devices should be in New Central before site assignment.
 
 1. #### **Create a Site** <span style="font-weight: normal"> - The script creates a site in HPE Aruba Networking Central using the details provided in the `site_details` section of the configuration file.</span>
 2. #### **Get Site ID** <span style="font-weight: normal"> - The script retrieves the site ID for the newly created site.</span>
