@@ -1,6 +1,7 @@
 import yaml
 import argparse
 from termcolor import colored
+from tabulate import tabulate
 from pycentral.classic.base import ArubaCentralBase
 from pycentral.classic.monitoring import Sites
 from pycentral import NewCentralBase
@@ -8,7 +9,6 @@ from pycentral.profiles import Wlan, Role, Policy
 from pycentral.scopes.site import Site
 from pycentral.scopes.device import Device
 from pycentral.utils.url_utils import NewCentralURLs
-from tabulate import tabulate
 
 def get_classic_central_connection():
     """
