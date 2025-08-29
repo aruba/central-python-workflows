@@ -1,15 +1,16 @@
 import yaml
 import argparse
+import random
+import string
 from termcolor import colored
+from tabulate import tabulate
 from pycentral.classic.base import ArubaCentralBase
 from pycentral.classic.monitoring import Sites
 from pycentral import NewCentralBase
 from pycentral.profiles import Wlan, Role, Policy
 from pycentral.scopes.site import Site
 from pycentral.scopes.device import Device
-from pycentral.profiles import Wlan, Role, Policy
 from pycentral.utils.url_utils import NewCentralURLs
-from tabulate import tabulate
 
 def get_classic_central_connection():
     """
@@ -20,8 +21,6 @@ def get_classic_central_connection():
     
     classic_conn = ArubaCentralBase(central_info=classic_central_credentials["central_info"])
     return classic_conn
-import random
-import string
 
 def load_configurations():
     profiles_vars = yaml.safe_load(open("wlan_overlay_profiles.yaml"))
