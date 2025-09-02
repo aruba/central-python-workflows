@@ -5,7 +5,6 @@ from pycentral.monitoring import Sites
 from pycentral.utils.constants import SUPPORTED_CONFIG_PERSONAS
 from pycentral.profiles import Profiles
 from pycentral.utils.url_utils import NewCentralURLs
-import pdb
 import argparse
 import yaml
 from utils.onboarding_tracker import OnboardingTracker
@@ -377,7 +376,13 @@ def glp_onboarding(new_central_conn, devices, tracker):
         serial_number = device["serial_number"]
         try:
             if serial_number not in serial_to_id:
-                raise Exception(f"Device {serial_number} not found in GLP account.")
+                tracker.mark_step(
+                    serial_number,
+                    "glp_lookup",
+                    "Failed",
+                    f"Device {serial_number} not found in GLP account.",
+                )
+                continue
             device.update(
                 {
                     "glp_id": serial_to_id[serial_number]["id"],
@@ -389,18 +394,38 @@ def glp_onboarding(new_central_conn, devices, tracker):
             # Application assignment
             if device.get("application_assignment"):
                 if device["glp_application"] is not None:
-                    raise Exception(
-                        f"Device {serial_number} is already assigned to an application."
+                    tracker.mark_step(
+                        serial_number,
+                        "glp",
+                        "Failed",
+                        f"Device {serial_number} is already assigned to an application.",
                     )
-                glp_application_assignment(new_central_conn, device)
+                else:
+                    try:
+                        glp_application_assignment(new_central_conn, device)
+                        tracker.mark_step(serial_number, "glp", "Success")
+                    except Exception as e:
+                        tracker.mark_step(serial_number, "glp", "Failed", str(e))
+                        continue  # Skip to next device
             # Subscription assignment
             if device.get("subscription_assignment"):
                 if device["glp_subscription"] is not None:
-                    raise Exception(
-                        f"Device {serial_number} is already assigned to a subscription."
+                    tracker.mark_step(
+                        serial_number,
+                        "glp",
+                        "Failed",
+                        f"Device {serial_number} is already assigned to a subscription.",
                     )
-                glp_subscription_assignment(new_central_conn, device)
-            tracker.mark_step(serial_number, "glp", "Success")
+                else:
+                    try:
+                        glp_subscription_assignment(new_central_conn, device)
+                        tracker.mark_step(serial_number, "glp", "Success")
+                    except Exception as e:
+                        tracker.mark_step(serial_number, "glp", "Failed", str(e))
+                        continue  # Skip to next device
+            # Mark overall GLP step as success if no failures
+            if not tracker.is_failed(serial_number):
+                tracker.mark_step(serial_number, "glp", "Success")
         except Exception as e:
             tracker.mark_step(serial_number, "glp", "Failed", str(e))
 
@@ -458,7 +483,9 @@ def glp_application_assignment(new_central_conn, device):
         conn=new_central_conn, application_name=app_name, region=region
     )
     if not app_details:
-        raise Exception("Application details not found.")
+        raise Exception(
+            f"Unable to find application {app_name} in region {region} in the given GLP account."
+        )
 
     assign_devices = d.assign_devices(
         conn=new_central_conn,
@@ -466,10 +493,10 @@ def glp_application_assignment(new_central_conn, device):
         region=app_details["region"],
         devices=[glp_device_id],
     )
-    if assign_devices["code"] != 200:
-        raise Exception(
-            f"Failed to assign devices. Code: {assign_devices['code']}, Message: {assign_devices['msg']}"
-        )
+    if assign_devices["code"] != 200 or (
+        assign_devices["code"] == 200 and assign_devices["msg"]["status"] != "SUCCEEDED"
+    ):
+        raise Exception(f"Failed to assign device {serial_number} to application.")
 
     print(
         f"Successfully assigned Device {serial_number} to application {app_name} in region {region}."
