@@ -38,9 +38,6 @@ def validate_file_format(file_path):
 
 def fetch_hierarchy_data(scope):
     """Fetch hierarchy data without empty rows for CSV export"""
-    import pdb
-
-    pdb.set_trace()
     data = [["Global", scope.name, scope.id, "N/A", "N/A"]]
 
     for attr, label in [
