@@ -1,13 +1,7 @@
 # Device Onboarding Workflow
 
-This script automates the complete onboarding journey of factory-default devices in HPE Aruba Networking Central. It takes devices from an **unassigned state in GreenLake Platform (GLP)** through both GLP onboarding and Central onboarding to make them ready for configuration via **New Central**.
-
-> [!CAUTION]
-> This script uses a beta version of the `pycentral` library and is designed for HPE Aruba New Central, which is also in Public Preview. Expect potential changes and updates to the API and functionality.
-
-## Overview
-
-This script does the following - 
+This script automates the complete onboarding journey of factory-default devices in HPE Aruba Networking Central. It takes devices from an **unassigned state in GreenLake Platform (GLP)** through both GLP onboarding and Central onboarding to make them ready for configuration via **New Central**. 
+![Workflow Diagram](./utils/workflow.png)
 
 **Phase 1: GLP (GreenLake Platform) Onboarding** *(Optional)*
 - Takes unassigned devices in GLP and assigns them to HPE Aruba Networking Central application instances
@@ -24,52 +18,56 @@ This script does the following -
 
 ## Prerequisites
 
-- Python 3.8+
 - Factory-default devices added to your GreenLake Platform account
 - API credentials for both New Central and Classic Central
 - Network connectivity between devices and Central
+- If you have alre GLP Onboarding & is only looking to onboard to Central, ensure that the De
 
 ## Installation
 
-1. Create and activate a virtual environment:
+1. Clone the repository and navigate to this workflow folder
 ```bash
-python3 -m venv env
-source env/bin/activate  # Windows: env\Scripts\activate
+git clone -b "v2(pre-release)" https://github.com/aruba/central-python-workflows.git
+cd central-python-workflows/device-onboarding
 ```
 
-2. Install dependencies:
+2. Create and activate a virtual environment, then install dependencies
 ```bash
+python3 -m venv venv
+source venv/bin/activate  # On Windows use: venv\Scripts\activate
 pip install -r requirements.txt
 ```
+
+This workflow is tested on the `pycentral` SDK. Please check compatibility before executing on older/newer versions as there may be changes.
 
 ## Configuration
 
 ### Credentials Configuration
 
-#### New Central Credentials (account_credentials.yaml)
+#### New HPE Aruba Networking Central & GLP Credentials (account_credentials.yaml)
 
-For New Central APIs and GLP operations:
+For API operations in new HPE Aruba Networking Central & GLP:
 
 ```yaml
 new_central:
     cluster_name: <cluster-name>  # or base_url: <central-api-base-url>
     client_id: <new-central-client-id>
     client_secret: <new-central-client-secret>
-
-# Only include if you need GLP onboarding
 glp:
     client_id: <glp-client-id>
     client_secret: <glp-client-secret>
 ```
+**Sample Input:** See [`account_credentials.yaml`](./account_credentials.yaml) in this repository for an example credential file.
 
-> [!NOTE]
+> [!TIP]
 > **Where to find these:**
 > - [New Central API Gateway Base URLs](https://developer.arubanetworks.com/new-hpe-anw-central/docs/getting-started-with-rest-apis#api-gateway-base-urls) 
-> - [How to get New Central API Credentials](https://developer.arubanetworks.com/new-hpe-anw-central/docs/generating-and-managing-access-tokens) 
+> - [How to get API Credentials for new Central](https://developer.arubanetworks.com/new-hpe-anw-central/docs/generating-and-managing-access-tokens)
+> - [How to get API Credentials for GLP](https://developer.greenlake.hpe.com/docs/greenlake/guides/public/authentication/authentication#creating-a-personal-api-client)
 
-#### Classic Central Credentials (classic_central_credentials.yaml)
+#### Classic HPE Aruba Networking Central Credentials (classic_central_credentials.yaml)
 
-For some operations that still require Classic Central:
+For some operations that still require classic Central:
 
 ```yaml
 central_info:
@@ -78,16 +76,22 @@ central_info:
     access_token: <classic_central_access_token>
   ssl_verify: true
 ```
+**Sample Input:** See [`classic_central_credentials.yaml`](./classic_central_credentials.yaml) in this repository for an example credential file.
 
-> [!NOTE]
+> [!TIP]
 > **Where to find these:**
 > - [Classic Central API Gateway Base URLs](https://developer.arubanetworks.com/central/docs/api-oauth-access-token#table-domain-urls-for-api-gateway-access) 
-> - [How to get a Classic Central Access Token](https://developer.arubanetworks.com/central/docs/access-token-management#obtain-access-token-via-web-ui)
+> - [How to get an Access Token for classic Central](https://developer.arubanetworks.com/central/docs/access-token-management#obtain-access-token-via-web-ui)
 
-### Device Variables
+### Workflow Input Data
+The workflow requires input data to be defined in a YAML file. This includes details for devices, sites, and device groups. The following example files are available in the [`sample-input/`](sample-input/) directory:
 
-#### Device Configuration (workflow_variables.yaml)
+- **[`complete_onboarding_variables.yaml`](sample-input/complete_onboarding_variables.yaml)** - Full example with GLP and Central onboarding for multiple devices
+- **[`central_only_onboarding_variables.yaml`](sample-input/central_only_onboarding_variables.yaml)** - Central-only onboarding example (no GLP assignment)
 
+Use these as templates for your own configuration files.
+
+#### Sample Input File
 ```yaml
 devices:
   - serial_number: <device-serial>
@@ -131,14 +135,13 @@ device_groups:
           - AOS_CX
         NewCentral: true  # Required for New Central compatibility
 ```
-
-### Configuration Reference
-
+#### Input File Breakdown
+##### Devices(required)
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `serial_number` | string | Yes | Device serial number |
 | `device_type` | enum | Yes | `ACCESS_POINT`, `SWITCH`, or `GATEWAY` |
-| `persona` | string | Yes | Device role (Campus AP, Access Switch, etc.) |
+| `persona` | string | Yes | Device role (Campus AP, Access Switch, etc.). See section below for options |
 | `device_group` | string | Yes | Target configuration group |
 | `site` | string | Yes | Site assignment |
 | `application_assignment` | object | No | GLP application details |
@@ -149,24 +152,43 @@ device_groups:
 - **SWITCH**: Access Switch, Core Switch, Aggregation Switch
 - **GATEWAY**: Mobility Gateway
 
-### Sample Configuration Files
+##### Sites (optional - only if you need to create sites)
 
-The following example files are available in the [`sample-input/`](sample-input/) directory:
+Provide a complete site entry under the `sites` block when the workflow needs to create the site in Central. All fields in the table below are required for site creation. If the target site already exists in Central, you may omit that site's entry.
 
-- **[`complete_onboarding_variables.yaml`](sample-input/complete_onboarding_variables.yaml)** - Full example with GLP and Central onboarding for multiple devices
-- **[`central_only_onboarding_variables.yaml`](sample-input/central_only_onboarding_variables.yaml)** - Central-only onboarding example (no GLP assignment)
+| Field    | Type   | Required | Description |
+|----------|--------|----------|-------------|
+| name     | string | Yes      | Unique site name (used for assignment). |
+| address  | string | Yes      | Street address of the site. |
+| city     | string | Yes      | City name. |
+| state    | string | Yes      | State or region. |
+| country  | string | Yes      | Country name or ISO code. |
+| zipcode  | string | Yes      | Postal code (wrap in quotes). |
+| timezone | string | Yes      | Timezone identifier (e.g., America/Chicago). |
 
-Use these as templates for your own configuration files.
+##### Device Group (optional - only if you need to create device groups)
+
+If device groups(New Central compatible groups) are needed to be created for the onboarding script, then please add device group details under the `device_groups` entry. If the device group already exists in Central, you may omit that device group's entry. 
 
 ## Usage
 
-Execute the onboarding workflow:
+Once you have setup the configuration & input variables file, you can onboard your devices using the script. The script processes each device through these steps:
 
+1. **Input Validation** - Validates configuration file structure
+2. **GLP Onboarding(Optional)** - GLP Application and subscription assignment
+3. **Central Onboarding**
+   - Create Site (If site doesn't exist)
+   - Assign Device to Site
+   - Set Device Persona
+   - Create Device Group (If device group doesn't exist)
+   - Assign Device to Device Group 
+4. **Verification** - Confirms provisioning status
+
+**If something fails:** The script skips remaining steps for that device to avoid problems.
+
+You can use the below command to run the script - 
 ```bash
-python3 onboarding.py \
-  -c new_central_credentials.yaml \
-  -cc classic_central_credentials.yaml \
-  -vars workflow_variables.yaml
+python3 onboarding.py -c new_central_credentials.yaml -cc classic_central_credentials.yaml -vars workflow_variables.yaml
 ```
 
 ### Command Line Options
@@ -177,31 +199,19 @@ python3 onboarding.py \
 | `-cc, --classic_credentials` | Classic Central API credentials | Yes |
 | `-vars, --variables_file` | Device workflow configuration | Yes |
 
-## How It Works
-
-The script processes each device through these steps:
-
-1. **Input Validation** - Validates configuration file structure
-2. **GLP Onboarding** - Application and subscription assignment (if configured)
-3. **Central Onboarding** - Site → Device Assignment → Persona → Group Management
-4. **Verification** - Confirms provisioning status
-
-**If something fails:** The script skips remaining steps for that device to avoid problems.
-
-## Results
+## Output
 
 **On Screen:**
 - Shows progress for each device and step
 - Color-coded success/failure indicators
-- Summary table at the end
+- Summary table at the end of script execution
 
 **CSV File:**
 Results saved to `onboarding_results_<timestamp>.csv` with:
 - What happened for each device and step
-- When each step completed
 - Error details if something failed
 
-## Common Issues
+## Troubleshooting
 
 | Problem | Fix |
 |---------|-----|
