@@ -21,7 +21,7 @@ This script automates the complete onboarding journey of factory-default devices
 - Factory-default devices added to your GreenLake Platform account
 - API credentials for both New Central and Classic Central
 - Network connectivity between devices and Central
-- If you have have onboarded device to GLP & is only looking to onboard to Central, ensure that the devices are not assigned to any site & is in the default group
+- If you have onboarded device to GLP & is only looking to onboard to Central, ensure that the devices are not assigned to any site & is in the default group
 
 ## Installation
 
