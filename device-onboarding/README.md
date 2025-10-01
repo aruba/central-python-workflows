@@ -177,7 +177,7 @@ Once you have setup the configuration & input variables file, you can onboard yo
 1. **Input Validation** - Validates configuration file structure
 2. **GLP Onboarding (Optional)** - GLP Application and subscription assignment
 3. **Central Onboarding**
-   - Create Site (If site doesn't exist)
+   - Create Site (if site doesn't exist)
    - Assign Device to Site
    - Set Device Persona
    - Create Device Group (If device group doesn't exist)
