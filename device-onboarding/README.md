@@ -168,7 +168,7 @@ Provide a complete site entry under the `sites` block when the workflow needs to
 
 ##### Device Group (optional - only if you need to create device groups)
 
-If device groups(New Central compatible groups) are needed to be created for the onboarding script, then please add device group details under the `device_groups` entry. If the device group already exists in Central, you may omit that device group's entry. 
+If device groups (New Central compatible groups) are needed to be created for the onboarding script, then please add device group details under the `device_groups` entry. If the device group already exists in Central, you may omit that device group's entry. 
 
 ## Usage
 
