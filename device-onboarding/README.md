@@ -38,7 +38,7 @@ source venv/bin/activate  # On Windows use: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-This workflow is tested on the `pycentral` SDK. Please check compatibility before executing on older/newer versions as there may be changes.
+This workflow is tested on the `pycentral` SDK version `2.0a8`. Please check compatibility before executing on older/newer versions as there may be changes.
 
 ## Configuration
 
