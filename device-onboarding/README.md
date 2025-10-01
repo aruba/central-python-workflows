@@ -180,7 +180,7 @@ Once you have setup the configuration & input variables file, you can onboard yo
    - Create Site (if site doesn't exist)
    - Assign Device to Site
    - Set Device Persona
-   - Create Device Group (If device group doesn't exist)
+   - Create Device Group (if device group doesn't exist)
    - Assign Device to Device Group 
 4. **Verification** - Confirms provisioning status
 
