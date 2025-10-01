@@ -175,7 +175,7 @@ If device groups(New Central compatible groups) are needed to be created for the
 Once you have setup the configuration & input variables file, you can onboard your devices using the script. The script processes each device through these steps:
 
 1. **Input Validation** - Validates configuration file structure
-2. **GLP Onboarding(Optional)** - GLP Application and subscription assignment
+2. **GLP Onboarding (Optional)** - GLP Application and subscription assignment
 3. **Central Onboarding**
    - Create Site (If site doesn't exist)
    - Assign Device to Site
