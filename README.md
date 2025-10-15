@@ -63,6 +63,9 @@ This script simplifies the visualization of the configuration hierarchy in New C
 
 You’ll get this data in a terminal-friendly summary as well as in a CSV file, with key attributes like scope-id and persona which are required for configuration and monitoring APIs.
 
+### [Client Disconnection](/client-disconnect/)
+This workflow is used to disconnect client devices from a network managed by Central. It verifies that the clients are active, matches them by MAC address, and then sends a disconnect request to the device that the client is connected to. This is useful when you want to quickly remove clients from accessing your network.
+
 ### [Rename Hostnames](/rename-hostnames/)
 This script can help you rename the hostname of devices. You can provide a CSV file containing device serial numbers and their corresponding new hostnames. The script reads this file and updates each device's hostname in Central accordingly, automating the renaming process at scale.
 
