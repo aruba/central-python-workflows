@@ -109,15 +109,13 @@ python ping_iperf_troubleshooting.py -c account_credentials.yaml -vars workflows
 | `-c`, `--account_credentials` | string | Path to the account credentials YAML file | Yes |
 | `-vars`, `--workflow_variables` | string | Path to the workflow variables YAML file | Yes |
 
-## Output
+### Output
 
 The script produces detailed output for both ping and iPerf tests. Each test result includes:
 
 1. A header identifying the device and test type
 2. Raw command output with detailed connectivity or performance metrics
 3. Summary statistics for quick assessment
-
-### Output
 
 ```
 Running ping test on device DL0006931 to 8.8.8.8
