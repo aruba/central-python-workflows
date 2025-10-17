@@ -2,10 +2,7 @@
 
 This script automates network troubleshooting tasks using the new HPE Aruba Networking Central APIs. The workflow performs comprehensive connectivity testing by executing ping tests and iPerf bandwidth tests on gateway devices to validate network performance and connectivity.
 
-> [!CAUTION]
-> This script uses a beta version of the `pycentral` library and is designed for new HPE Aruba Networking Central, which is also in Public Preview. Expect potential changes and updates to the API and functionality.
-
-## Workflow Steps
+![Workflow Diagram](./images/workflow_overview.png)
 
 The troubleshooting workflow performs the following operations:
 
@@ -19,45 +16,54 @@ The troubleshooting workflow performs the following operations:
 
 ## Prerequisites
 
-- `pycentral` - New Central's API client library [(beta version v2.0a8 or later)](https://github.com/aruba/pycentral/releases/tag/v2.0a8)
-- API credentials for new HPE Aruba Networking Central (JSON or YAML format)
-- Gateway devices added to Central and online
-- Valid ping destinations (e.g., public DNS servers, internal network resources)
-- Accessible iPerf servers for bandwidth testing
+This script assumes the following regarding your new Central environment:
+- Gateway devices have been added to Central and are online
+- Gateway devices have connectivity to the specified ping destinations and iPerf servers
 
-## Setup
 
-1. **Create a virtual environment (recommended):**
-    ```sh
-    python -m venv env
-    source env/bin/activate  # On Windows: env\Scripts\activate
-    ```
+## Installation
 
-2. **Install required packages:**
-    ```sh
-    pip install -r requirements.txt
-    ```
-
-## Input Files
-
-### Credentials File
-Contains Central API credentials in JSON or YAML format.
-
-Example (YAML):
-```yaml
-central:
-    # Either `base_url` or `cluster_name` should be provided:
-    #
-    # base_url: <central-api-base-url>
-    # cluster_name: <central-cluster-name>
-    client_id: <central-client-id>
-    client_secret: <central-client-secret>
+1. Clone the repository and navigate to this workflow folder
+```bash
+git clone -b "v2(pre-release)" https://github.com/aruba/central-python-workflows.git
+cd central-python-workflows/troubleshooting-workflow
 ```
 
-### Workflow Variables File
-The `workflows_variables.yaml` file defines the devices and test parameters for the troubleshooting workflow.
+2. Create and activate a virtual environment, then install dependencies
+- On macOS/Linux: source venv/bin/activate
+- On Windows (PowerShell): venv\Scripts\Activate.ps1
 
-**Structure:**
+```bash
+python3 -m venv env
+source env/bin/activate  # On Windows use: env\Scripts\activate
+pip install -r requirements.txt
+```
+
+
+## Configuration
+
+### Credentials Configuration (account_credentials.yaml)
+
+For API operations in new HPE Aruba Networking Central:
+
+```yaml
+new_central:
+    cluster_name: <cluster-name>  # or base_url: <central-api-base-url>
+    client_id: <new-central-client-id>
+    client_secret: <new-central-client-secret>
+```
+**Sample Input:** See [`account_credentials.yaml`](./account_credentials.yaml) in this repository for an example credential file.
+
+
+> [!TIP]
+> **Where to find these:**
+> - [Central API Gateway Base URLs](https://developer.arubanetworks.com/new-central/docs/getting-started-with-rest-apis#api-gateway-base-urls) 
+> - [How to get API Credentials for new Central](https://developer.arubanetworks.com/new-central/docs/generating-and-managing-access-tokens) 
+
+### Workflow Input Data
+
+The workflow variables file defines the devices and test parameters for the troubleshooting workflow:
+
 ```yaml
 devices:
   - serial: <device-serial-number>
@@ -66,11 +72,12 @@ devices:
     iperf_server: <iperf-server-ip-address>
 ```
 
-**Variable Descriptions:**
-- **serial**: The serial number of the Gateway device in Central (required)
-- **name**: Friendly name for identification purposes (optional, used for logging)
-- **ping_destination**: Target IP address or hostname for connectivity testing (e.g., 8.8.8.8, internal server)
-- **iperf_server**: IP address of the iPerf server for bandwidth testing (must be accessible from the Gateway)
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `serial` | string | Yes | The serial number of the Gateway device in Central |
+| `name` | string | No | Friendly name for identification purposes (used for logging) |
+| `ping_destination` | string | Yes | Target IP address or hostname for connectivity testing (e.g., 8.8.8.8) |
+| `iperf_server` | string | Yes | IP address of the iPerf server for bandwidth testing |
 
 **Example Configuration:**
 ```yaml
@@ -85,22 +92,30 @@ devices:
     iperf_server: 192.168.1.100
 ```
 
-> [!TIP]
-> To obtain your API credentials, please refer to: [Generating and Managing Access Tokens](https://developer.arubanetworks.com/new-central/docs/generating-and-managing-access-tokens) and to locate the `cluster_name` (E.g. **US-WEST-5**) or `base_url` (E.g. **https://us5.api.central.arubanetworks.com**) of your Central cluster refer to [API Gateway Base URLs on our Developer Hub](https://developer.arubanetworks.com/new-central/docs/getting-started-with-rest-apis#api-gateway-base-urls).
+**Sample Input:** See `workflows_variables.yaml` in this repository for an example variables file.
 
-## Usage
+## Execution
 
 Run the script with the required arguments:
 
-```sh
+```bash
 python ping_iperf_troubleshooting.py -c account_credentials.yaml -vars workflows_variables.yaml
 ```
 
-**Command-line Arguments:**
-- `-c`, `--account_credentials`: Path to the account credentials YAML file (required)
-- `-vars`, `--workflow_variables`: Path to the workflow variables YAML file (required)
+### Command Line Options
 
-## Sample Output
+| Name | Type | Description | Required |
+|------|------|-------------|----------|
+| `-c`, `--account_credentials` | string | Path to the account credentials YAML file | Yes |
+| `-vars`, `--workflow_variables` | string | Path to the workflow variables YAML file | Yes |
+
+### Output
+
+The script produces detailed output for both ping and iPerf tests. Each test result includes:
+
+1. A header identifying the device and test type
+2. Raw command output with detailed connectivity or performance metrics
+3. Summary statistics for quick assessment
 
 ```
 Running ping test on device DL0006931 to 8.8.8.8
@@ -156,9 +171,17 @@ iperf Done.
 ============================================================
 ```
 
-## Limitations
+## Troubleshooting
 
-- iPerf testing is only supported on Gateway device types
-- iPerf tests may take upwards of 1 minute to complete
-- This script is designed for new HPE Aruba Networking Central, which is currently in Public Preview
-- The `pycentral` library used is also in beta and subject to changes
+- **Credentials Issues**: Ensure your credentials file is valid and in the correct format with proper permissions
+- **Device Not Found**: Verify the serial numbers match those in Central and the devices are online
+- **Ping Failure**: Check that the ping destinations are reachable from the devices
+- **iPerf Test Failure**: Confirm that the iPerf server is accessible and properly configured
+- **API Errors**: This script uses a beta version of the pycentral library. If you encounter API errors, check for updated versions or please submit an issue.
+
+
+## Support
+
+- **Automation Team**: [aruba-automation@hpe.com](mailto:aruba-automation@hpe.com)
+- **Workflow Issues**: [GitHub Issues](https://github.com/aruba/central-python-workflows/issues)
+- **PyCentral Library**: [PyCentral Issues](https://github.com/aruba/pycentral/issues)

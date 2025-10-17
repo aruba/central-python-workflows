@@ -2,13 +2,13 @@
 
 This script automates the configuration of WLAN overlay in new HPE Aruba Networking Central. The script performs the following actions:
 
+![SSID Tunneled Workflow][workflow]
+
 - Creates config profiles such as roles and policies in Central
 - Creates SSID configurations with associated roles
 - Modify policy group and create overlay WLAN profiles
 - Assigns these configurations to the appropriate scopes (global or group)
 - Associates devices with sites based on the inventory configuration
-
-![SSID Tunneled Workflow][workflow]
 
 ## Prerequisites
 
@@ -16,107 +16,151 @@ This script assumes the following regarding your new Central environment:
 - Gateways & APs have been added to device groups & are online in new Central
 - Underlay is configured with Gateways in established cluster and any VLANs configured & assigned to the appropriate scopes
 
-This script relies on the following Python packages:
-- `pycentral` - New Central's API client library [(beta version v2.0a7 or later)](https://github.com/aruba/pycentral/releases/tag/v2.0a7)
-- `PyYAML` - YAML parsing for configuration files
-- `termcolor` - For colorized console output
 
-## Setup
+## Installation
 
-1. **Create a virtual environment (recommended):**
-   ```curl
-   python -m venv env
-   source env/bin/activate
-   # On Windows: env\Scripts\activate
+1. Clone the repository and navigate to this workflow folder
+   ```bash
+   git clone -b "v2(pre-release)" https://github.com/aruba/central-python-workflows.git
+   cd central-python-workflows/tunneled-ssid-overlay
    ```
 
-2. **Install required packages:**
-   ```curl
-   pip install -r requirements.txt
-   ```
+2) Create and activate a virtual environment, then install dependencies
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # On Windows use: venv\Scripts\activate
+    pip install -r requirements.txt
+    ```
 
-> **Note:** This script uses a beta version of the `pycentral` library and is designed for new HPE Aruba Networking Central, which is also in beta. Expect potential changes and updates to the API and functionality.
+This workflow is tested on the `pycentral` SDK version `2.0a9`. Please check compatibility before executing on older/newer versions as there may be changes.
 
-## Configuration Files
+## Configuration
 
-The script requires three YAML configuration files:
+### Credentials Configuration
 
-1. **account_credentials.yaml** - Contains API credentials for new Central and Classic Central
-2. **wlan_overlay_profiles.yaml** - Defines the WLAN profiles, roles, policies, and SSIDs
-3. **inventory.yaml** - Specifies device information and site assignments
-
-### Credential Configuration
-
-You'll need to create an `account_credentials.yaml` file with the following structure:
+For API operations in new HPE Aruba Networking Central and classic Central:
 
 ```yaml
 new_central:
-  base_url: https://us4.api.central.arubanetworks.com
-  client_id: <your_client_id>
-  client_secret: <your_client_secret>
+  base_url: <new-central-base-url>
+  client_id: <your-client-id>
+  client_secret: <your-client-secret>
 classic:
-  base_url: https://apigw-uswest4.central.arubanetworks.com
+  base_url: <classic-central-base-url>
   token:
-    access_token: <your_access_token>
+    access_token: <your-access-token>
 ```
 
-To obtain your API credentials, please refer to: [Generating and Managing Access Tokens](https://developer.arubanetworks.com/new-hpe-anw-central/docs/generating-and-managing-access-tokens) and to locate the `base_url` of your new Central cluster refer to [API Gateway Base URLs on our Developer Hub](https://developer.arubanetworks.com/new-hpe-anw-central/docs/getting-started-with-rest-apis#api-gateway-base-urls).
+**Sample Input:** See `account_credentials.yaml` in this repository for an example credential file.
 
-### WLAN Overlay Profiles Configuration
+> [!TIP]
+> **Where to find these:**
+> - [Central API Gateway Base URLs](https://developer.arubanetworks.com/new-hpe-anw-central/docs/getting-started-with-rest-apis#api-gateway-base-urls) 
+> - [How to get API Credentials for new Central](https://developer.arubanetworks.com/new-hpe-anw-central/docs/generating-and-managing-access-tokens)
+> - [classic Central API Gateway Base URLs](https://developer.arubanetworks.com/central/docs/api-oauth-access-token#table-domain-urls-for-api-gateway-access) 
+> - [How to get an Access Token for classic Central](https://developer.arubanetworks.com/central/docs/access-token-management#obtain-access-token-via-web-ui)
 
-Create a `wlan_overlay_profiles.yaml` file that defines:
-- Roles and their permissions
-- Security policies
-- SSID configurations, any VLANs must be configured & applied to scope beforehand
-- Policy groups
-- Overlay WLAN profiles
+### Workflow Input Data
 
-### Inventory Configuration
+#### Profile Configuration (wlan_overlay_profiles.yaml)
 
-Create an `inventory.yaml` file that specifies:
-- Site names and their associated devices (with serial numbers)
-- Device types, including the clustered Gateway(s)
+The `wlan_overlay_profiles.yaml` file defines the configuration for roles, policies, SSIDs, and WLAN profiles:
 
-Example:
+```yaml
+roles:
+  # Role definitions
+policies:
+  # Policy definitions
+ssids:
+  # SSID configurations
+policy_groups:
+  # Policy group configurations
+wlan_profiles:
+  # WLAN profile configurations
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `roles` | dictionary | Yes | User roles with access permissions |
+| `policies` | dictionary | Yes | Security policies and rules |
+| `ssids` | dictionary | Yes | WLAN SSID configurations with associated roles |
+| `policy_groups` | dictionary | Yes | Policies to apply to global policy |
+| `wlan_profiles` | dictionary | Yes | WLAN SSID profile configurations |
+
+**Sample Input:** See `wlan_overlay_profiles.yaml` in this repository for an example configuration file.
+
+#### Inventory Configuration (inventory.yaml)
+
+The `inventory.yaml` file specifies site names and their associated devices:
+
 ```yaml
 <site_name>:
-    - device_type: IAP
-      devices:
-          - PHQSLBN5HB
-          - PHQSLBN56K
-    - device_type: GATEWAY
-      devices:
-          - CNSHKLB01W
+  - device_type: IAP
+    devices:
+      - <device-serial>
+      - <device-serial>
+  - device_type: GATEWAY
+    devices:
+      - <device-serial>
 ```
 
-## Usage
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `site_name` | string | Yes | Name of the site in Central |
+| `device_type` | string | Yes | Type of device (IAP or GATEWAY) |
+| `devices` | array | Yes | List of device serial numbers |
 
-After configuring the required YAML files, run the script:
+**Example Configuration:**
+```yaml
+Corporate_HQ:
+  - device_type: IAP
+    devices:
+      - PHQSLBN5HB
+      - PHQSLBN56K
+  - device_type: GATEWAY
+    devices:
+      - CNSHKLB01W
+```
+
+**Sample Input:** See `inventory.yaml` in this repository for an example inventory file.
+
+## Execution
+
+Run the script:
 
 ```bash
 python ssid_tunnel_overlay_workflow.py
 ```
 
-## Adapting to Your Environment
 
-To adapt this script to your environment:
+## Output
 
-1. Update `account_credentials.yaml` with your Central API credentials
-2. Modify `wlan_overlay_profiles.yaml` to define your desired wireless network configuration
-3. Adjust `inventory.yaml` to match your device inventory and site structure
-4. Review the script's output to ensure all operations were successful
+The script provides detailed console output about each step of the process, including:
+
+- Creation status of roles and policies
+- Configuration of SSIDs
+- Policy group modifications
+- Creation of overlay WLAN profiles
+- Assignment of configurations to scopes
+- Association of devices with sites
+
+Success or failure messages will be displayed for each operation, with colorized output for better visibility.
 
 ## Troubleshooting
 
-- Verify your API credentials are correct and have sufficient permissions
-- Ensure all required YAML files are properly formatted
-- Check the console output for specific error messages
-- Remember that new Central is in beta, so API endpoints may change - submit any issues found within this repository
+- **Authentication Issues**: Verify that your API credentials in `account_credentials.yaml` are correct and have not expired
+- **Configuration Errors**: Ensure that all YAML files are properly formatted and contain the required API fields.
+- **Device Not Found**: Check that the serial numbers in `inventory.yaml` match those in Central
+- **Scope Assignment Failures**: Verify that the scopes specified in your configurations exist in Central
+- **Pre-existing Configuration**: The script may fail if configurations with the same names already exist; consider renaming or removing them first
+- **VLAN Not Found**: Make sure all VLANs referenced in the configurations are already configured and assigned to the appropriate scopes
+- **Cluster Issues**: Ensure Gateway clusters are properly established before running the script
 
-## Limitations
 
-- This script is designed for HPE Aruba new Central, which is currently in beta
-- The `pycentral` library used is also in beta and subject to changes
-- Some functions may require adjustments as the new Central API evolves
+## Support
+
+- **Automation Team**: [aruba-automation@hpe.com](mailto:aruba-automation@hpe.com)
+- **Workflow Issues**: [GitHub Issues](https://github.com/aruba/central-python-workflows/issues)
+- **PyCentral Library**: [PyCentral Issues](https://github.com/aruba/pycentral/issues)
 
 [workflow]: .images/workflow.PNG "Tunneled SSID Workflow"
