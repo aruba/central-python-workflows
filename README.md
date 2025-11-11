@@ -75,6 +75,9 @@ This workflow showcases how to connect to Central and demonstrates the two main 
 - Individual Profile Operations
 - Bulk Profile Operations
 
+### [Device Metrics Export](/device-metrics-export)
+This workflow retrieves comprehensive device information from both HPE Aruba Networking Central and GreenLake Platform (GLP) APIs. It consolidates device attributes, monitoring data, connectivity status, and subscription details into a single CSV file for easy analysis and reporting.
+
 ## HPE Greenlake Platform Workflows
 
 ### [Onboarding](/glp-device-onboarding/)
