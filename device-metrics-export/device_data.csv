@@ -1,0 +1,3 @@
+Serial Number,Mac Address,Device Name,Device Type,Device Model,Deployment,IPv4,Firmware Version,Site,Device Group Name,Status,Uptime,Last Seen At,Config Status,Config Last Modified At,Subscription Key,Subscription End Time
+ABC123DEFG,aa:bb:cc:dd:ee:01,6300,SWITCH,6300M,Standalone,192.168.1.10,FL.10.16.1006,Tokyo (NRT) - Campus,,ONLINE,"36 days, 03 hours, 16 minutes, 40 seconds",,Synchronized,2025-10-05 17:51:50 UTC,1234567890ABCDEF12,2029-12-23 18:30:00 UTC
+XYZ789HIJK,aa:bb:cc:dd:ee:02,BO-BLR-AP01,ACCESS_POINT,AP-615-RWF1,Campus AP,192.168.2.20,10.7.0.1_91033,Bengaluru (BLR) - Branch,,ONLINE,"52 days, 11 hours, 51 minutes, 15 seconds",,,,FEDCBA0987654321AB,2029-12-23 18:30:00 UTC
