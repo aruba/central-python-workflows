@@ -149,5 +149,4 @@ def iso_to_human(iso_ts: str):
 
     date = dt_utc.strftime("%Y-%m-%d")
     time = dt_utc.strftime("%H:%M:%S")
-    print(f"Converted ISO timestamp '{iso_ts}' to UTC date/time: {date} {time}")
     return f"{date} {time} UTC"
