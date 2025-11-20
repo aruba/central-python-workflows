@@ -4,6 +4,7 @@ from pycentral.glp import Devices, Subscriptions
 import pandas as pd
 import argparse
 from utils import (
+    process_monitoring_data,
     run_concurrent_tasks,
     process_list,
     process_glp_device,
@@ -11,6 +12,31 @@ from utils import (
     ensure_tokens_available,
     get_all_device_inventory,
 )
+
+CSV_COLUMNS = [
+    # Device information columns
+    "Serial Number",
+    "Mac Address",
+    "Device Name",
+    "Device Type",
+    "Device Model",
+    "Deployment",
+    "IPv4",
+    "Firmware Version",
+    "Site",
+    "Device Group",
+    "Status",
+    # Device Config/Connectivity columns
+    "Uptime",
+    "Last Seen At",
+    "Config Status",
+    "Config Last Modified At",
+    # Subscription-related columns
+    "Subscription Key",
+    "Subscription Tier",
+    "Subscription Type",
+    "Subscription End Time",
+]
 
 
 def main():
@@ -48,6 +74,12 @@ def main():
     output = processed_data(**processed)
     if output:
         df = pd.DataFrame(output)
+        df = df.reindex(columns=CSV_COLUMNS, fill_value="")
+        df = df.sort_values(
+            by="Device Type",
+            ascending=True,
+            na_position="last",
+        )
         df.to_csv(args.output, index=False)
         print(
             f"{len(output)} Central devices processed. Device data is saved to {args.output}"

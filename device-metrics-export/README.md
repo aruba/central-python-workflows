@@ -102,6 +102,9 @@ CSV column titles (ordered):
 - Subscription Type
 - Subscription End Time
 
+> [!TIP]
+> **Device Group**: The Device Group field will only be populated for groups that are New Central compatible device groups. Classic Central groups will not appear in this export.
+
 If no data is returned from the APIs or post-processing yields an empty list, the script prints "No data to save." 
 
 ## Troubleshooting
