@@ -94,9 +94,22 @@ def processed_data(
             )
         if serial_number in processed_glp_devices:
             sub_id = processed_glp_devices[serial_number]
-            entry["Subscription Key"] = processed_subs.get(sub_id, {}).get("key", "")
-            entry["Subscription End Time"] = iso_to_human(
-                processed_subs.get(sub_id, {}).get("endTime", "")
+            sub = processed_subs.get(sub_id, {}) or {}
+            if sub == {}:
+                continue  # skip if subscription details not found
+            tier = sub.get("tier", "") or ""
+            tier_lower = tier.lower()
+            entry.update(
+                {
+                    "Subscription Key": sub.get("key", ""),
+                    "Subscription Tier": tier,
+                    "Subscription Type": (
+                        "Foundation"
+                        if "foundation" in tier_lower
+                        else ("Advanced" if "advance" in tier_lower else "")
+                    ),
+                    "Subscription End Time": iso_to_human(sub.get("endTime", "")),
+                }
             )
         result.append(entry)
     return result

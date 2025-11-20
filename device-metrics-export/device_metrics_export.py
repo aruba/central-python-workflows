@@ -37,7 +37,7 @@ def main():
             conn=new_central_conn, select="serialNumber,subscription"
         ),
         "glp_subs": lambda: subscriptions_api.get_all_subscriptions(
-            conn=new_central_conn, select="id,key,endTime"
+            conn=new_central_conn, select="id,key,endTime,tier"
         ),
     }
     # Fetch and process data

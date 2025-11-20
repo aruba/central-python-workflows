@@ -98,6 +98,8 @@ CSV column titles (ordered):
 - Config Status
 - Config Last Modified At
 - Subscription Key
+- Subscription Tier
+- Subscription Type
 - Subscription End Time
 
 If no data is returned from the APIs or post-processing yields an empty list, the script prints "No data to save." 
