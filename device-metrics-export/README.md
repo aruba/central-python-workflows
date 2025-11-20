@@ -91,7 +91,7 @@ CSV column titles (ordered):
 - IPv4
 - Firmware Version
 - Site
-- Device Group Name
+- Device Group
 - Status
 - Uptime
 - Last Seen At

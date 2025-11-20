@@ -73,7 +73,7 @@ def processed_data(
             "IPv4": device.get("ipv4", ""),
             "Firmware Version": device.get("softwareVersion", ""),
             "Site": device.get("siteName", ""),
-            "Device Group Name": device.get("deviceGroupName", ""),
+            "Device Group": device.get("deviceGroupName", ""),
             "Status": processed_devices.get(serial_number, {}).get("status", ""),
         }
         if serial_number in processed_devices:
