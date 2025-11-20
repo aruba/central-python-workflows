@@ -74,7 +74,7 @@ def processed_data(
             "Firmware Version": device.get("softwareVersion", ""),
             "Site": device.get("siteName", ""),
             "Device Group": device.get("deviceGroupName", ""),
-            "Status": processed_devices.get(serial_number, {}).get("status", ""),
+            "Status": device.get("status", ""),
         }
         if serial_number in processed_devices:
             raw_uptime = processed_devices[serial_number].get("uptimeInMillis", "")
@@ -163,3 +163,31 @@ def iso_to_human(iso_ts: str):
     date = dt_utc.strftime("%Y-%m-%d")
     time = dt_utc.strftime("%H:%M:%S")
     return f"{date} {time} UTC"
+
+
+def process_monitoring_data(monitoring_data):
+    processed_mrt_data = {}
+    for device in monitoring_data:
+        if device.get("serialNumber") not in processed_mrt_data:
+            processed_mrt_data[device["serialNumber"]] = device
+        else:
+            curr_ts = _parse_iso(device.get("configLastModifiedAt"))
+
+            if curr_ts > _parse_iso(
+                processed_mrt_data[device["serialNumber"]].get(
+                    "configLastModifiedAt", ""
+                )
+            ):
+                processed_mrt_data[device["serialNumber"]] = device
+    return processed_mrt_data
+
+
+def _parse_iso(ts):
+    """Parse ISO8601 (with optional trailing Z) to aware datetime; return minimal datetime on error."""
+    if not ts:
+        return datetime.min.replace(tzinfo=timezone.utc)
+    try:
+        return datetime.fromisoformat(ts.replace("Z", "+00:00"))
+    except Exception:
+        # fallback: return minimal so it won't be chosen over real timestamps
+        return datetime.min.replace(tzinfo=timezone.utc)

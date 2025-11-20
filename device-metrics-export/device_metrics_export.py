@@ -90,8 +90,8 @@ def validate_file_format(file_path):
 def process_all_data(raw_data):
     """Process raw API data into structured format"""
     return {
-        "processed_devices": process_list(
-            _safe("monitoring_devices", raw_data), "serialNumber"
+        "processed_devices": process_monitoring_data(
+            _safe("monitoring_devices", raw_data)
         ),
         "processed_inventory": process_list(
             _safe("device_inventory", raw_data), "serialNumber"
