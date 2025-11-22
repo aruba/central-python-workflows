@@ -53,32 +53,32 @@ For API operations in new HPE Aruba Networking Central:
 > - [Central API Gateway Base URLs](https://developer.arubanetworks.com/new-hpe-anw-central/docs/getting-started-with-rest-apis#api-gateway-base-urls) 
 > - [How to get API Credentials for new Central](https://developer.arubanetworks.com/new-hpe-anw-central/docs/generating-and-managing-access-tokens) 
 
-## Workflow Input Data
+### Workflow Input Data
 
 This workflow is preset with sample API data for script execution. The following
 instructions detail how to gather the information required to create your own 
 configuration profiles with the PyCentral profile module.
 
-1. Locate the API endpoint  
+1. Locate the API endpoint:
 The API endpoint will be the last suffix appended to the full URL on the reference 
-page  
+page.  
 ![alt text](api_endpoint.png)
 
-2. Determine the bulk key  
-We refer to the bulk key in Pycentral as the key for the body object of the payload.
+2. Determine the bulk key: 
+We refer to the bulk key in PyCentral as the key for the body object of the payload.
 Most often, the bulk key will simply be 'profile', however some APIs will use a 
 unique identifier. In the example image for DNS we can see that the bulk key is 
 'profile'.  
 ![alt text](bulk_key.png)
 
-3. Profile configurations  
-You can use the body object in API reference to find valid configuration values to 
-use in your own configuration object for Pycentral. Here are some of the values for 
-the DNS profile body object for example:  
+3. Profile configurations:  
+You can refer to the body object in the API reference to find valid configuration
+key/values to use for your own object with PyCentral. Here are some of the values for
+the DNS profile body object as an example.  
 ![alt text](configuration_values.png)
 
 Example profile configuration dictionary in python that we use 
-to create a DNS library profile with Pycentral:  
+to create a DNS library profile with PyCentral:  
 ```python
 dns_profile = {
     "name": "example-dns",
@@ -89,15 +89,15 @@ dns_profile = {
 }
 ```
 An easy way to get example configurations for a profile you are unfamiliar with is 
-to create a profile using the web UI in Central and then run a GET request for the 
-profile with Pycentral.
+to create a profile using the web UI in Central, and then run a GET request for the 
+profile with PyCentral.
 
 ## Execution
 
 This workflow is executed by the profile_operations.py script and demonstrates the use
 of the following PyCentral modules and Central APIs:
 
-1. Connecting to Central with the Pycentral base object
+1. Connecting to Central with the PyCentral base object
 2. Individual profile module operations
     - Create DNS - [Create a new DNS profile](https://developer.arubanetworks.com/new-central-config/reference/creatednsprofilebyid)
     - Get DNS - [Read existing DNS profile](https://developer.arubanetworks.com/new-central-config/reference/readdnsprofilebyid)
@@ -139,7 +139,7 @@ If the script runs successfully, the terminal will show output similar to the fo
 ## Troubleshooting
 
 - Authentication / tokens: Ensure your token file is complete and has valid credentials for Central.
-- SDK compatibility: If method calls fail unexpectedly, confirm the installed pycentral version matches tested versions (v2.0a7) or update helpers accordingly.
+- SDK compatibility: If method calls fail unexpectedly, confirm the installed PyCentral version matches tested versions (v2.0a7) or update helpers accordingly.
 
 ## Support
 
