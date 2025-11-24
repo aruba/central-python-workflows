@@ -1,4 +1,4 @@
-# Workflow Name
+# Profile Operations
 
 This workflow demonstrates how to use the PyCentral library to manage Central 
 library profiles. It covers creating, reading, updating, and deleting configuration 
