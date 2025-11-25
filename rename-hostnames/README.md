@@ -1,90 +1,119 @@
 # Renaming Hostnames
-This is a Python script that uses the [Pycentral](https://pypi.org/project/pycentral/) library to achieve the following steps on an Aruba Central account:  
-1. Verify device existence and retrieve current hostname.  
-2. Change the hostname of devices based on the provided CSV file.  
+This workflow uses the PyCentral SDK to automate configuring hostname profiles of
+devices in Central. The workflow first checks the device serial numbers against Central
+to verify devices are ready to be provisioned. Then, device hostname profiles are either
+created or updated determined by their current hostname status. The workflow will also
+create a CSV output file containing the status of hostname configuration operations.
 
-## Prerequisite
-1. All devices have valid Central licenses before the workflow is run.  
-2. Devices are all online and configurable.
+## Prerequisites
+- Python 3.8 or higher
+- API credentials for HPE Aruba Networking Central(YAML format)
+- All target devices are ready for provisioning in Central
 
-## Installation Steps
-In order to run the script, please complete the steps below:
+## Installation
 
-1. Clone this repository and `cd` into the workflow directory:
-    ```bash
-    git clone -b "v2(pre-release)" https://github.com/aruba/central-python-workflows.git
-    cd central-python-workflows/rename-hostnames
-    ```
-2. Install a virtual environment (refer to [Python venv documentation](https://docs.python.org/3/library/venv.html)). Make sure Python version 3 is installed on your system.
-    ```bash
-    python -m venv env
-    ```
+1. Clone the repository and navigate to this workflow folder
+```bash
+git clone -b "v2(pre-release)" https://github.com/aruba/central-python-workflows.git
+cd central-python-workflows/rename-hostnames
+```
 
-3. Activate the virtual environment:
-    - On Mac/Linux:
-      ```bash
-      source env/bin/activate
-      ```
-    - On Windows:
-      ```bash
-      env\Scripts\activate.bat
-      ```
+2) Create and activate a virtual environment, then install dependencies
+- On macOS/Linux: source venv/bin/activate
+- On Windows (PowerShell): venv\Scripts\Activate.ps1
 
-4. Install the required packages:
-    ```bash
-    python -m pip install -r requirements.txt
-    ```
+```bash
+python3 -m venv venv
+source venv/bin/activate  # On Windows use: venv\Scripts\activate
+pip install -r requirements.txt
+```
 
-5. Provide the Central API Gateway Base URL & Access Token in the [central_token.json](central_token.json) file:
-    ```json
-    {
-        "new_central": {
-            "base_url": "",
-            "client_id": "",
-            "client_secret": "",
-            "access_token": ""
-        }
-    }
-    ```
-    **Note**  
-    - [Base URLs of Aruba Central Clusters](https://developer.arubanetworks.com/new-hpe-anw-central/docs/getting-started-with-rest-apis#base-urls)  
-    - [Generating Access Token from Central UI](https://developer.arubanetworks.com/new-hpe-anw-central/docs/generating-and-managing-access-tokens#using-hpe-greenlake-ui)  
-    - [Generating Access Token using OAuth APIs](https://developer.arubanetworks.com/new-hpe-anw-central/docs/generating-and-managing-access-tokens#using-hpe-greenlake-api)  
+_This workflow is tested on the PyCentral SDK (version: 2.0a11). Please check compatibility before executing on older/newer versions as there may be changes_
 
-6. Update the [variables_sample.csv](variables_sample.csv is the default CSV file) with device serial numbers, new hostnames, and personas, OR create a custom CSV of the same format to be used as an argument when executing the script. Valid personas are 'SERVICE_PERSONA', 'HYBRID_NAC', 'CORE_SWITCH', 'BRIDGE', 'CAMPUS_AP', 'IOT', 'MOBILITY_GW', 'AGG_SWITCH', 'BRANCH_GW', 'VPNC', 'ACCESS_SWITCH', and 'MICROBRANCH_AP'.
-**Headers must stay in file
-    ```csv
-    serial,new_hostname,persona
-    {device1_serial},{device1_new_hostname},{device1_persona}
-    {device2_serial},{device2_new_hostname},{device2_persona}
-    ```
+## Configuration
 
-1. Once **central_token.json** and **variables_sample.csv** are updated with the relevant information, you can execute the script with the following command:
-    ```bash
-    python renaming_hostnames.py
-    ```
-    **Note**  
-    - This script takes the following optional parameters to override default filenames for the script:
-      - `--central_auth`: Path of the Central Token File.
-      - `--csv_names`: Path of the CSV file with device serial numbers, new hostnames, and personas (if no CSV is specified, the default `variables_sample.csv` file will be used).
-    - You can run the following command to use the optional parameters:
-      ```bash
-      python renaming_hostnames.py --central_auth <central_token_file> --csv_names <csv_names_file>
-      ```
+### Credentials Configuration (account_credentials.yaml)
 
-2. If the script runs successfully, your terminal output should look like this:
-    ```
-        | serial number |       new name       |  status  |
-        +---------------+----------------------+----------+
-        |   <serial1>   |   <new_hostname1>    | success  |
-        |   <serial2>   |   <new_hostname2>    | failure  |
-    ```
+For API operations in new HPE Aruba Networking Central:
 
-3. An [output.csv](output.csv) file will be created with the results of the script:
-    - Columns will consist of: `serial_number`, `new_name`, `status`.
-    - The `status` variable shows whether or not the device was successfully renamed.
-    ```csv
-    serial_number,new_name,status
-    {device1_serial},{device1_new_hostname},success
-    {device2_serial},{device2_new_hostname},failure
-    ```
+```yaml
+new_central:
+    cluster_name: <cluster-name>  # or base_url: <central-api-base-url>
+    client_id: <central-client-id>
+    client_secret: <central-client-secret>
+```
+**Sample Input:** See [`account_credentials.yaml`](./account_credentials.yaml) in this repository for an example credential file.
+
+
+> [!TIP]
+> **Where to find these:**
+> - [Central API Gateway Base URLs](https://developer.arubanetworks.com/new-hpe-anw-central/docs/getting-started-with-rest-apis#api-gateway-base-urls) 
+> - [How to get API Credentials for Central](https://developer.arubanetworks.com/new-hpe-anw-central/docs/generating-and-managing-access-tokens)
+
+### Workflow Input Data
+
+This workflow requires an input CSV file containing the serial number of the devices to 
+have their hostname changed, in addition to the new hostname. By default the workflow
+will use the `variables_sample.csv` file if none is provided.
+
+Update the [variables_sample.csv](./variables_sample.csv) with device serial numbers and 
+new hostnames, or create a custom CSV with the same format to be used as an argument
+when executing the script.
+
+```csv
+serial,new_hostname
+{device1_serial},{device1_new_hostname}
+{device2_serial},{device2_new_hostname}
+```
+
+> [!NOTE]
+> **Sample Input:** See [`variables_sample.csv`](./variables_sample.csv) in this repository for an example input file structure.
+
+## Execution
+
+```bash
+python rename_hostnames.py
+```
+With arguments:
+
+```bash
+python rename_hostnames.py -c <credentials_file> --hostnames_csv <input_file>
+```
+
+### Command Line Options
+
+| Name             | Type   | Description                          | Required | Default                  |
+|------------------|--------|--------------------------------------|----------|--------------------------|
+| credential_file | string | Path to file with Central credentials | No       | account_credentials.yaml |
+| hostnames_csv    | string | Path to input CSV file               | No       | variables_sample.csv     |
+
+## Output
+
+If the script runs successfully, the terminal will show output similar to the following:
+
+<img src="./rename-hostnames.gif" alt="Workflow Output Demo" width="600">
+
+A CSV file with the results of the script execution will be saved as `output.csv`. The
+results include the serial number of the devices, their new hostnames, and the outcome
+of the operation.
+
+Example `output.csv` file:
+
+```csv
+serial_number,new_name,status
+serial1,hostname1,success
+seria2,hostname2,failure
+```
+
+## Troubleshooting
+
+- Authentication / tokens: Ensure your credentials file is complete and has valid credentials for Central.
+- Ensure all target devices have been assigned a device function and are ready for provisioning
+- Ensure hostnames are a valid format for the device type they are attempting to be assigned to
+- SDK compatibility: If API calls fail unexpectedly, confirm the installed pycentral version matches tested versions (v2.0a11) or update helpers accordingly.
+
+## Support
+
+- **Automation Team**: [aruba-automation@hpe.com](mailto:aruba-automation@hpe.com)
+- **Workflow Issues**: [GitHub Issues](https://github.com/aruba/central-python-workflows/issues)
+- **PyCentral Library**: [PyCentral Issues](https://github.com/aruba/pycentral/issues)
