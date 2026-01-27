@@ -1,0 +1,7 @@
+# Troubleshooting Commands YAML
+# These commands will be executed on all devices in the device list
+commands:
+  - show ap debug lldp info
+  - show ap bss-table
+  - show ap association
+  - show network

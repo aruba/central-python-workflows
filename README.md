@@ -78,6 +78,9 @@ This workflow showcases how to connect to Central and demonstrates the two main 
 ### [Device Metrics Export](/device-metrics-export)
 This workflow retrieves comprehensive device information from both HPE Aruba Networking Central and GreenLake Platform (GLP) APIs. It consolidates device attributes, monitoring data, connectivity status, and subscription details into a single CSV file for easy analysis and reporting.
 
+### [Cutover Validation](/cutover-validation)
+This script automates the execution of predefined troubleshooting show commands across multiple Aruba Central–managed devices. It is designed for cutover, migration, and validation workflows, allowing operators to run consistent checks at scale without logging into individual devices. Results are collected only from online devices and exported in HTML, Markdown, or JSON for easy review and sharing.
+
 ## HPE Greenlake Platform Workflows
 
 ### [Onboarding](/glp-device-onboarding/)
