@@ -1,0 +1,57 @@
+{
+  "summary": {
+    "type": "summary",
+    "generated_at": "2026-01-27 04:35:31",
+    "total_devices": 2,
+    "total_commands_executed": 8,
+    "devices_overview": [
+      {
+        "serial": "CNxxxxxxxxxx",
+        "name": "mxx-xxx-xxx1",
+        "model": "AP-555-US",
+        "ip_address": "1xx.xx.x.xxx",
+        "mac_address": "2x:xx:xx:xx:xx:xx",
+        "firmware": "10.7.2.2_94048",
+        "status": "ONLINE",
+        "site": "Paris",
+        "commands_executed": 4
+      }
+    ]
+  },
+  "devices": {
+    "CNxxxxxxxxxx": {
+      "device_info": {
+        "serial": "CNxxxxxxxxxx",
+        "name": "mxx-xxx-xxx1",
+        "model": "AP-555-US",
+        "ip_address": "1xx.xx.x.xxx",
+        "mac_address": "8x:xx:xx:xx:xx:xx",
+        "firmware": "10.7.2.2_94048",
+        "status": "ONLINE",
+        "site": "Paris"
+      },
+      "commands": [
+        {
+          "command": "show ap debug lldp info",
+          "response": "\nCOMMAND=show ap debug lldp info\n\r\nSwarm AP lldp info\n------------------\nap name      interface_name  neighbor_id        remote_interface  mau                                                       power supply  neighbor_vlan  neighbor_basemac   neighbor_hostname  neighbor_capability  management_address  firmware_version                                                               power_request  power_allocated  enabled_capability  remote_port  remote_portid_subtype  remote_system_description\n-------      --------------  -----------        ----------------  ---                                                       ------------  -------------  ----------------   -----------------  -------------------  ------------------  ----------------                                                               -------------  ---------------  ------------------  -----------  ---------------------  -------------------------\nBO-CDG-AP01  eth1           2x:xx:xx:xx:xx:xx  Branch-AP         1000BaseTFD - Four-pair Category 5 UTP, full duplex mode  POE-AT        3001           2x:xx:xx:xx:xx:xx  BO-CDG-CRGW01      Bridge, Router       1x.xxx.xxx.x        version 10.3.0)\n(c) Copyright 2025 Hewlett Packard Enterprise Development LP.  0              0                Bridge, Router      GE0/0/2      5                      Model:Aruba9012-US,HPE Aruba Networking,AOS-10 Version 10.7.2.2 SSR (build 94048 / label #94048) ,Built by jenkins@b6255cfa12ab on 2025-10-28 at 12:05:10 UTC (gcc version 10.3.0),(c) Copyright 2025 Hewlett Packard Enterprise Development LP.\n",
+          "status": "COMPLETED"
+        },
+        {
+          "command": "show ap bss-table",
+          "response": "\nCOMMAND=show ap bss-table\n\r\nAruba AP BSS Table\n------------------\nbss                ess      port  ip            band/ht-mode/bandwidth  ch/EIRP/max-EIRP  type  cur-cl  ap name       in-t(s)  tot-t           flags  mu-mimo  mld-mac/link-id  MBSSID Group\n---                ---      ----  --            ----------------------  ----------------  ----  ------  -------       -------  -----           -----  -------  ---------------  ------------\n6x:xx:xx:xx:xx:xx  BSB-1X   ?/?   1xx.xx.x.xxx  5GHz/HE/20MHz           112/15.0/26.7     ap    0       mxx-xxx-xxx  0        52d:0h:38m:12s  KTWZ3  1        -                -\n6x:xx:xx:xx:xx:xx  BSB-PSK  ?/?   1xx.xx.x.xxx  5GHz/HE/20MHz           112/15.0/26.7     ap    0       mxx-xxx-xxx  0        52d:0h:38m:10s  KMTW3  1        -                -\n6x:xx:xx:xx:xx:xx  BSB-1X   ?/?   1xx.xx.x.xxx  2.4GHz/HE/20MHz         6/12.0/26.5       ap    0       mxx-xxx-xxx  0        52d:0h:38m:11s  KTWZ3  1        -                -\n6x:xx:xx:xx:xx:xx  BSB-PSK  ?/?   1xx.xx.x.xxx  2.4GHz/HE/20MHz         6/12.0/26.5       ap    0       mxx-xxx-xxx  0        52d:0h:38m:10s  KMTW3  1        -                -\n\nChannel followed by \"*\" indicates channel selected due to unsupported configured channel.\n\"Spectrum\" followed by \"^\" indicates Local Spectrum Override in effect.\n\nNum APs:4\nNum Associations:0\n\nFlags:       B = Beacon Protection; c = MBO Cellular Data Capable BSS; d = Deferred Delete Pending; D = VLAN Discovered; E = Enhanced-open BSS without transition mode; I = Imminent VAP Down; K = 802.11K Enabled; m = Agile Multiband (MBO) BSS; M = WPA3-SAE mixed mode BSS; o = Enhanced-open transition mode open BSS; O = Enhanced-open BSS with transition mode; Q = DFS CAC timer running; r = 802.11r Enabled; t = Broadcast TWT Enabled; T = Individual TWT Enabled; W = 802.11W Enabled; x = MBSSID Tx BSS; z = WPA3-AES-CCM128 BSS; Z = WPA3-AES-CCM128 BSS with transition mode; 3 = WPA3 BSS; \n",
+          "status": "COMPLETED"
+        },
+        {
+          "command": "show ap association",
+          "response": "\nCOMMAND=show ap association\n\r\nThe phy column shows client's operational capabilities for current association\n\nFlags: H: Hotspot(802.11u) client, K: 802.11K client, M: Mu beam formee, R: 802.11R client, W: WMM client, w: 802.11w client, V: 802.11v BSS trans capable, P: Punctured preamble, U: HE UL Mu-mimo, O: OWE client, S: SAE client, E: Enterprise client, m: Agile Multiband client, C: Cellular Data Capable - network available, c: Cellular Data Capable - network unavailable, T: Individual TWT client, t: Broadcast TWT client\n\nPHY Details: HT   : High throughput;      20: 20MHz;  40: 40MHz; t: turbo-rates (256-QAM)\n             VHT  : Very High throughput; 80: 80MHz; 160: 160MHz; 80p80: 80MHz + 80MHz\n             HE   : High Efficiency;       80: 80MHz; 160: 160MHz; 80p80: 80MHz + 80MHz\n             EHT  : Extremely High throughput;  80: 80MHz; 160: 160MHz; 80p80: 80MHz + 80MHz; 320: 320MHz\n             <n>ss: <n> spatial streams\n\nMLO Bands: Indicates the band of each link. * indicates the band where the association occurred.\n\nAssociation Table\n-----------------\nName  bssid  mac  auth  assoc  aid  l-int  essid  vlan-id  phy_cap  phy  assoc. time  num assoc  Flags  DataReady  UAC  user-panid  mlo-bands\n----  -----  ---  ----  -----  ---  -----  -----  -------  -------  ---  -----------  ---------  -----  ---------  ---  ----------  ---------\nNum Clients:0\n",
+          "status": "COMPLETED"
+        },
+        {
+          "command": "show network",
+          "response": "\nCOMMAND=show network\n\r\nNetworks\n--------\nProfile Name  ESSID    Clients  Type      Band         Authentication Method  Key Management    IP Assignment  Status   Zone  Coding  Active  Disable Reason  Disable Timestamp  Max IPv4 Users  MBSSID Group\n------------  -----    -------  ----      ----         ---------------------  --------------    -------------  ------   ----  ------  ------  --------------  -----------------  --------------  ------------\nBSB-1X        BSB-1X   1        employee  2.4ghz,5ghz  Per User               WPA3-AES-CCM-128  VLAN User      Enabled  -     UTF-8   Yes     N/A             N/A                N/A             -\nBSB-PSK       BSB-PSK  0        employee  2.4ghz,5ghz  MAC Address            WPA3-SAE          VLAN User      Enabled  -     UTF-8   Yes     N/A             N/A                N/A             -\n",
+          "status": "COMPLETED"
+        }
+      ]
+    }
+  }
+}

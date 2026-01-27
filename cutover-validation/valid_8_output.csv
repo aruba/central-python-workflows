@@ -1,0 +1,4 @@
+Serial_No,MAC_Address,tag:name1,tag:name2,Location_Name (Optional),Contact_Id
+SERIAL123456,1x:28:xx:xx:xx:xx16,,,,
+SERIAL789012,3x:xx:xx:xx:xx:xx,,,,
+SERIAL345678,9x:xx:xx:xx:xx:xx,,,,
