@@ -2,7 +2,7 @@ from termcolor import colored
 from pycentral.workflows.workflows_utils import get_conn_from_file
 import json
 import csv
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from argparse import ArgumentParser
 from pycentral.configuration import Devices, Templates
 from pycentral.monitoring import Sites
@@ -22,7 +22,7 @@ last_connected = []
 associated_ap = []
 
 # requested timeframes (3 hours, 24 hours, 1 week, 1 month)
-now = datetime.utcnow()
+now = datetime.now(timezone.utc)
 three_hours_ago = now - timedelta(hours=3)
 one_day_ago = now - timedelta(days=1)
 one_week_ago = now - timedelta(weeks=1)
@@ -154,9 +154,10 @@ def client_details(central_conn, site_name, timeframe):
 				client_macs_var = ''
 			
 			try:
-				last_connected_var = datetime.utcfromtimestamp((resp['msg']['clients'][i]['last_connection_time'])/1000)
-			except KeyError:
-				last_connected_var = ''
+				last_connected_ts = resp['msg']['clients'][i]['last_connection_time']
+				last_connected_var = datetime.fromtimestamp(last_connected_ts/1000, tz=timezone.utc)
+			except Exception:
+				last_connected_var = None
 			
 			try:
 				associated_ap_var = resp['msg']['clients'][i]['associated_device_name']
@@ -165,7 +166,7 @@ def client_details(central_conn, site_name, timeframe):
 			
 			# If you want to check connected clients for wired switches, you can change connected_device_type_var to be set equal to "SWITCH"
 			# Connected_device_type_var can be set to any device type: "SWITCH, GATEWAY, OR AP"
-			if(connected_device_type_var == "AP" and (now-last_connected_var) <= now-timeframe):
+			if connected_device_type_var == "AP" and last_connected_var is not None and (now - last_connected_var) <= (now - timeframe):
 				client_usernames.append(client_usernames_var)
 				client_ips.append(client_ips_var)
 				client_macs.append(client_macs_var)

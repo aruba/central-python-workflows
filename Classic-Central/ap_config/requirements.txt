@@ -1,2 +1,2 @@
-pycentral==1.4.1
+pycentral==1.4.3
 colorama==0.4.6
