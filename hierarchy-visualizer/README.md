@@ -136,7 +136,7 @@ hierarchy-visualizer/
 └── ...
 ```
 
-**Sample Output**: ![Sample Output](Screenshots/hierarchy_visualizer_output.gif)
+**Workflow Execution Overview**: ![Sample Output](Screenshots/hierarchy_visualizer_output.gif)
 
 ## Troubleshooting
 
