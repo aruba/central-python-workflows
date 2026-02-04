@@ -1,11 +1,15 @@
 # Hierarchy Visualizer
 
-This workflow reports the Hierarchy in Central, which defines a vertical, parent-child structure used for configuration and scope-based operations. The hierarchy follows the same scope model documented in [Central](https://arubanetworking.hpe.com/techdocs/new-central/content/cfg/mul-lvl-hirchy/multi-lvl-heirch.htm):
-- Global
-- Site Collection
-- Site
-- Device
-- Device Group
+This workflow reports the Hierarchy in Central, which defines a vertical, parent-child structure used for configuration and scope-based operations. The hierarchy follows the same scope model in Central.
+
+<div align="center">
+  <img src="Screenshots/hierarchy_central.png" alt="Central Hierachy Model" />
+  <div style="text-align: center;">
+    Check out the <a href="https://arubanetworking.hpe.com/techdocs/new-central/content/cfg/mul-lvl-hirchy/multi-lvl-heirch.htm">Multi Level Hierarchy Guide</a> to learn more
+  </div>
+</div>
+
+<br>
 
 Using APIs, the workflow retrieves hierarchy relationships and required configuration attributes (such as `scope_id` and `persona`) and renders them in both tabular and visual formats.
 
