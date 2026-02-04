@@ -54,14 +54,8 @@ This Python script automates the configuration of an **Open SSID (Opportunistic 
 ### [WPA3 PSK Workflow](/wpa3-psk-overlay/)
 This Python script automates the configuration of a WPA3 PSK (Wi-Fi Protected Access 3 - Pre-Shared Key) in New HPE Aruba Networking Central. It creates configuration profiles such as roles and policies in New Central, modifies policy groups and associates policies with them, and generates WPA3 PSK configurations with associated roles. Additionally, it assigns these configurations to the appropriate scopes, whether site or global, and moves devices into the site with the WPA3 PSK configuration to ensure they inherit the profile.
 
-### [Configuration Hierarchy Report](/configuration-hierarchy/)
-This script simplifies the visualization of the configuration hierarchy in New Central via APIs. It retrieves and displays hierarchical data such as:
- - Global
- - Site collections
- - Sites
- - Devices
-
-You’ll get this data in a terminal-friendly summary as well as in a CSV file, with key attributes like scope-id and persona which are required for configuration and monitoring APIs.
+### [Hierarchy Visualizer](/hierarchy-visualizer/)
+This workflow visualizes the Hierarchy of Central using APIs. It discovers hierarchy relationships and required configuration attributes (such as `scope_id` and `persona`) and presents them in both tabular and visual formats. The workflow generates a terminal summary, a CSV report, and hierarchy diagrams that represent the hierarchy structure.
 
 ### [Client Disconnection](/client-disconnect/)
 This workflow is used to disconnect client devices from a network managed by Central. It verifies that the clients are active, matches them by MAC address, and then sends a disconnect request to the device that the client is connected to. This is useful when you want to quickly remove clients from accessing your network.

@@ -1,0 +1,22 @@
+Type,Name,Scope-ID,Serial,Device Function (Persona)
+Global,Global,1xxxxxxxxxxxx,N/A,N/A
+Site Collection,Labs,7xxxxxxxxx,N/A,N/A
+Site Collection,Campus Buildings,7xxxxxxxxx,N/A,N/A
+Site,Building_A,4xxxxxxxxx,N/A,N/A
+Site,ADL-Lucas,4xxxxxxxxx,N/A,N/A
+Site,ADL-Collin,4xxxxxxxxx,N/A,N/A
+Site,LSV-WPA3-PSK-Site,4xxxxxxxxx,N/A,N/A
+Site,LSV-Open-SSID-Site,5xxxxxxxxx,N/A,N/A
+Site,stream-test,6xxxxxxxxx,N/A,N/A
+Site,RSVL Lab 4,7xxxxxxxxx,N/A,N/A
+Site,Ansible-Campus,7xxxxxxxxx,N/A,N/A
+Device Group,ADL-Ti,3xxxxxxxxx,N/A,N/A
+Device Group,Onboarding_Device,4xxxxxxxxx,N/A,N/A
+Device Group,ADL-Lucas,4xxxxxxxxx,N/A,N/A
+Device Group,ADL-Collin,4xxxxxxxxx,N/A,N/A
+Device Group,Ansible-GATEWAY,7xxxxxxxxx,N/A,N/A
+Device Group,Ansible-SWITCH,7xxxxxxxxx,N/A,N/A
+Device,Ansible-Access-6200-04,7xxxxxxxxx,Txxxxxxxxx,Access Switch (ACCESS_SWITCH)
+Device,Ansible-Access-6200-05,6xxxxxxxxx,Txxxxxxxxx,Access Switch (ACCESS_SWITCH)
+Device,collin-switch,3xxxxxxxxx,Txxxxxxxxx,Access Switch (ACCESS_SWITCH)
+Device,NJRAR-1,3xxxxxxxxx,Txxxxxxxxx,Access Switch (ACCESS_SWITCH)
