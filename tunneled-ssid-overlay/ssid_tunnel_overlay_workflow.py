@@ -31,7 +31,7 @@ def create_central_connection(credentials):
 def create_roles(central_conn, roles_dict):
     for role in roles_dict:
         result = Role.create_role(
-            central_conn=central_conn, name=role["name"], config_dict=role
+            central_conn=central_conn, config_dict=role
         )
         if not result:
             print(f"Error in creating role {role['name']}")
@@ -46,7 +46,7 @@ def create_roles(central_conn, roles_dict):
 def create_policies(central_conn, policies_dict):
     for policy in policies_dict:
         result = Policy.create_policy(
-            central_conn=central_conn, name=policy["name"], config_dict=policy
+            central_conn=central_conn, config_dict=policy
         )
         if not result:
             print(f"Error in creating policy {policy['name']}")
@@ -60,7 +60,7 @@ def create_policies(central_conn, policies_dict):
 def create_ssids(central_conn, ssids_dict):
     for ssid in ssids_dict:
         result = Wlan.create_wlan(
-            central_conn=central_conn, ssid=ssid["ssid"], config_dict=ssid
+            central_conn=central_conn, config_dict=ssid
         )
         if not result:
             print(f"Error in creating SSID {ssid['ssid']}")
@@ -72,7 +72,7 @@ def create_ssids(central_conn, ssids_dict):
 
         wlan_role_dict = {"name": ssid["ssid"], "description": ssid["ssid"]}
         result = Role.create_role(
-            central_conn=central_conn, name=ssid["ssid"], config_dict=wlan_role_dict
+            central_conn=central_conn, config_dict=wlan_role_dict
         )
         if not result:
             print(f"Error in creating role {ssid['ssid']}")
@@ -229,12 +229,13 @@ def move_device_to_site(token_info, site_device_assignment):
     global_site = Sites()
     move_device_status = False
     for site_name, devices in site_device_assignment.items():
-        if site_name == "AP_GROUP":
-            continue
         site_id = global_site.find_site_id(conn=central_conn, site_name=site_name)
         if not site_id:
             exit(f"Unable to find site {site_name}")
         for devices_data in devices:
+            # SKIP moving gateways since they should already be assigned to a site
+            if devices_data['device_type'] == "GATEWAY":
+                continue
             for serial_num in devices_data["devices"]:
                 resp = global_site.associate_devices(
                     conn=central_conn,
@@ -253,20 +254,31 @@ def move_device_to_site(token_info, site_device_assignment):
                     return move_device_status
     return move_device_status
 
+def find_device_group_id(scope, type, site_device_assignment):
+    for site_name, device_data in site_device_assignment.items():
+        for data in device_data:
+            if data['device_type'] == type:
+                # Use the first device in the list to find the device group ID
+                device_object = scope.find_device(device_serials=data['devices'][0])
+                return device_object.group_id
+    # No matching type/device group ID has been found
+    return None
+
 
 def main():
     profiles_vars, credentials, inventory = load_configurations()
     central_conn = create_central_connection(credentials)
-    central_conn = NewCentralBase(
-        token_info={"new_central": credentials["new_central"]},
-        log_level="INFO",
-        enable_scope=False,
-    )
+
     scope_global = central_conn.get_scopes()
+
+    group_id = find_device_group_id(scope_global, "GATEWAY", inventory)
 
     policies_dict, ssids_dict, roles_dict, policy_group, overlay_wlan = itemgetter(
         "policies", "ssids", "roles", "policy-group", "overlay-wlan"
     )(profiles_vars)
+
+    # set cluster ID to device group ID of GATEWAY group for overlay WLAN
+    overlay_wlan['gw-cluster-list'][0]["cluster-scope-id"] = group_id
 
     print("Creating Library Profiles....")
     create_roles(central_conn, roles_dict)
@@ -294,7 +306,7 @@ def main():
     move_device_to_site(token_info=credentials, site_device_assignment=inventory)
 
     assign_profiles_to_group(
-        central_conn, inventory["AP_GROUP"], ssids_dict, overlay_wlan
+        central_conn, group_id, ssids_dict, overlay_wlan
     )
 
 

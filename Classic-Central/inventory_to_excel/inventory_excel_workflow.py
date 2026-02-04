@@ -14,7 +14,7 @@ found in the README.
 """
 
 from pycentral.workflows.workflows_utils import get_conn_from_file
-from inventory import InventoryToExcel
+from inventory import InventoryToExcel, MAX_LIMIT
 from argparse import ArgumentParser
 import sys
 
@@ -61,7 +61,7 @@ def define_arguments():
     parser.add_argument('--filename', help=('Output filename.'),
                         default='inventory')
     parser.add_argument('--limit', help=('Pagination limit for API. Should be'
-                                         ' used with offset.'), default=0)
+                                         ' used with offset.'), default=MAX_LIMIT)
     parser.add_argument('--offset', help=('Pagination offest for API. Should'
                                           ' be used with limit.'), default=0)
 

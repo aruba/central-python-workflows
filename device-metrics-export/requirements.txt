@@ -1,0 +1,2 @@
+pandas==2.3.3
+pycentral==2.0a10

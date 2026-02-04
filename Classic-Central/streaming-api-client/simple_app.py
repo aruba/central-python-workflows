@@ -52,14 +52,14 @@ def on_open(ws):
 
 if __name__ == "__main__":
     # URL for WebSocket Connection from Streaming API page
-    hostname = "internal-ui.central.arubanetworks.com"
+    hostname = "<central-hostname>" # Eg. internal-ui-central.arubanetworks.com
     url = "wss://{}/streaming/api".format(hostname)
     # Construct Header for WebSocket Connection
     header = {}
     # Central User email
-    header["UserName"] = "karthik.satheesh-kumar@hpe.com"
+    header["UserName"] = "<central-user-email>"
     # WebSocket Key from Streaming API Page
-    header["Authorization"] = "eyJhbGciOiJIUzI1NiIsInR5cGUiOiJqd3QifQ.eyJjdXN0b21lcl9pZCI6ImUyYmUwZGU5ZDc1ZDRiNTJiYmIzZWM3ZmZmODE0MGQ4IiwiY3JlYXRpb25fZGF0ZSI6MTczMTYyMDAyOH0.HWGXt_ble8jMtX-K0QQ9D461QI_XoQMZMNNMHhfiAmw"
+    header["Authorization"] = "<websocket-key>"
     # Subscription TOPIC for Streaming API
     # (audit|apprf|location|monitoring|presence|security)
     header["Topic"] = "monitoring"

@@ -1,0 +1,4 @@
+WPA3-PSK-Site:
+    - device_type: IAP
+      devices:
+          - PHQSLBN5HB

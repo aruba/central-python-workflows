@@ -1,4 +1,7 @@
 # central-python-workflows
+> [!NOTE]
+> If you’re looking for Classic Central workflows, please click [here](/Classic-Central/)
+
 This repository contains Python-based workflows, code samples, and where applicable, Postman collections to help automate and integrate with New Central and HPE GreenLake Platform (GLP) APIs.
 It leverages the [pycentral SDK](https://pypi.org/project/pycentral/) to interact with Central’s APIs and extensibility features.
 
@@ -6,10 +9,6 @@ Each folder represents a self-contained workflow. Inside each, you’ll find:
 - A dedicated README.md explaining the purpose and usage of the workflow
 - All required scripts, data files (like CSVs), and Postman collections (if applicable)
 - Clear setup and execution instructions
-
-> [!NOTE]
-> If you’re looking for Classic Central workflows, please click [here](/Classic-Central/)
-
 
 ## New Central Workflows
 > [!CAUTION]
@@ -20,14 +19,21 @@ Each folder represents a self-contained workflow. Inside each, you’ll find:
 > 
 >We will make every effort to keep these workflows up to date. If you encounter any issues or inconsistencies, please open an issue in this repository.
 
-### [Onboarding](/cnx-device-onboarding/)
-This script automates onboarding of devices in HPE Aruba Networking Central to make them ready for configuration via **New Central**. It simplifies and sequences key onboarding steps needed after a device is assigned & subscribed to the Central application.
-- Assign Device to Site
-  - Site Creation(Optional)
-- Set Device Persona
-- Assign Device to Device Group
-  - Device Group Creation (Optional)
-- Set Device Name (Optional)
+### [Onboarding](/device-onboarding/)
+This script automates the complete onboarding journey of factory-default devices in HPE Aruba Networking Central. It takes devices from an **unassigned state in GreenLake Platform (GLP)** through both GLP onboarding and Central onboarding to make them ready for configuration via **New Central**.
+
+**Phase 1: GLP (GreenLake Platform) Onboarding** *(Optional)*
+- Application assignment to HPE Aruba Networking Central instances
+- Subscription license assignment using subscription keys
+
+**Phase 2: Central Onboarding** *(Required)*
+- Site creation and device assignment
+- Device persona configuration
+- Device group management and assignment
+- Provisioning verification
+
+### [Ping and iPerf Troubleshooting Workflow](/troubleshooting-workflow/)
+This script automates network troubleshooting tasks using the new HPE Aruba Networking Central APIs. The workflow performs comprehensive connectivity testing by executing ping tests and iPerf bandwidth tests on gateway devices to validate network performance and connectivity.
 
 ### [Tunnelled SSID Workflow](/tunneled-ssid-overlays/)
 This workflow can:
@@ -37,16 +43,43 @@ This workflow can:
 - Assigns these configurations to the appropriate scopes (global or group)
 - Associates devices with sites based on the inventory configuration
 
+### [Open SSID Workflow](/open-ssid-overlay/)
+This Python script automates the configuration of an **Open SSID (Opportunistic Wireless Encryption)** in New HPE Aruba Networking Central. The script performs the following actions:
+- Creates configuration profiles such as roles and policies in New Central.
+- Modifies policy groups and associates policies with them.
+- Creates Open SSID configurations with associated roles.
+- Assigns these configurations to the appropriate scopes (site or global).
+- Moves devices into site with Open SSID configuration to inherit profile.
+
+### [WPA3 PSK Workflow](/wpa3-psk-overlay/)
+This Python script automates the configuration of a WPA3 PSK (Wi-Fi Protected Access 3 - Pre-Shared Key) in New HPE Aruba Networking Central. It creates configuration profiles such as roles and policies in New Central, modifies policy groups and associates policies with them, and generates WPA3 PSK configurations with associated roles. Additionally, it assigns these configurations to the appropriate scopes, whether site or global, and moves devices into the site with the WPA3 PSK configuration to ensure they inherit the profile.
+
 ### [Configuration Hierarchy Report](/configuration-hierarchy/)
 This script simplifies the visualization of the configuration hierarchy in New Central via APIs. It retrieves and displays hierarchical data such as:
  - Global
  - Site collections
  - Sites
- - Devices 
+ - Devices
+
 You’ll get this data in a terminal-friendly summary as well as in a CSV file, with key attributes like scope-id and persona which are required for configuration and monitoring APIs.
+
+### [Client Disconnection](/client-disconnect/)
+This workflow is used to disconnect client devices from a network managed by Central. It verifies that the clients are active, matches them by MAC address, and then sends a disconnect request to the device that the client is connected to. This is useful when you want to quickly remove clients from accessing your network.
 
 ### [Rename Hostnames](/rename-hostnames/)
 This script can help you rename the hostname of devices. You can provide a CSV file containing device serial numbers and their corresponding new hostnames. The script reads this file and updates each device's hostname in Central accordingly, automating the renaming process at scale.
+
+### [Profile Operations](/profile-operations/)
+This workflow showcases how to connect to Central and demonstrates the two main approaches to profile operations with Pycentral:
+- Connecting to Central with the Pycentral base object
+- Individual Profile Operations
+- Bulk Profile Operations
+
+### [Device Metrics Export](/device-metrics-export)
+This workflow retrieves comprehensive device information from both HPE Aruba Networking Central and GreenLake Platform (GLP) APIs. It consolidates device attributes, monitoring data, connectivity status, and subscription details into a single CSV file for easy analysis and reporting.
+
+### [Cutover Validation](/cutover-validation)
+This script automates the execution of predefined troubleshooting show commands across multiple Aruba Central–managed devices. It is designed for cutover, migration, and validation workflows, allowing operators to run consistent checks at scale without logging into individual devices. Results are collected only from online devices and exported in HTML, Markdown, or JSON for easy review and sharing.
 
 ## HPE Greenlake Platform Workflows
 

@@ -1,3 +1,3 @@
-pycentral==2.0a6
+pycentral>=2.0a7
 PyYAML
 termcolor

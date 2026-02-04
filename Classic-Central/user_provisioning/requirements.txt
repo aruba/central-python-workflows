@@ -1,8 +1,2 @@
-certifi==2024.7.4
-charset-normalizer==3.3.2
-idna==3.7
-pycentral==1.4.1
-PyYAML==6.0.1
-requests==2.32.0
+pycentral==1.4.3
 termcolor==2.3.0
-urllib3==2.2.2

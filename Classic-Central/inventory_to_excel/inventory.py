@@ -20,10 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from pycentral.new_device_inventory import Inventory
+from pycentral.device_inventory import Inventory
 import xlsxwriter
 import csv as c
 import sys
+
+MAX_LIMIT = 1000
 
 
 class InventoryToExcel(object):
@@ -53,7 +55,11 @@ class InventoryToExcel(object):
         :type offset: int, optional
         """
 
-        # Call API
+        if limit == 0:
+            raise ValueError(
+                "limit=0 (fetch all) is not supported in this workflow. Please specify a positive limit."
+            )
+
         get_resp = Inventory.get_inventory(
             self, conn, sku_type, limit=limit, offset=offset)
         if get_resp["code"] != 200:
@@ -69,28 +75,10 @@ class InventoryToExcel(object):
         else:
             sys.exit("No devices found matching specifications. Exiting...")
 
-        # Handle total devices greater than max limit.
-        if limit == 0:
-            while len(device_list) < device_total:
-                # Increment pagination offset.
-                offset += 50
-                # Get next set of devices.
-                get_resp = Inventory.get_inventory(
-                    self, conn, sku_type, limit=limit, offset=offset)
-                if get_resp["code"] != 200:
-                    sys.exit(
-                        "Bad request for get_inventory() response code: %d. "
-                        "Check parameters. Exiting..." % get_resp["code"])
-
-                # Add new set of devices to device_list.
-                device_list.append(get_resp["msg"]["devices"])
-
         # Setup doc headers and filetype.
-        col_headers = ["Aruba Part Number", "Customer ID", "Customer Name",
-                       "Device Type", "IMEI", "Mac Address", "Model",
-                       "Serial", "Services", "Subscription Key", "Tier Type"]
+        # Use the device keys as headers to keep header columns aligned with values.
+        col_headers = [k.replace('_', ' ').title() for k in col_keys]
         filename = (filename + '.csv') if csv else (filename + '.xlsx')
-
         if not csv:
             # Create excel file, worksheet, and formatting.
             workbook = xlsxwriter.Workbook(filename)
@@ -102,31 +90,41 @@ class InventoryToExcel(object):
                 worksheet.write(0, i, col_headers[i], bold)
             row, col = 1, 0
 
-            # Write device info to cells.
+            # Prepare column width tracking (start with header widths).
+            col_widths = [len(str(h)) for h in col_headers]
+
+            # Write device info to cells and track max width per column.
             for device in device_list:
-                for key in col_keys:
-                    # Switch to proper format for writing.
-                    match device[key]:
-                        case str():
-                            worksheet.write(row, col, device[key])
-                        case list():
-                            data = ', '.join(device[key])
-                            worksheet.write(row, col, data)
-                        case _:
-                            worksheet.write(row, col, 'null')
-                    col += 1
+                for idx, key in enumerate(col_keys):
+                    value = device.get(key, None)
+                    if isinstance(value, str):
+                        out = value
+                    elif isinstance(value, list):
+                        out = ", ".join([str(x) for x in value])
+                    elif value is None:
+                        out = "null"
+                    else:
+                        out = str(value)
+
+                    worksheet.write(row, idx, out)
+                    # update width
+                    col_widths[idx] = max(col_widths[idx], len(out))
 
                 row += 1
-                col = 0
 
-            worksheet.autofit()
+            # Apply reasonable column widths (add padding).
+            for i, w in enumerate(col_widths):
+                width = min(max(w + 2, 8), 60)
+                worksheet.set_column(i, i, width)
+
             workbook.close()
         else:
             # Open csv file and setup writer.
-            with open(filename, 'w', newline='') as csvfile:
-                writer = c.DictWriter(csvfile, fieldnames=col_keys)
+            with open(filename, "w", newline="") as csvfile:
+                writer = c.DictWriter(csvfile, fieldnames=col_headers)
 
                 # Write to csv.
                 writer.writeheader()
                 for device in device_list:
-                    writer.writerow(device)
+                    row_dict = {h: device.get(k, "") for h, k in zip(col_headers, col_keys)}
+                    writer.writerow(row_dict)

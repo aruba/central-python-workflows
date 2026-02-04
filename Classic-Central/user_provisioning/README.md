@@ -1,8 +1,8 @@
 # User Provisioning
-This is a Python script that uses the [Pycentral](https://pypi.org/project/pycentral/) to simplify the process of adding users and assigning roles to these users withing the HPE Greenlake Platform & Aruba Central. With this script, network admins can seamlessly onboard new users, configure their roles & ensure the users have the right access level. 
+This is a Python script that uses the [Pycentral](https://pypi.org/project/pycentral/) to simplify the process of adding users and assigning roles to these users within the HPE Greenlake Platform & Aruba Central. With this script, network admins can seamlessly onboard new users, configure their roles & ensure the users have the right access level.
 
 ## Prerequisite
-1. The users being added are new to the GLCP platform and Central account. They don't have any existing roles in any accounts in GLCP.
+The users being added are new to the GLP platform and Central account. They don't have any existing roles in any accounts in GLP.
 
 ## Installation Steps
 1. Install virtual environment (refer https://docs.python.org/3/library/venv.html). Make sure python version 3 is installed in system.
@@ -45,13 +45,15 @@ This is a Python script that uses the [Pycentral](https://pypi.org/project/pycen
       1. Email
       2. First Name
       3. Last Name
-      4. Password,
-      5. Country (2 Digit Code of Country)
-      6. Zip-code
-      - All 6 columns are required for a user.
-   3. The roles that will be provided to the user is defined in the JSON file. 2 roles are required for each user. One role for each app, i.e. GLCP(account_setting) and Aruba Central(nms). 
+      4. Password
+      5. Phone (Country Code + Number) eg. 
+      6. Street (Optional)
+      7. City (Optional)
+      8. Country (2 Digit Code of Country)
+      9. Zip-code
+   3. The roles that will be provided to the user is defined in the JSON file. 2 roles are required for each user. One role for each app, i.e. GLP(account_setting) and Aruba Central(nms). 
    - For example, the example [user_roles.json](user_roles.json) will provide the users with the following roles - 
-      1. GLCP - Observer
+      1. GLP - Observer
       2. Aruba Central - View Only (For all groups)
        - If you need to make changes to the roles that the script will assign to the user, please do so in the [user_roles.json](user_roles.json) file.
 5. Once all the required files are ready, you can run the script.

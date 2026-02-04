@@ -1,0 +1,4 @@
+Open-SSID-Site:
+    - device_type: IAP
+      devices:
+          - <device-serial-number>

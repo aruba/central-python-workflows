@@ -1,0 +1,53 @@
+site_details:
+  name: "WPA3-PSK-Site"
+  address: "6280 America Center Dr"
+  city: "San Jose"
+  state: "California"
+  country: "United States"
+  zipcode: "95002"
+  timezone: "America/Los_Angeles"
+
+role_details:
+  role:
+    - name: "wpa3-psk-role"
+      description: "wpa3-psk-role description"
+
+policy_details:
+  policy:
+    - name: "wpa3-psk-policy"
+      type: "POLICY_TYPE_SECURITY"
+      description: "wpa3-psk-policy description"
+      security-policy:
+        type: "SECURITY_POLICY_TYPE_DEFAULT"
+        policy-rule:
+          - position: 1
+            description: "Allow All"
+            condition:
+              type: "CONDITION_DEFAULT"
+              rule-type: "RULE_ANY"
+              source:
+                type: "ADDRESS_ROLE"
+                role: "wpa3-psk-role"
+              destination:
+                type: "ADDRESS_ANY"
+            action:
+              type: "ACTION_ALLOW"
+
+policy_group_details:
+  policy-group:
+    policy-group-list:
+      - name: "wpa3-psk-policy"
+        position: 4
+        description: "wpa3-psk-policy description"
+
+ssid_details:
+  wlan-ssid:
+    - ssid: "lsv-wpa3-psk"
+      enable: true
+      forward-mode: "FORWARD_MODE_BRIDGE"
+      opmode: "WPA3_SAE"
+      default-role: "wpa3-psk-role"
+      personal-security:
+        passphrase-format: "STRING"
+        wpa-passphrase: "vault:v4:gitIEOZL4YzPm8mHE6BlyBe++MBrvoWRyZXxfCD9ovq8u2xWUBS/0g=="
+      wpa3-transition-mode-enable: true
