@@ -1,0 +1,620 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+
+    <script src="lib/bindings/utils.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css"
+      integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js"
+      integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <center>
+      <h1></h1>
+    </center>
+
+    <!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+      crossorigin="anonymous"
+    ></script>
+
+    <center>
+      <h1></h1>
+    </center>
+    <style type="text/css">
+      #mynetwork {
+        width: 100%;
+        height: 750px;
+        background-color: #222222;
+        border: 1px solid lightgray;
+        position: relative;
+        float: left;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="card" style="width: 100%">
+      <div id="mynetwork" class="card-body"></div>
+    </div>
+
+    <script type="text/javascript">
+      // initialize global variables.
+      var edges;
+      var nodes;
+      var allNodes;
+      var allEdges;
+      var nodeColors;
+      var originalNodes;
+      var network;
+      var container;
+      var options, data;
+      var filter = {
+        item: "",
+        property: "",
+        value: [],
+      };
+
+      // This method is responsible for drawing the graph, returns the drawn network
+      function drawGraph() {
+        var container = document.getElementById("mynetwork");
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([
+          {
+            color: "#E92012",
+            font: { color: "white" },
+            id: "dev_35667616727",
+            label: "DEV-SERIAL-001",
+            level: 3,
+            shape: "dot",
+            size: 25,
+            title:
+              "Type: ACCESS_POINT\nName: test-ap\nID: xxxxxxxxxxxx\nFunction: N/A",
+          },
+          {
+            color: "#213CD3",
+            font: { color: "white" },
+            id: "dev_34923879753",
+            label: "DEV-SERIAL-002",
+            level: 3,
+            shape: "dot",
+            size: 25,
+            title:
+              "Type: SWITCH\nName: collin-switch\nID: xxxxxxxxxxxx\nFunction: ACCESS_SWITCH",
+          },
+          {
+            color: "#9013FE",
+            font: { color: "white" },
+            id: "dev_44304706465263616",
+            label: "DEV-SERIAL-003",
+            level: 3,
+            shape: "dot",
+            size: 25,
+            title:
+              "Type: GATEWAY\nName: Aruba9004_63_98_F6\nID: xxxxxxxxxxxx\nFunction: N/A",
+          },
+          {
+            color: "#213CD3",
+            font: { color: "white" },
+            id: "dev_74375272462172160",
+            label: "DEV-SERIAL-004",
+            level: 3,
+            shape: "dot",
+            size: 25,
+            title:
+              "Type: SWITCH\nName: Ansible-Access-6200-04\nID: xxxxxxxxxxxx\nFunction: ACCESS_SWITCH",
+          },
+          {
+            color: "#213CD3",
+            font: { color: "white" },
+            id: "dev_68394028741419008",
+            label: "DEV-SERIAL-005",
+            level: 3,
+            shape: "dot",
+            size: 25,
+            title:
+              "Type: SWITCH\nName: Ansible-Access-6200-05\nID: xxxxxxxxxxxx\nFunction: ACCESS_SWITCH",
+          },
+          {
+            color: "#E92012",
+            font: { color: "white" },
+            id: "dev_35667566824",
+            label: "DEV-SERIAL-006",
+            level: 3,
+            shape: "dot",
+            size: 25,
+            title:
+              "Type: ACCESS_POINT\nName: dc:b7:ac:cc:e5:98\nID: xxxxxxxxxxxxx\nFunction: N/A",
+          },
+          {
+            color: "#9013FE",
+            font: { color: "white" },
+            id: "dev_44304707601920000",
+            label: "DEV-SERIAL-007",
+            level: 3,
+            shape: "dot",
+            size: 25,
+            title:
+              "Type: GATEWAY\nName: Aruba9004_63_98_86\nID: xxxxxxxxxxxx\nFunction: N/A",
+          },
+          {
+            color: "#E92012",
+            font: { color: "white" },
+            id: "dev_35667629321",
+            label: "DEV-SERIAL-008",
+            level: 3,
+            shape: "dot",
+            size: 25,
+            title:
+              "Type: ACCESS_POINT\nName: lsv-test-ap\nID: xxxxxxxxxxxx\nFunction: N/A",
+          },
+          {
+            color: "#9013FE",
+            font: { color: "white" },
+            id: "dev_44304710214971392",
+            label: "DEV-SERIAL-009",
+            level: 3,
+            shape: "dot",
+            size: 25,
+            title:
+              "Type: GATEWAY\nName: Aruba9004_63_89_1E\nID: xxxxxxxxxxxx\nFunction: N/A",
+          },
+          {
+            color: "#E92012",
+            font: { color: "white" },
+            id: "dev_35764249547",
+            label: "DEV-SERIAL-010",
+            level: 3,
+            shape: "dot",
+            size: 25,
+            title:
+              "Type: ACCESS_POINT\nName: dc:b7:ac:cc:dd:ba\nID: xxxxxxxxxxxx\nFunction: N/A",
+          },
+          {
+            color: "#9013FE",
+            font: { color: "white" },
+            id: "dev_44304704120647680",
+            label: "DEV-SERIAL-011",
+            level: 3,
+            shape: "dot",
+            size: 25,
+            title:
+              "Type: GATEWAY\nName: Aruba9004_63_95_6E\nID: xxxxxxxxxxxx\nFunction: N/A",
+          },
+          {
+            color: "#9013FE",
+            font: { color: "white" },
+            id: "dev_44304705165029376",
+            label: "DEV-SERIAL-012",
+            level: 3,
+            shape: "dot",
+            size: 25,
+            title:
+              "Type: GATEWAY\nName: Aruba9004_63_95_5E\nID: xxxxxxxxxxxx\nFunction: N/A",
+          },
+          {
+            color: "#9013FE",
+            font: { color: "white" },
+            id: "dev_44304708918931456",
+            label: "DEV-SERIAL-013",
+            level: 3,
+            shape: "dot",
+            size: 25,
+            title:
+              "Type: GATEWAY\nName: Aruba9004_63_99_4E\nID: xxxxxxxxxxxx\nFunction: N/A",
+          },
+          {
+            color: "#213CD3",
+            font: { color: "white" },
+            id: "dev_35663370144",
+            label: "DEV-SERIAL-014",
+            level: 3,
+            shape: "dot",
+            size: 25,
+            title:
+              "Type: SWITCH\nName: NJRAR-1\nID: xxxxxxxxxxxx\nFunction: ACCESS_SWITCH",
+          },
+          {
+            color: "#F5A623",
+            font: { color: "white" },
+            id: "site_46825967376429056",
+            label: "ADL-Lucas",
+            level: 2,
+            shape: "triangle",
+            size: 30,
+            title: "ID: SITE-0000000001",
+          },
+          {
+            color: "#F5A623",
+            font: { color: "white" },
+            id: "site_47020865885560832",
+            label: "ADL-Collin",
+            level: 2,
+            shape: "triangle",
+            size: 30,
+            title: "ID: SITE-0000000002",
+          },
+          {
+            color: "#F5A623",
+            font: { color: "white" },
+            id: "site_74312708944445440",
+            label: "RSVL Lab 4",
+            level: 2,
+            shape: "triangle",
+            size: 30,
+            title: "ID: SITE-0000000003",
+          },
+          {
+            color: "#F5A623",
+            font: { color: "white" },
+            id: "site_45078554510",
+            label: "Building_A",
+            level: 2,
+            shape: "triangle",
+            size: 30,
+            title: "ID: SITE-0000000004",
+          },
+          {
+            color: "#F5A623",
+            font: { color: "white" },
+            id: "site_69197788382695424",
+            label: "stream-test",
+            level: 2,
+            shape: "triangle",
+            size: 30,
+            title: "ID: SITE-0000000005",
+          },
+          {
+            color: "#F5A623",
+            font: { color: "white" },
+            id: "site_74434259353522176",
+            label: "Ansible-Campus",
+            level: 2,
+            shape: "triangle",
+            size: 30,
+            title: "ID: SITE-0000000006",
+          },
+          {
+            color: "#F5A623",
+            font: { color: "white" },
+            id: "site_49171617624236032",
+            label: "LSV-WPA3-PSK-Site",
+            level: 2,
+            shape: "triangle",
+            size: 30,
+            title: "ID: SITE-0000000007",
+          },
+          {
+            color: "#F5A623",
+            font: { color: "white" },
+            id: "site_51396306152136704",
+            label: "LSV-Open-SSID-Site",
+            level: 2,
+            shape: "triangle",
+            size: 30,
+            title: "ID: SITE-0000000008",
+          },
+          {
+            color: "#3FBC45",
+            font: { color: "white" },
+            id: "sc_75248665335353344",
+            label: "Labs",
+            level: 1,
+            shape: "box",
+            size: 35,
+            title: "ID: SC-0000000001",
+          },
+          {
+            color: "#3FBC45",
+            font: { color: "white" },
+            id: "sc_76391597766316032",
+            label: "Campus Buildings",
+            level: 1,
+            shape: "box",
+            size: 35,
+            title: "ID: SC-0000000002",
+          },
+          {
+            color: "#808080",
+            font: { color: "white" },
+            id: "global",
+            label: "Global",
+            level: 0,
+            shape: "circle",
+            size: 45,
+            title: "ID: GLOBAL-0000000001",
+          },
+        ]);
+        edges = new vis.DataSet([
+          { arrows: "to", from: "global", to: "sc_75248665335353344" },
+          { arrows: "to", from: "global", to: "sc_76391597766316032" },
+          {
+            arrows: "to",
+            from: "sc_76391597766316032",
+            to: "site_45078554510",
+          },
+          {
+            arrows: "to",
+            from: "sc_75248665335353344",
+            to: "site_46825967376429056",
+          },
+          {
+            arrows: "to",
+            from: "sc_75248665335353344",
+            to: "site_47020865885560832",
+          },
+          { arrows: "to", from: "global", to: "site_49171617624236032" },
+          { arrows: "to", from: "global", to: "site_51396306152136704" },
+          {
+            arrows: "to",
+            from: "sc_76391597766316032",
+            to: "site_69197788382695424",
+          },
+          {
+            arrows: "to",
+            from: "sc_75248665335353344",
+            to: "site_74312708944445440",
+          },
+          {
+            arrows: "to",
+            from: "sc_76391597766316032",
+            to: "site_74434259353522176",
+          },
+          {
+            arrows: "to",
+            from: "site_47020865885560832",
+            to: "dev_35667616727",
+          },
+          {
+            arrows: "to",
+            from: "site_47020865885560832",
+            to: "dev_34923879753",
+          },
+          {
+            arrows: "to",
+            from: "site_74434259353522176",
+            to: "dev_44304706465263616",
+          },
+          {
+            arrows: "to",
+            from: "site_74434259353522176",
+            to: "dev_74375272462172160",
+          },
+          {
+            arrows: "to",
+            from: "site_74434259353522176",
+            to: "dev_68394028741419008",
+          },
+          { arrows: "to", from: "site_45078554510", to: "dev_35667566824" },
+          {
+            arrows: "to",
+            from: "site_45078554510",
+            to: "dev_44304707601920000",
+          },
+          {
+            arrows: "to",
+            from: "site_49171617624236032",
+            to: "dev_35667629321",
+          },
+          {
+            arrows: "to",
+            from: "site_49171617624236032",
+            to: "dev_44304710214971392",
+          },
+          {
+            arrows: "to",
+            from: "site_74312708944445440",
+            to: "dev_35764249547",
+          },
+          {
+            arrows: "to",
+            from: "site_74312708944445440",
+            to: "dev_44304704120647680",
+          },
+          {
+            arrows: "to",
+            from: "site_74312708944445440",
+            to: "dev_44304705165029376",
+          },
+          {
+            arrows: "to",
+            from: "site_74312708944445440",
+            to: "dev_44304708918931456",
+          },
+          {
+            arrows: "to",
+            from: "site_69197788382695424",
+            to: "dev_35663370144",
+          },
+        ]);
+
+        nodeColors = {};
+        allNodes = nodes.get({ returnType: "Object" });
+        for (nodeId in allNodes) {
+          nodeColors[nodeId] = allNodes[nodeId].color;
+        }
+        allEdges = edges.get({ returnType: "Object" });
+        // adding nodes and edges to the graph
+        data = { nodes: nodes, edges: edges };
+
+        var options = {
+          nodes: { font: { size: 20, face: "Arial" } },
+          layout: {
+            hierarchical: {
+              enabled: true,
+              direction: "UD",
+              sortMethod: "directed",
+              levelSeparation: 200,
+              nodeSpacing: 350,
+              treeSpacing: 400,
+            },
+          },
+          physics: {
+            hierarchicalRepulsion: {
+              centralGravity: 0.0,
+              springLength: 200,
+              springConstant: 0.005,
+              nodeDistance: 300,
+              damping: 0.09,
+            },
+            minVelocity: 0.75,
+            solver: "hierarchicalRepulsion",
+          },
+          interaction: {
+            hover: true,
+            hoverConnectedEdges: true,
+            selectConnectedEdges: true,
+            navigationButtons: true,
+            keyboard: true,
+            zoomView: true,
+          },
+        };
+
+        network = new vis.Network(container, data, options);
+
+        return network;
+      }
+      drawGraph();
+    </script>
+    <div
+      id="pyvis-legend"
+      style="
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        background: rgba(0, 0, 0, 0.6);
+        padding: 10px 12px;
+        border-radius: 8px;
+        z-index: 9999;
+        max-height: 70vh;
+        overflow: auto;
+      "
+    >
+      <div
+        style="
+          color: #fff;
+          font-family: Arial, sans-serif;
+          font-size: 16px;
+          font-weight: bold;
+          margin-bottom: 6px;
+        "
+      >
+        Legend
+      </div>
+      <div style="display: flex; align-items: center; margin: 4px 0">
+        <span
+          style="
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: #808080;
+            border: 1px solid #111;
+            margin-right: 8px;
+          "
+        ></span
+        ><span
+          style="color: #fff; font-family: Arial, sans-serif; font-size: 15px"
+          >Global</span
+        >
+      </div>
+      <div style="display: flex; align-items: center; margin: 4px 0">
+        <span
+          style="
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: #3fbc45;
+            border: 1px solid #111;
+            margin-right: 8px;
+          "
+        ></span
+        ><span
+          style="color: #fff; font-family: Arial, sans-serif; font-size: 15px"
+          >Site Collection</span
+        >
+      </div>
+      <div style="display: flex; align-items: center; margin: 4px 0">
+        <span
+          style="
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: #f5a623;
+            border: 1px solid #111;
+            margin-right: 8px;
+          "
+        ></span
+        ><span
+          style="color: #fff; font-family: Arial, sans-serif; font-size: 15px"
+          >Site</span
+        >
+      </div>
+      <div style="display: flex; align-items: center; margin: 4px 0">
+        <span
+          style="
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: #e92012;
+            border: 1px solid #111;
+            margin-right: 8px;
+          "
+        ></span
+        ><span
+          style="color: #fff; font-family: Arial, sans-serif; font-size: 15px"
+          >Access Points</span
+        >
+      </div>
+      <div style="display: flex; align-items: center; margin: 4px 0">
+        <span
+          style="
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: #213cd3;
+            border: 1px solid #111;
+            margin-right: 8px;
+          "
+        ></span
+        ><span
+          style="color: #fff; font-family: Arial, sans-serif; font-size: 15px"
+          >Switches</span
+        >
+      </div>
+      <div style="display: flex; align-items: center; margin: 4px 0">
+        <span
+          style="
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: #9013fe;
+            border: 1px solid #111;
+            margin-right: 8px;
+          "
+        ></span
+        ><span
+          style="color: #fff; font-family: Arial, sans-serif; font-size: 15px"
+          >Gateways</span
+        >
+      </div>
+    </div>
+  </body>
+</html>
