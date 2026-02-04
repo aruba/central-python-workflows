@@ -35,7 +35,7 @@ The diagram is intended as a quick validation tool, useful after deployments or 
 - API credentials for HPE Aruba Networking Central (JSON or YAML format)
 - There should be atleast 1 site created in the account to get new Central configuration attributes
 
-## Setup
+## Installation
 
 1. **Clone the repository and navigate to this workflow folder:**
     ```bash
@@ -142,7 +142,7 @@ hierarchy-visualizer/
 
 - Ensure your credentials file is valid and in JSON or YAML format.
 - Make sure all required dependencies are installed (`pip install -r requirements.txt`).
-- If you encounter diagram generation errors, verify GraphViz is properly installed by reviewing the steps in [Setup](#setup).
+- If you encounter diagram generation errors, verify GraphViz is properly installed by reviewing the steps in [Installation](#installation).
 - If you encounter other issues, please reach out to [Aruba Automation](mailto:aruba-automation@hpe.com)
 
 ## Support
