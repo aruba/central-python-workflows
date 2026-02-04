@@ -77,13 +77,10 @@ This workflow is tested on the `pycentral` SDK (version: `2.0a13`). Please check
 For API operations in new Central:
 
 ```yaml
-central:
-    # Either `base_url` or `cluster_name` should be provided:
-    # 
-    # base_url: <central-api-base-url>
-    # cluster_name: <central-cluster-name>
-    client_id: <central-client-id>
-    client_secret: <central-client-secret>
+new_central:
+    base_url: <central-api-base-url>
+    client_id: <new-central-client-id>
+    client_secret: <new-central-client-secret>
 ```
 
 **Sample Input:** See [`account_credentials.yaml`](./account_credentials.yaml) in this repository for an example credential file.
