@@ -2,8 +2,8 @@
 
 This script automates the complete onboarding journey of factory-default devices in HPE Aruba Networking Central. It takes devices from an **unassigned state in GreenLake Platform (GLP)** through both GLP onboarding and Central onboarding to make them ready for configuration via **New Central**. 
 
-[!NOTE]
-This is a proof of concept for demonstrating the steps required for automating the onboarding process. It is not optimized for large-scale or production migrations. Please use as a reference only.
+>[!NOTE]
+>This is a proof of concept for demonstrating the steps required for automating the onboarding process. It is not optimized for large-scale or production migrations. Please use as a reference only.
 
 ![Workflow Diagram](./utils/workflow.png)
 
