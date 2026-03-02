@@ -103,21 +103,38 @@ def process_single_device(
 
 
 def process_all_devices(
-    device_serials: List[str], commands: List[str], central_conn
+    device_serials: List[str], commands: List[str], central_conn, max_workers: int
 ) -> List[CommandResult]:
-    """Process all devices sequentially (one at a time)."""
+    """Process all devices in parallel with bounded worker concurrency."""
     all_results = []
     total_devices = len(device_serials)
+    max_workers = min(max_workers, total_devices)
 
     print(f"\n{'=' * SEPARATOR_WIDTH}")
-    print(f"Processing {total_devices} device(s) sequentially (one at a time)...")
+    print(
+        f"Processing {total_devices} device(s) in parallel "
+        f"(up to {max_workers} at a time)..."
+    )
     print(f"{'=' * SEPARATOR_WIDTH}\n")
 
-    for i, serial in enumerate(device_serials, 1):
-        results = process_single_device(
-            serial, commands, i, total_devices, central_conn
-        )
-        all_results.extend(results)
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_to_serial = {
+            executor.submit(
+                process_single_device,
+                serial,
+                commands,
+                central_conn,
+            ): serial
+            for serial in device_serials
+        }
+
+        for future in as_completed(future_to_serial):
+            serial = future_to_serial[future]
+            try:
+                results = future.result()
+                all_results.extend(results)
+            except Exception as e:
+                print(f"Error processing device {serial} in worker: {str(e)}")
 
     return all_results
 
@@ -302,6 +319,9 @@ def main():
                 devices_for_save.extend(sites_data[site_id]["online_ap_details"])
 
     # Process all devices
+    all_results = process_all_devices(
+        device_serials, commands, central_conn, args.max_workers
+    )
 
     # Save results and generate reports
     if all_results:
