@@ -205,9 +205,15 @@ def parse_args():
     return parser.parse_args()
 
 
+    args = parse_args()
 
     # Load troubleshooting commands
-    commands = load_commands(args.troubleshooting_commands)
+    try:
+        commands = load_commands(args.troubleshooting_commands)
+    except Exception as e:
+        print(f"Error loading troubleshooting commands: {str(e)}")
+        sys.exit(1)
+
     print(f"Loaded {len(commands)} troubleshooting command(s)")
 
     # Connect to API
