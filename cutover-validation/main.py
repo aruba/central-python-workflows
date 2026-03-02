@@ -174,7 +174,8 @@ def save_results(results: List[CommandResult], devices: List[Device]) -> None:
     print(f"  Total commands executed: {len(results)}")
 
 
-def main():
+def parse_args():
+    """Parse and return command-line arguments."""
     parser = argparse.ArgumentParser(description="Cutover Validation Script")
     parser.add_argument(
         "-c",
@@ -194,7 +195,16 @@ def main():
         help="YAML file containing troubleshooting commands to run on all devices",
         required=True,
     )
-    args = parser.parse_args()
+
+    parser.add_argument(
+        "--max-workers",
+        type=int,
+        default=MAX_CONCURRENT_DEVICE_EXECUTIONS,
+        help=f"Maximum number of concurrent device executions (default: {MAX_CONCURRENT_DEVICE_EXECUTIONS})",
+    )
+    return parser.parse_args()
+
+
 
     # Load troubleshooting commands
     commands = load_commands(args.troubleshooting_commands)
