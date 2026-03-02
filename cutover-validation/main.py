@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Device Command Validation and Execution Script - Refactored
+Device Command Validation and Execution Script
 
-This script validates commands against device capabilities and executes them sequentially.
+This script validates commands against device and executes them in a batch.
 Supports separate YAML files for devices and troubleshooting commands.
 Supports CSV input for device lists.
 """
@@ -220,7 +220,7 @@ def main():
 
         print(f"Loaded {len(device_serials)} device serial(s)")
 
-        # Fetch device details in parallel (Phase 1 - optimized!)
+        # Fetch device details in parallel
         online_devices, offline_devices, not_found = fetch_devices_parallel(
             device_serials, central_conn
         )
@@ -277,8 +277,7 @@ def main():
             if site_id in sites_data:
                 devices_for_save.extend(sites_data[site_id]["online_ap_details"])
 
-    # Process all devices (Phase 2 - sequential)
-    all_results = process_all_devices(device_serials, commands, central_conn)
+    # Process all devices
 
     # Save results and generate reports
     if all_results:
