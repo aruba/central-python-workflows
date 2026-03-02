@@ -28,85 +28,122 @@ def validate_command(command: str, supported_commands: List[str]) -> bool:
     )
 
 
-def validate_commands(commands: List[str], device_instance) -> dict[str, bool]:
+def validate_commands(
+    commands: List[str], device_instance, log=print
+) -> dict[str, bool]:
     """Validate a list of commands against device capabilities."""
     supported_commands = fetch_supported_commands(device_instance)
-    print(f"Validating {len(commands)} commands against device...")
+    log(f"Validating {len(commands)} commands against device...")
 
     validation_results = {}
     for command in commands:
         is_valid = validate_command(command, supported_commands)
         validation_results[command] = is_valid
-        status = "✓ VALID" if is_valid else "✗ INVALID"
-        print(f"  {status}: {command}")
+        status = "\u2713 VALID" if is_valid else "\u2717 INVALID"
+        log(f"  {status}: {command}")
 
     return validation_results
 
 
-def execute_command(command: str, device_instance) -> CommandResult:
-    """Execute a single command on the device."""
-    try:
-        response = device_instance.run_show_command(
-            command=command, poll_interval=POLL_INTERVAL, max_attempts=MAX_ATTEMPTS
-        )
+def _format_batched_item(command_output: dict) -> CommandResult:
+    """Normalize one {command, output} batched item into CommandResult."""
+    command = command_output.get("command", "")
+    output = command_output.get("output")
 
-        if response.get("failReason"):
-            print(f"Command '{command}' failed: {response['failReason']}")
-            return CommandResult(
-                command=command,
-                status="FAILED",
-                error=response.get("failReason"),
-                raw_response=response,
-            )
-
-        if response.get("status") != "COMPLETED":
-            print(f"Command '{command}' did not complete successfully.")
-            print(response)
-            return CommandResult(
-                command=command,
-                status=response.get("status", "FAILED"),
-                error=f"Command did not complete successfully. Status: {response.get('status', 'UNKNOWN')}",
-                raw_response=response,
-            )
-
-        return CommandResult(
-            command=response.get("output", {}).get("command", command),
-            status=response.get("status", "COMPLETED"),
-            response=response.get("output", {}).get("response", ""),
-            raw_response=response,
-        )
-    except Exception as e:
-        print(f"Error executing command '{command}': {e}")
+    if output is None:
         return CommandResult(
             command=command,
-            status="ERROR",
-            error=str(e),
+            status="FAILED",
+            error="No output returned for this command",
+            raw_response=command_output,
         )
+
+    return CommandResult(
+        command=command,
+        status="COMPLETED",
+        response=output,
+        raw_response=command_output,
+    )
 
 
 def execute_commands_sequentially(
-    commands: List[str], device_instance
+    commands: List[str], device_instance, log=print
 ) -> List[CommandResult]:
-    """Execute validated commands sequentially and collect results."""
-    results = []
-    print(f"\nExecuting {len(commands)} commands sequentially...")
+    """Execute validated commands in one batch using run_show_commands."""
 
-    for i, command in enumerate(commands, 1):
-        print(f"\n[{i}/{len(commands)}] Processing: {command}")
-        result = execute_command(command, device_instance)
-        results.append(result)
+    log(f"\nExecuting {len(commands)} command(s) in a single batch...")
 
-        # Display output
-        print(f"\n{'=' * 60}")
-        print(f"Command: {result.command}")
-        print(f"Status: {result.status}")
+    try:
+        response = device_instance.run_show_commands(
+            commands=commands,
+            poll_interval=POLL_INTERVAL,
+            max_attempts=MAX_ATTEMPTS,
+        )
+    except Exception as e:
+        log(f"Error executing command batch: {e}")
+        return [
+            CommandResult(command=command, status="ERROR", error=str(e))
+            for command in commands
+        ]
+
+    if not isinstance(response, dict):
+        results = [
+            CommandResult(
+                command=command,
+                status="FAILED",
+                error="Unexpected response format returned by run_show_commands",
+            )
+            for command in commands
+        ]
+    else:
+        output = response.get("output")
+        items = output.get("results") if isinstance(output, dict) else None
+
+        if not isinstance(items, list):
+            results = [
+                CommandResult(
+                    command=command,
+                    status="FAILED",
+                    error="Unexpected response format: expected output.results list",
+                    raw_response=response,
+                )
+                for command in commands
+            ]
+        else:
+            results = [
+                _format_batched_item(
+                    command_output if isinstance(command_output, dict) else {}
+                )
+                for command_output in items
+            ]
+
+            if len(items) < len(commands):
+                results.extend(
+                    CommandResult(
+                        command=command,
+                        status="FAILED",
+                        error="No result returned for this command",
+                        raw_response=response,
+                    )
+                    for command in commands[len(items) :]
+                )
+
+            if len(items) > len(commands):
+                log(
+                    f"Warning: received {len(items)} results for {len(commands)} commands; extra results ignored"
+                )
+
+    for result in results:
+        log(f"\n{'=' * 60}")
+        log(f"Command: {result.command}")
+        log(f"Status: {result.status}")
         if result.error:
-            print(f"Error: {result.error}")
-        print(f"{'=' * 60}")
+            log(f"Error: {result.error}")
+        log(f"{'=' * 60}")
         if result.response:
-            print(result.response)
+            log(result.response)
         elif result.error:
-            print(f"[No output - command failed with error: {result.error}]")
-        print(f"{'=' * 60}\n")
+            log(f"[No output - command failed with error: {result.error}]")
+        log(f"{'=' * 60}\n")
 
     return results

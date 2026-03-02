@@ -4,7 +4,7 @@ import csv
 import sys
 import yaml
 from typing import List, Any, Optional
-from utils.config import CSV_SERIAL_COLUMNS, CSV_SAMPLE_SIZE
+from utils.config import CSV_SERIAL_COLUMNS, CSV_SAMPLE_SIZE, MAX_COMMANDS_SUPPORTED
 
 
 def load_yaml_file(yaml_file: str, key: Optional[str] = None) -> Any:
@@ -27,9 +27,8 @@ def load_yaml_file(yaml_file: str, key: Optional[str] = None) -> Any:
 def load_commands(yaml_file: str) -> List[str]:
     """Load troubleshooting commands from YAML file."""
     data = load_yaml_file(yaml_file)
-
     if isinstance(data, dict) and "commands" in data:
-        commands = data["commands"]
+        commands = data.get("commands")
     elif isinstance(data, list):
         commands = data
     else:
@@ -37,10 +36,28 @@ def load_commands(yaml_file: str) -> List[str]:
             "Invalid YAML format. Expected 'commands' key or list of commands"
         )
 
-    if not commands or not isinstance(commands, list):
+    if not isinstance(commands, list) or not commands:
         raise ValueError("No valid commands found in YAML file")
 
-    return commands
+    if len(commands) > MAX_COMMANDS_SUPPORTED:
+        raise ValueError(
+            f"Too many commands. Maximum supported is {MAX_COMMANDS_SUPPORTED}"
+        )
+
+    cleaned = []
+    for cmd in commands:
+        if not isinstance(cmd, str) or not cmd.strip():
+            raise ValueError(
+                f"Invalid command entry: {cmd}. All commands must be non-empty strings."
+            )
+        s = cmd.strip()
+        if not s.lower().startswith("show "):
+            raise ValueError(
+                f"Invalid command: '{cmd}'. All commands must start with 'show '."
+            )
+        cleaned.append(s)
+
+    return cleaned
 
 
 def load_device_serials_from_yaml(yaml_file: str) -> List[str]:

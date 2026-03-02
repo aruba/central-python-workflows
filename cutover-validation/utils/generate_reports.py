@@ -10,7 +10,7 @@ Now uses the new modular reports module for cleaner code.
 
 import json
 import argparse
-from .generate_reports import generate_all_reports
+from .report_generators import generate_all_reports
 
 
 def main():

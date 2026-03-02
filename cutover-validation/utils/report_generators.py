@@ -109,7 +109,7 @@ def generate_html_report(data: Dict[str, Any], output_file: str) -> None:
     summary = data.get("summary")
     devices_data = data.get("devices", {})
 
-    with open(output_file, "w") as f:
+    with open(output_file, "w", encoding="utf-8") as f:
         f.write(HTML_CSS_TEMPLATE)
         f.write("""    <div class="header">
         <h1>🔧 Cutover Validation Report</h1>

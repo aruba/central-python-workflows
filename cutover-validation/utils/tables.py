@@ -3,7 +3,7 @@
 from typing import List
 from tabulate import tabulate
 from utils.models import Device
-from utils.config import TABLE_FORMAT, SEPARATOR_WIDTH, WIDE_SEPARATOR_WIDTH
+from utils.config import TABLE_FORMAT, WIDE_SEPARATOR_WIDTH
 
 
 def display_device_table(devices: List[Device], title: str = "Devices") -> None:
@@ -68,11 +68,11 @@ def display_site_table(sites_data: dict) -> None:
 
     headers = ["#", "Site Name", "Total Devices", "APs Online", "APs Offline"]
 
-    print(f"\n{'=' * 100}")
+    print(f"\n{'=' * WIDE_SEPARATOR_WIDTH}")
     print("Available Sites:")
-    print(f"{'=' * 100}")
+    print(f"{'=' * WIDE_SEPARATOR_WIDTH}")
     print(tabulate(table_data, headers=headers, tablefmt=TABLE_FORMAT))
-    print(f"{'=' * 100}\n")
+    print(f"{'=' * WIDE_SEPARATOR_WIDTH}\n")
 
 
 def display_device_status_summary(
@@ -94,35 +94,7 @@ def display_device_status_summary(
         print(
             f"WARNING: OFFLINE DEVICES ({len(offline_devices)}) - Cannot run troubleshooting commands:"
         )
-
-        table_data = [
-            [
-                idx,
-                device.name,
-                device.mac_address,
-                device.serial,
-                device.model,
-                device.ip_address,
-                device.firmware,
-                device.site,
-                device.status,
-            ]
-            for idx, device in enumerate(offline_devices, 1)
-        ]
-
-        headers = [
-            "#",
-            "Device Name",
-            "MAC Address",
-            "Serial",
-            "Model",
-            "IP Address",
-            "Firmware",
-            "Site",
-            "Status",
-        ]
-
-        print(tabulate(table_data, headers=headers, tablefmt=TABLE_FORMAT))
+        display_device_table(offline_devices)
 
     # Display not found devices
     if not_found_serials:

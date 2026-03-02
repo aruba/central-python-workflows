@@ -13,7 +13,7 @@ Commands are executed only on online devices, and results are collected for revi
 ## Features
 
 - **Command Validation** - Validates commands against device capabilities before execution
-- **Sequential Execution** - Executes commands sequentially across multiple devices
+- **Batched Command Execution** - Executes up to 20 commands per device in a single `run_show_commands` API call
 - **Multiple Input Formats** - Support for both YAML and CSV device lists
 - **Flexible Configuration** - Separate troubleshooting commands from device lists
 - **Comprehensive Reporting** - Generates JSON, HTML, and Markdown reports with timestamps
@@ -44,7 +44,7 @@ source env/bin/activate  # On Windows use: env\Scripts\activate
 pip install -r requirements.txt
 ```
 
-This workflow is tested with the `pycentral` SDK version `2.0a13`. Please check compatibility before executing on newer versions as there may be changes.
+This workflow is tested with the `pycentral` SDK version `2.0a14`. Please check compatibility before executing on newer versions as there may be changes.
 
 ## Configuration
 
@@ -73,6 +73,9 @@ The script requires a troubleshooting commands file and provides three flexible 
 #### Troubleshooting Commands File (Required)
 
 The troubleshooting commands file specifies which show commands will be executed on the selected devices. This file is always required.
+
+> [!IMPORTANT]
+> This workflow supports a maximum of **20 troubleshooting commands** per run.
 
 ##### troubleshooting_commands.yaml
 ```yaml
@@ -145,7 +148,7 @@ The script processes each device through these steps:
 1. **Input Validation** - Validates configuration file structure and credentials
 2. **Device Discovery** - Fetches devices from Central (optionally filtered by site)
 3. **Command Validation** - Validates commands against each device's capabilities
-4. **Command Execution** - Executes valid commands sequentially on each device
+4. **Command Execution** - Executes valid commands in a single batch per device using `run_show_commands` (up to 20 commands), processing up to 5 devices in parallel
 5. **Report Generation** - Generates JSON, HTML, and Markdown reports
 
 **If something fails:** The script skips invalid commands for that device and continues with the next command/device to avoid cascading failures.
@@ -157,6 +160,7 @@ The script processes each device through these steps:
 | `-c, --credentials` | string | Central API credentials file (YAML) | Yes |
 | `-t, --troubleshooting_commands` | string | YAML file with commands to run on all devices | Yes |
 | `-d, --devices` | string | YAML or CSV file containing device serial numbers | No |
+| `--max-workers` | int | Maximum number of devices to process concurrently (default: 5) | No |
 
 \* **Device Selection**: If you don't provide `-d`, the script will display available sites and let you select one to run commands on all online APs at that site.
 

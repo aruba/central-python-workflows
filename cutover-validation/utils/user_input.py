@@ -23,7 +23,7 @@ def prompt_confirmation(device_serials: List[str], commands: List[str]) -> bool:
     print(f"\n{'=' * SEPARATOR_WIDTH}")
 
     while True:
-        response = input("\nDo you want to proceed? (yes/no): ").strip().lower()
+        response = input("\nDo you want to proceed? (yes/no or y/n): ").strip().lower()
         if response in ["yes", "y"]:
             return True
         elif response in ["no", "n"]:

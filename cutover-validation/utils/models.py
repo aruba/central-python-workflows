@@ -60,10 +60,6 @@ class CommandResult:
     device_serial: Optional[str] = None
     raw_response: dict = field(default_factory=dict)
 
-    def is_successful(self) -> bool:
-        """Check if command execution was successful."""
-        return self.status == "COMPLETED"
-
     def to_dict(self) -> dict:
         """Convert to dictionary for serialization."""
         return {
