@@ -156,50 +156,39 @@ def process_all_devices(
 
 def save_results(results: List[CommandResult], devices: List[Device]) -> None:
     """Save results and generate reports."""
-    # Group results by device serial
-    device_results = {}
+    device_results: dict = {}
     for result in results:
-        serial = result.device_serial
-        if serial:
-            device_results.setdefault(serial, []).append(result)
+        if result.device_serial:
+            device_results.setdefault(result.device_serial, []).append(result)
 
-    # Build device info mapping
     device_info_map = {device.serial: device for device in devices}
 
-    # Create output structure
-    output_data = []
-
-    # Summary and device overview
     devices_overview = []
+    device_entries = []
     for serial in sorted(device_results.keys()):
         device = device_info_map.get(serial, Device(serial=serial))
-        devices_overview.append(
+        cmds = device_results[serial]
+        devices_overview.append({**device.to_dict(), "commands_executed": len(cmds)})
+        device_entries.append(
             {
-                **device.to_dict(),
-                "commands_executed": len(device_results[serial]),
+                "type": "device_results",
+                "device_serial": serial,
+                "device_info": device.to_dict(),
+                "commands_executed": len(cmds),
+                "troubleshooting_results": [r.to_dict() for r in cmds],
             }
         )
 
-    summary = {
-        "type": "summary",
-        "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "total_devices": len(device_results),
-        "total_commands_executed": len(results),
-        "devices_overview": devices_overview,
-    }
-    output_data.append(summary)
-
-    # Individual device results
-    for serial in sorted(device_results.keys()):
-        device = device_info_map.get(serial, Device(serial=serial))
-        device_entry = {
-            "type": "device_results",
-            "device_serial": serial,
-            "device_info": device.to_dict(),
-            "commands_executed": len(device_results[serial]),
-            "troubleshooting_results": [r.to_dict() for r in device_results[serial]],
-        }
-        output_data.append(device_entry)
+    output_data = [
+        {
+            "type": "summary",
+            "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "total_devices": len(device_results),
+            "total_commands_executed": len(results),
+            "devices_overview": devices_overview,
+        },
+        *device_entries,
+    ]
 
     generate_all_reports(output_data)
     print(f"  Total devices: {len(device_results)}")
