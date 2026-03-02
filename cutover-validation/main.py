@@ -205,6 +205,7 @@ def parse_args():
     return parser.parse_args()
 
 
+def main():
     args = parse_args()
 
     # Load troubleshooting commands
@@ -218,9 +219,16 @@ def parse_args():
 
     # Connect to API
     print("\nConnecting to Central...")
-    central_conn = NewCentralBase(
-        token_info=args.credentials, enable_scope=True, log_level="ERROR"
-    )
+    # Initialize Central connection with scopes enabled using the provided credentials.
+
+    try:
+        central_conn = NewCentralBase(
+            token_info=args.credentials, enable_scope=True, log_level="ERROR"
+        )
+
+    except Exception as e:
+        print(f"Error connecting to Central: {str(e)}")
+        sys.exit(1)
 
     # Determine device selection method
     if args.devices:
