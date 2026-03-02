@@ -7,15 +7,21 @@ Supports separate YAML files for devices and troubleshooting commands.
 Supports CSV input for device lists.
 """
 
+import io
 import sys
 import argparse
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from typing import List
 from pycentral import NewCentralBase
 
 # Import from utils modules
 from utils.models import Device, CommandResult
-from utils.config import SEPARATOR_WIDTH
+from utils.config import (
+    SEPARATOR_WIDTH,
+    MAX_CONCURRENT_DEVICE_EXECUTIONS,
+)
 from utils.loaders import (
     load_commands,
     load_device_serials_from_yaml,
@@ -30,76 +36,85 @@ from utils.tables import (
 from utils.user_input import prompt_confirmation, prompt_site_selection
 from utils.report_generators import generate_all_reports
 
+_print_lock = threading.Lock()
+
 
 def process_single_device(
     device_serial: str,
     commands: List[str],
-    device_index: int,
-    total_devices: int,
-    central_conn,
+    central_conn: NewCentralBase,
 ) -> List[CommandResult]:
-    """Process a single device and execute commands."""
-    print(f"\n{'=' * SEPARATOR_WIDTH}")
-    print(f"Device {device_index}/{total_devices}: {device_serial}")
-    print(f"{'=' * SEPARATOR_WIDTH}")
+    """Process a single device and execute commands, buffering output for atomic printing."""
+    buf = io.StringIO()
 
+    def log(*args, **kwargs):
+        print(*args, **kwargs, file=buf)
+
+    log(f"\n{'=' * SEPARATOR_WIDTH}")
+    log(f"Device: {device_serial}")
+    log(f"{'=' * SEPARATOR_WIDTH}")
+
+    results = []
     try:
         device_instance = central_conn.scopes.find_device(device_serials=device_serial)
         if not device_instance:
-            print(
+            log(
                 f"Device with serial '{device_serial}' not found in the account. Skipping..."
             )
-            return []
+        else:
+            # Safety check: Skip offline devices
+            device_status = getattr(device_instance, "status", "UNKNOWN").upper()
+            if device_status != "ONLINE":
+                log(
+                    f"Device with serial '{device_serial}' is {device_status}. Cannot execute commands. Skipping..."
+                )
+            else:
+                # Validate commands
+                validation_results = validate_commands(
+                    commands, device_instance, log=log
+                )
 
-        # Safety check: Skip offline devices
-        device_status = getattr(device_instance, "status", "UNKNOWN").upper()
-        if device_status != "ONLINE":
-            print(
-                f"Device with serial '{device_serial}' is {device_status}. Cannot execute commands. Skipping..."
-            )
-            return []
+                valid_commands = [
+                    cmd for cmd, is_valid in validation_results.items() if is_valid
+                ]
+                invalid_commands = [
+                    cmd for cmd, is_valid in validation_results.items() if not is_valid
+                ]
 
-        # Validate commands
-        validation_results = validate_commands(commands, device_instance)
+                log(f"\nValidation Summary for {device_serial}:")
+                log(f"  Valid commands: {len(valid_commands)}")
+                log(f"  Invalid commands: {len(invalid_commands)}")
 
-        # Filter valid/invalid commands
-        valid_commands = [
-            cmd for cmd, is_valid in validation_results.items() if is_valid
-        ]
-        invalid_commands = [
-            cmd for cmd, is_valid in validation_results.items() if not is_valid
-        ]
+                if invalid_commands:
+                    log("\nInvalid commands will be skipped:")
+                    for cmd in invalid_commands:
+                        log(f"  - {cmd}")
 
-        print(f"\nValidation Summary for {device_serial}:")
-        print(f"  Valid commands: {len(valid_commands)}")
-        print(f"  Invalid commands: {len(invalid_commands)}")
+                if not valid_commands:
+                    log(
+                        f"\nNo valid commands to execute for device {device_serial}. Skipping..."
+                    )
+                else:
+                    # Execute valid commands
+                    results = execute_commands_sequentially(
+                        valid_commands, device_instance, log=log
+                    )
 
-        if invalid_commands:
-            print("\nInvalid commands will be skipped:")
-            for cmd in invalid_commands:
-                print(f"  - {cmd}")
+                    # Add device serial to results
+                    for result in results:
+                        result.device_serial = device_serial
 
-        if not valid_commands:
-            print(
-                f"\nNo valid commands to execute for device {device_serial}. Skipping..."
-            )
-            return []
-
-        # Execute valid commands
-        results = execute_commands_sequentially(valid_commands, device_instance)
-
-        # Add device serial to results
-        for result in results:
-            result.device_serial = device_serial
-
-        print(
-            f"\nCompleted processing device {device_serial}: {len(results)} commands executed"
-        )
-        return results
+                    log(
+                        f"\nCompleted processing device {device_serial}: {len(results)} commands executed"
+                    )
 
     except Exception as e:
-        print(f"Error processing device {device_serial}: {str(e)}")
-        return []
+        log(f"Error processing device {device_serial}: {str(e)}")
+    finally:
+        with _print_lock:
+            print(buf.getvalue(), end="")
+
+    return results
 
 
 def process_all_devices(
