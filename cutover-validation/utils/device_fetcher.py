@@ -46,10 +46,10 @@ def fetch_devices_parallel(
     not_found_serials = []
 
     total = len(device_serials)
-    print(f"\nFetching {total} device(s) in parallel...")
 
+    max_workers = min(MAX_CONCURRENT_DEVICE_FETCHES, total)
     # Use ThreadPoolExecutor for parallel API calls
-    with ThreadPoolExecutor(max_workers=MAX_CONCURRENT_DEVICE_FETCHES) as executor:
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
         # Submit all fetch tasks
         future_to_serial = {
             executor.submit(
@@ -63,23 +63,21 @@ def fetch_devices_parallel(
             serial = future_to_serial[future]
             try:
                 device, status, error_msg = future.result()
-
                 if status == "online":
                     online_devices.append(device)
                 elif status == "offline":
                     offline_devices.append(device)
                 elif status == "not_found":
                     not_found_serials.append(serial)
-                    print(f"\n  Warning: {error_msg}")
+                    print(f"Warning: {error_msg}")
                 elif status == "error":
                     not_found_serials.append(serial)
-                    print(f"\n  Warning: {error_msg}")
+                    print(f"Warning: {error_msg}")
 
             except Exception as e:
-                print(f"\n  Exception processing {serial}: {e}")
+                print(f"Exception processing {serial}: {e}")
                 not_found_serials.append(serial)
 
-    print(f"\n  Completed fetching {total} device(s).")
     print(
         f"  Online: {len(online_devices)}, Offline: {len(offline_devices)}, Not Found: {len(not_found_serials)}"
     )
