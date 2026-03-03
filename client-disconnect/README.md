@@ -2,12 +2,11 @@
 
 This workflow automates the process of disconnecting a client device from a network managed by HPE Aruba Networking Central.
 The user provides a client MAC address, and the workflow:
-1. Identifies which site the client belongs to,
-2. Determines the device the client is connected to
-3. Sends a disconnect request to that device
+1. Fetches the client's details (site, connected device, connection state) directly using the client's MAC address
+2. Sends a disconnect request to the device the client is connected to
 
 <div align="center">
-  <img src="./utils/workflow.png" alt="Workflow Diagram" />
+  <img src="./utils/workflow.svg" alt="Workflow Diagram" />
   <p><em>Client Disconnect Workflow Overview</em></p>
 </div>
 
@@ -39,7 +38,7 @@ source venv/bin/activate  # On Windows use: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-This workflow is tested on the `pycentral` SDK (version: `2.0a9`). Please check compatibility before executing on older/newer versions as there may be changes.
+This workflow is tested on the `pycentral` SDK (version: `2.0a14`). Please check compatibility before executing on older/newer versions as there may be changes.
 
 ## Configuration
 
@@ -79,10 +78,11 @@ client_macs:
 
 ## Execution
 
-When you run the script, it processes each client listed in the input file sequentially and performs the following operations:
-1. **Client Location Discovery**: Identifies the site and device to which each provided client MAC address is currently connected.
-2. **Disconnection Request**: Sends a disconnection command to the corresponding device managing that client.
-3. **Results Export**: Generates a comprehensive report summarizing the disconnection request status and related details for all processed clients.
+When you run the script, it processes clients listed in the input file concurrently (up to `--max_workers` at a time, default: 5) and performs the following operations for each client:
+1. **Client Detail Fetch**: Retrieves the client's connection details (site, connected device, and connection state) directly using the client's MAC address.
+2. **Connection State Check**: If the client is not currently connected, the disconnection is skipped and recorded as `SKIPPED`.
+3. **Disconnection Request**: Sends a disconnection command to the corresponding device (Access Point or Gateway) managing that client.
+4. **Results Export**: Generates a comprehensive report summarizing the disconnection request status and related details for all processed clients.
 
 ```bash
 python client_disconnect.py -vars workflow_variables.yaml -c account_credentials.yaml
@@ -94,7 +94,7 @@ python client_disconnect.py -vars workflow_variables.yaml -c account_credentials
 |-------------|--------|----------------------|----------|
 | `-c, --credentials` | string | Path to YAML/JSON file with Central credentials | Yes |
 | `-vars, --variables_file` | string | Path to YAML/JSON file containing client MAC addresses | Yes |
-
+| `--max_workers` | int | Maximum number of clients to process concurrently (default: 5) | No |
 
 ## Output
 

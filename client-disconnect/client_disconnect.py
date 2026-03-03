@@ -1,11 +1,14 @@
 from pycentral import NewCentralBase
+from pycentral.new_monitoring import Clients
+from pycentral.utils.monitoring_utils import _validate_mac_address
 import argparse
 import yaml
 from tabulate import tabulate
 import csv
 from datetime import datetime
 import concurrent.futures
-import threading
+
+MAX_WORKERS = 5  # Max number of threads for concurrent execution
 
 SUMMARY_COLUMNS = [
     "client_mac",
@@ -35,58 +38,66 @@ COLOR_RED = "\033[91m"
 COLOR_RESET = "\033[0m"
 
 
-def safe_execute_step(func, args, entry, step_name, error_prefix):
-    """Execute a step safely and update entry status."""
-    try:
-        result = func(*args)
-        # If the function returns an explicit status string, record it.
-        if isinstance(result, str):
-            entry[step_name] = result
-        else:
-            entry[step_name] = "SUCCESS"
-        return True
-    except Exception as e:
-        entry[step_name] = "FAILED"
-        update_error(entry, f"{error_prefix}: {e}")
-        return False
+def build_failed_entry(client_mac, error_message):
+    entry = init_summary_entry(client_mac)
+    entry["disconnect_status"] = "FAILED"
+    entry["overall_status"] = "FAILED"
+    update_error(entry, error_message)
+    return entry
+
+
+def populate_entry_from_connection_info(entry, client_connection_info):
+    entry["connected_site"] = client_connection_info.get("site_name", "UNKNOWN")
+    entry["client_name"] = client_connection_info.get("client_name", "UNKNOWN")
+    entry["connecting_state"] = client_connection_info.get(
+        "connecting_state", "UNKNOWN"
+    )
+    entry["connected_device"] = client_connection_info.get(
+        "connected_device", "UNKNOWN"
+    )
+
+
+def handle_disconnect_result(entry, disconnect_result):
+    if disconnect_result == "SUCCESS":
+        entry["disconnect_status"] = "SUCCESS"
+        return
+
+    entry["disconnect_status"] = "FAILED"
+    if disconnect_result == "FAILED_TO_DISCONNECT":
+        update_error(entry, "Failed to initiate client disconnection")
+    else:
+        update_error(entry, f"Unknown disconnection result: {disconnect_result}")
 
 
 def process_single_client(new_central_conn, client_mac, client_connection_info):
     """Process disconnection steps for a single client."""
     entry = init_summary_entry(client_mac)
-    
-    # Set basic connection info
-    entry["connected_site"] = client_connection_info.get("site_name", "UNKNOWN")
-    entry["client_name"] = client_connection_info.get("client_name", "UNKNOWN")
-    entry["connecting_state"] = client_connection_info.get("connecting_state", "UNKNOWN")
-    entry['connected_device'] = client_connection_info.get('connected_device', 'UNKNOWN')
-    if entry["connecting_state"].lower() != "connected":   
+
+    populate_entry_from_connection_info(entry, client_connection_info)
+    if entry["connecting_state"].lower() != "connected":
         entry["disconnect_status"] = "SKIPPED"
         entry["overall_status"] = "SKIPPED"
-        update_error(entry, "Client is not currently connected; skipping disconnection.")
+        update_error(
+            entry, "Client is not currently connected; skipping disconnection."
+        )
         return entry
-    
-    entry["connected_device"] = client_connection_info.get("connected_device", "UNKNOWN")
-    connected_device = new_central_conn.scopes.find_device(device_serials=entry["connected_device"])
+
+    connected_device = new_central_conn.scopes.find_device(
+        device_serials=entry["connected_device"]
+    )
+
     if connected_device is None:
         entry["disconnect_status"] = "SKIPPED"
         entry["overall_status"] = "FAILED"
-        update_error(entry, f"Connected device {entry['connected_device']} not found; skipping disconnection.")
+        update_error(
+            entry,
+            f"Connected device {entry['connected_device']} not found; skipping disconnection.",
+        )
         return entry
-    
-    # Disconnect client - this returns (status, lastSeenAt) tuple
+
     disconnect_result = disconnect_client_from_site(client_mac, connected_device)
-    
-    # Update entry based on disconnection result
-    if disconnect_result == "SUCCESS":
-        entry["disconnect_status"] = "SUCCESS"
-    elif disconnect_result == "FAILED_TO_DISCONNECT":
-        entry["disconnect_status"] = "FAILED"
-        update_error(entry, "Failed to initiate client disconnection")
-    else:
-        entry["disconnect_status"] = "FAILED"
-        update_error(entry, f"Unknown disconnection result: {disconnect_result}")
-    
+    handle_disconnect_result(entry, disconnect_result)
+
     finalize_overall(entry)
     print()
     return entry
@@ -97,11 +108,56 @@ def initialize_connections(args):
     try:
         variables_data = validate_yaml_structure(args.variables_file)
         new_central_conn = NewCentralBase(
-                token_info=args.credentials, enable_scope=True, log_level="ERROR"
+            token_info=args.credentials, enable_scope=True, log_level="ERROR"
         )
         return variables_data["client_macs"], new_central_conn
     except Exception as e:
         raise Exception(f"Initialization error: {e}")
+
+
+def process_client_entry(new_central_conn, client_mac):
+    """Fetch location and process disconnection for a single client."""
+    try:
+        details = fetch_client_location(new_central_conn, client_mac)
+        if details is None:
+            print(f"Client {client_mac} not found in account.")
+            return init_client_not_found(client_mac)
+    except Exception as e:
+        return build_failed_entry(client_mac, f"Failed to fetch client location: {e}")
+
+    return process_single_client(new_central_conn, client_mac, details)
+
+
+def process_clients_in_parallel(new_central_conn, clients_to_disconnect, max_workers):
+    summary = []
+    max_workers = (
+        min(max_workers, len(clients_to_disconnect)) if clients_to_disconnect else 0
+    )
+    if max_workers == 0:
+        return summary
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_to_client_mac = {
+            executor.submit(
+                process_client_entry, new_central_conn, client_mac
+            ): client_mac
+            for client_mac in clients_to_disconnect
+        }
+
+        client_results = {}
+        for future in concurrent.futures.as_completed(future_to_client_mac):
+            client_mac = future_to_client_mac[future]
+            try:
+                client_results[client_mac] = future.result()
+            except Exception as e:
+                client_results[client_mac] = build_failed_entry(
+                    client_mac, f"Unexpected processing error: {e}"
+                )
+
+        for client_mac in clients_to_disconnect:
+            summary.append(client_results[client_mac])
+
+    return summary
 
 
 def main():
@@ -111,122 +167,45 @@ def main():
     except Exception as e:
         print(e)
         return
-    
-    summary = []
-    client_details = get_client_location(new_central_conn, clients_to_disconnect)
-    for client_mac, details in client_details.items():
-        if details is None:
-            print(f"Client {client_mac} not found in account.")
-            entry = init_client_not_found(client_mac)
-        else:
-            entry = process_single_client(new_central_conn, client_mac, details)
-        summary.append(entry)
+    summary = process_clients_in_parallel(
+        new_central_conn, clients_to_disconnect, args.max_workers
+    )
 
     # Output results
     print_summary_table(summary)
     out_file = export_summary_csv(summary)
     print(f"\nCSV summary written to: {out_file}")
 
-def get_client_location(new_central_conn, client_macs):
-    client_dictionary = {client_mac: None for client_mac in client_macs}
-    sites = new_central_conn.scopes.sites
-    lock = threading.Lock()
-    found_all = threading.Event()
-    
-    # Process sites in parallel with max 3 workers
-    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
-        futures = []
-        for site in sites:
-            if found_all.is_set():
-                break
-            future = executor.submit(process_site, new_central_conn, site, client_dictionary, found_all, lock)
-            futures.append(future)
-        
-        # Wait for all futures to complete or early termination
-        for future in concurrent.futures.as_completed(futures):
-            if found_all.is_set():
-                # Cancel remaining futures if all clients found
-                for remaining_future in futures:
-                    remaining_future.cancel()
-                break
-    
-    return client_dictionary
 
-def process_site(new_central_conn, site, client_dictionary, found_all, lock):
-    if found_all.is_set():
-        return
-        
-    site_id = site.id
-    try:
-        site_clients = get_all_site_clients(new_central_conn, site_id)
-        with lock:
-            if found_all.is_set():
-                    return
-                
-            for client in site_clients:
-                client_mac = client.get("mac", "")
-                if client_mac in client_dictionary and client_dictionary[client_mac] is None:
-                    client_dictionary[client_mac] = {
-                            "site_name": site.name,
-                            "site_id": site.id,
-                            "client_name": client.get("name", None),
-                            "connecting_state": client.get("status", None),
-                            "connected_device": client.get("connectedDeviceSerial", None),
-                    }
-                    
-                
-            # Check if all clients have been found
-            if all(value is not None for value in client_dictionary.values()):
-                    found_all.set()
-                    
-    except Exception as e:
-        print(f"Warning: Could not fetch clients for site {site.name}: {e}")
-    
-def get_all_site_clients(new_central_conn, site_id):
-    api_path = f"network-monitoring/v1alpha1/clients"
-    api_params = {
-        "site-id": site_id,
-        "limit": 100,
+def fetch_client_location(new_central_conn, client_mac):
+    """Fetch a single client's location/details directly from clients API."""
+    client = Clients.get_client_details(
+        central_conn=new_central_conn, client_mac=client_mac
+    )
+    if not client:
+        return None
+    return {
+        "site_name": client.get("siteName", client.get("siteName", "UNKNOWN")),
+        "site_id": client.get("siteId", client.get("siteId", "UNKNOWN")),
+        "client_name": client.get("name", "UNKNOWN"),
+        "connecting_state": client.get("status", "UNKNOWN"),
+        "connected_device": client.get("connectedDeviceSerial", "UNKNOWN"),
     }
-    next_param = 1
-    total_clients = None
-    clients = []
-    
-    while total_clients is None or len(clients) < total_clients:
-        api_params["next"] = next_param
-        try:
-            resp = new_central_conn.command(
-                api_method="GET",
-                api_path=api_path,
-                api_params=api_params
-            )  
-            if resp.get("code") != 200:
-                raise Exception(f"API call failed with code {resp.get('code')}: {resp.get('msg')}")
-            
-            response_data = resp.get("msg", {})
 
-            if total_clients is None:
-                total_clients = response_data.get("total", 0)
-            clients.extend(response_data.get("items", []))
-            
-            next_param += 1
-            
-        except Exception as e:
-            print(f"Error fetching clients for site {site_id} (page {next_param}): {e}")
-            raise
-    
-    return clients
 
 def init_client_not_found(client_mac):
     entry = init_summary_entry(client_mac)
-    entry.update({
-                "connected_site": "NOT_FOUND",
-                "connected_device": "NOT_FOUND", 
-                "disconnect_status": "SKIPPED",
-                "overall_status": "SKIPPED",
-            })
+    entry.update(
+        {
+            "connected_site": "NOT_FOUND",
+            "connected_device": "NOT_FOUND",
+            "disconnect_status": "SKIPPED",
+            "overall_status": "SKIPPED",
+        }
+    )
     update_error(entry, "Client not found in Central Account")
     return entry
+
 
 def init_summary_entry(client_mac):
     return {
@@ -238,6 +217,7 @@ def init_summary_entry(client_mac):
         "errors": "",
         "overall_status": "NOT_RUN",
     }
+
 
 def update_error(entry, msg):
     if entry["errors"]:
@@ -274,7 +254,10 @@ def print_summary_table(summary_list):
             color = COLOR_RESET
 
         # Color each cell in the row so the entire row appears colored
-        colored_row = [f"{color}{(e.get(c) if e.get(c) is not None else '')}{COLOR_RESET}" for c in SUMMARY_COLUMNS]
+        colored_row = [
+            f"{color}{(e.get(c) if e.get(c) is not None else '')}{COLOR_RESET}"
+            for c in SUMMARY_COLUMNS
+        ]
         colored_rows.append(colored_row)
 
     print("\nClient disconnection summary:")
@@ -319,6 +302,12 @@ def parse_args():
         type=validate_file_format,
         default="workflow_variables.yaml",
     )
+    parser.add_argument(
+        "--max_workers",
+        type=int,
+        default=MAX_WORKERS,
+        help=f"Maximum number of concurrent client disconnections (default: {MAX_WORKERS})",
+    )
     return parser.parse_args()
 
 
@@ -333,64 +322,37 @@ def validate_file_format(file_path):
     return file_path
 
 
-def find_client_location(new_central_conn, client_mac):
-    """Find which site and device a client is connected to."""
-    try:
-        # Get all sites from new central
-        sites = new_central_conn.scopes.sites
-        
-        for site in sites:
-            try:
-                # Search for clients in this specific site
-                site_clients = new_central_conn.scopes.clients.get_clients(
-                    site_name=site.name,
-                    mac_address=client_mac
-                )
-                
-                # If client found in this site
-                if site_clients:
-                    client = site_clients[0]  # Take first match
-                    return {
-                        "site_name": site.name,
-                        "device_name": client.get("device_name", "UNKNOWN"),
-                        "device_mac": client.get("device_mac", "UNKNOWN"),
-                        "site_id": site.id,
-                    }
-            except Exception as site_error:
-                # Continue searching other sites if this one fails
-                print(f"Warning: Could not search site {site.name}: {site_error}")
-                continue
-        
-        # Client not found in any site
-        return None
-        
-    except Exception as e:
-        print(f"Error finding client {client_mac}: {e}")
-        return None
-
-
 def disconnect_client_from_site(client_mac, connected_device):
     """Disconnect client from the network."""
 
     site_name = connected_device.site_name
     device_serial = connected_device.serial
     device_type = connected_device.device_type
-    print(f"Disconnecting client {client_mac} from {device_type} {device_serial} in site {site_name}")
-    
+    print(
+        f"Disconnecting client {client_mac} from {device_type} {device_serial} in site {site_name}"
+    )
+
     resp = None
     if device_type == "ACCESS_POINT":
         resp = connected_device.disconnect_user_mac_addr(mac_address=client_mac)
     elif device_type == "GATEWAY":
         resp = connected_device.disconnect_client_mac_addr(mac_address=client_mac)
     else:
-        print(f"Unknown device type {device_type}. Unable to proceed with disconnection.")
+        print(
+            f"Unknown device type {device_type}. Unable to proceed with disconnection."
+        )
         return "FAILED_TO_DISCONNECT"
-    if not resp or resp.get('code') != 202:
-        print(f'Failed to disconnect client {client_mac} from device {device_serial}')
-        print(f'Response code: {resp.get("code", "N/A")}, Message: {resp.get("msg", "N/A")}')
+    if not resp or resp.get("code") != 202:
+        print(f"Failed to disconnect client {client_mac} from device {device_serial}")
+        print(
+            f"Response code: {resp.get('code', 'N/A')}, Message: {resp.get('msg', 'N/A')}"
+        )
         return "FAILED_TO_DISCONNECT"
-    print(f'Successfully initiated disconnection for client {client_mac}. Please verify client has been disconnected on Central.')
+    print(
+        f"Successfully initiated disconnection for client {client_mac}. Please verify client has been disconnected on Central."
+    )
     return "SUCCESS"
+
 
 def validate_yaml_structure(file_name):
     with open(file_name, "r") as f:
@@ -404,7 +366,11 @@ def validate_yaml_structure(file_name):
         raise ValueError(
             "Missing or invalid 'client_macs' list (at least one client MAC required)"
         )
+    for mac in variables_data["client_macs"]:
+        if not isinstance(mac, str) or not _validate_mac_address(mac):
+            raise ValueError(f"Invalid client MAC address: {mac}")
     return variables_data
+
 
 if __name__ == "__main__":
     main()
