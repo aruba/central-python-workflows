@@ -28,7 +28,7 @@ source venv/bin/activate  # On Windows use: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-_This workflow is tested on the PyCentral SDK (version: 2.0a11). Please check compatibility before executing on older/newer versions as there may be changes_
+_This workflow is tested on the PyCentral SDK (version: 2.0a16). Please check compatibility before executing on older/newer versions as there may be changes_
 
 ## Configuration
 
@@ -110,7 +110,7 @@ seria2,hostname2,failure
 - Authentication / tokens: Ensure your credentials file is complete and has valid credentials for Central.
 - Ensure all target devices have been assigned a device function and are ready for provisioning
 - Ensure hostnames are a valid format for the device type they are attempting to be assigned to
-- SDK compatibility: If API calls fail unexpectedly, confirm the installed pycentral version matches tested versions (v2.0a11) or update helpers accordingly.
+- SDK compatibility: If API calls fail unexpectedly, confirm the installed pycentral version matches tested versions (v2.0a16) or update helpers accordingly.
 
 ## Support
 
