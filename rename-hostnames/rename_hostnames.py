@@ -143,7 +143,7 @@ def checking_devices(scope, serial_number):
     if not device_object:
         spinner.fail()
         print(
-            f"  {colored('Error', 'red')}: Device with serial number {colored(serial_number, 'blue')} not found in Central.\n"
+            f"  {colored('Error', 'red')}: Device {colored(serial_number, 'blue')} not found in Central.\n"
         )
         status.append("failure")
     elif not provisioned:
