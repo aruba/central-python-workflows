@@ -1,4 +1,4 @@
-# Renaming Hostnames
+# Rename Hostnames
 This workflow uses the PyCentral SDK to automate configuring hostname profiles of
 devices in Central. The workflow first checks the device serial numbers against Central
 to verify devices are ready to be provisioned. Then, device hostname profiles are either
