@@ -140,7 +140,13 @@ def checking_devices(scope, serial_number):
     device_function = getattr(device_object, "config_persona", None)
     provisioned = getattr(device_object, "provisioned_status", None)
 
-    if provisioned is False:
+    if not device_object:
+        spinner.fail()
+        print(
+            f"  {colored('Error', 'red')}: Device {colored(serial_number, 'blue')} not found in Central.\n"
+        )
+        status.append("failure")
+    elif not provisioned:
         spinner.fail()
         print(
             f"  {colored('Error', 'red')}: Device {colored(serial_number, 'blue')} not provisioned in Central.\n"
