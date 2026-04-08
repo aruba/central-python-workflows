@@ -28,25 +28,22 @@ source venv/bin/activate  # On Windows use: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-_This workflow is tested on the `pycentral` SDK (version: `2.0a7`). Please check compatibility before executing on older/newer versions as there may be changes_
+_This workflow is tested on the `pycentral` SDK (version: `2.0a17`). Please check compatibility before executing on older/newer versions as there may be changes_
 
 ## Configuration
 
-### Credentials Configuration (central_token.json)
+### Credentials Configuration (account_credentials.yaml)
 
 For API operations in new HPE Aruba Networking Central:
 
-```json
-{
-    "new_central": {
-        "base_url": "",
-        "client_id": "",
-        "client_secret": "",
-    }
-}
+```yaml
+new_central:
+  cluster_name: <cluster-name> #e.g. EU-1
+  client_id: <new-central-client-id>
+  client_secret: <new-central-client-secret>
 ```
 
-**Sample Input:** See [`central_token.json`](./central_token.json) in this repository for an example credential file.
+**Sample Input:** See [`account_credentials.yaml`](./account_credentials.yaml) in this repository for an example credential file.
 
 > [!TIP]
 > **Where to find these:**
