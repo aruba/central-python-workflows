@@ -38,7 +38,6 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 
 from termcolor import colored
-from halo import Halo
 from pycentral.workflows.workflows_utils import get_conn_from_file
 
 
