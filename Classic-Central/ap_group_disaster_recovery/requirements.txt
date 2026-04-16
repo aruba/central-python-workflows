@@ -1,0 +1,3 @@
+halo==0.0.31
+pycentral>=1.4.3
+termcolor==2.3.0
