@@ -1,8 +1,6 @@
-import json
-
 from pycentral import NewCentralBase
 from pycentral.profiles import Profiles
-from pycentral.utils.url_utils import NewCentralURLs
+from pycentral.utils.url_utils import generate_url
 
 
 def main():
@@ -11,30 +9,19 @@ def main():
     # to do to use either of these is initialize a Central connection. Let's see how
     # to do that.
 
-    # Generating a central connection with pycentral requires passing a dictionary
-    # containing information to the NewCentralBase class. This dictionary should
-    # include the base URL, client ID, and client secret for the Central API. Best
-    # practice is to load this information from another file. For this example we will
-    # load the credentials from a JSON file named 'central_token.json'. Please
-    # reference the 'central_token.json' file in this directory for an example of how
-    # the credential information should be structured.
+    # Generating a central connection with pycentral requires passing credential
+    # information to the NewCentralBase class. Required credential information includes
+    # the Central base URL/cluster, client ID, and client secret for the Central API.
+    # Best practice is to load this information from another file. For this example we
+    # will load the credentials from a YAML file named 'account_credentials.yaml'.
+    # Please reference the 'account_credentials.yaml' file in this directory for an
+    # example of how the credential information should be structured.
 
-    # Load the credentials from the JSON file
-    try:
-        with open("central_token.json", "r") as file:
-            credentials = json.load(file)
-    except FileNotFoundError:
-        print("Error: Credentials file central_token.json not found.")
-        return 1
-    except json.JSONDecodeError as e:
-        print(f"Error parsing JSON file 'central_token.json': {e}")
-        return 1
-
-    # Now that we have the credentials, we can create a connection to Central.
+    # Create a connection to Central using the account credentials file.
     try:
         print("Connecting to Central...")
         central_conn = NewCentralBase(
-            token_info=credentials, enable_scope=True, log_level="ERROR"
+            token_info="account_credentials.yaml", enable_scope=True, log_level="ERROR"
         )
         print("Connected to Central successfully!")
     except Exception as e:
@@ -66,7 +53,7 @@ def main():
     }
     # Finally, we use the generate_url function to create the full URL for the API
     # endpoint that will be consumed by the Pycentral functions.
-    dns_url = NewCentralURLs.generate_url(api_endpoint=dns_endpoint)
+    dns_url = generate_url(api_endpoint=dns_endpoint)
 
     # Let's try creating a DNS profile using the create_profile function. We simply
     # need to pass the data we have prepared to the function along with the Central
@@ -155,7 +142,7 @@ def main():
         "is-l3-vlan": None,
     }
     # Generate the URL for the VLAN endpoint.
-    vlan_url = NewCentralURLs.generate_url(api_endpoint=vlan_endpoint)
+    vlan_url = generate_url(api_endpoint=vlan_endpoint)
 
     # Let's try creating several VLAN profiles using the bulk create_profiles
     # function. We can create a list of dictionaries containing the profile
@@ -216,7 +203,7 @@ def main():
     print("\nDeleting VLAN profiles...")
     # Create a list of URLs with identifiers to delete the profiles.
     path_list = [
-        NewCentralURLs.generate_url(api_endpoint=vlan_endpoint) + f"/{profile['vlan']}"
+        generate_url(api_endpoint=vlan_endpoint) + f"/{profile['vlan']}"
         for profile in vlan_profiles
     ]
     bulk_delete = Profiles.delete_profiles(
