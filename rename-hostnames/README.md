@@ -1,14 +1,17 @@
 # Rename Hostnames
-This workflow uses the PyCentral SDK to automate configuring hostname profiles of
-devices in Central. The workflow first checks the device serial numbers against Central
-to verify devices are ready to be provisioned. Then, device hostname profiles are either
-created or updated determined by their current hostname status. The workflow will also
-create a CSV output file containing the status of hostname configuration operations.
+This workflow uses the PyCentral SDK to automate configuring the hostname of devices in
+Central. The workflow first checks the device serial numbers against Central to verify
+devices are ready to be configured. Then, device hostnames are either created or 
+updated determined by their current System Information profile status. Only the default 
+System Information profile will be updated. In the case where there are no current
+profiles, one will be created with the default profile name of "sys-system-info-profile"
+The workflow will also create a CSV output file containing the status of hostname
+configuration operations.
 
 ## Prerequisites
 - Python 3.8 or higher
 - API credentials for HPE Aruba Networking Central(YAML format)
-- All target devices are ready for provisioning in Central
+- All target devices are provisioned and configuration ready
 
 ## Installation
 
