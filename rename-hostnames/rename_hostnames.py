@@ -14,7 +14,7 @@ serial_numbers = []
 new_hostnames = []
 device_functions = []
 status = []
-sys_info_path = generate_url("system-info")
+sys_info_path = generate_url("system-info/sys-system-info-profile")
 
 
 def define_arguments():
