@@ -152,6 +152,12 @@ def checking_devices(scope, serial_number):
             f"  {colored('Error', 'red')}: Device {colored(serial_number, 'blue')} not provisioned in Central.\n"
         )
         status.append("failure")
+    elif not device_function:
+        spinner.fail()
+        print(
+            f"  {colored('Error', 'red')}: Device {colored(serial_number, 'blue')} has no persona assigned.\n"
+        )
+        status.append("failure")
     else:
         spinner.succeed()
         print(
