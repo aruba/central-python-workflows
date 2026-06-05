@@ -1,6 +1,7 @@
 # MSP Control Tower
 
-Monitor every tenant your MSP manages with a single MSP credential. The tool discovers your managed tenants, then collects sites, devices, clients, and alerts from each one. No per-tenant credentials are needed: pycentral's `MSPBase` exchanges your MSP token for a tenant-scoped token automatically (token exchange). It ships in two forms: a **web dashboard** for interactive exploration and a **Python CLI** (`main.py`) for scripted export.
+Monitor every tenant you manage with a single MSP credential. The tool discovers your managed tenants, then collects sites, devices, clients, and alerts from each one. No per-tenant credentials 
+are needed. Pycentral's MSP module exchanges your MSP token for a tenant-scoped token automatically (token exchange). It ships in two forms: a **web dashboard** for interactive exploration and a **Python CLI** (`main.py`) for scripted export.
 
 > [!NOTE]
 > This is a proof of concept for getting started with the MSP APIs in Central. It is not optimized for large-scale production use. Use it as a reference for your own MSP integrations.
