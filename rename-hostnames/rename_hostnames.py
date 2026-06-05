@@ -14,7 +14,7 @@ serial_numbers = []
 new_hostnames = []
 device_functions = []
 status = []
-sys_info_path = generate_url("system-info")
+sys_info_path = generate_url("system-info/sys-system-info-profile")
 
 
 def define_arguments():
@@ -150,6 +150,12 @@ def checking_devices(scope, serial_number):
         spinner.fail()
         print(
             f"  {colored('Error', 'red')}: Device {colored(serial_number, 'blue')} not provisioned in Central.\n"
+        )
+        status.append("failure")
+    elif not device_function:
+        spinner.fail()
+        print(
+            f"  {colored('Error', 'red')}: Device {colored(serial_number, 'blue')} has no persona assigned.\n"
         )
         status.append("failure")
     else:
