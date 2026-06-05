@@ -1,0 +1,5 @@
+fastapi==0.136.1
+uvicorn[standard]==0.46.0
+pycentral==2.0a22
+pydantic==2.13.4
+pyyaml==6.0.3

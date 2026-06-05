@@ -1,2 +1,6 @@
 **/env/*
+**/,venv/*
+*.pyc
+.DS_Store
+__pycache__/
 *.pyc
