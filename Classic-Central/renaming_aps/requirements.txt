@@ -2,7 +2,7 @@ charset-normalizer==3.2.0
 colorama==0.4.6
 colored==2.2.3
 halo==0.0.31
-idna==3.7
+idna==3.15
 pycentral==1.4.3
 six==1.16.0
 spinners==0.0.24

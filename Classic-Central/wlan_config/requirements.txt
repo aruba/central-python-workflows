@@ -1,3 +1,3 @@
 charset-normalizer==3.3.2
-idna==3.7
+idna==3.15
 pycentral==1.4.3
