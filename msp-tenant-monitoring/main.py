@@ -14,28 +14,15 @@ import logging
 from contextlib import contextmanager
 from typing import Iterator
 
-from msp_monitoring.collector import aggregate_totals, collect_overview
+from rich.console import Console
+
+from msp_monitoring.collector import collect_overview
 from msp_monitoring.config import ConfigError, resolve_token_yaml
 from msp_monitoring.export import write_csv, write_json
+from msp_monitoring.interactive import run_interactive
 from msp_monitoring.models import TenantSummary
+from msp_monitoring.reporter import render_overview
 from msp_monitoring.sources.base import GLPSource, TenantDataSource
-
-
-def _print_overview(results: list[TenantSummary]) -> None:
-    totals = aggregate_totals(results)
-    print("MSP Overview - Cross-Tenant Network Overview\n")
-    print("Summary:")
-    print(f"- Total tenants: {totals['tenants']}")
-    print(f"- Total sites: {totals['sites']}")
-    print(f"- Total devices: {totals['devices']}")
-    for item in results:
-        print()
-        print(f"Tenant: {item.tenant_name}")
-        print(f"- Sites: {item.total_sites}")
-        print(f"- Devices: {item.device_health.get('total', 0)}")
-        print(f"- Alerts (critical): {item.alerts.get('critical', 0)}")
-
-log = logging.getLogger(__name__)
 
 
 @contextmanager
@@ -55,20 +42,47 @@ def select_source() -> Iterator[tuple[TenantDataSource, GLPSource]]:
         yield PyCentralSource(msp), GLPWorkspaceSource(msp)
 
 
+_NOISY_LOGGERS = ("pycentral", "central", "urllib3", "requests", "httpx", "NEW CENTRAL BASE")
+
+
+def _quiet_third_party() -> None:
+    """Re-silence known-noisy loggers.
+
+    Called after MSPBase construction because pycentral's console_logger sets
+    the logger level to DEBUG at instantiation time, overriding any earlier
+    silencing.
+    """
+    for _name in _NOISY_LOGGERS:
+        logging.getLogger(_name).setLevel(logging.ERROR)
+
+
 async def _run(args: argparse.Namespace) -> None:
+    console = Console()
+    one_shot = args.export_json is not None or args.export_csv is not None
     with select_source() as (source, glp_source):
-        results = await collect_overview(
-            source,
-            tenant_filter=args.tenant,
-            glp_source=glp_source,
-        )
-    _print_overview(results)
-    if args.export_json is not None:
-        write_json(results, args.export_json)
-        logging.getLogger(__name__).info("JSON exported to %s", args.export_json)
-    if args.export_csv is not None:
-        write_csv(results, args.export_csv)
-        logging.getLogger(__name__).info("CSV exported to %s", args.export_csv)
+        if not args.verbose:
+            # Re-silence after MSPBase.__init__ resets logger levels
+            _quiet_third_party()
+        if one_shot:
+            results = await collect_overview(
+                source,
+                tenant_filter=args.tenant,
+                glp_source=glp_source,
+            )
+            render_overview(console, results)
+            if args.export_json is not None:
+                write_json(results, args.export_json)
+                console.print(f"[green]✓[/green] JSON exported to {args.export_json}")
+            if args.export_csv is not None:
+                write_csv(results, args.export_csv)
+                console.print(f"[green]✓[/green] CSV exported to {args.export_csv}")
+        else:
+            await run_interactive(
+                source,
+                glp_source,
+                tenant_filter=args.tenant,
+                console=console,
+            )
 
 
 def main() -> None:
@@ -91,8 +105,13 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    level = logging.DEBUG if args.verbose else logging.INFO
-    logging.basicConfig(format="%(asctime)s %(levelname)s %(name)s: %(message)s", level=level)
+    if args.verbose:
+        logging.basicConfig(format="%(asctime)s %(levelname)s %(name)s: %(message)s", level=logging.DEBUG)
+    else:
+        logging.basicConfig(format="%(asctime)s %(levelname)s %(name)s: %(message)s", level=logging.WARNING)
+        # Silence known-noisy third-party loggers that may emit below WARNING
+        for _noisy in ("pycentral", "central", "urllib3", "requests", "httpx", "NEW CENTRAL BASE"):
+            logging.getLogger(_noisy).setLevel(logging.ERROR)
 
     try:
         asyncio.run(_run(args))

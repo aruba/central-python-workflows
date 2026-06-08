@@ -13,7 +13,8 @@ are needed. Pycentral's MSP module exchanges your MSP token for a tenant-scoped 
 - **Demo mode**: explore three sample tenants with a simulated token exchange, no credentials required.
 - **Dashboard backend** that refreshes the overview every 15 minutes and fetches per-tenant detail on demand.
 - **Configurable drilldown**: pick which data types (devices, clients, alerts) to fetch per tenant.
-- **Python CLI** (`main.py`) for scripting and export to JSON and CSV.
+- **Interactive CLI** (`main.py`): drill into any tenant from the terminal — browse the numbered overview, open a tenant's Sites/Devices/Clients/Alerts tabs, search and expand rows, then jump back to the list or into another tenant. Same drill-in experience as the dashboard, in your shell.
+- **Scriptable export**: the CLI also runs one-shot to export the cross-tenant overview to JSON and CSV.
 - **Dark / light / system theme**, persisted across sessions.
 
 The flow has two stages: discover tenants at the MSP level, then exchange into each tenant. It maps directly onto the pycentral `MSPBase` API:
@@ -149,10 +150,17 @@ python3 server.py
 ```
 Log in with your MSP credentials or click **"Try demo mode"** to explore without credentials. The overview refreshes in the background every 15 minutes; per-tenant detail is fetched on demand when you open a tenant's tabs.
 
-2. **Run the CLI** to print a cross-tenant overview to the terminal:
+2. **Explore tenants interactively in the terminal**: 
 ```bash
 python3 main.py
 ```
+This starts an interactive session. You get a numbered cross-tenant overview; type a tenant number to drill in, then use the on-screen menus to navigate:
+
+- **Overview** → type a tenant **number** to open it, or `q` to quit.
+- **Tenant menu** → `[s]ites`, `[d]evices`, `[c]lients`, `[a]lerts`; `[b]ack` returns to the tenant list (open another tenant); `[q]uit`.
+- **Inside a tab** → `/text` to search, a **row number** to expand that row's full detail, `r` to refresh, `b` back to the tenant menu, `q` to quit.
+
+Per-tenant detail is fetched on demand the first time you open each tab and cached for the session (`r` forces a re-fetch). Add `--tenant NAME_OR_ID` to start the session pre-filtered to one tenant.
 
 3. **Export to JSON and CSV**:
 ```bash
@@ -165,10 +173,10 @@ python3 main.py --export-json --export-csv
 
 | Flag | Type | Description | Required |
 |------|------|-------------|----------|
-| `--tenant NAME_OR_ID` | string | Filter output to a single tenant (name substring or ID) | No |
-| `--export-json` | flag | Export to `output/msp_export.json` | No |
-| `--export-csv` | flag | Export to `output/msp_export.csv` | No |
-| `--verbose` | flag | Enable DEBUG logging | No |
+| `--tenant NAME_OR_ID` | string | Filter to a single tenant (name substring or ID); applies to both interactive and export modes | No |
+| `--export-json [PATH]` | flag | One-shot: export the overview to JSON (default `output/sample_output.json`) and exit | No |
+| `--export-csv [PATH]` | flag | One-shot: export the overview to CSV (default `output/sample_output.csv`) and exit | No |
+| `--verbose` | flag | Enable DEBUG logging (otherwise the interactive CLI stays quiet) | No |
 
 ## Output
 
@@ -180,6 +188,13 @@ The dashboard surfaces a full cross-tenant view:
 - **Tenant cards** with health bars and per-tenant alert counts. Click any card to drill into tenant detail.
 - **Per-tenant drill-down** with four tabs: **Sites**, **Devices**, **Clients**, and **Alerts**. Each tab loads independently on demand.
 - **Token exchange modal** that animates four steps (MSP credential → GLP token request → MSP token → tenant token exchange) with live status indicators. Shows a **"Simulated"** badge in demo mode.
+
+The **interactive CLI** mirrors the drill-in experience in the terminal:
+
+- A fleet-totals panel followed by a **numbered tenant table** (sites, devices, critical-alert counts per tenant)
+- Drill into any tenant and page through the same four tabs — **Sites**, **Devices**, **Clients**, **Alerts** — each fetched on demand and cached for the session
+- **Row expansion** shows the full record (e.g. a device's serial, MAC, role, and firmware), **`/text` search** filters the current table, and you can refresh (`r`) or jump back to open another tenant
+
 
 ### Report Files
 
