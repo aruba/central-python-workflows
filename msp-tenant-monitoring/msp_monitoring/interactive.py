@@ -155,6 +155,14 @@ _DETAIL_RENDERERS = {
     # alerts: no detail renderer
 }
 
+# Command hints — one per REPL level, re-printed before every prompt so the
+# available commands stay visible at all levels. The bracket-letter labels in
+# the tenant hint are escaped (\\[) so rich renders them literally.
+_OVERVIEW_HINT = "[dim]<number> = open tenant · q = quit[/dim]"
+_TENANT_HINT = "[dim]  \\[s]ites  \\[d]evices  \\[c]lients  \\[a]lerts  \\[b]ack  \\[q]uit[/dim]"
+_TAB_HINT = "[dim]Commands: /text = search · <number> = expand row · r = refresh · b = back · q = quit[/dim]"
+_ALERTS_HINT = "[dim]Commands: /text = search · r = refresh · b = back · q = quit  (alerts have no detail view)[/dim]"
+
 
 async def _tab_loop(
     console: Console,
@@ -180,13 +188,11 @@ async def _tab_loop(
     visible = _filter_rows(tab, all_rows, search_term)
     render_table(console, visible)
 
-    # Hint: shown once on tab entry
-    if tab == "alerts":
-        console.print("[dim]Commands: /text = search · r = refresh · b = back · q = quit  (alerts have no detail view)[/dim]")
-    else:
-        console.print("[dim]Commands: /text = search · <number> = expand row · r = refresh · b = back · q = quit[/dim]")
+    hint = _ALERTS_HINT if tab == "alerts" else _TAB_HINT
 
     while True:
+        # Re-print the command hint before every prompt so it stays visible.
+        console.print(hint)
         try:
             raw = await prompt(f"  {tenant.tenant_name} / {tab} > ")
         except (EOFError, KeyboardInterrupt):
@@ -259,9 +265,7 @@ async def _tenant_loop(
     )
 
     while True:
-        # Escape the brackets so rich renders them literally (e.g. "[s]ites")
-        # rather than parsing [s], [d]… as markup tags and stripping them.
-        console.print("[dim]  \\[s]ites  \\[d]evices  \\[c]lients  \\[a]lerts  \\[b]ack  \\[q]uit[/dim]")
+        console.print(_TENANT_HINT)
         try:
             cmd = await prompt("  tenant > ")
         except (EOFError, KeyboardInterrupt):
@@ -302,9 +306,10 @@ async def _overview_loop(
 ) -> None:
     """Run the overview REPL loop (select a tenant by number)."""
     reporter.render_tenant_list(console, results)
-    console.print("[dim]Type a tenant number to drill in, or q to quit.[/dim]")
 
     while True:
+        # Re-print the command hint before every prompt so it stays visible.
+        console.print(_OVERVIEW_HINT)
         try:
             raw = await prompt("Select tenant # (q to quit): ")
         except (EOFError, KeyboardInterrupt):
