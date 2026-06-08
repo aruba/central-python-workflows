@@ -11,14 +11,12 @@ import {
 import { DataTable, useParamSetter } from '@/components/DataTable'
 import type { Column } from '@/components/DataTable'
 import type { Client } from '@/lib/api'
-import { useTableFilter, siteFilter } from '@/lib/useTableFilter'
+import { useTableFilter, siteFilter, uniqueValues } from '@/lib/useTableFilter'
 import type { FilterSpec } from '@/lib/useTableFilter'
 
 interface ClientsTabProps {
   clients: Client[]
 }
-
-type ConnectionTypeFilter = 'ALL' | 'WIRELESS' | 'WIRED'
 
 function SnrBar({ snr }: { snr: number }) {
   if (!snr && snr !== 0) {
@@ -96,16 +94,6 @@ function ClientExpandedRow({ client }: { client: Client }) {
   )
 }
 
-const CONN_TYPE_BUTTONS: Array<{
-  value: ConnectionTypeFilter
-  label: string
-  icon: React.ReactNode
-}> = [
-  { value: 'ALL', label: 'All', icon: null },
-  { value: 'WIRELESS', label: 'Wireless', icon: <Wifi className="h-3.5 w-3.5" /> },
-  { value: 'WIRED', label: 'Wired', icon: <Network className="h-3.5 w-3.5" /> },
-]
-
 const COLUMNS: Column<Client>[] = [
   {
     id: 'name',
@@ -172,12 +160,7 @@ const CLIENTS_SPEC: FilterSpec<Client> = {
   filters: [
     {
       paramKey: 'connType',
-      predicate: (c, v) => {
-        const isWireless = c.clientConnectionType?.toUpperCase() === 'WIRELESS'
-        if (v === 'WIRELESS') return isWireless
-        if (v === 'WIRED') return !isWireless
-        return true
-      },
+      predicate: (c, v) => c.clientConnectionType?.toUpperCase() === v.toUpperCase(),
     },
     siteFilter<Client>(),
   ],
@@ -186,12 +169,15 @@ const CLIENTS_SPEC: FilterSpec<Client> = {
 export function ClientsTab({ clients }: ClientsTabProps) {
   const [searchParams, setParam] = useParamSetter()
 
-  const connTypeFilter = (searchParams.get('connType') ?? 'ALL') as ConnectionTypeFilter
+  const connTypeFilter = searchParams.get('connType') ?? 'ALL'
   const siteFilterValue = searchParams.get('site') ?? 'ALL'
 
+  const uniqueConnTypes = useMemo(
+    () => uniqueValues(clients, (c) => c.clientConnectionType),
+    [clients],
+  )
   const uniqueSites = useMemo(
-    () =>
-      Array.from(new Set(clients.map((c) => c.siteName).filter(Boolean))).sort(),
+    () => uniqueValues(clients, (c) => c.siteName),
     [clients],
   )
 
@@ -199,21 +185,35 @@ export function ClientsTab({ clients }: ClientsTabProps) {
 
   const toolbar = (
     <>
-      {/* Connection type segmented control */}
-      <div className="flex items-center gap-1 rounded-md border p-0.5">
-        {CONN_TYPE_BUTTONS.map((btn) => (
+      {/* Connection type segmented control (derived from loaded clients) */}
+      {uniqueConnTypes.length > 0 && (
+        <div className="flex items-center gap-1 rounded-md border p-0.5">
           <Button
-            key={btn.value}
-            variant={connTypeFilter === btn.value ? 'secondary' : 'ghost'}
+            variant={connTypeFilter === 'ALL' ? 'secondary' : 'ghost'}
             size="sm"
             className="h-7 px-2 text-xs gap-1"
-            onClick={() => setParam('connType', btn.value)}
+            onClick={() => setParam('connType', 'ALL')}
           >
-            {btn.icon}
-            {btn.label}
+            All
           </Button>
-        ))}
-      </div>
+          {uniqueConnTypes.map((t) => (
+            <Button
+              key={t}
+              variant={connTypeFilter === t ? 'secondary' : 'ghost'}
+              size="sm"
+              className="h-7 px-2 text-xs gap-1"
+              onClick={() => setParam('connType', t)}
+            >
+              {t.toUpperCase() === 'WIRELESS' ? (
+                <Wifi className="h-3.5 w-3.5" />
+              ) : (
+                <Network className="h-3.5 w-3.5" />
+              )}
+              {t}
+            </Button>
+          ))}
+        </div>
+      )}
 
       {/* Site filter */}
       {uniqueSites.length > 0 && (

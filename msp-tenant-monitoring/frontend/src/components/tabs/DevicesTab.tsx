@@ -18,14 +18,12 @@ import {
 import { DataTable, useParamSetter } from '@/components/DataTable'
 import type { Column } from '@/components/DataTable'
 import type { Device } from '@/lib/api'
-import { useTableFilter, siteFilter } from '@/lib/useTableFilter'
+import { useTableFilter, siteFilter, uniqueValues } from '@/lib/useTableFilter'
 import type { FilterSpec } from '@/lib/useTableFilter'
 
 interface DevicesTabProps {
   devices: Device[]
 }
-
-type DeviceTypeFilter = 'ALL' | 'ACCESS_POINT' | 'SWITCH' | 'GATEWAY'
 
 function DeviceTypeIcon({ type }: { type: string }) {
   switch (type?.toUpperCase()) {
@@ -65,25 +63,14 @@ function DeviceExpandedRow({ device }: { device: Device }) {
   )
 }
 
-const TYPE_BUTTONS: Array<{
-  value: DeviceTypeFilter
-  label: string
-  icon: React.ReactNode
-}> = [
-  { value: 'ALL', label: 'All', icon: null },
-  { value: 'ACCESS_POINT', label: 'APs', icon: <Wifi className="h-3.5 w-3.5" /> },
-  { value: 'SWITCH', label: 'Switches', icon: <Network className="h-3.5 w-3.5" /> },
-  { value: 'GATEWAY', label: 'Gateways', icon: <Router className="h-3.5 w-3.5" /> },
-]
-
 const DEVICES_SPEC: FilterSpec<Device> = {
   search: {
     paramKey: 'q',
     fields: (d) => [d.deviceName, d.model, d.ipv4, d.macAddress, d.serialNumber],
   },
   filters: [
-    { paramKey: 'deviceType', predicate: (d, v) => d.deviceType?.toUpperCase() === v },
-    { paramKey: 'status', predicate: (d, v) => d.status?.toUpperCase() === v },
+    { paramKey: 'deviceType', predicate: (d, v) => d.deviceType?.toUpperCase() === v.toUpperCase() },
+    { paramKey: 'status', predicate: (d, v) => d.status?.toUpperCase() === v.toUpperCase() },
     siteFilter<Device>(),
   ],
 }
@@ -91,7 +78,7 @@ const DEVICES_SPEC: FilterSpec<Device> = {
 export function DevicesTab({ devices }: DevicesTabProps) {
   const [searchParams, setParam] = useParamSetter()
 
-  const typeFilter = (searchParams.get('deviceType') ?? 'ALL') as DeviceTypeFilter
+  const typeFilter = searchParams.get('deviceType') ?? 'ALL'
   const statusFilter = searchParams.get('status') ?? 'ALL'
   const siteFilterValue = searchParams.get('site') ?? 'ALL'
 
@@ -101,9 +88,16 @@ export function DevicesTab({ devices }: DevicesTabProps) {
     ipv4: true,
   })
 
+  const uniqueDeviceTypes = useMemo(
+    () => uniqueValues(devices, (d) => d.deviceType),
+    [devices],
+  )
+  const uniqueStatuses = useMemo(
+    () => uniqueValues(devices, (d) => d.status),
+    [devices],
+  )
   const uniqueSites = useMemo(
-    () =>
-      Array.from(new Set(devices.map((d) => d.siteName).filter(Boolean))).sort(),
+    () => uniqueValues(devices, (d) => d.siteName),
     [devices],
   )
 
@@ -175,33 +169,48 @@ export function DevicesTab({ devices }: DevicesTabProps) {
 
   const toolbar = (
     <>
-      {/* Type segmented control */}
-      <div className="flex items-center gap-1 rounded-md border p-0.5">
-        {TYPE_BUTTONS.map((btn) => (
+      {/* Type segmented control (derived from loaded devices) */}
+      {uniqueDeviceTypes.length > 0 && (
+        <div className="flex items-center gap-1 rounded-md border p-0.5">
           <Button
-            key={btn.value}
-            variant={typeFilter === btn.value ? 'secondary' : 'ghost'}
+            variant={typeFilter === 'ALL' ? 'secondary' : 'ghost'}
             size="sm"
             className="h-7 px-2 text-xs gap-1"
-            onClick={() => setParam('deviceType', btn.value)}
+            onClick={() => setParam('deviceType', 'ALL')}
           >
-            {btn.icon}
-            {btn.label}
+            All
           </Button>
-        ))}
-      </div>
+          {uniqueDeviceTypes.map((t) => (
+            <Button
+              key={t}
+              variant={typeFilter === t ? 'secondary' : 'ghost'}
+              size="sm"
+              className="h-7 px-2 text-xs gap-1"
+              onClick={() => setParam('deviceType', t)}
+            >
+              <DeviceTypeIcon type={t} />
+              {t}
+            </Button>
+          ))}
+        </div>
+      )}
 
       {/* Status filter */}
-      <Select value={statusFilter} onValueChange={(v) => setParam('status', v)}>
-        <SelectTrigger className="h-8 w-32 text-xs">
-          <SelectValue placeholder="Status" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="ALL">All statuses</SelectItem>
-          <SelectItem value="ONLINE">Online</SelectItem>
-          <SelectItem value="OFFLINE">Offline</SelectItem>
-        </SelectContent>
-      </Select>
+      {uniqueStatuses.length > 0 && (
+        <Select value={statusFilter} onValueChange={(v) => setParam('status', v)}>
+          <SelectTrigger className="h-8 w-32 text-xs">
+            <SelectValue placeholder="Status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="ALL">All statuses</SelectItem>
+            {uniqueStatuses.map((s) => (
+              <SelectItem key={s} value={s}>
+                {s}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
 
       {/* Site filter */}
       {uniqueSites.length > 0 && (

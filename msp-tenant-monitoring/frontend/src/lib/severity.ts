@@ -33,3 +33,25 @@ const SEVERITY_TEXT_CLASSES: Record<string, string> = {
 export function severityTextClass(severity: string): string {
   return SEVERITY_TEXT_CLASSES[severity?.toUpperCase() ?? ''] ?? 'text-muted-foreground'
 }
+
+/**
+ * Operational rank for the four known severities (lower = more urgent). Used to
+ * order derived severity filter options so they read Critical → Major → Minor →
+ * Warning rather than alphabetically.
+ */
+const SEVERITY_RANK: Record<string, number> = {
+  CRITICAL: 0,
+  MAJOR: 1,
+  MINOR: 2,
+  WARNING: 3,
+}
+
+/**
+ * Comparator for severity strings (case-insensitive). Known severities sort by
+ * SEVERITY_RANK; any unknown value sorts after all known ones, then alphabetically.
+ */
+export function severityOrder(a: string, b: string): number {
+  const ra = SEVERITY_RANK[a?.toUpperCase() ?? ''] ?? Number.MAX_SAFE_INTEGER
+  const rb = SEVERITY_RANK[b?.toUpperCase() ?? ''] ?? Number.MAX_SAFE_INTEGER
+  return ra === rb ? a.localeCompare(b) : ra - rb
+}

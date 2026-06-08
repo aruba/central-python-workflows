@@ -54,6 +54,32 @@ export function applyTableFilter<T>(
   })
 }
 
+// ─── Option derivation ────────────────────────────────────────────────────────
+
+/**
+ * Distinct, non-empty values pulled from `rows` via `accessor`, ready to render
+ * as filter <SelectItem>s or segmented buttons.
+ *
+ * Replaces the ad-hoc `Array.from(new Set(...)).filter(Boolean).sort()` blocks the
+ * tabs used to inline. Deriving options from the loaded rows (rather than hardcoding
+ * an enum) guarantees a filter can never offer — or miss — a value the data lacks.
+ *
+ * Sorted alphabetically by default; pass `order` for a custom comparator (e.g.
+ * severityOrder). Values are returned verbatim so they round-trip as the URL param.
+ */
+export function uniqueValues<T>(
+  rows: T[],
+  accessor: (row: T) => string | null | undefined,
+  order?: (a: string, b: string) => number,
+): string[] {
+  const set = new Set<string>()
+  for (const row of rows) {
+    const v = accessor(row)
+    if (v) set.add(v)
+  }
+  return Array.from(set).sort(order ?? ((a, b) => a.localeCompare(b)))
+}
+
 // ─── Shared site predicate ────────────────────────────────────────────────────
 
 /**

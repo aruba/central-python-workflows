@@ -10,8 +10,8 @@ import {
 import { DataTable, useParamSetter } from '@/components/DataTable'
 import type { Column } from '@/components/DataTable'
 import type { Alert } from '@/lib/api'
-import { severityBadgeClass } from '@/lib/severity'
-import { useTableFilter } from '@/lib/useTableFilter'
+import { severityBadgeClass, severityOrder } from '@/lib/severity'
+import { useTableFilter, uniqueValues } from '@/lib/useTableFilter'
 import type { FilterSpec } from '@/lib/useTableFilter'
 
 interface AlertsTabProps {
@@ -23,6 +23,37 @@ function SeverityBadge({ severity }: { severity: string }) {
     <Badge variant="outline" className={`text-xs ${severityBadgeClass(severity)}`}>
       {severity || '—'}
     </Badge>
+  )
+}
+
+function AlertExpandedRow({ alert }: { alert: Alert }) {
+  const fields: Array<[string, string | null | undefined]> = [
+    ['Priority', alert.priority],
+    ['Category', alert.category],
+    ['Key', alert.key],
+    ['Status', alert.status],
+    ['Cleared reason', alert.clearedReason],
+    ['Created', alert.createdAt ? new Date(alert.createdAt).toLocaleString() : undefined],
+    ['Updated', alert.updatedAt ? new Date(alert.updatedAt).toLocaleString() : undefined],
+  ]
+
+  return (
+    <div className="flex flex-col gap-3 py-3 px-4">
+      <div className="flex flex-col gap-0.5">
+        <div className="text-xs text-muted-foreground">Summary</div>
+        <div className="text-sm">{alert.summary || '—'}</div>
+      </div>
+      <dl className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-2">
+        {fields.map(([label, val]) =>
+          val ? (
+            <div key={label} className="flex flex-col gap-0.5">
+              <dt className="text-xs text-muted-foreground">{label}</dt>
+              <dd className="text-sm break-all">{val}</dd>
+            </div>
+          ) : null,
+        )}
+      </dl>
+    </div>
   )
 }
 
@@ -69,9 +100,9 @@ const ALERTS_SPEC: FilterSpec<Alert> = {
     fields: (a) => [a.name, a.summary, a.category],
   },
   filters: [
-    { paramKey: 'severity', predicate: (a, v) => a.severity?.toUpperCase() === v },
-    { paramKey: 'alertStatus', predicate: (a, v) => a.status?.toUpperCase() === v },
-    { paramKey: 'alertDeviceType', predicate: (a, v) => a.deviceType === v },
+    { paramKey: 'severity', predicate: (a, v) => a.severity?.toUpperCase() === v.toUpperCase() },
+    { paramKey: 'alertStatus', predicate: (a, v) => a.status?.toUpperCase() === v.toUpperCase() },
+    { paramKey: 'alertDeviceType', predicate: (a, v) => a.deviceType?.toUpperCase() === v.toUpperCase() },
   ],
 }
 
@@ -82,9 +113,16 @@ export function AlertsTab({ alerts }: AlertsTabProps) {
   const statusFilter = searchParams.get('alertStatus') ?? 'ALL'
   const deviceTypeFilter = searchParams.get('alertDeviceType') ?? 'ALL'
 
+  const uniqueSeverities = useMemo(
+    () => uniqueValues(alerts, (a) => a.severity, severityOrder),
+    [alerts],
+  )
+  const uniqueStatuses = useMemo(
+    () => uniqueValues(alerts, (a) => a.status),
+    [alerts],
+  )
   const uniqueDeviceTypes = useMemo(
-    () =>
-      Array.from(new Set(alerts.map((a) => a.deviceType).filter(Boolean))).sort(),
+    () => uniqueValues(alerts, (a) => a.deviceType),
     [alerts],
   )
 
@@ -93,31 +131,38 @@ export function AlertsTab({ alerts }: AlertsTabProps) {
   const toolbar = (
     <>
       {/* Severity filter */}
-      <Select value={severityFilter} onValueChange={(v) => setParam('severity', v)}>
-        <SelectTrigger className="h-8 w-36 text-xs">
-          <SelectValue placeholder="Severity" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="ALL">All severities</SelectItem>
-          <SelectItem value="CRITICAL">Critical</SelectItem>
-          <SelectItem value="MAJOR">Major</SelectItem>
-          <SelectItem value="MINOR">Minor</SelectItem>
-          <SelectItem value="WARNING">Warning</SelectItem>
-        </SelectContent>
-      </Select>
+      {uniqueSeverities.length > 0 && (
+        <Select value={severityFilter} onValueChange={(v) => setParam('severity', v)}>
+          <SelectTrigger className="h-8 w-36 text-xs">
+            <SelectValue placeholder="Severity" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="ALL">All severities</SelectItem>
+            {uniqueSeverities.map((s) => (
+              <SelectItem key={s} value={s}>
+                {s}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
 
       {/* Status filter */}
-      <Select value={statusFilter} onValueChange={(v) => setParam('alertStatus', v)}>
-        <SelectTrigger className="h-8 w-36 text-xs">
-          <SelectValue placeholder="Status" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="ALL">All statuses</SelectItem>
-          <SelectItem value="OPEN">Open</SelectItem>
-          <SelectItem value="CLEARED">Cleared</SelectItem>
-          <SelectItem value="ACKNOWLEDGED">Acknowledged</SelectItem>
-        </SelectContent>
-      </Select>
+      {uniqueStatuses.length > 0 && (
+        <Select value={statusFilter} onValueChange={(v) => setParam('alertStatus', v)}>
+          <SelectTrigger className="h-8 w-36 text-xs">
+            <SelectValue placeholder="Status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="ALL">All statuses</SelectItem>
+            {uniqueStatuses.map((s) => (
+              <SelectItem key={s} value={s}>
+                {s}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
 
       {/* Device type filter */}
       {uniqueDeviceTypes.length > 0 && (
@@ -147,6 +192,7 @@ export function AlertsTab({ alerts }: AlertsTabProps) {
       filtered={filtered}
       rowKey={(a) => a.id}
       columns={COLUMNS}
+      expandedRow={(a) => <AlertExpandedRow alert={a} />}
       toolbar={toolbar}
       search={{
         paramKey: 'q',

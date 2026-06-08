@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { applyTableFilter, siteFilter } from './useTableFilter'
+import { applyTableFilter, siteFilter, uniqueValues } from './useTableFilter'
 import type { FilterSpec } from './useTableFilter'
+import { severityOrder } from './severity'
 
 // ─── Helper row types ─────────────────────────────────────────────────────────
 
@@ -147,6 +148,49 @@ describe('siteFilter', () => {
   it('absent site param is inactive → all rows', () => {
     const result = applyTableFilter(ROWS, spec, new URLSearchParams(''))
     expect(result).toHaveLength(ROWS.length)
+  })
+})
+
+// ─── uniqueValues ─────────────────────────────────────────────────────────────
+
+describe('uniqueValues', () => {
+  it('returns distinct non-empty values sorted alphabetically by default', () => {
+    const rows = [
+      { type: 'switch' },
+      { type: 'gateway' },
+      { type: 'switch' },
+      { type: '' },
+      { type: null },
+      { type: undefined },
+    ]
+    expect(uniqueValues(rows, (r) => r.type)).toEqual(['gateway', 'switch'])
+  })
+
+  it('orders by a custom comparator when supplied (severity rank)', () => {
+    const rows = [
+      { severity: 'Minor' },
+      { severity: 'Critical' },
+      { severity: 'Warning' },
+      { severity: 'Major' },
+      { severity: 'Critical' },
+    ]
+    // Rank order, not alphabetical (which would be Critical, Major, Minor, Warning by luck —
+    // so include an unknown to prove rank wins): unknown sorts last.
+    expect(uniqueValues(rows, (r) => r.severity, severityOrder)).toEqual([
+      'Critical',
+      'Major',
+      'Minor',
+      'Warning',
+    ])
+  })
+
+  it('sorts unknown severities after known ones', () => {
+    const rows = [{ severity: 'Emergency' }, { severity: 'Critical' }, { severity: 'Minor' }]
+    expect(uniqueValues(rows, (r) => r.severity, severityOrder)).toEqual([
+      'Critical',
+      'Minor',
+      'Emergency',
+    ])
   })
 })
 
