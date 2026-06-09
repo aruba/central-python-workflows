@@ -122,9 +122,6 @@ unified:
   base_url: https://internal.api.central.arubanetworks.com
 ```
 
-> [!NOTE]
-> For details on each credential attribute (`client_id`, `client_secret`, `workspace_id`, `base_url`) and how to obtain them, see the **One-Time Setup** section of the [Token Exchange Guide](https://developer.arubanetworks.com/new-central/docs/msp-token-exchange#one-time-setup)
-
 ### Region / Base URL
 
 Set `base_url` in `token.yaml` to the API gateway for your Central account. This is determined based on the location of your HPE Aruba Networking Central account. You can use [this guide](https://developer.arubanetworks.com/new-central/docs/getting-started-with-rest-apis#finding-your-base-url) to identify how to find the base URL of your account
@@ -217,6 +214,6 @@ See `output/sample_output.json` for an example of the JSON schema.
 
 ## Support
 
-- **PyCentral MSP feature guide**: [developer.arubanetworks.com: pycentral MSP feature](https://developer.arubanetworks.com/new-central/docs/pycentral-msp-feature#credentials)
-- **PyCentral library**: [github.com/aruba/pycentral](https://github.com/aruba/pycentral)
-- **Central developer hub API reference**: [developer.arubanetworks.com](https://developer.arubanetworks.com/new-central/docs)
+- **Automation Team**: [aruba-automation@hpe.com](mailto:aruba-automation@hpe.com)
+- **Workflow Issues**: [GitHub Issues](https://github.com/aruba/central-python-workflows/issues)
+- **PyCentral Library**: [PyCentral Issues](https://github.com/aruba/pycentral/issues)
