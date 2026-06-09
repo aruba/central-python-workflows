@@ -1,0 +1,14 @@
+# pycentral unified credential format
+# Replace placeholders with your GLP MSP workspace credentials.
+# Docs: https://pycentral.readthedocs.io/en/v2/modules/msp/
+#
+# Notes:
+#   - workspace_id  : the MSP GLP Workspace ID (not a tenant workspace ID)
+#   - base_url      : full Central API gateway URL for your region
+#   - cluster_name  : alternative to base_url (e.g. US-WEST-5) — VERIFY which
+#                     key your pycentral version expects
+unified:
+  client_id: <your-glp-client-id>
+  client_secret: <your-glp-client-secret>
+  workspace_id: <your-msp-workspace-id>
+  base_url: https://internal.api.central.arubanetworks.com

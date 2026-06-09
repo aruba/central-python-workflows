@@ -1,0 +1,4 @@
+tenant,sites,degraded_sites,total_devices,critical_alerts
+TSTAA - Sample Hotel Alpha,2,1,120,10
+TSTBB - Sample Hotel Beta,3,2,85,5
+TSTCC - Sample Hotel Gamma,1,0,50,0
