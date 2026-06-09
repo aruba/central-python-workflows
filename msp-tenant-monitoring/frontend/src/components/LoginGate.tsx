@@ -184,7 +184,7 @@ export function LoginGate({ onConnected }: LoginGateProps) {
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Connect to Aruba Central MSP</CardTitle>
+          <CardTitle>Connect to Central MSP</CardTitle>
           <CardDescription>
             Enter your MSP workspace credentials to begin.
           </CardDescription>
