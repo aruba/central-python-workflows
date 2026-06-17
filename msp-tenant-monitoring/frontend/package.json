@@ -35,7 +35,7 @@
     "postcss": "^8.5.14",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "react-router-dom": "^7.15.0",
+    "react-router-dom": "^7.18.0",
     "sonner": "^2.0.7",
     "swr": "^2.4.1",
     "tailwind-merge": "^3.6.0",
