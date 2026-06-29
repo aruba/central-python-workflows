@@ -191,7 +191,7 @@ CNXXXXXXX1,AP,0,no_profiles
 - Authentication / tokens: Ensure your credentials file is complete and has valid credentials for Central.
 - Ensure all target devices have been assigned a device function and are ready for provisioning
 - Ensure hostnames are a valid format for the device type they are attempting to be assigned to
-- SDK compatibility: If API calls fail unexpectedly, confirm the installed pycentral version matches tested versions (v2.0a16) or update helpers accordingly.
+- SDK compatibility: If API calls fail unexpectedly, confirm the installed pycentral version matches tested versions (2.0a21) or update helpers accordingly.
 - If unable to update/create hostnames review Delete System Info utility script
 
 ## Support
