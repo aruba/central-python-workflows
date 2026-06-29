@@ -63,7 +63,15 @@ def process_single_device(
             )
         else:
             # Safety check: Skip offline devices
-            device_status = getattr(device_instance, "status", "UNKNOWN").upper()
+            device_status = getattr(device_instance, "status", None) or "UNKNOWN"
+            device_site = getattr(device_instance, "site_name", None)
+            if not device_site:
+                log(
+                    f"Device with serial '{device_serial}' is not assigned to a site. Assign it to a site before troubleshooting. Skipping..."
+                )
+                return results
+
+            device_status = device_status.upper()
             if device_status != "ONLINE":
                 log(
                     f"Device with serial '{device_serial}' is {device_status}. Cannot execute commands. Skipping..."

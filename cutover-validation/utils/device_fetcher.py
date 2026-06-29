@@ -24,6 +24,13 @@ def fetch_single_device(
 
         device = Device.from_api_object(device_instance)
 
+        if not device.is_assigned_to_site():
+            return (
+                device,
+                "offline",
+                "Device is not assigned to a site. Assign it to a site before troubleshooting.",
+            )
+
         if device.is_online():
             return device, "online", ""
         else:
@@ -67,6 +74,8 @@ def fetch_devices_parallel(
                     online_devices.append(device)
                 elif status == "offline":
                     offline_devices.append(device)
+                    if device and not device.is_assigned_to_site():
+                        print(f"Warning: {serial}: {error_msg}")
                 elif status == "not_found":
                     not_found_serials.append(serial)
                     print(f"Warning: {error_msg}")

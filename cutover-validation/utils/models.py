@@ -4,6 +4,10 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 
+def _safe_value(value, default: str = "N/A") -> str:
+    return default if value in (None, "") else value
+
+
 @dataclass
 class Device:
     """Device information model."""
@@ -21,19 +25,23 @@ class Device:
     def from_api_object(cls, ap) -> "Device":
         """Create Device from API object."""
         return cls(
-            serial=ap.serial,
-            name=getattr(ap, "name", "N/A"),
-            model=getattr(ap, "model", "N/A"),
-            ip_address=getattr(ap, "ipv4", "N/A"),
-            mac_address=getattr(ap, "mac", "N/A"),
-            firmware=getattr(ap, "software-version", "N/A"),
-            status=getattr(ap, "status", "N/A"),
-            site=getattr(ap, "site_name", "N/A"),
+            serial=_safe_value(getattr(ap, "serial", None)),
+            name=_safe_value(getattr(ap, "name", None)),
+            model=_safe_value(getattr(ap, "model", None)),
+            ip_address=_safe_value(getattr(ap, "ipv4", None)),
+            mac_address=_safe_value(getattr(ap, "mac", None)),
+            firmware=_safe_value(getattr(ap, "software-version", None)),
+            status=_safe_value(getattr(ap, "status", None)),
+            site=_safe_value(getattr(ap, "site_name", None)),
         )
 
     def is_online(self) -> bool:
         """Check if device is online."""
-        return self.status.upper() == "ONLINE"
+        return (self.status or "").upper() == "ONLINE"
+
+    def is_assigned_to_site(self) -> bool:
+        """Check if device has a site assignment."""
+        return self.site != "N/A"
 
     def to_dict(self) -> dict:
         """Convert to dictionary."""
