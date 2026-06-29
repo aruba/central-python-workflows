@@ -1,15 +1,3 @@
-"""
-Delete System Info Profiles
-
-This script deletes all system-info profiles from specified devices in Aruba Central.
-It takes device serial numbers as input and removes all associated system-info profiles
-for each device.
-
-Usage:
-    python delete_system_info.py -c account_credentials.yaml --serials_csv serials.csv
-    python delete_system_info.py -c account_credentials.yaml --serials SN1,SN2,SN3
-"""
-
 import csv
 import sys
 from argparse import ArgumentParser
@@ -22,7 +10,6 @@ from pycentral import NewCentralBase
 from pycentral.profiles import Profiles
 from pycentral.utils.url_utils import generate_url
 
-# Data structures to track results
 serial_numbers = []
 device_functions = []
 profiles_deleted = []
@@ -66,7 +53,7 @@ def load_credentials(file_path):
     """Load credentials from YAML file.
 
     Args:
-        file_path: Path to the credentials YAML file
+        file_path (str): Path to the credentials YAML file
 
     Returns:
         dict: Loaded credentials
@@ -91,7 +78,7 @@ def validate_csv(file_path):
     """Validate the CSV file structure.
 
     Args:
-        file_path: Path to the CSV file
+        file_path (str): Path to the CSV file
     """
     try:
         with open(file_path, newline="") as csvfile:
@@ -105,7 +92,7 @@ def validate_csv(file_path):
                 )
                 sys.exit(1)
 
-            # Check for 'serial' header (case-insensitive)
+            # Check for header formatting
             headers_lower = [h.lower().strip() for h in head]
             if "serial" not in headers_lower:
                 print(f"{colored('Error', 'red')} - CSV must have a 'serial' column.\n")
@@ -123,13 +110,12 @@ def read_csv(file_path):
     """Read serial numbers from CSV file.
 
     Args:
-        file_path: Path to the CSV file
+        file_path (str): Path to the CSV file
     """
     with open(file_path, "r") as csv_file:
         csv_reader = csv.DictReader(csv_file)
 
         for row in csv_reader:
-            # Get serial column (case-insensitive)
             serial = None
             for key in row:
                 if key.lower().strip() == "serial":
@@ -143,7 +129,7 @@ def parse_serial_list(serials_str):
     """Parse comma-separated serial numbers.
 
     Args:
-        serials_str: Comma-separated string of serial numbers
+        serials_str (str): Comma-separated string of serial numbers
     """
     for serial in serials_str.split(","):
         serial = serial.strip()
@@ -155,8 +141,8 @@ def check_device(scope, serial_number):
     """Check if device exists and is provisioned in Central.
 
     Args:
-        scope: PyCentral scope object
-        serial_number: Device serial number
+        scope (pycentral.workflows.workflows.Scopes): PyCentral scope object
+        serial_number (str): Device serial number
 
     Returns:
         tuple: (device_object, device_function) or (None, None) if not found
@@ -210,9 +196,9 @@ def get_system_info_profiles(central_conn, scope_id, persona):
     """Retrieve all system-info profiles for a device.
 
     Args:
-        central_conn: PyCentral connection object
-        scope_id: Device scope ID
-        persona: Device function/persona
+        central_conn (pycentral.NewCentralBase): PyCentral connection object
+        scope_id (int): Device scope ID
+        persona (str): Device function/persona
 
     Returns:
         list: List of profile names
@@ -222,10 +208,9 @@ def get_system_info_profiles(central_conn, scope_id, persona):
 
     profiles = []
     if response[0] and response[1]:
-        # response[1] contains the profile data
         data = response[1]
         if isinstance(data, dict) and "profile" in data:
-            # Extract profile names from the "profile" array
+            # Extract profile names
             profile_data = data["profile"]
             if isinstance(profile_data, list):
                 for profile in profile_data:
@@ -239,15 +224,14 @@ def delete_system_info_profile(central_conn, profile_name, scope_id, persona):
     """Delete a specific system-info profile.
 
     Args:
-        central_conn: PyCentral connection object
-        profile_name: Name of the profile to delete
-        scope_id: Device scope ID
-        persona: Device function/persona
+        central_conn (pycentral.NewCentralBase): PyCentral connection object
+        profile_name (str): Name of the profile to delete
+        scope_id (int): Device scope ID
+        persona (str): Device function/persona
 
     Returns:
         bool: True if deletion was successful
     """
-    # Generate delete path with profile name appended
     delete_sys_info_path = generate_url(f"system-info/{profile_name}")
     local = {"scope_id": scope_id, "persona": persona}
     response = Profiles.delete_profile(delete_sys_info_path, central_conn, local=local)
@@ -261,11 +245,10 @@ def delete_all_profiles(central_conn, serial_number, device_object, persona):
     """Delete all system-info profiles for a device.
 
     Args:
-        central_conn: PyCentral connection object
-        serial_number: Device serial number
-        device_object: PyCentral device object
-        persona: Device function/persona
-        scope: PyCentral scope object
+        central_conn (pycentral.NewCentralBase): PyCentral connection object
+        serial_number (str): Device serial number
+        device_object (pycentral.workflows.workflows.Device): PyCentral device object
+        persona (str): Device function/persona
     """
     scope_id = getattr(device_object, "id", None)
     if not scope_id:
@@ -276,7 +259,7 @@ def delete_all_profiles(central_conn, serial_number, device_object, persona):
 
     deleted_count = 0
     iteration = 1
-    max_iterations = 50  # Safety limit to prevent infinite loops
+    max_iterations = 50
 
     while iteration <= max_iterations:
         spinner = Halo(
@@ -341,7 +324,7 @@ def create_output(output_file):
     """Create output CSV with results.
 
     Args:
-        output_file: Path to output CSV file
+        output_file (str): Path to output CSV file
     """
     data = zip(serial_numbers, device_functions, profiles_deleted, status)
 
@@ -358,7 +341,6 @@ def main():
     credentials_file = args.credential_file
     credentials = load_credentials(credentials_file)
 
-    # Initialize Central connection
     print("Connecting to Central & fetching hierarchy information...")
     try:
         central_conn = NewCentralBase(
