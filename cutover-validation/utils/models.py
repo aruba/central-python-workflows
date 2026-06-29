@@ -1,7 +1,7 @@
 """Data models for device troubleshooting."""
 
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import List, Optional
 
 
 def _safe_value(value, default: str = "N/A") -> str:
@@ -55,6 +55,26 @@ class Device:
             "status": self.status,
             "site": self.site,
         }
+
+
+@dataclass
+class DeviceFetchResult:
+    """Result of fetching and categorizing devices by status."""
+
+    online: List[Device] = field(default_factory=list)
+    unassigned: List[Device] = field(default_factory=list)
+    offline: List[Device] = field(default_factory=list)
+    not_found: List[str] = field(default_factory=list)
+
+    @property
+    def total(self) -> int:
+        """Total devices processed."""
+        return len(self.online) + len(self.unassigned) + len(self.offline) + len(self.not_found)
+
+    @property
+    def has_actionable_devices(self) -> bool:
+        """Check if there are online devices ready for troubleshooting."""
+        return len(self.online) > 0
 
 
 @dataclass
