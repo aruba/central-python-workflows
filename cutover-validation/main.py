@@ -274,25 +274,31 @@ def main():
         print(f"Loaded {len(device_serials)} device serial(s)")
 
         # Fetch device details in parallel
-        online_devices, offline_devices, not_found = fetch_devices_parallel(
-            device_serials, central_conn
-        )
+        fetch_result = fetch_devices_parallel(device_serials, central_conn)
 
         # Display status tables
-        display_device_status_summary(online_devices, offline_devices, not_found)
+        display_device_status_summary(fetch_result)
 
-        # Filter to only online device serials
-        device_serials = [device.serial for device in online_devices]
+        # Filter to only online device serials (which have site assignment)
+        device_serials = [device.serial for device in fetch_result.online]
 
-        if not device_serials:
-            print("\nNo online devices available for troubleshooting. Exiting.")
+        if not fetch_result.has_actionable_devices:
+            if fetch_result.unassigned:
+                print(
+                    "\nDevices were found, but none are assigned to a site."
+                )
+                print(
+                    "Assign the devices to a site in Central before troubleshooting. Exiting."
+                )
+            else:
+                print("\nNo online devices available for troubleshooting. Exiting.")
             sys.exit(1)
 
         # Show confirmation
         if not prompt_confirmation(device_serials, commands):
             sys.exit(0)
 
-        devices_for_save = online_devices
+        devices_for_save = fetch_result.online
 
     else:
         # Site selection mode
@@ -301,7 +307,7 @@ def main():
         sites_data = fetch_sites_and_devices(central_conn)
 
         if not sites_data:
-            print("No sites found in the account. Exiting.")
+            print("No sites with online APs found in the account. Exiting.")
             sys.exit(1)
 
         display_site_table(sites_data)
