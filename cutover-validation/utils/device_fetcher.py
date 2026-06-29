@@ -2,7 +2,7 @@
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import List, Tuple
-from utils.models import Device
+from utils.models import Device, DeviceFetchResult
 from utils.config import MAX_CONCURRENT_DEVICE_FETCHES
 
 
@@ -13,7 +13,8 @@ def fetch_single_device(
 
     Returns:
         Tuple of (device, status, error_message)
-        status can be: 'online', 'offline', 'not_found', 'error'
+        status can be: 'online', 'offline', 'unassigned', 'not_found', 'error'
+        Note: Devices without site assignment cannot report online/offline status.
     """
     try:
         print(f"  Progress: {index}/{total} - Fetching {serial}...", end="\r")
@@ -23,6 +24,14 @@ def fetch_single_device(
             return None, "not_found", f"Device {serial} not found"
 
         device = Device.from_api_object(device_instance)
+
+        # Devices without site assignment cannot report online/offline status
+        if not device.is_assigned_to_site():
+            return (
+                device,
+                "unassigned",
+                "Device is not assigned to a site. Cannot determine online/offline status.",
+            )
 
         if device.is_online():
             return device, "online", ""
@@ -35,22 +44,21 @@ def fetch_single_device(
 
 def fetch_devices_parallel(
     device_serials: List[str], central_conn
-) -> Tuple[List[Device], List[Device], List[str]]:
+) -> DeviceFetchResult:
     """Fetch device details in parallel and separate by status.
 
     Returns:
-        Tuple of (online_devices, offline_devices, not_found_serials)
+        DeviceFetchResult with categorized devices:
+        - online: devices ready for troubleshooting
+        - unassigned: devices without site (status unknown)
+        - offline: devices that are offline
+        - not_found: serial numbers not found in account
     """
-    online_devices = []
-    offline_devices = []
-    not_found_serials = []
-
+    result = DeviceFetchResult()
     total = len(device_serials)
 
     max_workers = min(MAX_CONCURRENT_DEVICE_FETCHES, total)
-    # Use ThreadPoolExecutor for parallel API calls
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        # Submit all fetch tasks
         future_to_serial = {
             executor.submit(
                 fetch_single_device, serial, central_conn, idx, total
@@ -58,31 +66,31 @@ def fetch_devices_parallel(
             for idx, serial in enumerate(device_serials, 1)
         }
 
-        # Collect results as they complete
         for future in as_completed(future_to_serial):
             serial = future_to_serial[future]
             try:
                 device, status, error_msg = future.result()
                 if status == "online":
-                    online_devices.append(device)
+                    result.online.append(device)
+                elif status == "unassigned":
+                    result.unassigned.append(device)
+                    print(f"Warning: {serial}: {error_msg}")
                 elif status == "offline":
-                    offline_devices.append(device)
-                elif status == "not_found":
-                    not_found_serials.append(serial)
-                    print(f"Warning: {error_msg}")
-                elif status == "error":
-                    not_found_serials.append(serial)
+                    result.offline.append(device)
+                elif status in ("not_found", "error"):
+                    result.not_found.append(serial)
                     print(f"Warning: {error_msg}")
 
             except Exception as e:
                 print(f"Exception processing {serial}: {e}")
-                not_found_serials.append(serial)
+                result.not_found.append(serial)
 
     print(
-        f"  Online: {len(online_devices)}, Offline: {len(offline_devices)}, Not Found: {len(not_found_serials)}"
+        f"  Online: {len(result.online)}, Unassigned: {len(result.unassigned)}, "
+        f"Offline: {len(result.offline)}, Not Found: {len(result.not_found)}"
     )
 
-    return online_devices, offline_devices, not_found_serials
+    return result
 
 
 def fetch_sites_and_devices(central_conn) -> dict:
