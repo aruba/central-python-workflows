@@ -257,65 +257,66 @@ def delete_all_profiles(central_conn, serial_number, device_object, persona):
         profiles_deleted.append(0)
         return
 
-    deleted_count = 0
-    iteration = 1
-    max_iterations = 50
+    spinner = Halo(
+        text="Fetching system-info profiles...",
+        spinner="simpleDots",
+    )
+    spinner.start()
 
-    while iteration <= max_iterations:
-        spinner = Halo(
-            text=f"Fetching system-info profiles (iteration {iteration})...",
-            spinner="simpleDots",
-        )
-        spinner.start()
+    profiles = get_system_info_profiles(central_conn, scope_id, persona)
 
-        profiles = get_system_info_profiles(central_conn, scope_id, persona)
-
-        if not profiles:
-            spinner.succeed()
-            if deleted_count == 0:
-                print(
-                    f"  No system-info profiles found for device {colored(serial_number, 'blue')}.\n"
-                )
-            else:
-                print(
-                    f"  All system-info profiles deleted for device {colored(serial_number, 'blue')}.\n"
-                )
-            break
-
+    if not profiles:
         spinner.succeed()
-        print(f"  Found {len(profiles)} profile(s): {', '.join(profiles)}")
-
-        # Delete each profile
-        for profile_name in profiles:
-            del_spinner = Halo(
-                text=f"Deleting profile '{profile_name}'...", spinner="simpleDots"
-            )
-            del_spinner.start()
-
-            success = delete_system_info_profile(
-                central_conn, profile_name, scope_id, persona
-            )
-
-            if success:
-                del_spinner.succeed()
-                print(f"    Successfully deleted profile: {colored(profile_name, 'magenta')}")
-                deleted_count += 1
-            else:
-                del_spinner.fail()
-                print(f"    {colored('Failed', 'red')} to delete profile: {profile_name}")
-
-        iteration += 1
-
-    if iteration > max_iterations:
         print(
-            f"  {colored('Warning', 'yellow')}: Reached maximum iterations. Some profiles may remain.\n"
+            f"  No system-info profiles found for device {colored(serial_number, 'blue')}.\n"
         )
+        profiles_deleted.append(0)
+        status.append("no profiles")
+        return
+
+    spinner.succeed()
+    print(f"  Found {len(profiles)} profile(s): {', '.join(profiles)}")
+
+    deleted_count = 0
+    failed_profiles = []
+
+    for profile_name in profiles:
+        del_spinner = Halo(
+            text=f"Deleting profile '{profile_name}'...", spinner="simpleDots"
+        )
+        del_spinner.start()
+
+        success = delete_system_info_profile(
+            central_conn, profile_name, scope_id, persona
+        )
+
+        if success:
+            del_spinner.succeed()
+            print(f"    Successfully deleted profile: {colored(profile_name, 'magenta')}")
+            deleted_count += 1
+        else:
+            del_spinner.fail()
+            print(f"    {colored('Failed', 'red')} to delete profile: {profile_name}")
+            failed_profiles.append(profile_name)
 
     profiles_deleted.append(deleted_count)
-    if deleted_count > 0:
+
+    # Determine status
+    if deleted_count > 0 and not failed_profiles:
         status.append("success")
+        print(
+            f"  All system-info profiles deleted for device {colored(serial_number, 'blue')}.\n"
+        )
+    elif deleted_count > 0 and failed_profiles:
+        status.append("partial")
+        print(
+            f"  {colored('Warning', 'yellow')}: {len(failed_profiles)} profile(s) failed to delete: {', '.join(failed_profiles)}\n"
+        )
     else:
-        status.append("no profiles")
+        status.append("failed")
+        print(
+            f"  {colored('Error', 'red')}: All deletions failed for device {colored(serial_number, 'blue')}.\n"
+        )
 
     print()
 
