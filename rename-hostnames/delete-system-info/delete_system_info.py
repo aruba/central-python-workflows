@@ -1,8 +1,11 @@
 import csv
+import os
 import sys
 from argparse import ArgumentParser
 
 import yaml
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 from halo import Halo
 from termcolor import colored
 
@@ -33,12 +36,12 @@ def define_arguments():
         "-c",
         "--credential_file",
         help="Central API Authorization file path",
-        default="account_credentials.yaml",
+        default=os.path.join(SCRIPT_DIR, "account_credentials.yaml"),
     )
     parser.add_argument(
         "--serials_csv",
         help="CSV file with serial numbers (column header: 'serial')",
-        default="delete_serials.csv",
+        default=os.path.join(SCRIPT_DIR, "delete_serials.csv"),
     )
     parser.add_argument(
         "--serials",
@@ -390,7 +393,7 @@ def main():
         print(f"| {sn:^13} | {df_str:^15} | {pd:^16} | {st:^6} |")
 
     # Create output CSV
-    csv_output_name = "delete_system_info_results.csv"
+    csv_output_name = os.path.join(SCRIPT_DIR, "delete_system_info_results.csv")
     create_output(csv_output_name)
     print(f"\nResults saved to {colored(csv_output_name, 'cyan')}\n")
 
