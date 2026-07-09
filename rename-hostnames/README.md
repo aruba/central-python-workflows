@@ -108,12 +108,91 @@ serial1,hostname1,success
 seria2,hostname2,failure
 ```
 
+## Accompanying Utility Script: Delete System Info Profiles
+
+### Overview
+
+The `delete_system_info.py` script is a utility for fixing devices stuck in a bugged 
+state due to Central no longer supporting multiple local system-info profiles. Devices
+follow the same provisioning requirements as laid out previosuly for renaming hostnames.
+
+**Background:** Devices can no longer have multiple local system-info profiles in 
+Central. Any device with multiple system-info profiles will be unable to create or 
+update these profiles until all extra profiles are removed (leaving zero or one 
+profile). This script cleans up the bugged state by deleting all local system-info 
+profiles for the target devices.
+
+### When to Use
+
+Use this utility when:
+- A device fails to update its hostname with errors related to maximum/existing 
+  system-info profiles. Example error:
+    ```json
+    {
+        "httpStatusCode": 400,
+        "message": "module aruba-system-info can only have single instance per scope",
+        "debugId": "axxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "errorCode": "HPE_GL_ERROR_BAD_REQUEST"
+    }
+    ```
+- A device has multiple system-info profiles from legacy configurations
+- You need to reset a device's system-info profile state before re-configuring
+
+### Input
+
+Create a CSV file with a `serial` column header containing target device serial numbers:
+
+```csv
+serial
+CNXXXXXXXX
+CNXXXXXXX1
+```
+
+By default, the script uses `delete_serials.csv`. Update this file or provide a custom CSV.
+
+### Execution
+
+```bash
+python delete_system_info.py
+```
+
+With arguments:
+
+```bash
+python delete_system_info.py -c <credentials_file> --serials_csv <input_file>
+```
+
+Or provide serial numbers directly:
+
+```bash
+python delete_system_info.py --serials CNXXXXXXXX,CNXXXXXXX1,CNXXXXXXX2
+```
+
+### Command Line Options
+
+| Name            | Type   | Description                           | Required | Default                  |
+|-----------------|--------|---------------------------------------|----------|--------------------------|
+| credential_file | string | Path to file with Central credentials | No       | account_credentials.yaml |
+| serials_csv     | string | Path to CSV file with serial numbers  | No       | delete_serials.csv       |
+| serials         | string | Comma-separated list of serials       | No       | None                     |
+
+### Output
+
+Results are saved to `delete_system_info_results.csv`:
+
+```csv
+serial_number,device_function,profiles_deleted,status
+CNXXXXXXXX,ACCESS_SWITCH,2,success
+CNXXXXXXX1,AP,0,no_profiles
+```
+
 ## Troubleshooting
 
 - Authentication / tokens: Ensure your credentials file is complete and has valid credentials for Central.
 - Ensure all target devices have been assigned a device function and are ready for provisioning
 - Ensure hostnames are a valid format for the device type they are attempting to be assigned to
-- SDK compatibility: If API calls fail unexpectedly, confirm the installed pycentral version matches tested versions (v2.0a16) or update helpers accordingly.
+- SDK compatibility: If API calls fail unexpectedly, confirm the installed pycentral version matches tested versions (2.0a21) or update helpers accordingly.
+- If unable to update/create hostnames review Delete System Info utility script
 
 ## Support
 
