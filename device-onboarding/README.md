@@ -31,7 +31,7 @@ This script automates the complete onboarding journey of factory-default devices
 
 1. Clone the repository and navigate to this workflow folder
 ```bash
-git clone -b "v2(pre-release)" https://github.com/aruba/central-python-workflows.git
+git clone -b v2 https://github.com/aruba/central-python-workflows.git
 cd central-python-workflows/device-onboarding
 ```
 

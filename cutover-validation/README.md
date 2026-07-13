@@ -29,7 +29,7 @@ Commands are executed only on online devices, and results are collected for revi
 
 1. Clone the repository and navigate to the project folder
 ```bash
-git clone -b "v2(pre-release)" https://github.com/aruba/central-python-workflows.git
+git clone -b v2 https://github.com/aruba/central-python-workflows.git
 cd cutover-validation
 ```
 
