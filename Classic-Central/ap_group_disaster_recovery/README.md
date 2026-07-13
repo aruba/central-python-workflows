@@ -24,6 +24,8 @@ backup_2024-04-07_10-30-00/
     └── CNYYYYY.json
 ```
 
+During backup, the script also checks for additional groups that exist in Central but do not currently have APs assigned. If Central still exposes AP CLI for those groups, they are backed up and labeled as additional groups in the summary.
+
 ## Prerequisites
 
 1. All Access Points have valid Classic Central licenses
@@ -122,9 +124,10 @@ python disaster_recovery.py --mode restore \
 - **HTTP 401 / 403** — Verify that the access token in `central_token.json` is valid and has not expired
 - **HTTP 400 on restore** — The AP serial number in the backup file must exist in Central; the API cannot push settings to an AP that is not registered
 - **AP restore skipped** — The AP must be online and reachable in Central at the time of restore
+- **Invalid restore JSON** — Each file in `group_configs/` or `ap_settings/` must be valid JSON
 
 ## Known Issues
 
 - **Restore is destructive** — every AP's full CLI settings are replaced verbatim with the backed-up version. There is no partial restore.
 - APs on operating systems older than AOS 10.x may not support serial number as a target for `ap_settings_cli`.
-- Central API rate limiting (HTTP 429) may occur on very large deployments. The worker count is capped at 30 to stay within typical Central rate limits.
+- Central API rate limiting (HTTP 429) may occur on very large deployments. The worker count is capped at 30 to stay within typical Central rate limits, and the workflow retries rate-limited API calls up to 3 times with a short backoff before marking them failed.

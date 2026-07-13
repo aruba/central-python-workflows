@@ -33,6 +33,7 @@ import json
 import os
 import sys
 import threading
+import time
 from argparse import ArgumentParser
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
@@ -55,6 +56,10 @@ GROUP_PAGE_LIMIT = 20
 
 AP_HOSTNAME_CSV_FIELDS = ["serial_number", "hostname", "group_name", "model"]
 GROUP_CLI_CSV_FIELDS   = ["group_name", "classification", "cli"]
+
+API_RETRYABLE_CODES      = {429}
+API_MAX_RETRIES          = 3
+API_RETRY_BACKOFF_BASE_S = 2
 
 
 get_error_codes = [
@@ -109,6 +114,55 @@ def print_summary(title, rows):
 	for label, value in rows:
 		print(f"  {label:<28}: {value}")
 	print(f"  {'─'*width}\n")
+
+
+def command_with_retries(central_conn, apiMethod, apiPath, context, apiParams=None, apiData=None):
+	"""Runs a Central API command and retries when Central returns HTTP 429.
+
+	Args:
+		central_conn (pycentral.base.ArubaCentralBase): PyCentral connection.
+		apiMethod (str): HTTP method.
+		apiPath (str): Central API path.
+		context (str): Human-readable operation name for retry output.
+		apiParams (dict | None): Query params, if any.
+		apiData (dict | None): Request body, if any.
+
+	Returns:
+		dict: Response dict from PyCentral.
+	"""
+	attempt = 0
+	while True:
+		resp = central_conn.command(apiMethod=apiMethod, apiPath=apiPath, apiParams=apiParams, apiData=apiData)
+		if resp.get("code") not in API_RETRYABLE_CODES or attempt >= API_MAX_RETRIES:
+			return resp
+
+		attempt += 1
+		delay = API_RETRY_BACKOFF_BASE_S * attempt
+		print(
+			f"  Response code: {colored(resp.get('code'), 'yellow')} - "
+			f"Rate limit hit during {colored(context, 'blue')}. "
+			f"Retrying in {colored(delay, 'cyan')} second(s) "
+			f"({attempt}/{API_MAX_RETRIES})..."
+		)
+		time.sleep(delay)
+def load_validated_backup_json(file_path):
+	"""Loads a backup JSON file used for restore.
+
+	Args:
+		file_path (str): Path to the backup JSON file.
+
+	Returns:
+		tuple: (data, error_message). Exactly one element is not None.
+	"""
+	try:
+		with open(file_path) as fh:
+			data = json.load(fh)
+	except json.JSONDecodeError as exc:
+		return None, f"invalid JSON ({exc.msg})"
+	except OSError as exc:
+		return None, str(exc)
+
+	return data, None
 
 # ---------------------------------------------------------------------------
 # Main
@@ -275,7 +329,7 @@ def run_backup(central, output_dir):
 	active_set         = set(ap_group_names) - {"unprovisioned"}
 	additional_groups  = sorted(g for g in all_central_groups if g not in active_set and g != "unprovisioned")
 
-	active_label     = f"{colored(len(ap_group_names), 'cyan')} active (have APs)"
+	active_label     = f"{colored(len(active_set), 'cyan')} active (have APs)"
 	additional_label = f"{colored(len(additional_groups), 'cyan')} additional (no current APs)"
 	print(f"  Groups to back up: {active_label}, {additional_label}")
 
@@ -285,7 +339,8 @@ def run_backup(central, output_dir):
 	group_workers = calc_workers(total_groups)
 	groups_saved   = 0
 	groups_failed  = 0
-	unused_count   = 0
+	groups_no_config = 0
+	additional_saved = 0
 	g_completed    = 0
 	group_cli_rows = []
 	group_lock     = threading.Lock()
@@ -293,31 +348,27 @@ def run_backup(central, output_dir):
 	print(f"  Using {colored(group_workers, 'cyan')} worker thread(s) for {colored(total_groups, 'cyan')} group(s)...\n")
 
 	def fetch_group(group_name):
-		cli_lines = get_group_ap_cli(central, group_name)
+		status, cli_lines = get_group_ap_cli(central, group_name)
 		save_path = None
-		if cli_lines is not None:
+		if status == "ok":
 			save_path = os.path.join(group_configs_dir, f"{group_name}.json")
 			with open(save_path, "w") as fh:
 				json.dump({"group_name": group_name, "clis": cli_lines}, fh, indent=2)
-		return group_name, cli_lines, save_path
+		return group_name, status, cli_lines, save_path
 
 	with ThreadPoolExecutor(max_workers=group_workers) as executor:
 		futures = {executor.submit(fetch_group, g): g for g in group_names}
 		for future in as_completed(futures):
-			group_name, cli_lines, save_path = future.result()
-			if group_name in active_set:
-				tag = colored("(active)", "cyan")
-			elif cli_lines is not None:
-				tag = colored("(inactive)", "red")
-			else:
-				tag = colored("(additional)", "magenta")
+			group_name, status, cli_lines, save_path = future.result()
+			is_active = group_name in active_set
+			tag = colored("(active)", "cyan") if is_active else colored("(additional)", "magenta")
 			with group_lock:
 				g_completed += 1
-				if cli_lines is not None:
+				if status == "ok":
 					groups_saved += 1
-					classification = "active" if group_name in active_set else "unused"
-					if group_name not in active_set:
-						unused_count += 1
+					classification = "active" if is_active else "additional"
+					if not is_active:
+						additional_saved += 1
 					group_cli_rows.append({
 						"group_name":     group_name,
 						"classification": classification,
@@ -327,11 +378,18 @@ def run_backup(central, output_dir):
 						f"  [{g_completed}/{total_groups}] {colored('Saved', 'green')} {tag} - "
 						f"group {colored(group_name, 'blue')} -> {save_path}"
 					)
+				elif status == "no_config":
+					groups_no_config += 1
+					print(
+						f"  [{g_completed}/{total_groups}] {colored('Skipped', 'yellow')} {tag} - "
+						f"No AP CLI config is exposed for group {colored(group_name, 'blue')} "
+						f"(commonly an empty group, non-AP group, or additional group with no active APs)"
+					)
 				else:
 					groups_failed += 1
 					print(
 						f"  [{g_completed}/{total_groups}] {colored('Skipped', 'yellow')} {tag} - "
-						f"Could not retrieve config for group {colored(group_name, 'blue')}"
+						f"API call failed while retrieving config for group {colored(group_name, 'blue')}"
 					)
 
 	group_cli_csv_path = os.path.join(output_dir, "group_configs.csv")
@@ -341,9 +399,10 @@ def run_backup(central, output_dir):
 		writer.writerows(group_cli_rows)
 
 	print_summary("GROUP BACKUP COMPLETE", [
-		("Active groups (have APs)",   len(ap_group_names)),
-		("Unused groups (AP config)",  unused_count),
-		("Skipped (no AP config)",     groups_failed),
+		("Active groups (have APs)",   len(active_set)),
+		("Additional groups saved",    additional_saved),
+		("Skipped (no AP config)",     groups_no_config),
+		("Skipped (API errors)",       groups_failed),
 		("Groups saved",               groups_saved),
 		("Group configs (.json)",      group_configs_dir + "/"),
 		("Group CLI (.csv)",           group_cli_csv_path),
@@ -416,17 +475,19 @@ def run_restore(central, backup_dir):
 		group_lock  = threading.Lock()
 
 		def push_group(group_file):
-			with open(os.path.join(group_configs_dir, group_file)) as fh:
-				data = json.load(fh)
+			file_path = os.path.join(group_configs_dir, group_file)
+			data, error = load_validated_backup_json(file_path)
+			if error:
+				return group_file[:-5], False, f"Invalid backup JSON: {error}"
 			group_name = data.get("group_name", group_file[:-5])
 			cli_lines  = data.get("clis", [])
 			success    = restore_group_ap_cli(central, group_name, cli_lines)
-			return group_name, success
+			return group_name, success, None
 
 		with ThreadPoolExecutor(max_workers=group_workers) as executor:
 			futures = {executor.submit(push_group, gf): gf for gf in group_files}
 			for future in as_completed(futures):
-				group_name, success = future.result()
+				group_name, success, error = future.result()
 				with group_lock:
 					g_completed += 1
 					if success:
@@ -437,9 +498,13 @@ def run_restore(central, backup_dir):
 						)
 					else:
 						groups_failed += 1
-						print(
-							f"  [{g_completed}/{total_groups}] {colored('Failed', 'red')} - "
+						message = (
 							f"group {colored(group_name, 'blue')}"
+							if error is None
+							else f"group file {colored(group_name + '.json', 'blue')} ({error})"
+						)
+						print(
+							f"  [{g_completed}/{total_groups}] {colored('Failed', 'red')} - {message}"
 						)
 
 	# Restore per-AP CLI settings
@@ -455,17 +520,19 @@ def run_restore(central, backup_dir):
 	print_lock = threading.Lock()
 
 	def push_settings(json_file):
-		with open(os.path.join(ap_settings_dir, json_file)) as fh:
-			data = json.load(fh)
+		file_path = os.path.join(ap_settings_dir, json_file)
+		data, error = load_validated_backup_json(file_path)
+		if error:
+			return json_file[:-5], False, f"Invalid backup JSON: {error}"
 		serial    = data.get("serial", json_file[:-5])
 		cli_lines = data.get("clis", [])
 		success   = restore_ap_settings_cli(central, serial, cli_lines)
-		return serial, success
+		return serial, success, None
 
 	with ThreadPoolExecutor(max_workers=workers) as executor:
 		futures = {executor.submit(push_settings, jf): jf for jf in json_files}
 		for future in as_completed(futures):
-			serial, success = future.result()
+			serial, success, error = future.result()
 			with print_lock:
 				completed += 1
 				if success:
@@ -476,9 +543,13 @@ def run_restore(central, backup_dir):
 					)
 				else:
 					failed += 1
-					print(
-						f"  [{completed}/{total_files}] {colored('Failed', 'red')} - "
+					message = (
 						f"AP {colored(serial, 'blue')}"
+						if error is None
+						else f"AP file {colored(serial + '.json', 'blue')} ({error})"
+					)
+					print(
+						f"  [{completed}/{total_files}] {colored('Failed', 'red')} - {message}"
 					)
 
 	print_summary("RESTORE COMPLETE", [
@@ -530,7 +601,7 @@ def get_all_groups(central_conn):
 		apiPath   = GROUP_LIST_API
 		apiParams = {"limit": GROUP_PAGE_LIMIT, "offset": offset}
 
-		resp = central_conn.command(apiMethod=apiMethod, apiPath=apiPath, apiParams=apiParams)
+		resp = command_with_retries(central_conn, apiMethod, apiPath, "get_all_groups", apiParams=apiParams)
 
 		if resp["code"] != 200:
 			print_api_error("get_all_groups", resp, get_error_codes)
@@ -562,18 +633,18 @@ def get_group_ap_cli(central_conn, group_name):
 	apiMethod = "GET"
 	apiPath   = GROUP_AP_CLI_API.format(group_name=group_name)
 
-	resp = central_conn.command(apiMethod=apiMethod, apiPath=apiPath)
+	resp = command_with_retries(central_conn, apiMethod, apiPath, f"get_group_ap_cli({group_name})")
 
 	if resp["code"] == 200:
-		return resp["msg"]
+		return "ok", resp["msg"]
 
 	# 400/500 here means the group has no AP CLI config (switch-only, gateway,
 	# VPNC, or empty groups). Treat as a silent skip rather than an error.
 	if resp["code"] in (400, 500):
-		return None
+		return "no_config", None
 
 	print_api_error(f"get_group_ap_cli({group_name})", resp, get_error_codes)
-	return None
+	return "error", None
 
 
 def get_all_aps(central_conn):
@@ -593,7 +664,7 @@ def get_all_aps(central_conn):
 		apiPath   = AP_LIST_API
 		apiParams = {"limit": AP_PAGE_LIMIT, "offset": offset, "calculate_total": True}
 
-		resp = central_conn.command(apiMethod=apiMethod, apiPath=apiPath, apiParams=apiParams)
+		resp = command_with_retries(central_conn, apiMethod, apiPath, "get_all_aps", apiParams=apiParams)
 
 		if resp["code"] != 200:
 			print_api_error("get_all_aps", resp, get_error_codes)
@@ -625,7 +696,7 @@ def get_ap_settings_cli(central_conn, serial):
 	apiMethod = "GET"
 	apiPath   = AP_SETTINGS_CLI_API.format(serial=serial)
 
-	resp = central_conn.command(apiMethod=apiMethod, apiPath=apiPath)
+	resp = command_with_retries(central_conn, apiMethod, apiPath, f"get_ap_settings_cli({serial})")
 
 	if resp["code"] == 200:
 		return resp["msg"]
@@ -653,7 +724,7 @@ def restore_group_ap_cli(central_conn, group_name, cli_lines):
 	apiPath   = GROUP_AP_CLI_API.format(group_name=group_name)
 	apiData   = {"clis": cli_lines}
 
-	resp = central_conn.command(apiMethod=apiMethod, apiPath=apiPath, apiData=apiData)
+	resp = command_with_retries(central_conn, apiMethod, apiPath, f"restore_group_ap_cli({group_name})", apiData=apiData)
 
 	if resp["code"] == 200:
 		print(
@@ -681,7 +752,7 @@ def restore_ap_settings_cli(central_conn, serial, cli_lines):
 	apiPath   = AP_SETTINGS_CLI_API.format(serial=serial)
 	apiData   = {"clis": cli_lines}
 
-	resp = central_conn.command(apiMethod=apiMethod, apiPath=apiPath, apiData=apiData)
+	resp = command_with_retries(central_conn, apiMethod, apiPath, f"restore_ap_settings_cli({serial})", apiData=apiData)
 
 	if resp["code"] == 200:
 		print(
