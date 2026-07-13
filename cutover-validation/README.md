@@ -44,7 +44,7 @@ source env/bin/activate  # On Windows use: env\Scripts\activate
 pip install -r requirements.txt
 ```
 
-This workflow is tested with the `pycentral` SDK version `2.0a14`. Please check compatibility before executing on newer versions as there may be changes.
+This workflow is tested with the `pycentral` SDK version `2.0a19`. Please check compatibility before executing on newer versions as there may be changes.
 
 ## Configuration
 

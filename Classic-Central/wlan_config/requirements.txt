@@ -1,3 +1,2 @@
-charset-normalizer==3.3.2
-idna==3.7
-pycentral==1.4.3
+pycentral==2.0a22
+PyYAML==6.0.3

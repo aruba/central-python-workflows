@@ -59,7 +59,7 @@ def prompt_site_selection(sites_data: dict) -> List[str]:
 
                 print(f"\nSelected Site: {selected_site_name}")
                 print(
-                    f"\nAll Online APs in '{selected_site_name}' will be troubleshot:"
+                    f"\nTroubleshooting will be performed on all online APs in '{selected_site_name}':"
                 )
 
                 # Display selected devices

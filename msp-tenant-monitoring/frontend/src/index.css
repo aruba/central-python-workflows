@@ -1,0 +1,178 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light style 1: Shoreline. Green-tinted operational calm. */
+    --background: 0.976 0.014 174;
+    --foreground: 0.205 0.026 184;
+
+    --card: 0.995 0.005 170;
+    --card-foreground: 0.205 0.026 184;
+
+    --popover: 0.995 0.005 170;
+    --popover-foreground: 0.205 0.026 184;
+
+    --primary: 0.43 0.105 181;
+    --primary-foreground: 0.985 0.01 165;
+
+    --secondary: 0.941 0.024 164;
+    --secondary-foreground: 0.245 0.045 177;
+
+    --muted: 0.945 0.018 174;
+    --muted-foreground: 0.49 0.04 184;
+
+    --accent: 0.9 0.055 158;
+    --accent-foreground: 0.245 0.06 172;
+
+    --destructive: 0.58 0.17 22;
+    --destructive-foreground: 0.985 0.01 25;
+
+    --border: 0.885 0.025 174;
+    --input: 0.885 0.025 174;
+    --ring: 0.43 0.105 181;
+
+    /* Semantic status scale — single source of truth for health + severity.
+       Used as solid bars (bg-{status}) and soft badges (bg-{status}/15 text-{status}). */
+    --success: 0.58 0.12 158;   /* good / healthy   */
+    --warning: 0.68 0.15 70;    /* fair / major     */
+    --danger: 0.58 0.17 22;     /* poor / critical  */
+    --info: 0.56 0.13 245;      /* minor / info     */
+
+    /* Vercel uses 6 px in-app radius (--geist-radius) */
+    --radius: 0.375rem;
+  }
+
+  .dark {
+    /* Neutrals carry a whisper of the Shoreline teal hue (chroma ~0.008 @ 180)
+       so dark mode reads as deliberate, not default-black. */
+    --background: 0.161 0.006 184;  /* near-black, teal-tinted */
+    --foreground: 0.94 0.004 184;
+
+    --card: 0.205 0.007 184;
+    --card-foreground: 0.94 0.004 184;
+
+    --popover: 0.205 0.007 184;
+    --popover-foreground: 0.94 0.004 184;
+
+    --primary: 0.95 0.005 184;      /* signature near-white pill, faintly tinted */
+    --primary-foreground: 0.205 0.007 184;
+
+    --secondary: 0.25 0.008 184;
+    --secondary-foreground: 0.94 0.004 184;
+
+    --muted: 0.25 0.008 184;
+    --muted-foreground: 0.68 0.012 184;
+
+    --accent: 0.25 0.008 184;
+    --accent-foreground: 0.94 0.004 184;
+
+    --destructive: 0.58 0.17 22;
+    --destructive-foreground: 0.99 0 0;
+
+    --border: 0.32 0.009 184;
+    --input: 0.32 0.009 184;
+    --ring: 0.70 0.11 184;          /* teal focus glow — the identity moment in dark */
+
+    --success: 0.72 0.13 160;
+    --warning: 0.80 0.14 78;
+    --danger: 0.67 0.18 22;
+    --info: 0.70 0.13 245;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    font-family: 'Geist Variable', 'Geist', 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: 'tnum', 'ss01', 'ss02';
+  }
+  /* Display-scale headings carry aggressive negative tracking — Vercel signature voice. */
+  h1 { letter-spacing: -0.04em; }
+  h2 { letter-spacing: -0.032em; }
+  h3 { letter-spacing: -0.024em; }
+  ::selection {
+    background: oklch(var(--primary));
+    color: oklch(var(--primary-foreground));
+  }
+}
+
+@layer utilities {
+  /* Mono-caption eyebrow — the technical voice of Vercel. */
+  .eyebrow {
+    font-family: 'Geist Mono Variable', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: oklch(var(--muted-foreground));
+  }
+  .font-mono-caption {
+    font-family: 'Geist Mono Variable', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+    font-size: 12px;
+    line-height: 16px;
+  }
+  /* Stacked subtle shadow — Vercel never uses a single heavy drop. */
+  .shadow-stack-1 {
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.04),
+      0 1px 1px rgba(0, 0, 0, 0.02),
+      0 2px 2px rgba(0, 0, 0, 0.03);
+  }
+  .shadow-stack-2 {
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.04),
+      0 2px 2px rgba(0, 0, 0, 0.04),
+      0 8px 8px -8px rgba(0, 0, 0, 0.05);
+  }
+  .dark .shadow-stack-1 {
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.06),
+      0 1px 1px rgba(0, 0, 0, 0.3),
+      0 2px 2px rgba(0, 0, 0, 0.2);
+  }
+  .dark .shadow-stack-2 {
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.06),
+      0 2px 2px rgba(0, 0, 0, 0.3),
+      0 8px 8px -8px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Token-exchange rail: payload chips and timing badges slide in as each
+     step resolves. Exponential ease-out, no bounce. */
+  @keyframes wire-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(3px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-wire {
+    animation: wire-reveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  /* The rail-fill segment grows top→bottom via a height transition. */
+  .rail-fill {
+    transition: height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-wire {
+      animation: none;
+    }
+    .rail-fill {
+      transition: none;
+    }
+  }
+}

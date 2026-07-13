@@ -1,0 +1,80 @@
+{
+  "tenants": [
+    {
+      "tenant_id": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4",
+      "tenant_name": "Sample Hotel Alpha",
+      "total_sites": 2,
+      "degraded_sites": 1,
+      "device_health": {
+        "total": 120,
+        "good": 60,
+        "fair": 30,
+        "poor": 30
+      },
+      "alerts": {
+        "total": 45,
+        "critical": 10,
+        "major": 20,
+        "minor": 15
+      },
+      "last_updated_time": 1780555455000,
+      "glp_workspace_id": "aaaaaaaa-0000-11f0-0000-aaaaaaaaaaaa",
+      "device_ownership": "TENANT"
+    },
+    {
+      "tenant_id": "b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5",
+      "tenant_name": "Sample Hotel Beta",
+      "total_sites": 3,
+      "degraded_sites": 2,
+      "device_health": {
+        "total": 85,
+        "good": 40,
+        "fair": 25,
+        "poor": 20
+      },
+      "alerts": {
+        "total": 30,
+        "critical": 5,
+        "major": 15,
+        "minor": 10
+      },
+      "last_updated_time": 1780585574000,
+      "glp_workspace_id": "bbbbbbbb-0000-11ec-0000-bbbbbbbbbbbb",
+      "device_ownership": "MSP"
+    },
+    {
+      "tenant_id": "c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6",
+      "tenant_name": "Sample Hotel Gamma",
+      "total_sites": 1,
+      "degraded_sites": 0,
+      "device_health": {
+        "total": 50,
+        "good": 50,
+        "fair": 0,
+        "poor": 0
+      },
+      "alerts": {
+        "total": 0,
+        "critical": 0,
+        "major": 0,
+        "minor": 0
+      },
+      "last_updated_time": 1780577369000,
+      "glp_workspace_id": "cccccccc-0000-11ec-0000-cccccccccccc",
+      "device_ownership": "MSP"
+    }
+  ],
+  "totals": {
+    "tenants": 3,
+    "sites": 6,
+    "degraded_sites": 3,
+    "devices": 255,
+    "alerts": {
+      "total": 75,
+      "critical": 15,
+      "major": 35,
+      "minor": 25
+    }
+  },
+  "generated_at": "2026-06-05T00:00:00.000000+00:00"
+}

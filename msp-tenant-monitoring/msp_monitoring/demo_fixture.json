@@ -1,0 +1,1204 @@
+{
+  "schema": "msp-demo/v1",
+  "generated_at": "2024-01-15T00:00:00Z",
+  "tenants": [
+    {
+      "summary": {
+        "tenant_id": "11aabbcc-1122-3344-5566-778899aabbcc",
+        "tenant_name": "Acme Retail",
+        "total_sites": 3,
+        "degraded_sites": 1,
+        "device_health": {
+          "total": 6,
+          "good": 4,
+          "fair": 1,
+          "poor": 1
+        },
+        "alerts": {
+          "total": 3,
+          "critical": 1,
+          "major": 1,
+          "minor": 1
+        },
+        "last_updated_time": 1705276800,
+        "glp_workspace_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "device_ownership": "MSP"
+      },
+      "detail": {
+        "sites": [
+          {
+            "id": "site-acme-001",
+            "siteName": "Acme HQ - Downtown",
+            "address": {
+              "city": "Austin",
+              "state": "TX",
+              "country": "US",
+              "zipcode": "78701",
+              "address": "100 Congress Ave"
+            },
+            "alerts": {
+              "totalCount": 2,
+              "groups": [
+                {"name": "CRITICAL", "count": 1},
+                {"name": "MAJOR", "count": 1}
+              ]
+            },
+            "health": {
+              "groups": [
+                {"name": "Good", "value": 2},
+                {"name": "Fair", "value": 1},
+                {"name": "Poor", "value": 1}
+              ]
+            },
+            "devices": {
+              "count": 4,
+              "health": {
+                "groups": [
+                  {"name": "Good", "value": 2},
+                  {"name": "Fair", "value": 1},
+                  {"name": "Poor", "value": 1}
+                ]
+              }
+            },
+            "clients": {
+              "count": 3,
+              "health": {
+                "groups": [
+                  {"name": "Good", "value": 3}
+                ]
+              }
+            },
+            "reasons": []
+          },
+          {
+            "id": "site-acme-002",
+            "siteName": "Acme Store - North",
+            "address": {
+              "city": "Austin",
+              "state": "TX",
+              "country": "US",
+              "zipcode": "78758",
+              "address": "9500 N Lamar Blvd"
+            },
+            "alerts": {
+              "totalCount": 1,
+              "groups": [
+                {"name": "MINOR", "count": 1}
+              ]
+            },
+            "health": {
+              "groups": [
+                {"name": "Good", "value": 1},
+                {"name": "Fair", "value": 1}
+              ]
+            },
+            "devices": {
+              "count": 2,
+              "health": {
+                "groups": [
+                  {"name": "Good", "value": 1},
+                  {"name": "Fair", "value": 1}
+                ]
+              }
+            },
+            "clients": {
+              "count": 1,
+              "health": {
+                "groups": [
+                  {"name": "Good", "value": 1}
+                ]
+              }
+            },
+            "reasons": []
+          },
+          {
+            "id": "site-acme-003",
+            "siteName": "Acme Warehouse - South",
+            "address": {
+              "city": "Austin",
+              "state": "TX",
+              "country": "US",
+              "zipcode": "78745",
+              "address": "4200 S Congress Ave"
+            },
+            "alerts": {
+              "totalCount": 0,
+              "groups": []
+            },
+            "health": {
+              "groups": [
+                {"name": "Good", "value": 2}
+              ]
+            },
+            "devices": {
+              "count": 2,
+              "health": {
+                "groups": [
+                  {"name": "Good", "value": 2}
+                ]
+              }
+            },
+            "clients": {
+              "count": 0,
+              "health": {
+                "groups": []
+              }
+            },
+            "reasons": []
+          }
+        ],
+        "devices": [
+          {
+            "id": "CN10000001",
+            "deviceName": "acme-hq-ap-01",
+            "deviceType": "IAP",
+            "model": "AP-515",
+            "serialNumber": "CN10000001",
+            "macAddress": "02:00:aa:11:22:01",
+            "ipv4": "10.1.1.10",
+            "siteId": "site-acme-001",
+            "siteName": "Acme HQ - Downtown",
+            "status": "Up",
+            "firmwareVersion": "10.4.1.0_86873",
+            "role": "master",
+            "deviceFunction": "access-point",
+            "deviceGroupName": "Acme-APs",
+            "isProvisioned": "True",
+            "deployment": "campus"
+          },
+          {
+            "id": "CN10000002",
+            "deviceName": "acme-hq-ap-02",
+            "deviceType": "IAP",
+            "model": "AP-535",
+            "serialNumber": "CN10000002",
+            "macAddress": "02:00:aa:11:22:02",
+            "ipv4": "10.1.1.11",
+            "siteId": "site-acme-001",
+            "siteName": "Acme HQ - Downtown",
+            "status": "Up",
+            "firmwareVersion": "10.4.1.0_86873",
+            "role": "slave",
+            "deviceFunction": "access-point",
+            "deviceGroupName": "Acme-APs",
+            "isProvisioned": "True",
+            "deployment": "campus"
+          },
+          {
+            "id": "CN10000003",
+            "deviceName": "acme-hq-sw-01",
+            "deviceType": "SWITCH",
+            "model": "Aruba-2930F-48G",
+            "serialNumber": "CN10000003",
+            "macAddress": "02:00:aa:11:33:01",
+            "ipv4": "10.1.1.2",
+            "siteId": "site-acme-001",
+            "siteName": "Acme HQ - Downtown",
+            "status": "Down",
+            "firmwareVersion": "16.11.0004",
+            "role": "access",
+            "deviceFunction": "switch",
+            "deviceGroupName": "Acme-Switches",
+            "isProvisioned": "True",
+            "deployment": "campus"
+          },
+          {
+            "id": "CN10000004",
+            "deviceName": "acme-hq-gw-01",
+            "deviceType": "GATEWAY",
+            "model": "9004-LTE",
+            "serialNumber": "CN10000004",
+            "macAddress": "02:00:aa:11:44:01",
+            "ipv4": "10.1.1.1",
+            "siteId": "site-acme-001",
+            "siteName": "Acme HQ - Downtown",
+            "status": "Fair",
+            "firmwareVersion": "10.4.1.0_86873",
+            "role": "gateway",
+            "deviceFunction": "gateway",
+            "deviceGroupName": "Acme-Gateways",
+            "isProvisioned": "True",
+            "deployment": "campus"
+          },
+          {
+            "id": "CN10000005",
+            "deviceName": "acme-north-ap-01",
+            "deviceType": "IAP",
+            "model": "AP-505",
+            "serialNumber": "CN10000005",
+            "macAddress": "02:00:aa:22:11:01",
+            "ipv4": "10.2.1.10",
+            "siteId": "site-acme-002",
+            "siteName": "Acme Store - North",
+            "status": "Up",
+            "firmwareVersion": "10.4.1.0_86873",
+            "role": "master",
+            "deviceFunction": "access-point",
+            "deviceGroupName": "Acme-APs",
+            "isProvisioned": "True",
+            "deployment": "branch"
+          },
+          {
+            "id": "CN10000006",
+            "deviceName": "acme-south-ap-01",
+            "deviceType": "IAP",
+            "model": "AP-505",
+            "serialNumber": "CN10000006",
+            "macAddress": "02:00:aa:33:11:01",
+            "ipv4": "10.3.1.10",
+            "siteId": "site-acme-003",
+            "siteName": "Acme Warehouse - South",
+            "status": "Up",
+            "firmwareVersion": "10.4.1.0_86873",
+            "role": "master",
+            "deviceFunction": "access-point",
+            "deviceGroupName": "Acme-APs",
+            "isProvisioned": "True",
+            "deployment": "branch"
+          }
+        ],
+        "clients": [
+          {
+            "id": "02:00:cc:11:22:01",
+            "clientName": "jsmith-laptop",
+            "hostName": "ACME-JSMITH-LT",
+            "macAddress": "02:00:cc:11:22:01",
+            "ipv4": "192.168.1.101",
+            "status": "Connected",
+            "connectedDeviceType": "IAP",
+            "clientConnectionType": "WIRELESS",
+            "connectedDeviceSerial": "CN10000001",
+            "siteId": "site-acme-001",
+            "siteName": "Acme HQ - Downtown",
+            "vlanId": "10",
+            "vlanName": "Corp-WiFi",
+            "wlanName": "Acme-Corporate",
+            "userName": "jsmith@acmeretail.com",
+            "clientManufacturer": "Apple",
+            "clientFunction": "employee",
+            "clientOperatingSystem": "macOS",
+            "snr": 42,
+            "wirelessBand": "5GHz",
+            "wirelessChannel": 36,
+            "wirelessSecurity": "WPA3"
+          },
+          {
+            "id": "02:00:cc:11:22:02",
+            "clientName": "jdoe-phone",
+            "hostName": "ACME-JDOE-PH",
+            "macAddress": "02:00:cc:11:22:02",
+            "ipv4": "192.168.1.102",
+            "status": "Connected",
+            "connectedDeviceType": "IAP",
+            "clientConnectionType": "WIRELESS",
+            "connectedDeviceSerial": "CN10000002",
+            "siteId": "site-acme-001",
+            "siteName": "Acme HQ - Downtown",
+            "vlanId": "10",
+            "vlanName": "Corp-WiFi",
+            "wlanName": "Acme-Corporate",
+            "userName": "jdoe@acmeretail.com",
+            "clientManufacturer": "Samsung",
+            "clientFunction": "employee",
+            "clientOperatingSystem": "Android",
+            "snr": 38,
+            "wirelessBand": "5GHz",
+            "wirelessChannel": 40,
+            "wirelessSecurity": "WPA3"
+          },
+          {
+            "id": "02:00:cc:22:11:01",
+            "clientName": "pos-terminal-01",
+            "hostName": "ACME-POS-N01",
+            "macAddress": "02:00:cc:22:11:01",
+            "ipv4": "192.168.2.101",
+            "status": "Connected",
+            "connectedDeviceType": "IAP",
+            "clientConnectionType": "WIRELESS",
+            "connectedDeviceSerial": "CN10000005",
+            "siteId": "site-acme-002",
+            "siteName": "Acme Store - North",
+            "vlanId": "20",
+            "vlanName": "POS-Net",
+            "wlanName": "Acme-POS",
+            "userName": "",
+            "clientManufacturer": "Ingenico",
+            "clientFunction": "iot",
+            "clientOperatingSystem": "Linux",
+            "snr": 35,
+            "wirelessBand": "2.4GHz",
+            "wirelessChannel": 6,
+            "wirelessSecurity": "WPA2"
+          },
+          {
+            "id": "02:00:cc:11:22:03",
+            "clientName": "mwilson-laptop",
+            "hostName": "ACME-MWILSON-LT",
+            "macAddress": "02:00:cc:11:22:03",
+            "ipv4": "192.168.1.103",
+            "status": "Connected",
+            "connectedDeviceType": "IAP",
+            "clientConnectionType": "WIRELESS",
+            "connectedDeviceSerial": "CN10000001",
+            "siteId": "site-acme-001",
+            "siteName": "Acme HQ - Downtown",
+            "vlanId": "10",
+            "vlanName": "Corp-WiFi",
+            "wlanName": "Acme-Corporate",
+            "userName": "mwilson@acmeretail.com",
+            "clientManufacturer": "Dell",
+            "clientFunction": "employee",
+            "clientOperatingSystem": "Windows",
+            "snr": 45,
+            "wirelessBand": "5GHz",
+            "wirelessChannel": 44,
+            "wirelessSecurity": "WPA3"
+          }
+        ],
+        "alerts": [
+          {
+            "id": "alert-acme-001",
+            "key": "DEVICE_DOWN",
+            "name": "Device Down",
+            "summary": "Switch acme-hq-sw-01 is unreachable",
+            "severity": "CRITICAL",
+            "status": "Open",
+            "priority": "HIGH",
+            "category": "DEVICE",
+            "deviceType": "SWITCH",
+            "createdAt": "2024-01-15T08:30:00Z",
+            "updatedAt": "2024-01-15T08:30:00Z",
+            "clearedReason": null
+          },
+          {
+            "id": "alert-acme-002",
+            "key": "HIGH_CLIENT_RETRY",
+            "name": "High Client Retry Rate",
+            "summary": "AP acme-hq-gw-01 reporting elevated retry rates on 5GHz band",
+            "severity": "MAJOR",
+            "status": "Open",
+            "priority": "MEDIUM",
+            "category": "PERFORMANCE",
+            "deviceType": "GATEWAY",
+            "createdAt": "2024-01-15T09:15:00Z",
+            "updatedAt": "2024-01-15T09:15:00Z",
+            "clearedReason": null
+          },
+          {
+            "id": "alert-acme-003",
+            "key": "FIRMWARE_MISMATCH",
+            "name": "Firmware Version Mismatch",
+            "summary": "AP acme-north-ap-01 firmware differs from group policy",
+            "severity": "MINOR",
+            "status": "Open",
+            "priority": "LOW",
+            "category": "COMPLIANCE",
+            "deviceType": "IAP",
+            "createdAt": "2024-01-15T10:00:00Z",
+            "updatedAt": "2024-01-15T10:00:00Z",
+            "clearedReason": null
+          }
+        ]
+      }
+    },
+    {
+      "summary": {
+        "tenant_id": "22bbccdd-2233-4455-6677-8899aabbccdd",
+        "tenant_name": "Northwind Logistics",
+        "total_sites": 4,
+        "degraded_sites": 2,
+        "device_health": {
+          "total": 8,
+          "good": 5,
+          "fair": 2,
+          "poor": 1
+        },
+        "alerts": {
+          "total": 3,
+          "critical": 1,
+          "major": 2,
+          "minor": 0
+        },
+        "last_updated_time": 1705276800,
+        "glp_workspace_id": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+        "device_ownership": "MSP"
+      },
+      "detail": {
+        "sites": [
+          {
+            "id": "site-nw-001",
+            "siteName": "Northwind DC - Chicago",
+            "address": {
+              "city": "Chicago",
+              "state": "IL",
+              "country": "US",
+              "zipcode": "60601",
+              "address": "200 W Lake St"
+            },
+            "alerts": {
+              "totalCount": 2,
+              "groups": [
+                {"name": "CRITICAL", "count": 1},
+                {"name": "MAJOR", "count": 1}
+              ]
+            },
+            "health": {
+              "groups": [
+                {"name": "Good", "value": 1},
+                {"name": "Poor", "value": 1}
+              ]
+            },
+            "devices": {
+              "count": 3,
+              "health": {
+                "groups": [
+                  {"name": "Good", "value": 1},
+                  {"name": "Fair", "value": 1},
+                  {"name": "Poor", "value": 1}
+                ]
+              }
+            },
+            "clients": {
+              "count": 2,
+              "health": {
+                "groups": [
+                  {"name": "Good", "value": 2}
+                ]
+              }
+            },
+            "reasons": [
+              {"health": "Poor", "reason": "Device Down", "data": {"serial": "CN20000003"}}
+            ]
+          },
+          {
+            "id": "site-nw-002",
+            "siteName": "Northwind Hub - Detroit",
+            "address": {
+              "city": "Detroit",
+              "state": "MI",
+              "country": "US",
+              "zipcode": "48201",
+              "address": "1000 Woodward Ave"
+            },
+            "alerts": {
+              "totalCount": 1,
+              "groups": [
+                {"name": "MAJOR", "count": 1}
+              ]
+            },
+            "health": {
+              "groups": [
+                {"name": "Good", "value": 1},
+                {"name": "Fair", "value": 1}
+              ]
+            },
+            "devices": {
+              "count": 2,
+              "health": {
+                "groups": [
+                  {"name": "Good", "value": 1},
+                  {"name": "Fair", "value": 1}
+                ]
+              }
+            },
+            "clients": {
+              "count": 1,
+              "health": {
+                "groups": [
+                  {"name": "Good", "value": 1}
+                ]
+              }
+            },
+            "reasons": []
+          },
+          {
+            "id": "site-nw-003",
+            "siteName": "Northwind Office - Milwaukee",
+            "address": {
+              "city": "Milwaukee",
+              "state": "WI",
+              "country": "US",
+              "zipcode": "53202",
+              "address": "310 W Wisconsin Ave"
+            },
+            "alerts": {
+              "totalCount": 0,
+              "groups": []
+            },
+            "health": {
+              "groups": [
+                {"name": "Good", "value": 2}
+              ]
+            },
+            "devices": {
+              "count": 2,
+              "health": {
+                "groups": [
+                  {"name": "Good", "value": 2}
+                ]
+              }
+            },
+            "clients": {
+              "count": 1,
+              "health": {
+                "groups": [
+                  {"name": "Good", "value": 1}
+                ]
+              }
+            },
+            "reasons": []
+          },
+          {
+            "id": "site-nw-004",
+            "siteName": "Northwind Depot - Indianapolis",
+            "address": {
+              "city": "Indianapolis",
+              "state": "IN",
+              "country": "US",
+              "zipcode": "46204",
+              "address": "200 N Meridian St"
+            },
+            "alerts": {
+              "totalCount": 0,
+              "groups": []
+            },
+            "health": {
+              "groups": [
+                {"name": "Good", "value": 1}
+              ]
+            },
+            "devices": {
+              "count": 1,
+              "health": {
+                "groups": [
+                  {"name": "Good", "value": 1}
+                ]
+              }
+            },
+            "clients": {
+              "count": 0,
+              "health": {
+                "groups": []
+              }
+            },
+            "reasons": []
+          }
+        ],
+        "devices": [
+          {
+            "id": "CN20000001",
+            "deviceName": "nw-chi-ap-01",
+            "deviceType": "IAP",
+            "model": "AP-515",
+            "serialNumber": "CN20000001",
+            "macAddress": "02:00:bb:11:22:01",
+            "ipv4": "10.10.1.10",
+            "siteId": "site-nw-001",
+            "siteName": "Northwind DC - Chicago",
+            "status": "Up",
+            "firmwareVersion": "10.4.0.0_85123",
+            "role": "master",
+            "deviceFunction": "access-point",
+            "deviceGroupName": "NW-APs",
+            "isProvisioned": "True",
+            "deployment": "warehouse"
+          },
+          {
+            "id": "CN20000002",
+            "deviceName": "nw-chi-sw-01",
+            "deviceType": "SWITCH",
+            "model": "Aruba-2930F-24G",
+            "serialNumber": "CN20000002",
+            "macAddress": "02:00:bb:11:33:01",
+            "ipv4": "10.10.1.2",
+            "siteId": "site-nw-001",
+            "siteName": "Northwind DC - Chicago",
+            "status": "Fair",
+            "firmwareVersion": "16.10.0002",
+            "role": "access",
+            "deviceFunction": "switch",
+            "deviceGroupName": "NW-Switches",
+            "isProvisioned": "True",
+            "deployment": "warehouse"
+          },
+          {
+            "id": "CN20000003",
+            "deviceName": "nw-chi-gw-01",
+            "deviceType": "GATEWAY",
+            "model": "9004",
+            "serialNumber": "CN20000003",
+            "macAddress": "02:00:bb:11:44:01",
+            "ipv4": "10.10.1.1",
+            "siteId": "site-nw-001",
+            "siteName": "Northwind DC - Chicago",
+            "status": "Down",
+            "firmwareVersion": "10.4.0.0_85123",
+            "role": "gateway",
+            "deviceFunction": "gateway",
+            "deviceGroupName": "NW-Gateways",
+            "isProvisioned": "True",
+            "deployment": "warehouse"
+          },
+          {
+            "id": "CN20000004",
+            "deviceName": "nw-det-ap-01",
+            "deviceType": "IAP",
+            "model": "AP-505",
+            "serialNumber": "CN20000004",
+            "macAddress": "02:00:bb:22:11:01",
+            "ipv4": "10.20.1.10",
+            "siteId": "site-nw-002",
+            "siteName": "Northwind Hub - Detroit",
+            "status": "Up",
+            "firmwareVersion": "10.4.0.0_85123",
+            "role": "master",
+            "deviceFunction": "access-point",
+            "deviceGroupName": "NW-APs",
+            "isProvisioned": "True",
+            "deployment": "branch"
+          },
+          {
+            "id": "CN20000005",
+            "deviceName": "nw-det-sw-01",
+            "deviceType": "SWITCH",
+            "model": "Aruba-2530-24G",
+            "serialNumber": "CN20000005",
+            "macAddress": "02:00:bb:22:33:01",
+            "ipv4": "10.20.1.2",
+            "siteId": "site-nw-002",
+            "siteName": "Northwind Hub - Detroit",
+            "status": "Fair",
+            "firmwareVersion": "16.09.0012",
+            "role": "access",
+            "deviceFunction": "switch",
+            "deviceGroupName": "NW-Switches",
+            "isProvisioned": "True",
+            "deployment": "branch"
+          },
+          {
+            "id": "CN20000006",
+            "deviceName": "nw-mil-ap-01",
+            "deviceType": "IAP",
+            "model": "AP-505",
+            "serialNumber": "CN20000006",
+            "macAddress": "02:00:bb:33:11:01",
+            "ipv4": "10.30.1.10",
+            "siteId": "site-nw-003",
+            "siteName": "Northwind Office - Milwaukee",
+            "status": "Up",
+            "firmwareVersion": "10.4.0.0_85123",
+            "role": "master",
+            "deviceFunction": "access-point",
+            "deviceGroupName": "NW-APs",
+            "isProvisioned": "True",
+            "deployment": "branch"
+          },
+          {
+            "id": "CN20000007",
+            "deviceName": "nw-mil-sw-01",
+            "deviceType": "SWITCH",
+            "model": "Aruba-2530-8G",
+            "serialNumber": "CN20000007",
+            "macAddress": "02:00:bb:33:33:01",
+            "ipv4": "10.30.1.2",
+            "siteId": "site-nw-003",
+            "siteName": "Northwind Office - Milwaukee",
+            "status": "Up",
+            "firmwareVersion": "16.09.0012",
+            "role": "access",
+            "deviceFunction": "switch",
+            "deviceGroupName": "NW-Switches",
+            "isProvisioned": "True",
+            "deployment": "branch"
+          },
+          {
+            "id": "CN20000008",
+            "deviceName": "nw-ind-ap-01",
+            "deviceType": "IAP",
+            "model": "AP-303",
+            "serialNumber": "CN20000008",
+            "macAddress": "02:00:bb:44:11:01",
+            "ipv4": "10.40.1.10",
+            "siteId": "site-nw-004",
+            "siteName": "Northwind Depot - Indianapolis",
+            "status": "Up",
+            "firmwareVersion": "10.4.0.0_85123",
+            "role": "master",
+            "deviceFunction": "access-point",
+            "deviceGroupName": "NW-APs",
+            "isProvisioned": "True",
+            "deployment": "branch"
+          }
+        ],
+        "clients": [
+          {
+            "id": "02:00:dd:11:22:01",
+            "clientName": "driver-tablet-01",
+            "hostName": "NW-DRV-TAB-01",
+            "macAddress": "02:00:dd:11:22:01",
+            "ipv4": "192.168.10.101",
+            "status": "Connected",
+            "connectedDeviceType": "IAP",
+            "clientConnectionType": "WIRELESS",
+            "connectedDeviceSerial": "CN20000001",
+            "siteId": "site-nw-001",
+            "siteName": "Northwind DC - Chicago",
+            "vlanId": "100",
+            "vlanName": "Operations",
+            "wlanName": "NW-Ops",
+            "userName": "driver01@northwind.com",
+            "clientManufacturer": "Zebra",
+            "clientFunction": "operations",
+            "clientOperatingSystem": "Android",
+            "snr": 30,
+            "wirelessBand": "2.4GHz",
+            "wirelessChannel": 1,
+            "wirelessSecurity": "WPA2"
+          },
+          {
+            "id": "02:00:dd:11:22:02",
+            "clientName": "scanner-01",
+            "hostName": "NW-SCAN-01",
+            "macAddress": "02:00:dd:11:22:02",
+            "ipv4": "192.168.10.102",
+            "status": "Connected",
+            "connectedDeviceType": "IAP",
+            "clientConnectionType": "WIRELESS",
+            "connectedDeviceSerial": "CN20000001",
+            "siteId": "site-nw-001",
+            "siteName": "Northwind DC - Chicago",
+            "vlanId": "101",
+            "vlanName": "Scanners",
+            "wlanName": "NW-IoT",
+            "userName": "",
+            "clientManufacturer": "Honeywell",
+            "clientFunction": "iot",
+            "clientOperatingSystem": "Windows CE",
+            "snr": 25,
+            "wirelessBand": "2.4GHz",
+            "wirelessChannel": 1,
+            "wirelessSecurity": "WPA2"
+          },
+          {
+            "id": "02:00:dd:22:11:01",
+            "clientName": "office-laptop-01",
+            "hostName": "NW-DET-LT-01",
+            "macAddress": "02:00:dd:22:11:01",
+            "ipv4": "192.168.20.101",
+            "status": "Connected",
+            "connectedDeviceType": "IAP",
+            "clientConnectionType": "WIRELESS",
+            "connectedDeviceSerial": "CN20000004",
+            "siteId": "site-nw-002",
+            "siteName": "Northwind Hub - Detroit",
+            "vlanId": "200",
+            "vlanName": "Corp-WiFi",
+            "wlanName": "NW-Corporate",
+            "userName": "agarcia@northwind.com",
+            "clientManufacturer": "Lenovo",
+            "clientFunction": "employee",
+            "clientOperatingSystem": "Windows",
+            "snr": 40,
+            "wirelessBand": "5GHz",
+            "wirelessChannel": 36,
+            "wirelessSecurity": "WPA3"
+          },
+          {
+            "id": "02:00:dd:33:11:01",
+            "clientName": "mil-workstation-01",
+            "hostName": "NW-MIL-WS-01",
+            "macAddress": "02:00:dd:33:11:01",
+            "ipv4": "192.168.30.101",
+            "status": "Connected",
+            "connectedDeviceType": "IAP",
+            "clientConnectionType": "WIRELESS",
+            "connectedDeviceSerial": "CN20000006",
+            "siteId": "site-nw-003",
+            "siteName": "Northwind Office - Milwaukee",
+            "vlanId": "300",
+            "vlanName": "Corp-WiFi",
+            "wlanName": "NW-Corporate",
+            "userName": "bchen@northwind.com",
+            "clientManufacturer": "HP",
+            "clientFunction": "employee",
+            "clientOperatingSystem": "Windows",
+            "snr": 43,
+            "wirelessBand": "5GHz",
+            "wirelessChannel": 40,
+            "wirelessSecurity": "WPA3"
+          }
+        ],
+        "alerts": [
+          {
+            "id": "alert-nw-001",
+            "key": "DEVICE_DOWN",
+            "name": "Device Down",
+            "summary": "Gateway nw-chi-gw-01 is unreachable - network connectivity loss at Chicago DC",
+            "severity": "CRITICAL",
+            "status": "Open",
+            "priority": "HIGH",
+            "category": "DEVICE",
+            "deviceType": "GATEWAY",
+            "createdAt": "2024-01-15T06:00:00Z",
+            "updatedAt": "2024-01-15T06:00:00Z",
+            "clearedReason": null
+          },
+          {
+            "id": "alert-nw-002",
+            "key": "HIGH_MEMORY_USAGE",
+            "name": "High Memory Usage",
+            "summary": "Switch nw-chi-sw-01 memory utilization at 92%",
+            "severity": "MAJOR",
+            "status": "Open",
+            "priority": "MEDIUM",
+            "category": "PERFORMANCE",
+            "deviceType": "SWITCH",
+            "createdAt": "2024-01-15T07:45:00Z",
+            "updatedAt": "2024-01-15T07:45:00Z",
+            "clearedReason": null
+          },
+          {
+            "id": "alert-nw-003",
+            "key": "UPLINK_DEGRADED",
+            "name": "Uplink Degraded",
+            "summary": "AP nw-det-sw-01 experiencing intermittent uplink to core switch",
+            "severity": "MAJOR",
+            "status": "Open",
+            "priority": "MEDIUM",
+            "category": "CONNECTIVITY",
+            "deviceType": "SWITCH",
+            "createdAt": "2024-01-15T11:20:00Z",
+            "updatedAt": "2024-01-15T11:20:00Z",
+            "clearedReason": null
+          }
+        ]
+      }
+    },
+    {
+      "summary": {
+        "tenant_id": "33ccddee-3344-5566-7788-99aabbccddee",
+        "tenant_name": "Contoso Healthcare",
+        "total_sites": 2,
+        "degraded_sites": 0,
+        "device_health": {
+          "total": 5,
+          "good": 4,
+          "fair": 1,
+          "poor": 0
+        },
+        "alerts": {
+          "total": 2,
+          "critical": 0,
+          "major": 1,
+          "minor": 1
+        },
+        "last_updated_time": 1705276800,
+        "glp_workspace_id": "c3d4e5f6-a7b8-9012-cdef-123456789012",
+        "device_ownership": "MSP"
+      },
+      "detail": {
+        "sites": [
+          {
+            "id": "site-ct-001",
+            "siteName": "Contoso Main Hospital",
+            "address": {
+              "city": "Boston",
+              "state": "MA",
+              "country": "US",
+              "zipcode": "02115",
+              "address": "55 Fruit St"
+            },
+            "alerts": {
+              "totalCount": 2,
+              "groups": [
+                {"name": "MAJOR", "count": 1},
+                {"name": "MINOR", "count": 1}
+              ]
+            },
+            "health": {
+              "groups": [
+                {"name": "Good", "value": 3},
+                {"name": "Fair", "value": 1}
+              ]
+            },
+            "devices": {
+              "count": 4,
+              "health": {
+                "groups": [
+                  {"name": "Good", "value": 3},
+                  {"name": "Fair", "value": 1}
+                ]
+              }
+            },
+            "clients": {
+              "count": 3,
+              "health": {
+                "groups": [
+                  {"name": "Good", "value": 3}
+                ]
+              }
+            },
+            "reasons": []
+          },
+          {
+            "id": "site-ct-002",
+            "siteName": "Contoso Clinic - Cambridge",
+            "address": {
+              "city": "Cambridge",
+              "state": "MA",
+              "country": "US",
+              "zipcode": "02139",
+              "address": "1 Main St"
+            },
+            "alerts": {
+              "totalCount": 0,
+              "groups": []
+            },
+            "health": {
+              "groups": [
+                {"name": "Good", "value": 1}
+              ]
+            },
+            "devices": {
+              "count": 1,
+              "health": {
+                "groups": [
+                  {"name": "Good", "value": 1}
+                ]
+              }
+            },
+            "clients": {
+              "count": 1,
+              "health": {
+                "groups": [
+                  {"name": "Good", "value": 1}
+                ]
+              }
+            },
+            "reasons": []
+          }
+        ],
+        "devices": [
+          {
+            "id": "CN30000001",
+            "deviceName": "ct-hosp-ap-01",
+            "deviceType": "IAP",
+            "model": "AP-555",
+            "serialNumber": "CN30000001",
+            "macAddress": "02:00:ee:11:22:01",
+            "ipv4": "10.50.1.10",
+            "siteId": "site-ct-001",
+            "siteName": "Contoso Main Hospital",
+            "status": "Up",
+            "firmwareVersion": "10.4.1.0_86873",
+            "role": "master",
+            "deviceFunction": "access-point",
+            "deviceGroupName": "CT-APs",
+            "isProvisioned": "True",
+            "deployment": "healthcare"
+          },
+          {
+            "id": "CN30000002",
+            "deviceName": "ct-hosp-ap-02",
+            "deviceType": "IAP",
+            "model": "AP-555",
+            "serialNumber": "CN30000002",
+            "macAddress": "02:00:ee:11:22:02",
+            "ipv4": "10.50.1.11",
+            "siteId": "site-ct-001",
+            "siteName": "Contoso Main Hospital",
+            "status": "Up",
+            "firmwareVersion": "10.4.1.0_86873",
+            "role": "slave",
+            "deviceFunction": "access-point",
+            "deviceGroupName": "CT-APs",
+            "isProvisioned": "True",
+            "deployment": "healthcare"
+          },
+          {
+            "id": "CN30000003",
+            "deviceName": "ct-hosp-sw-01",
+            "deviceType": "SWITCH",
+            "model": "Aruba-2930M-48G",
+            "serialNumber": "CN30000003",
+            "macAddress": "02:00:ee:11:33:01",
+            "ipv4": "10.50.1.2",
+            "siteId": "site-ct-001",
+            "siteName": "Contoso Main Hospital",
+            "status": "Fair",
+            "firmwareVersion": "16.11.0004",
+            "role": "distribution",
+            "deviceFunction": "switch",
+            "deviceGroupName": "CT-Switches",
+            "isProvisioned": "True",
+            "deployment": "healthcare"
+          },
+          {
+            "id": "CN30000004",
+            "deviceName": "ct-hosp-gw-01",
+            "deviceType": "GATEWAY",
+            "model": "9004",
+            "serialNumber": "CN30000004",
+            "macAddress": "02:00:ee:11:44:01",
+            "ipv4": "10.50.1.1",
+            "siteId": "site-ct-001",
+            "siteName": "Contoso Main Hospital",
+            "status": "Up",
+            "firmwareVersion": "10.4.1.0_86873",
+            "role": "gateway",
+            "deviceFunction": "gateway",
+            "deviceGroupName": "CT-Gateways",
+            "isProvisioned": "True",
+            "deployment": "healthcare"
+          },
+          {
+            "id": "CN30000005",
+            "deviceName": "ct-clinic-ap-01",
+            "deviceType": "IAP",
+            "model": "AP-505",
+            "serialNumber": "CN30000005",
+            "macAddress": "02:00:ee:22:11:01",
+            "ipv4": "10.60.1.10",
+            "siteId": "site-ct-002",
+            "siteName": "Contoso Clinic - Cambridge",
+            "status": "Up",
+            "firmwareVersion": "10.4.1.0_86873",
+            "role": "master",
+            "deviceFunction": "access-point",
+            "deviceGroupName": "CT-APs",
+            "isProvisioned": "True",
+            "deployment": "healthcare"
+          }
+        ],
+        "clients": [
+          {
+            "id": "02:00:ff:11:22:01",
+            "clientName": "nurse-tablet-01",
+            "hostName": "CT-NURSE-TAB-01",
+            "macAddress": "02:00:ff:11:22:01",
+            "ipv4": "192.168.50.101",
+            "status": "Connected",
+            "connectedDeviceType": "IAP",
+            "clientConnectionType": "WIRELESS",
+            "connectedDeviceSerial": "CN30000001",
+            "siteId": "site-ct-001",
+            "siteName": "Contoso Main Hospital",
+            "vlanId": "500",
+            "vlanName": "Clinical-Staff",
+            "wlanName": "CT-ClinicalStaff",
+            "userName": "rnurse01@contosohc.com",
+            "clientManufacturer": "Apple",
+            "clientFunction": "clinical",
+            "clientOperatingSystem": "iOS",
+            "snr": 48,
+            "wirelessBand": "5GHz",
+            "wirelessChannel": 36,
+            "wirelessSecurity": "WPA3"
+          },
+          {
+            "id": "02:00:ff:11:22:02",
+            "clientName": "medical-device-01",
+            "hostName": "CT-MED-DEV-01",
+            "macAddress": "02:00:ff:11:22:02",
+            "ipv4": "192.168.51.101",
+            "status": "Connected",
+            "connectedDeviceType": "IAP",
+            "clientConnectionType": "WIRELESS",
+            "connectedDeviceSerial": "CN30000002",
+            "siteId": "site-ct-001",
+            "siteName": "Contoso Main Hospital",
+            "vlanId": "510",
+            "vlanName": "Medical-Devices",
+            "wlanName": "CT-MedDevices",
+            "userName": "",
+            "clientManufacturer": "GE Healthcare",
+            "clientFunction": "iot",
+            "clientOperatingSystem": "Linux",
+            "snr": 35,
+            "wirelessBand": "5GHz",
+            "wirelessChannel": 40,
+            "wirelessSecurity": "WPA2"
+          },
+          {
+            "id": "02:00:ff:11:22:03",
+            "clientName": "admin-laptop-01",
+            "hostName": "CT-ADMIN-LT-01",
+            "macAddress": "02:00:ff:11:22:03",
+            "ipv4": "192.168.52.101",
+            "status": "Connected",
+            "connectedDeviceType": "IAP",
+            "clientConnectionType": "WIRELESS",
+            "connectedDeviceSerial": "CN30000001",
+            "siteId": "site-ct-001",
+            "siteName": "Contoso Main Hospital",
+            "vlanId": "520",
+            "vlanName": "Admin",
+            "wlanName": "CT-Admin",
+            "userName": "kadmin@contosohc.com",
+            "clientManufacturer": "Microsoft",
+            "clientFunction": "employee",
+            "clientOperatingSystem": "Windows",
+            "snr": 44,
+            "wirelessBand": "5GHz",
+            "wirelessChannel": 44,
+            "wirelessSecurity": "WPA3"
+          },
+          {
+            "id": "02:00:ff:22:11:01",
+            "clientName": "clinic-reception-01",
+            "hostName": "CT-CLN-RCP-01",
+            "macAddress": "02:00:ff:22:11:01",
+            "ipv4": "192.168.60.101",
+            "status": "Connected",
+            "connectedDeviceType": "IAP",
+            "clientConnectionType": "WIRELESS",
+            "connectedDeviceSerial": "CN30000005",
+            "siteId": "site-ct-002",
+            "siteName": "Contoso Clinic - Cambridge",
+            "vlanId": "600",
+            "vlanName": "Reception",
+            "wlanName": "CT-ClinicalStaff",
+            "userName": "reception@contosohc.com",
+            "clientManufacturer": "HP",
+            "clientFunction": "employee",
+            "clientOperatingSystem": "Windows",
+            "snr": 50,
+            "wirelessBand": "5GHz",
+            "wirelessChannel": 36,
+            "wirelessSecurity": "WPA3"
+          }
+        ],
+        "alerts": [
+          {
+            "id": "alert-ct-001",
+            "key": "SWITCH_PORT_DOWN",
+            "name": "Switch Port Down",
+            "summary": "Distribution switch ct-hosp-sw-01 has multiple ports in error-disabled state",
+            "severity": "MAJOR",
+            "status": "Open",
+            "priority": "MEDIUM",
+            "category": "DEVICE",
+            "deviceType": "SWITCH",
+            "createdAt": "2024-01-15T12:00:00Z",
+            "updatedAt": "2024-01-15T12:00:00Z",
+            "clearedReason": null
+          },
+          {
+            "id": "alert-ct-002",
+            "key": "CERTIFICATE_EXPIRY",
+            "name": "Certificate Expiring Soon",
+            "summary": "RADIUS certificate on CT-Gateways group expires in 14 days",
+            "severity": "MINOR",
+            "status": "Open",
+            "priority": "LOW",
+            "category": "COMPLIANCE",
+            "deviceType": "GATEWAY",
+            "createdAt": "2024-01-15T13:30:00Z",
+            "updatedAt": "2024-01-15T13:30:00Z",
+            "clearedReason": null
+          }
+        ]
+      }
+    }
+  ]
+}
