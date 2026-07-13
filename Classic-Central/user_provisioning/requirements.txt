@@ -1,2 +1,2 @@
-pycentral==1.4.3
+pycentral==2.0a22
 termcolor==2.3.0
