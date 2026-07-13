@@ -82,7 +82,7 @@ These calls run on demand — triggered when a user clicks into a tenant card in
 
 1. Clone the repository and navigate to the project folder
 ```bash
-git clone -b "v2(pre-release)" https://github.com/aruba/central-python-workflows.git
+git clone -b v2 https://github.com/aruba/central-python-workflows.git
 cd msp-tenant-monitoring
 ```
 

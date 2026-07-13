@@ -18,7 +18,7 @@ The Postman collection is located in the [`postman-collection`](Postman-Collecti
 
 **Clone this repository and `cd` into the workflow directory:**
 ```bash
-git clone -b "v2(pre-release)" https://github.com/aruba/central-python-workflows.git
+git clone -b v2 https://github.com/aruba/central-python-workflows.git
 cd central-python-workflows/glp-device-onboarding
 ```
 **Create a virtual environment (recommended):**
