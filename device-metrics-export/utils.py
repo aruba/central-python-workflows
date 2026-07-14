@@ -65,6 +65,8 @@ def processed_data(
     processed_glp_devices=None,
     processed_subs=None,
     processed_locations=None,
+    include_floorplan: bool = False,
+    include_raw_location: bool = False,
 ):
     """Build list of device dicts for CSV output.
 
@@ -126,41 +128,27 @@ def processed_data(
                     "Subscription End Time": iso_to_human(sub.get("endTime", "")),
                 }
             )
-        # attach location fields if present (do not omit rows if missing)
-        loc = processed_locations.get(serial_number, {}) or {}
-        entry.update(
-            {
-                "Floorplan ID": loc.get("floorplan_id", ""),
-                "Building ID": loc.get("building_id", ""),
-                "X Coordinate": loc.get("floor_x", ""),
-                "Y Coordinate": loc.get("floor_y", ""),
-                "Floor Coordinate Unit": loc.get("floor_coordinate_unit", ""),
-                "Latitude": loc.get("device_latitude", ""),
-                "Longitude": loc.get("device_longitude", ""),
-                "Raw Location": loc.get("raw_location", ""),
-            }
-        )
+        # attach location fields only when requested (do not omit rows if missing)
+        if include_floorplan:
+            loc = processed_locations.get(serial_number, {}) or {}
+            entry.update(
+                {
+                    "Floorplan ID": loc.get("floorplan_id", ""),
+                    "Building ID": loc.get("building_id", ""),
+                    "X Coordinate": loc.get("floor_x", ""),
+                    "Y Coordinate": loc.get("floor_y", ""),
+                    "Floor Coordinate Unit": loc.get("floor_coordinate_unit", ""),
+                    "Latitude": loc.get("device_latitude", ""),
+                    "Longitude": loc.get("device_longitude", ""),
+                }
+            )
+            if include_raw_location:
+                # include raw_location (may be dict) only when explicitly requested
+                entry["Raw Location"] = loc.get("raw_location", "")
         result.append(entry)
     return result
 
 
-def ensure_tokens_available(new_central_conn):
-    """Ensure unified token information can reach Central and GLP APIs."""
-    tokens = getattr(new_central_conn, "token_info", None)
-    if not tokens or "unified" not in tokens:
-        raise Exception(
-            "Unified token information is missing. Provide a valid PyCentral "
-            "unified credentials file with client_id, client_secret, workspace_id, "
-            "and cluster_name or base_url."
-        )
-    routes = getattr(new_central_conn, "_app_routes", {})
-    missing_routes = {"new_central", "glp"} - set(routes)
-    if missing_routes:
-        raise Exception(
-            "Unified credentials must enable both Central and GLP API routes. "
-            "Provide workspace_id and cluster_name or base_url under unified."
-        )
-    return True
 
 
 def get_all_device_inventory(MonitoringDevices, central_conn):

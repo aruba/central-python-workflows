@@ -123,7 +123,7 @@ CSV / JSON fields (ordered for CSV; JSON objects contain the same keys):
 > [!TIP]
 > The Device Group field will only be populated for groups that are Central compatible device groups. Classic Central groups will not appear in this export.
 
-> Location fields from Floorplan ID through Longitude are populated only when `--include-floorplan` (or `--include-raw-location`) is provided. The Raw Location column is additionally gated behind `--include-raw-location`; passing this flag also implies `--include-floorplan`, so no separate flag is needed. All other location columns remain present with blank/null values when location data is unavailable.
+> Location fields from Floorplan ID through Longitude are only added to the CSV/JSON when `--include-floorplan` (or `--include-raw-location`) is provided. The Raw Location column is additionally gated behind `--include-raw-location`; passing this flag also implies `--include-floorplan`. When neither flag is provided, location columns are omitted entirely from outputs.
 
 
 If no data is returned from the APIs or post-processing yields an empty list, the script prints "No data to save." 
@@ -132,7 +132,7 @@ If no data is returned from the APIs or post-processing yields an empty list, th
 
 - Authentication / tokens: Ensure your credentials file contains a top-level `unified` section with `workspace_id`, `client_id`, `client_secret`, and `cluster_name` or `base_url`.
 - Empty output: Confirm that devices exist in Central inventory and that GLP subscriptions/devices exist for the account.
-- Missing location fields: Confirm APs have `siteId` values and floorplan/device-location data exists for the site. Devices remain in the output with blank/null location fields when location data is unavailable.
+-- Missing location fields: Confirm APs have `siteId` values and floorplan/device-location data exists for the site. If you want location columns in the output, run with `--include-floorplan` (or `--include-raw-location`).
 - SDK compatibility: If API calls fail unexpectedly, confirm the installed pycentral version matches tested versions (v2.0a22) or update helpers accordingly.
 
 ## Support

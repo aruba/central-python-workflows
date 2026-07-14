@@ -11,13 +11,12 @@ from utils import (
     process_list,
     process_glp_device,
     processed_data,
-    ensure_tokens_available,
     get_all_device_inventory,
     derive_site_ids_with_aps,
     fetch_device_locations,
 )
 
-CSV_COLUMNS = [
+BASE_COLUMNS = [
     # Device information columns
     "Serial Number",
     "Mac Address",
@@ -40,7 +39,9 @@ CSV_COLUMNS = [
     "Subscription Tier",
     "Subscription Type",
     "Subscription End Time",
-    # Location fields (may be empty)
+]
+
+LOCATION_COLUMNS = [
     "Floorplan ID",
     "Building ID",
     "X Coordinate",
@@ -48,8 +49,9 @@ CSV_COLUMNS = [
     "Floor Coordinate Unit",
     "Latitude",
     "Longitude",
-    "Raw Location",
 ]
+
+RAW_LOCATION_COLUMN = "Raw Location"
 
 LOCATION_FETCH_WORKERS = 3
 
@@ -57,12 +59,7 @@ LOCATION_FETCH_WORKERS = 3
 def main():
     args = parse_args()
     new_central_conn = NewCentralBase(token_info=args.credentials, log_level="ERROR")
-    try:
-        ensure_tokens_available(new_central_conn)
-    except Exception as e:
-        print(f"Error: {e}")
-        return
-
+    
     devices_api = Devices()
     subscriptions_api = Subscriptions()
 
@@ -95,25 +92,38 @@ def main():
         else:
             print("No site IDs with APs found; skipping floorplan/device-location fetch.")
 
-    processed = process_all_data(raw_data, processed_locations)
+    processed = process_all_data(
+        raw_data,
+        processed_locations,
+        processed_inventory,
+        processed_devices,
+    )
 
     # Save results to CSV and structured JSON
-    output = processed_data(**processed)
-    effective_columns = (
-        CSV_COLUMNS
-        if args.include_raw_location
-        else [col for col in CSV_COLUMNS if col != "Raw Location"]
+    output = processed_data(
+        **processed,
+        include_floorplan=(args.include_floorplan or args.include_raw_location),
+        include_raw_location=args.include_raw_location,
     )
+
+    # Build columns based on flags: omit location columns unless requested
+    effective_columns = list(BASE_COLUMNS)
+    if args.include_floorplan or args.include_raw_location:
+        effective_columns += LOCATION_COLUMNS
+    if args.include_raw_location:
+        effective_columns.append(RAW_LOCATION_COLUMN)
     if output:
         # Prepare CSV rows: ensure Raw Location is serialized to a JSON string
         csv_rows = []
         for row in output:
             r = row.copy()
-            raw = r.get("Raw Location", "")
-            if isinstance(raw, (dict, list)):
-                r["Raw Location"] = json.dumps(raw, ensure_ascii=False)
-            elif raw is None:
-                r["Raw Location"] = ""
+            # only serialize Raw Location when it's part of effective columns
+            if RAW_LOCATION_COLUMN in effective_columns:
+                raw = r.get(RAW_LOCATION_COLUMN, "")
+                if isinstance(raw, (dict, list)):
+                    r[RAW_LOCATION_COLUMN] = json.dumps(raw, ensure_ascii=False)
+                elif raw is None:
+                    r[RAW_LOCATION_COLUMN] = ""
             csv_rows.append(r)
 
         df = pd.DataFrame(csv_rows)
@@ -199,15 +209,24 @@ def validate_file_format(file_path):
     return file_path
 
 
-def process_all_data(raw_data, processed_locations=None):
-    """Process raw API data into structured format. Accept optional processed_locations map."""
-    processed_inventory = process_list(
-        _safe("device_inventory", raw_data), "serialNumber"
-    )
+def process_all_data(
+    raw_data, processed_locations=None, processed_inventory=None, processed_devices=None
+):
+    """Process raw API data into structured format.
+
+    Accept optional precomputed `processed_inventory` and `processed_devices` to
+    avoid recomputing large mappings when callers already have them.
+    """
+    # compute only if not provided to preserve backward compatibility
+    if processed_inventory is None:
+        processed_inventory = process_list(
+            _safe("device_inventory", raw_data), "serialNumber"
+        )
+    if processed_devices is None:
+        processed_devices = process_monitoring_data(_safe("monitoring_devices", raw_data))
+
     return {
-        "processed_devices": process_monitoring_data(
-            _safe("monitoring_devices", raw_data)
-        ),
+        "processed_devices": processed_devices,
         "processed_inventory": processed_inventory,
         "processed_glp_devices": process_glp_device(
             process_list(_safe("glp_devices", raw_data), "serialNumber"),
