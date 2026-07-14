@@ -1,3 +1,5 @@
+import json
+import os
 from pycentral.new_monitoring import MonitoringDevices
 from pycentral import NewCentralBase
 from pycentral.glp import Devices, Subscriptions
@@ -11,6 +13,8 @@ from utils import (
     processed_data,
     ensure_tokens_available,
     get_all_device_inventory,
+    derive_site_ids_with_aps,
+    fetch_device_locations,
 )
 
 CSV_COLUMNS = [
@@ -36,7 +40,18 @@ CSV_COLUMNS = [
     "Subscription Tier",
     "Subscription Type",
     "Subscription End Time",
+    # Location fields (may be empty)
+    "Floorplan ID",
+    "Building ID",
+    "X Coordinate",
+    "Y Coordinate",
+    "Floor Coordinate Unit",
+    "Latitude",
+    "Longitude",
+    "Raw Location",
 ]
+
+LOCATION_FETCH_WORKERS = 3
 
 
 def main():
@@ -66,23 +81,70 @@ def main():
             conn=new_central_conn, select="id,key,endTime,tier"
         ),
     }
-    # Fetch and process data
     raw_data = run_concurrent_tasks(tasks)
-    processed = process_all_data(raw_data)
 
-    # Save results to CSV
+    processed_inventory = process_list(_safe("device_inventory", raw_data), "serialNumber")
+    processed_devices = process_monitoring_data(_safe("monitoring_devices", raw_data))
+    processed_locations = {}
+    if args.include_floorplan or args.include_raw_location:
+        site_ids = derive_site_ids_with_aps(processed_inventory, processed_devices)
+        if site_ids:
+            processed_locations = fetch_device_locations(
+                new_central_conn, site_ids, max_workers=LOCATION_FETCH_WORKERS
+            )
+        else:
+            print("No site IDs with APs found; skipping floorplan/device-location fetch.")
+
+    processed = process_all_data(raw_data, processed_locations)
+
+    # Save results to CSV and structured JSON
     output = processed_data(**processed)
+    effective_columns = (
+        CSV_COLUMNS
+        if args.include_raw_location
+        else [col for col in CSV_COLUMNS if col != "Raw Location"]
+    )
     if output:
-        df = pd.DataFrame(output)
-        df = df.reindex(columns=CSV_COLUMNS, fill_value="")
+        # Prepare CSV rows: ensure Raw Location is serialized to a JSON string
+        csv_rows = []
+        for row in output:
+            r = row.copy()
+            raw = r.get("Raw Location", "")
+            if isinstance(raw, (dict, list)):
+                r["Raw Location"] = json.dumps(raw, ensure_ascii=False)
+            elif raw is None:
+                r["Raw Location"] = ""
+            csv_rows.append(r)
+
+        df = pd.DataFrame(csv_rows)
+        df = df.reindex(columns=effective_columns, fill_value="")
         df = df.sort_values(
             by="Device Type",
             ascending=True,
             na_position="last",
         )
         df.to_csv(args.output, index=False)
+
+        # Determine JSON output path
+        json_path = getattr(args, "output_json", None)
+        if not json_path:
+            base, ext = os.path.splitext(args.output)
+            json_path = f"{base}.json" if ext else f"{args.output}.json"
+
+        # Prepare JSON rows: convert empty-string placeholders to null (None) in JSON
+        json_rows = []
+        for row in output:
+            jr = {}
+            for column in effective_columns:
+                value = row.get(column, "")
+                jr[column] = None if value == "" else value
+            json_rows.append(jr)
+
+        with open(json_path, "w", encoding="utf-8") as jf:
+            json.dump(json_rows, jf, indent=2, ensure_ascii=False)
+
         print(
-            f"{len(output)} Central devices processed. Device data is saved to {args.output}"
+            f"{len(output)} Central devices processed. Device data is saved to {args.output} and {json_path}"
         )
     else:
         print("No data to save.")
@@ -90,11 +152,11 @@ def main():
 
 def parse_args():
     """Parse command line arguments"""
-    parser = argparse.ArgumentParser(description="Device Onboarding")
+    parser = argparse.ArgumentParser(description="Device Metrics Export")
     parser.add_argument(
         "-c",
         "--credentials",
-        help="Credentials file for New Central API (JSON or YAML)",
+        help="Credentials file for New Central API (JSON or YAML). Unified PyCentral credential files are supported.",
         required=True,
         type=validate_file_format,
     )
@@ -104,6 +166,24 @@ def parse_args():
         help="Output file for device details (CSV)",
         required=False,
         default="device_data.csv",
+    )
+    parser.add_argument(
+        "--include-floorplan",
+        help="Include per-site AP floorplan/location data (optional)",
+        action="store_true",
+        default=False,
+    )
+    parser.add_argument(
+        "--include-raw-location",
+        help="Include the Raw Location column in the output. Also implies --include-floorplan (fetches per-site device locations).",
+        action="store_true",
+        default=False,
+    )
+    parser.add_argument(
+        "--output-json",
+        help="Optional path to write structured JSON output (single array). Defaults to replacing CSV extension with .json",
+        required=False,
+        default=None,
     )
     return parser.parse_args()
 
@@ -119,19 +199,22 @@ def validate_file_format(file_path):
     return file_path
 
 
-def process_all_data(raw_data):
-    """Process raw API data into structured format"""
+def process_all_data(raw_data, processed_locations=None):
+    """Process raw API data into structured format. Accept optional processed_locations map."""
+    processed_inventory = process_list(
+        _safe("device_inventory", raw_data), "serialNumber"
+    )
     return {
         "processed_devices": process_monitoring_data(
             _safe("monitoring_devices", raw_data)
         ),
-        "processed_inventory": process_list(
-            _safe("device_inventory", raw_data), "serialNumber"
-        ),
+        "processed_inventory": processed_inventory,
         "processed_glp_devices": process_glp_device(
-            process_list(_safe("glp_devices", raw_data), "serialNumber")
+            process_list(_safe("glp_devices", raw_data), "serialNumber"),
+            known_serials=processed_inventory,
         ),
         "processed_subs": process_list(_safe("glp_subs", raw_data), "id"),
+        "processed_locations": processed_locations or {},
     }
 
 
