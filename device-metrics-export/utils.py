@@ -331,8 +331,8 @@ def fetch_device_locations(central_conn, site_ids: set, max_workers: int = 4) ->
         if isinstance(loc, str):
             try:
                 loc = json.loads(loc)
-            except json.JSONDecodeError:
-                pass
+            except json.JSONDecodeError as e:
+                print(f"Warning: failed to parse consolidated location JSON for serial {serial}: {e}")
         # extract cartesian coordinates
         cart = loc.get("cartesianCoordinates") if isinstance(loc, dict) else None
         x = y = unit = ""
