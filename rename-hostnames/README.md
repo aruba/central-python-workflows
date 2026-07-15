@@ -1,6 +1,6 @@
 # Configure Hostnames and Location Aliases
 
-This workflow uses the PyCentral SDK to configure device hostnames and optional per-device location aliases in HPE Aruba Networking Central. Hostnames are configured with the local System Information profile. Locations are configured through Central local alias objects using a single run-level location alias name and each device's requested location value.
+This workflow configures device hostnames and optional per-device location aliases in Central. Hostnames are configured with the local System Information profile. Locations are configured through Central local alias objects using the location alias name and each device's requested location value.
 
 The workflow validates all inputs before execution, confirms the planned changes in the terminal, processes valid devices sequentially, and writes timestamped CSV and HTML reports that include every input device.
 
