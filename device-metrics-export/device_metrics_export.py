@@ -58,6 +58,7 @@ LOCATION_FETCH_WORKERS = 3
 
 def main():
     args = parse_args()
+    json_path = prepare_output_paths(args.output, getattr(args, "output_json", None))
     new_central_conn = NewCentralBase(token_info=args.credentials, log_level="ERROR")
     
     devices_api = Devices()
@@ -133,13 +134,10 @@ def main():
             ascending=True,
             na_position="last",
         )
-        df.to_csv(args.output, index=False)
-
-        # Determine JSON output path
-        json_path = getattr(args, "output_json", None)
-        if not json_path:
-            base, ext = os.path.splitext(args.output)
-            json_path = f"{base}.json" if ext else f"{args.output}.json"
+        try:
+            df.to_csv(args.output, index=False)
+        except OSError as exc:
+            raise SystemExit(f"Error writing CSV output '{args.output}': {exc}") from exc
 
         # Prepare JSON rows: convert empty-string placeholders to null (None) in JSON
         json_rows = []
@@ -149,9 +147,11 @@ def main():
                 value = row.get(column, "")
                 jr[column] = None if value == "" else value
             json_rows.append(jr)
-
-        with open(json_path, "w", encoding="utf-8") as jf:
-            json.dump(json_rows, jf, indent=2, ensure_ascii=False)
+        try:
+            with open(json_path, "w", encoding="utf-8") as jf:
+                json.dump(json_rows, jf, indent=2, ensure_ascii=False)
+        except OSError as exc:
+            raise SystemExit(f"Error writing JSON output '{json_path}': {exc}") from exc
 
         print(
             f"{len(output)} Central devices processed. Device data is saved to {args.output} and {json_path}"
@@ -176,6 +176,7 @@ def parse_args():
         help="Output file for device details (CSV)",
         required=False,
         default="device_data.csv",
+        type=lambda path: validate_output_path(path, ".csv"),
     )
     parser.add_argument(
         "--include-floorplan",
@@ -194,6 +195,7 @@ def parse_args():
         help="Optional path to write structured JSON output (single array). Defaults to replacing CSV extension with .json",
         required=False,
         default=None,
+        type=lambda path: validate_output_path(path, ".json"),
     )
     return parser.parse_args()
 
@@ -207,6 +209,30 @@ def validate_file_format(file_path):
     ):
         raise argparse.ArgumentTypeError("File must be in JSON or YAML format.")
     return file_path
+
+
+def validate_output_path(file_path, extension):
+    """Validate an output path's file extension."""
+    if not file_path.lower().endswith(extension):
+        raise argparse.ArgumentTypeError(
+            f"Output file must use the {extension} extension."
+        )
+    return file_path
+
+
+def prepare_output_paths(output_path, json_path=None):
+    """Verify output paths before starting API work and return the JSON path."""
+    if not json_path:
+        base, ext = os.path.splitext(output_path)
+        json_path = f"{base}.json" if ext else f"{output_path}.json"
+
+    for label, path in (("CSV", output_path), ("JSON", json_path)):
+        try:
+            with open(path, "a", encoding="utf-8"):
+                pass
+        except OSError as exc:
+            raise SystemExit(f"Error opening {label} output '{path}': {exc}") from exc
+    return json_path
 
 
 def process_all_data(
