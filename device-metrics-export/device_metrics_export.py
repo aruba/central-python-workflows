@@ -1,3 +1,5 @@
+import json
+import os
 from pycentral.new_monitoring import MonitoringDevices
 from pycentral import NewCentralBase
 from pycentral.glp import Devices, Subscriptions
@@ -9,11 +11,12 @@ from utils import (
     process_list,
     process_glp_device,
     processed_data,
-    ensure_tokens_available,
     get_all_device_inventory,
+    derive_site_ids_with_aps,
+    fetch_device_locations,
 )
 
-CSV_COLUMNS = [
+BASE_COLUMNS = [
     # Device information columns
     "Serial Number",
     "Mac Address",
@@ -38,16 +41,26 @@ CSV_COLUMNS = [
     "Subscription End Time",
 ]
 
+LOCATION_COLUMNS = [
+    "Floorplan ID",
+    "Building ID",
+    "X Coordinate",
+    "Y Coordinate",
+    "Floor Coordinate Unit",
+    "Latitude",
+    "Longitude",
+]
+
+RAW_LOCATION_COLUMN = "Raw Location"
+
+LOCATION_FETCH_WORKERS = 3
+
 
 def main():
     args = parse_args()
+    json_path = prepare_output_paths(args.output, getattr(args, "output_json", None))
     new_central_conn = NewCentralBase(token_info=args.credentials, log_level="ERROR")
-    try:
-        ensure_tokens_available(new_central_conn)
-    except Exception as e:
-        print(f"Error: {e}")
-        return
-
+    
     devices_api = Devices()
     subscriptions_api = Subscriptions()
 
@@ -66,23 +79,82 @@ def main():
             conn=new_central_conn, select="id,key,endTime,tier"
         ),
     }
-    # Fetch and process data
     raw_data = run_concurrent_tasks(tasks)
-    processed = process_all_data(raw_data)
 
-    # Save results to CSV
-    output = processed_data(**processed)
+    processed_inventory = process_list(_safe("device_inventory", raw_data), "serialNumber")
+    processed_devices = process_monitoring_data(_safe("monitoring_devices", raw_data))
+    processed_locations = {}
+    if args.include_floorplan or args.include_raw_location:
+        site_ids = derive_site_ids_with_aps(processed_inventory, processed_devices)
+        if site_ids:
+            processed_locations = fetch_device_locations(
+                new_central_conn, site_ids, max_workers=LOCATION_FETCH_WORKERS
+            )
+        else:
+            print("No site IDs with APs found; skipping floorplan/device-location fetch.")
+
+    processed = process_all_data(
+        raw_data,
+        processed_locations,
+        processed_inventory,
+        processed_devices,
+    )
+
+    # Save results to CSV and structured JSON
+    output = processed_data(
+        **processed,
+        include_floorplan=(args.include_floorplan or args.include_raw_location),
+        include_raw_location=args.include_raw_location,
+    )
+
+    # Build columns based on flags: omit location columns unless requested
+    effective_columns = list(BASE_COLUMNS)
+    if args.include_floorplan or args.include_raw_location:
+        effective_columns += LOCATION_COLUMNS
+    if args.include_raw_location:
+        effective_columns.append(RAW_LOCATION_COLUMN)
     if output:
-        df = pd.DataFrame(output)
-        df = df.reindex(columns=CSV_COLUMNS, fill_value="")
+        # Prepare CSV rows: ensure Raw Location is serialized to a JSON string
+        csv_rows = []
+        for row in output:
+            r = row.copy()
+            # only serialize Raw Location when it's part of effective columns
+            if RAW_LOCATION_COLUMN in effective_columns:
+                raw = r.get(RAW_LOCATION_COLUMN, "")
+                if isinstance(raw, (dict, list)):
+                    r[RAW_LOCATION_COLUMN] = json.dumps(raw, ensure_ascii=False)
+                elif raw is None:
+                    r[RAW_LOCATION_COLUMN] = ""
+            csv_rows.append(r)
+
+        df = pd.DataFrame(csv_rows)
+        df = df.reindex(columns=effective_columns, fill_value="")
         df = df.sort_values(
             by="Device Type",
             ascending=True,
             na_position="last",
         )
-        df.to_csv(args.output, index=False)
+        try:
+            df.to_csv(args.output, index=False)
+        except OSError as exc:
+            raise SystemExit(f"Error writing CSV output '{args.output}': {exc}") from exc
+
+        # Prepare JSON rows: convert empty-string placeholders to null (None) in JSON
+        json_rows = []
+        for row in output:
+            jr = {}
+            for column in effective_columns:
+                value = row.get(column, "")
+                jr[column] = None if value == "" else value
+            json_rows.append(jr)
+        try:
+            with open(json_path, "w", encoding="utf-8") as jf:
+                json.dump(json_rows, jf, indent=2, ensure_ascii=False)
+        except OSError as exc:
+            raise SystemExit(f"Error writing JSON output '{json_path}': {exc}") from exc
+
         print(
-            f"{len(output)} Central devices processed. Device data is saved to {args.output}"
+            f"{len(output)} Central devices processed. Device data is saved to {args.output} and {json_path}"
         )
     else:
         print("No data to save.")
@@ -90,11 +162,11 @@ def main():
 
 def parse_args():
     """Parse command line arguments"""
-    parser = argparse.ArgumentParser(description="Device Onboarding")
+    parser = argparse.ArgumentParser(description="Device Metrics Export")
     parser.add_argument(
         "-c",
         "--credentials",
-        help="Credentials file for New Central API (JSON or YAML)",
+        help="Credentials file for New Central API (JSON or YAML). Unified PyCentral credential files are supported.",
         required=True,
         type=validate_file_format,
     )
@@ -104,6 +176,26 @@ def parse_args():
         help="Output file for device details (CSV)",
         required=False,
         default="device_data.csv",
+        type=lambda path: validate_output_path(path, ".csv"),
+    )
+    parser.add_argument(
+        "--include-floorplan",
+        help="Include per-site AP floorplan/location data (optional)",
+        action="store_true",
+        default=False,
+    )
+    parser.add_argument(
+        "--include-raw-location",
+        help="Include the Raw Location column in the output. Also implies --include-floorplan (fetches per-site device locations).",
+        action="store_true",
+        default=False,
+    )
+    parser.add_argument(
+        "--output-json",
+        help="Optional path to write structured JSON output (single array). Defaults to replacing CSV extension with .json",
+        required=False,
+        default=None,
+        type=lambda path: validate_output_path(path, ".json"),
     )
     return parser.parse_args()
 
@@ -119,19 +211,55 @@ def validate_file_format(file_path):
     return file_path
 
 
-def process_all_data(raw_data):
-    """Process raw API data into structured format"""
-    return {
-        "processed_devices": process_monitoring_data(
-            _safe("monitoring_devices", raw_data)
-        ),
-        "processed_inventory": process_list(
+def validate_output_path(file_path, extension):
+    """Validate an output path's file extension."""
+    if not file_path.lower().endswith(extension):
+        raise argparse.ArgumentTypeError(
+            f"Output file must use the {extension} extension."
+        )
+    return file_path
+
+
+def prepare_output_paths(output_path, json_path=None):
+    """Verify output paths before starting API work and return the JSON path."""
+    if not json_path:
+        base, ext = os.path.splitext(output_path)
+        json_path = f"{base}.json" if ext else f"{output_path}.json"
+
+    for label, path in (("CSV", output_path), ("JSON", json_path)):
+        try:
+            with open(path, "a", encoding="utf-8"):
+                pass
+        except OSError as exc:
+            raise SystemExit(f"Error opening {label} output '{path}': {exc}") from exc
+    return json_path
+
+
+def process_all_data(
+    raw_data, processed_locations=None, processed_inventory=None, processed_devices=None
+):
+    """Process raw API data into structured format.
+
+    Accept optional precomputed `processed_inventory` and `processed_devices` to
+    avoid recomputing large mappings when callers already have them.
+    """
+    # compute only if not provided to preserve backward compatibility
+    if processed_inventory is None:
+        processed_inventory = process_list(
             _safe("device_inventory", raw_data), "serialNumber"
-        ),
+        )
+    if processed_devices is None:
+        processed_devices = process_monitoring_data(_safe("monitoring_devices", raw_data))
+
+    return {
+        "processed_devices": processed_devices,
+        "processed_inventory": processed_inventory,
         "processed_glp_devices": process_glp_device(
-            process_list(_safe("glp_devices", raw_data), "serialNumber")
+            process_list(_safe("glp_devices", raw_data), "serialNumber"),
+            known_serials=processed_inventory,
         ),
         "processed_subs": process_list(_safe("glp_subs", raw_data), "id"),
+        "processed_locations": processed_locations or {},
     }
 
 
