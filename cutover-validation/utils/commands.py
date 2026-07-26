@@ -61,6 +61,18 @@ def _format_batched_item(command_output: dict) -> CommandResult:
             raw_response=command_output,
         )
 
+    if isinstance(output, str) and any(
+        line.strip().casefold() == "% parse error."
+        for line in output.splitlines()
+    ):
+        return CommandResult(
+            command=command,
+            status="FAILED",
+            response=output,
+            error="Invalid command: API returned % Parse error.",
+            raw_response=command_output,
+        )
+
     return CommandResult(
         command=command,
         status="COMPLETED",

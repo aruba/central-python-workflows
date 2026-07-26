@@ -2,7 +2,7 @@
 
 import unittest
 
-from utils.commands import validate_command
+from utils.commands import _format_batched_item, validate_command
 
 
 class ValidateCommandTests(unittest.TestCase):
@@ -46,6 +46,40 @@ class ValidateCommandTests(unittest.TestCase):
 
         self.assertTrue(validate_command(supported, [supported]))
         self.assertFalse(validate_command("show ap detailXall", [supported]))
+
+
+class FormatBatchedItemTests(unittest.TestCase):
+    def test_marks_parse_error_output_as_failed(self):
+        command_output = {"command": "show cellular error", "output": "% Parse error."}
+
+        result = _format_batched_item(command_output)
+
+        self.assertEqual(result.status, "FAILED")
+        self.assertEqual(result.error, "Invalid command: API returned % Parse error.")
+        self.assertEqual(result.response, "% Parse error.")
+        self.assertIs(result.raw_response, command_output)
+
+    def test_treats_case_and_whitespace_variants_as_parse_error(self):
+        command_output = {
+            "command": "show cellular error",
+            "output": "  % parse error.  ",
+        }
+
+        result = _format_batched_item(command_output)
+
+        self.assertEqual(result.status, "FAILED")
+        self.assertEqual(result.error, "Invalid command: API returned % Parse error.")
+
+    def test_keeps_other_output_completed(self):
+        command_output = {
+            "command": "show cellular error",
+            "output": "cellular status:\nall good",
+        }
+
+        result = _format_batched_item(command_output)
+
+        self.assertEqual(result.status, "COMPLETED")
+        self.assertEqual(result.response, "cellular status:\nall good")
 
 
 if __name__ == "__main__":
