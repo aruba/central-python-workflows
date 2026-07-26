@@ -30,7 +30,7 @@ class Device:
             model=_safe_value(getattr(ap, "model", None)),
             ip_address=_safe_value(getattr(ap, "ipv4", None)),
             mac_address=_safe_value(getattr(ap, "mac", None)),
-            firmware=_safe_value(getattr(ap, "software-version", None)),
+            firmware=_safe_value(getattr(ap, "firmware-version", None)),
             status=_safe_value(getattr(ap, "status", None)),
             site=_safe_value(getattr(ap, "site_name", None)),
         )
