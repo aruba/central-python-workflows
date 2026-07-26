@@ -26,6 +26,13 @@ class ValidateCommandTests(unittest.TestCase):
             validate_command("show ap AP-01", ["show ap {{ap_name}}"])
         )
 
+    def test_rejects_multiple_words_for_a_template_placeholder(self):
+        self.assertFalse(
+            validate_command(
+                "show cellular status detail", ["show cellular {{option}}"]
+            )
+        )
+
     def test_matches_multiple_template_placeholders(self):
         self.assertTrue(
             validate_command(
