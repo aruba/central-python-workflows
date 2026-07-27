@@ -22,7 +22,7 @@ Commands are executed only on online devices, and results are collected for revi
 
 ## Prerequisites
 
-- Python 3.8 or higher
+- Python 3.10 or higher
 - API credentials for HPE Aruba Networking Central (JSON or YAML format)
 
 ## Installation
@@ -44,7 +44,7 @@ source env/bin/activate  # On Windows use: env\Scripts\activate
 pip install -r requirements.txt
 ```
 
-This workflow is tested with the `pycentral` SDK version `2.0a19`. Please check compatibility before executing on newer versions as there may be changes.
+This workflow is tested with the `pycentral` SDK version `2.0a23`. Please check compatibility before executing on newer versions as there may be changes.
 
 ## Configuration
 

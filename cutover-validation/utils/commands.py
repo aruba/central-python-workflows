@@ -1,5 +1,6 @@
 """Command validation and execution logic."""
 
+import re
 from typing import List
 from .models import CommandResult
 from .config import POLL_INTERVAL, MAX_ATTEMPTS
@@ -21,11 +22,13 @@ def fetch_supported_commands(device_instance) -> List[str]:
 
 def validate_command(command: str, supported_commands: List[str]) -> bool:
     """Validate if a command is supported by the device."""
-    command_base = command.strip().lower()
-    return any(
-        command_base in supported.lower() or supported.lower().startswith(command_base)
-        for supported in supported_commands
-    )
+    command_base = command.strip()
+    for supported in supported_commands:
+        literal_parts = re.split(r"\{\{[^{}]+\}\}", supported.strip())
+        pattern = r"\S+".join(re.escape(part) for part in literal_parts)
+        if re.fullmatch(pattern, command_base):
+            return True
+    return False
 
 
 def validate_commands(
@@ -55,6 +58,18 @@ def _format_batched_item(command_output: dict) -> CommandResult:
             command=command,
             status="FAILED",
             error="No output returned for this command",
+            raw_response=command_output,
+        )
+
+    if isinstance(output, str) and any(
+        line.strip().casefold() == "% parse error."
+        for line in output.splitlines()
+    ):
+        return CommandResult(
+            command=command,
+            status="FAILED",
+            response=output,
+            error="Invalid command: API returned % Parse error.",
             raw_response=command_output,
         )
 
