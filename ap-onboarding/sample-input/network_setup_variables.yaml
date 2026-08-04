@@ -1,0 +1,70 @@
+# network_setup_variables.yaml — input for network_setup.py
+#
+# Run once (or whenever infrastructure changes) to create sites, site
+# collections, device groups, and bind configuration profiles in Central.
+#
+# All four sections are independent. Include only what you need.
+# Copy this file to the repository root as network_setup_variables.yaml,
+# replace the examples, and pass it to network_setup.py with -vars.
+
+# ─── Sites ────────────────────────────────────────────────────────────────
+# Created if they do not yet exist. Existing sites are skipped.
+sites:
+  - "name": "Building_A"  # unique Central site label
+    address: "123 Main Street"
+    city: "San Jose"
+    state: "California"
+    country: "United States"
+    zipcode: "95110"
+    timezone: "America/Los_Angeles"
+
+  - "name": "Building_B"
+    address: "456 Oak Avenue"
+    city: "San Jose"
+    state: "California"
+    country: "United States"
+    zipcode: "95111"
+    timezone: "America/Los_Angeles"
+
+# ─── Site Collections (optional) ──────────────────────────────────────────
+# Groups of sites that can share profile bindings.
+site_collections:
+  - "name": "West-Coast"  # collection label
+    sites:
+      - "Building_A"
+      - "Building_B"
+
+# ─── Device Groups ────────────────────────────────────────────────────────
+# Created if they do not yet exist. Each must be an AOS 10 access-point group
+# in New Central, with NewCentral set to true.
+device_groups:
+  - group: Onboarding_Device
+    group_attributes:
+      template_info:
+        Wired: false
+      group_properties:
+        AllowedDevTypes:
+          - AccessPoints
+        Architecture: AOS10
+        ApNetworkRole: Standard
+        NewCentral: true
+
+# ─── Configuration Profile Bindings (optional) ────────────────────────────
+# Bind named profiles to a site or site_collection. Devices in that scope
+# inherit the profiles automatically. Already-bound profiles are skipped.
+# Each entry identifies the profile label, profile type, and device function.
+configuration_profiles:
+  - site: "Building_A"
+    profiles:
+      - device_function: "Campus Access Point"
+        "name": "corp-wlan"
+        profile_type: "wlan-ssids"
+      - device_function: "Campus Access Point"
+        "name": "default-ap-system"
+        profile_type: "ap-system"
+
+  - site_collection: "West-Coast"
+    profiles:
+      - device_function: "Campus Access Point"
+        "name": "guest-wlan"
+        profile_type: "wlan-ssids"

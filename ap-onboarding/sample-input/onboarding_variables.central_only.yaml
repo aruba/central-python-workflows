@@ -1,0 +1,21 @@
+# onboarding_variables.central_only.yaml — Central-only onboarding example.
+#
+# Use this shape when your devices are already assigned to a Central
+# application and subscription in GreenLake. No application_assignment or
+# subscription_key is needed; onboarding.py skips that phase.
+#
+# The referenced site and device_group must already exist in Central —
+# run network_setup.py first if they do not.
+
+defaults:
+  device_type: ACCESS_POINT
+  device_function: Campus Access Point
+  device_group: Onboarding_Device
+  site: "Building_A"
+
+# The default maximum is 50 devices per run. ONBOARDING_MAX_DEVICES changes
+# the effective limit.
+devices:
+  - serial_number: "CNXXXXXXXX"
+    # Inherits Central settings from defaults and applies the launch add-on.
+    hostname: "building-a-lobby-ap"

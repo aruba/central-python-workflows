@@ -1,0 +1,43 @@
+# onboarding_variables.yaml — input for onboarding.py
+#
+# Full example with GreenLake platform assignment plus Central onboarding.
+# The referenced sites and device groups must already exist in Central; run
+# network_setup.py first if they do not.
+#
+# Copy this file to the repository root as onboarding_variables.yaml, replace
+# every example value, and pass it to onboarding.py with -vars.
+
+# ─── Defaults (optional) ──────────────────────────────────────────────────
+# Values inherited by every device unless overridden at the device level.
+defaults:
+  # Central. ACCESS_POINT is the only supported device type.
+  device_type: ACCESS_POINT
+  device_function: Campus Access Point
+  device_group: Onboarding_Device
+  site: "Building_A"
+
+  # GreenLake platform assignment is optional. Include these fields when this
+  # run should assign devices to Central and apply subscriptions.
+  # application_assignment is shared by the whole workflow.
+  application_assignment:
+    "name": "HPE Aruba Networking Central"
+    region: "US West"
+  subscription_key: "your-subscription-key"
+
+# ─── Devices (required) ───────────────────────────────────────────────────
+# The default maximum is 50 devices per run. ONBOARDING_MAX_DEVICES changes
+# the effective limit for both CLI validation and the UI.
+devices:
+  - serial_number: "CNXXXXXXXX"
+    # This device inherits all defaults above.
+
+  - serial_number: "CNXXXXXXXY"
+    site: "Building_B"
+    # Any inherited value may be overridden per device:
+    # subscription_key: "device-specific-key"
+
+  - serial_number: "CNXXXXXXXZ"
+    hostname: "store-3-ap"
+    site: "Building_B"
+    # Skip GreenLake assignment for a device already assigned and subscribed.
+    glp_onboarding: false

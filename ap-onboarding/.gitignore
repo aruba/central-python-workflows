@@ -1,0 +1,27 @@
+# Credentials
+account_credentials.yaml
+classic_central_credentials.yaml
+
+# Local run inputs (annotated templates live in sample-input/)
+/*_variables.yaml
+
+# Generated results
+results_*/
+
+# Captured run logs. May contain serials, and request headers at DEBUG.
+logs/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Frontend
+node_modules/
+frontend/dist/
+
+# OS
+.DS_Store
+
+# Local agent settings (launch.json is shared and tracked)
+.claude/settings.local.json

@@ -1,0 +1,214 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0.985 0.007 265; /* mirrors --cc-surface */
+    --foreground: 0.235 0.03 268; /* mirrors --cc-ink */
+
+    --card: 0.985 0.007 265; /* mirrors --cc-surface */
+    --card-foreground: 0.235 0.03 268; /* mirrors --cc-ink */
+
+    --popover: 0.985 0.007 265; /* mirrors --cc-surface */
+    --popover-foreground: 0.235 0.03 268; /* mirrors --cc-ink */
+
+    --primary: 0.47 0.19 273; /* mirrors --cc-accent */
+    --primary-foreground: 0.985 0.006 265; /* mirrors --cc-accent-ink */
+
+    --secondary: 0.942 0.014 265; /* mirrors --cc-muted */
+    --secondary-foreground: 0.455 0.035 268; /* mirrors --cc-ink-soft */
+
+    --muted: 0.942 0.014 265; /* mirrors --cc-muted */
+    --muted-foreground: 0.455 0.035 268; /* mirrors --cc-ink-soft */
+
+    --accent: 0.942 0.014 265; /* mirrors --cc-muted */
+    --accent-foreground: 0.455 0.035 268; /* mirrors --cc-ink-soft */
+
+    --destructive: 0.5 0.19 28; /* mirrors --cc-danger */
+    --destructive-foreground: 0.985 0.006 265; /* mirrors --cc-accent-ink */
+
+    --success: 0.45 0.13 145; /* mirrors --cc-success */
+    --success-foreground: 0.985 0.006 265; /* mirrors --cc-accent-ink */
+    --warning: 0.46 0.11 75; /* mirrors --cc-warning */
+    --warning-foreground: 0.985 0.006 265; /* mirrors --cc-accent-ink */
+
+    --border: 0.865 0.024 265; /* mirrors --cc-line */
+    --input: 0.625 0.045 268; /* mirrors --cc-line-strong */
+    --ring: 0.47 0.19 273; /* mirrors --cc-accent */
+
+    --radius: 0.5rem;
+
+    --cc-canvas: oklch(0.965 0.01 265);
+    --cc-surface: oklch(0.985 0.007 265);
+    --cc-raised: oklch(0.995 0.004 265);
+    --cc-muted: oklch(0.942 0.014 265);
+    --cc-ink: oklch(0.235 0.03 268);
+    --cc-ink-soft: oklch(0.455 0.035 268);
+    --cc-ink-faint: oklch(0.515 0.03 268);
+    --cc-line: oklch(0.865 0.024 265);
+    --cc-line-strong: oklch(0.625 0.045 268);
+    --cc-topbar: oklch(0.985 0.008 265);
+    --cc-topbar-ink: oklch(0.235 0.03 268);
+    --cc-topbar-muted: oklch(0.47 0.03 268);
+    --cc-topbar-line: oklch(0.865 0.024 265);
+    --cc-topbar-line-hover: oklch(0.69 0.04 268);
+    --cc-topbar-control: oklch(0.955 0.012 265);
+    --cc-topbar-control-hover: oklch(0.925 0.02 265);
+    --cc-topbar-disabled: oklch(0.9 0.015 265);
+    --cc-topbar-status-halo: 0 0 0 4px oklch(0.7 0.13 145 / 0.14);
+    --cc-topbar-shadow: 0 1px 0 oklch(0.235 0.03 268 / 0.06);
+    --cc-accent: oklch(0.47 0.19 273);
+    --cc-accent-hover: oklch(0.405 0.2 273);
+    --cc-accent-ink: oklch(0.985 0.006 265);
+    --cc-accent-soft: oklch(0.94 0.035 273);
+    --cc-success: oklch(0.45 0.13 145);
+    --cc-success-soft: oklch(0.94 0.045 145);
+    --cc-danger: oklch(0.5 0.19 28);
+    --cc-danger-soft: oklch(0.94 0.045 28);
+    --cc-warning: oklch(0.46 0.11 75);
+    --cc-warning-soft: oklch(0.94 0.045 75);
+    --cc-info: oklch(0.46 0.12 235);
+    --cc-info-soft: oklch(0.94 0.04 235);
+    --cc-brand-mark: var(--cc-accent);
+    --cc-brand-mark-ink: var(--cc-accent-ink);
+    --cc-primary-action: var(--cc-accent);
+    --cc-primary-action-hover: var(--cc-accent-hover);
+    --cc-primary-action-ink: var(--cc-accent-ink);
+    --cc-topbar-focus: var(--cc-accent);
+    --cc-shadow: 0 18px 55px oklch(0.22 0.04 268 / 0.13);
+    --cc-shadow-sm: 0 7px 22px oklch(0.22 0.04 268 / 0.08);
+    --cc-dialog-shadow: 0 30px 100px oklch(0.06 0.03 268 / 0.5);
+    --cc-stage-radius: 0.75rem;
+    --cc-stage-header-height: 4rem;
+    --cc-stage-shadow: 0 10px 32px oklch(0.22 0.04 268 / 0.08);
+  }
+
+  .dark {
+    --background: 0.205 0.021 268; /* mirrors --cc-surface */
+    --foreground: 0.925 0.015 265; /* mirrors --cc-ink */
+
+    --card: 0.205 0.021 268; /* mirrors --cc-surface */
+    --card-foreground: 0.925 0.015 265; /* mirrors --cc-ink */
+
+    --popover: 0.205 0.021 268; /* mirrors --cc-surface */
+    --popover-foreground: 0.925 0.015 265; /* mirrors --cc-ink */
+
+    --primary: 0.72 0.17 273; /* mirrors --cc-accent */
+    --primary-foreground: 0.17 0.03 268; /* mirrors --cc-accent-ink */
+
+    --secondary: 0.265 0.025 268; /* mirrors --cc-muted */
+    --secondary-foreground: 0.715 0.025 265; /* mirrors --cc-ink-soft */
+
+    --muted: 0.265 0.025 268; /* mirrors --cc-muted */
+    --muted-foreground: 0.715 0.025 265; /* mirrors --cc-ink-soft */
+
+    --accent: 0.265 0.025 268; /* mirrors --cc-muted */
+    --accent-foreground: 0.715 0.025 265; /* mirrors --cc-ink-soft */
+
+    --destructive: 0.72 0.15 28; /* mirrors --cc-danger */
+    --destructive-foreground: 0.17 0.03 268; /* mirrors --cc-accent-ink */
+
+    --success: 0.7 0.13 145; /* mirrors --cc-success */
+    --success-foreground: 0.17 0.03 268; /* mirrors --cc-accent-ink */
+    --warning: 0.78 0.12 75; /* mirrors --cc-warning */
+    --warning-foreground: 0.17 0.03 268; /* mirrors --cc-accent-ink */
+
+    --border: 0.32 0.03 268; /* mirrors --cc-line */
+    --input: 0.52 0.04 268; /* mirrors --cc-line-strong */
+    --ring: 0.72 0.17 273; /* mirrors --cc-accent */
+
+    --cc-canvas: oklch(0.17 0.018 268);
+    --cc-surface: oklch(0.205 0.021 268);
+    --cc-raised: oklch(0.235 0.025 268);
+    --cc-muted: oklch(0.265 0.025 268);
+    --cc-ink: oklch(0.925 0.015 265);
+    --cc-ink-soft: oklch(0.715 0.025 265);
+    --cc-ink-faint: oklch(0.64 0.025 268);
+    --cc-line: oklch(0.32 0.03 268);
+    --cc-line-strong: oklch(0.52 0.04 268);
+    --cc-topbar: oklch(0.185 0.03 268);
+    --cc-topbar-ink: oklch(0.94 0.014 265);
+    --cc-topbar-muted: oklch(0.715 0.025 265);
+    --cc-topbar-line: oklch(0.94 0.014 265 / 0.15);
+    --cc-topbar-line-hover: oklch(0.94 0.014 265 / 0.25);
+    --cc-topbar-control: oklch(0.1 0.02 268 / 0.16);
+    --cc-topbar-control-hover: oklch(0.1 0.02 268 / 0.24);
+    --cc-topbar-disabled: oklch(0.94 0.014 265 / 0.15);
+    --cc-topbar-status-halo: 0 0 0 4px oklch(0.7 0.13 145 / 0.14);
+    --cc-topbar-shadow: 0 5px 24px oklch(0.05 0.025 268 / 0.28);
+    --cc-accent: oklch(0.72 0.17 273);
+    --cc-accent-hover: oklch(0.77 0.15 273);
+    --cc-accent-ink: oklch(0.17 0.03 268);
+    --cc-accent-soft: oklch(0.285 0.055 273);
+    --cc-success: oklch(0.7 0.13 145);
+    --cc-success-soft: oklch(0.28 0.05 145);
+    --cc-danger: oklch(0.72 0.15 28);
+    --cc-danger-soft: oklch(0.29 0.052 28);
+    --cc-warning: oklch(0.78 0.12 75);
+    --cc-warning-soft: oklch(0.285 0.05 75);
+    --cc-info: oklch(0.72 0.12 235);
+    --cc-info-soft: oklch(0.28 0.05 235);
+    --cc-brand-mark: var(--cc-accent);
+    --cc-brand-mark-ink: var(--cc-accent-ink);
+    --cc-primary-action: var(--cc-accent);
+    --cc-primary-action-hover: var(--cc-accent-hover);
+    --cc-primary-action-ink: var(--cc-accent-ink);
+    --cc-topbar-focus: var(--cc-accent);
+    --cc-shadow: 0 20px 58px oklch(0.05 0.025 268 / 0.34);
+    --cc-shadow-sm: 0 8px 24px oklch(0.05 0.025 268 / 0.25);
+    --cc-dialog-shadow: 0 30px 100px oklch(0.03 0.02 268 / 0.62);
+    --cc-stage-shadow: 0 12px 34px oklch(0.05 0.025 268 / 0.22);
+  }
+
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .command-center {
+    background: var(--cc-canvas);
+  }
+
+  .stage-frame {
+    overflow: hidden;
+    border: 1px solid var(--cc-line);
+    border-radius: var(--cc-stage-radius);
+    background: var(--cc-surface);
+    box-shadow: var(--cc-stage-shadow);
+  }
+
+  .stage-section + .stage-section {
+    border-top: 1px solid var(--cc-line);
+  }
+
+  .stage-section[data-active="true"] {
+    position: relative;
+    z-index: 1;
+    box-shadow: inset 0 0 0 1px
+      color-mix(in oklch, var(--cc-accent) 42%, var(--cc-line));
+  }
+
+  .stage-header {
+    min-height: var(--cc-stage-header-height);
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

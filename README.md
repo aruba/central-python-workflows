@@ -32,6 +32,15 @@ This script automates the complete onboarding journey of factory-default devices
 - Device group management and assignment
 - Provisioning verification
 
+### [Access Point Onboarding](/ap-onboarding/)
+This workflow onboards **AOS 10 access points** into Central in a single batched run. It assigns devices to GreenLake, applies subscriptions, provisions the access points into Central, and supports optional per-device settings through either a scriptable CLI or a local web UI.
+
+- Supports up to 50 devices per run, with validation and explicit exit codes for automation
+- Discovers each AP's model and firmware version at runtime and skips devices below the configured per-model minimum while continuing the batch
+- Prepares Central infrastructure by creating required sites and device groups; existing objects are skipped for safe re-runs
+- Provides shared validation and execution behavior across the CLI and local web UI
+- Supports only AOS 10 access points configured through Central, not Classic Central
+
 ### [Ping and iPerf Troubleshooting Workflow](/troubleshooting-workflow/)
 This script automates network troubleshooting tasks using the new HPE Aruba Networking Central APIs. The workflow performs comprehensive connectivity testing by executing ping tests and iPerf bandwidth tests on gateway devices to validate network performance and connectivity.
 
