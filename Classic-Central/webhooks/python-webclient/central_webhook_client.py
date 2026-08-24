@@ -68,7 +68,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         """
         Executed when POST Request is received
         """
-        body = self.rfile.read()
+        body = self.rfile.read(int(self.headers['Content-Length']))
         self.send_response(200)
         self.end_headers() 
         webhookData = body.decode('utf-8')
