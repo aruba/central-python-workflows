@@ -95,12 +95,12 @@ All calls go to the GreenLake Platform (GLP) API. Read calls run during discover
 
 ## Installation
 
-<!-- 1. Clone the repository and enter the workflow:
+1. Clone the repository and enter the workflow:
 
    ```bash
    git clone https://github.com/aruba/central-python-workflows.git
    cd central-python-workflows/msp-onboarding
-   ``` -->
+   ```
 
 2. Create the environment and install the dependencies:
 
