@@ -1,0 +1,4 @@
+pyyaml==6.0.3
+pycentral==2.0a22
+fastapi==0.136.1
+uvicorn[standard]==0.46.0
