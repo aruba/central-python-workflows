@@ -1120,7 +1120,6 @@ class OnboardingEngine:
         group: dict,
         tenant_data: dict,
     ) -> bool:
-        tenant_name = group["tenant_name"]
         try:
             tenant_id = self._ensure_tenant(
                 job_id, plan["mode"], group, tenant_data

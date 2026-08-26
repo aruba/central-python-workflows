@@ -48,15 +48,7 @@ def _print_plan(label: str, plan: Plan) -> None:
     print(f"  manifest_hash   : {d['manifest_hash'][:16]}…")
     print(f"  plan_hash       : {d['plan_hash'][:16]}…")
     print(f"  created_at      : {d['created_at']}")
-    print(f"  devices ({len(d['devices'])}):")
-    for dev in d["devices"]:
-        ident = dev["serial_number"] or dev["mac_address"]
-        print(
-            f"    glp_id={dev['glp_id']}  "
-            f"ident={ident}  "
-            f"sub_id={dev['subscription_id']}  "
-            f"key=***"
-        )
+    print(f"  devices         : {len(d['devices'])} (identifiers redacted)")
     if d["errors"]:
         print(f"  errors ({len(d['errors'])}):")
         for err in d["errors"]:
