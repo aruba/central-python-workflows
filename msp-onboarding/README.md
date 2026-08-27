@@ -106,6 +106,7 @@ All calls go to the GreenLake Platform (GLP) API. Read calls run during discover
 
    ```bash
    uv venv --python 3.12
+   source .venv/bin/activate
    uv pip install -r requirements.txt
    ```
 
