@@ -1,0 +1,1002 @@
+[
+  {
+    "api_display_name": "Aggregated Device Disconnections",
+    "api_id": 2100,
+    "category": "SITE",
+    "display_name": "Aggregated Device Disconnections",
+    "name_match": "exact",
+    "source_type": "AGGREGATED_DEVICE_DISCONNECTIONS"
+  },
+  {
+    "api_display_name": "AP With Missing Radios",
+    "api_id": 1249,
+    "category": "ACCESS POINT",
+    "display_name": "AP With Missing Radios",
+    "name_match": "exact",
+    "source_type": "AP With Missing Radios"
+  },
+  {
+    "api_display_name": "AP Disconnected",
+    "api_id": 4,
+    "category": "ACCESS POINT",
+    "display_name": "AP Disconnected",
+    "name_match": "exact",
+    "source_type": "AP disconnected"
+  },
+  {
+    "api_display_name": "Airgroup Alerts",
+    "api_id": 1262,
+    "category": "ACCESS POINT",
+    "display_name": "Airgroup Alerts",
+    "name_match": "exact",
+    "source_type": "AP_AG_ALERTS"
+  },
+  {
+    "api_display_name": "All AP Tunnels Down",
+    "api_id": 1258,
+    "category": "ACCESS POINT",
+    "display_name": "All AP Tunnels Down",
+    "name_match": "exact",
+    "source_type": "AP_ALL_TUNNELS_DOWN"
+  },
+  {
+    "api_display_name": "Connected Clients Per AP",
+    "api_id": 1255,
+    "category": "ACCESS POINT",
+    "display_name": "Connected Clients Per AP",
+    "name_match": "exact",
+    "source_type": "AP_CONNECTED_CLIENTS"
+  },
+  {
+    "api_display_name": "AP CPU Utilization",
+    "api_id": 1250,
+    "category": "ACCESS POINT",
+    "display_name": "AP CPU Utilization",
+    "name_match": "exact",
+    "source_type": "AP_CPU_OVER_UTILIZATION"
+  },
+  {
+    "api_display_name": "AP Crash",
+    "api_id": 1260,
+    "category": "ACCESS POINT",
+    "display_name": "AP Crash",
+    "name_match": "exact",
+    "source_type": "AP_CRASH"
+  },
+  {
+    "api_display_name": "AP DHCP Pool Consumption Alert",
+    "api_id": 1265,
+    "category": "ACCESS POINT",
+    "display_name": "AP DHCP Pool Consumption Alert",
+    "name_match": "exact",
+    "source_type": "AP_DHCP_POOL_CONSUMPTION_ALERT"
+  },
+  {
+    "api_display_name": "AP Memory Utilization",
+    "api_id": 1251,
+    "category": "ACCESS POINT",
+    "display_name": "AP Memory Utilization",
+    "name_match": "exact",
+    "source_type": "AP_MEMORY_OVER_UTILIZATION"
+  },
+  {
+    "api_display_name": "Radio Noise Floor",
+    "api_id": 1253,
+    "category": "ACCESS POINT",
+    "display_name": "Radio Noise Floor",
+    "name_match": "exact",
+    "source_type": "AP_RADIO_NOISE_FLOOR"
+  },
+  {
+    "api_display_name": "Radio Non Wi-Fi Utilization",
+    "api_id": 1259,
+    "category": "ACCESS POINT",
+    "display_name": "Radio Non Wi-Fi Utilization",
+    "name_match": "exact",
+    "source_type": "AP_RADIO_NON_WIFI_OVER_UTILIZATION"
+  },
+  {
+    "api_display_name": "Radio Channel Utilization",
+    "api_id": 1252,
+    "category": "ACCESS POINT",
+    "display_name": "Radio Channel Utilization",
+    "name_match": "exact",
+    "source_type": "AP_RADIO_OVER_UTILIZATION"
+  },
+  {
+    "api_display_name": "AP Reboot",
+    "api_id": 1261,
+    "category": "ACCESS POINT",
+    "display_name": "AP Reboot",
+    "name_match": "exact",
+    "source_type": "AP_REBOOT"
+  },
+  {
+    "api_display_name": "AP Routing Table Limit",
+    "api_id": 1263,
+    "category": "ACCESS POINT",
+    "display_name": "AP Routing Table Limit",
+    "name_match": "exact",
+    "source_type": "AP_ROUTE_TABLE_CAPACITY"
+  },
+  {
+    "api_display_name": "AP Tunnel Down",
+    "api_id": 1257,
+    "category": "ACCESS POINT",
+    "display_name": "AP Tunnel Down",
+    "name_match": "exact",
+    "source_type": "AP_TUNNEL_DOWN"
+  },
+  {
+    "api_display_name": "Radio Frames Retry Percent",
+    "api_id": 1256,
+    "category": "ACCESS POINT",
+    "display_name": "Radio Frames Retry Percent",
+    "name_match": "exact",
+    "source_type": "AP_TX_RETRY_PERCENT"
+  },
+  {
+    "api_display_name": "Gateway Cellular Data Usage",
+    "api_id": 1511,
+    "category": "GATEWAY",
+    "display_name": "Gateway Cellular Data Usage",
+    "name_match": "exact",
+    "source_type": "CELLULAR_DATA_USAGE"
+  },
+  {
+    "api_display_name": "CFG-SET advertisement failure",
+    "api_id": 1554,
+    "category": "GATEWAY",
+    "display_name": "CFG-SET Advertisement Failure",
+    "name_match": "exact",
+    "source_type": "CFG_SET_ADVERTISEMENT_FAILURE"
+  },
+  {
+    "api_display_name": "802.1x authentication delay detected",
+    "api_id": 1422,
+    "category": "CONNECTIVITY",
+    "display_name": "802.1x Authentication Delay Detected",
+    "name_match": "exact",
+    "source_type": "CLARITY_802_DOT_1X_DELAY"
+  },
+  {
+    "api_display_name": "802.1x authentication failure detected",
+    "api_id": 1423,
+    "category": "CONNECTIVITY",
+    "display_name": "802.1x Authentication Failure Detected",
+    "name_match": "exact",
+    "source_type": "CLARITY_802_DOT_1X_FAILURE"
+  },
+  {
+    "api_display_name": "Association delay detected",
+    "api_id": 1406,
+    "category": "CONNECTIVITY",
+    "display_name": "Association Delay Detected",
+    "name_match": "exact",
+    "source_type": "CLARITY_ASSOC_DELAY"
+  },
+  {
+    "api_display_name": "Association failure detected",
+    "api_id": 1407,
+    "category": "CONNECTIVITY",
+    "display_name": "Association Failure Detected",
+    "name_match": "exact",
+    "source_type": "CLARITY_ASSOC_FAILURE"
+  },
+  {
+    "api_display_name": "Authentication delay detected",
+    "api_id": 1404,
+    "category": "CONNECTIVITY",
+    "display_name": "Authentication Delay Detected",
+    "name_match": "exact",
+    "source_type": "CLARITY_AUTH_DELAY"
+  },
+  {
+    "api_display_name": "Authentication failure detected",
+    "api_id": 1405,
+    "category": "CONNECTIVITY",
+    "display_name": "Authentication Failure Detected",
+    "name_match": "exact",
+    "source_type": "CLARITY_AUTH_FAILURE"
+  },
+  {
+    "api_display_name": "Captive portal delay detected",
+    "api_id": 1426,
+    "category": "CONNECTIVITY",
+    "display_name": "Captive Portal Delay Detected",
+    "name_match": "exact",
+    "source_type": "CLARITY_CAPTIVE_PORTAL_DELAY"
+  },
+  {
+    "api_display_name": "Captive portal failure detected",
+    "api_id": 1427,
+    "category": "CONNECTIVITY",
+    "display_name": "Captive Portal Failure Detected",
+    "name_match": "exact",
+    "source_type": "CLARITY_CAPTIVE_PORTAL_FAILURE"
+  },
+  {
+    "api_display_name": "DHCP delay detected",
+    "api_id": 1402,
+    "category": "CONNECTIVITY",
+    "display_name": "DHCP Delay Detected",
+    "name_match": "exact",
+    "source_type": "CLARITY_DHCP_DELAY"
+  },
+  {
+    "api_display_name": "DHCP failure detected",
+    "api_id": 1403,
+    "category": "CONNECTIVITY",
+    "display_name": "DHCP Failure Detected",
+    "name_match": "exact",
+    "source_type": "CLARITY_DHCP_FAILURE"
+  },
+  {
+    "api_display_name": "DNS delay detected",
+    "api_id": 1400,
+    "category": "CONNECTIVITY",
+    "display_name": "DNS Delay Detected",
+    "name_match": "exact",
+    "source_type": "CLARITY_DNS_DELAY"
+  },
+  {
+    "api_display_name": "DNS failure detected",
+    "api_id": 1401,
+    "category": "CONNECTIVITY",
+    "display_name": "DNS Failure Detected",
+    "name_match": "exact",
+    "source_type": "CLARITY_DNS_FAILURE"
+  },
+  {
+    "api_display_name": "MAC authentication delay detected",
+    "api_id": 1424,
+    "category": "CONNECTIVITY",
+    "display_name": "MAC Authentication Delay Detected",
+    "name_match": "exact",
+    "source_type": "CLARITY_MAC_AUTH_DELAY"
+  },
+  {
+    "api_display_name": "MAC authentication failure detected",
+    "api_id": 1425,
+    "category": "CONNECTIVITY",
+    "display_name": "MAC Authentication Failure Detected",
+    "name_match": "exact",
+    "source_type": "CLARITY_MAC_AUTH_FAILURE"
+  },
+  {
+    "api_display_name": "Wi-Fi security key-exchange delay detected",
+    "api_id": 1420,
+    "category": "CONNECTIVITY",
+    "display_name": "Wi-Fi Security Key-Exchange Delay Detected",
+    "name_match": "exact",
+    "source_type": "CLARITY_WPA_DELAY"
+  },
+  {
+    "api_display_name": "Wi-Fi security key-exchange failure detected",
+    "api_id": 1421,
+    "category": "CONNECTIVITY",
+    "display_name": "Wi-Fi Security Key-Exchange Failure Detected",
+    "name_match": "exact",
+    "source_type": "CLARITY_WPA_FAILURE"
+  },
+  {
+    "api_display_name": "Connected Clients Per VC",
+    "api_id": 1254,
+    "category": "ACCESS POINT",
+    "display_name": "Connected Clients Per VC",
+    "name_match": "exact",
+    "source_type": "CONNECTED_CLIENTS"
+  },
+  {
+    "api_display_name": "BGP Neighbor Route Limit",
+    "api_id": 1358,
+    "category": "GATEWAY",
+    "display_name": "BGP Neighbor Route Limit",
+    "name_match": "exact",
+    "source_type": "CONTROLLER BGP NEIGHBOR ROUTE LIMIT"
+  },
+  {
+    "api_display_name": "BGP Session",
+    "api_id": 1355,
+    "category": "GATEWAY",
+    "display_name": "BGP Session",
+    "name_match": "exact",
+    "source_type": "CONTROLLER BGP SESSION ERROR"
+  },
+  {
+    "api_display_name": "Overlay Route Orchestrator Connection",
+    "api_id": 1359,
+    "category": "GATEWAY",
+    "display_name": "Overlay Route Orchestrator Connection",
+    "name_match": "exact",
+    "source_type": "CONTROLLER OAP CONNECTION"
+  },
+  {
+    "api_display_name": "OSPF Session error",
+    "api_id": 1354,
+    "category": "GATEWAY",
+    "display_name": "OSPF Session Error",
+    "name_match": "exact",
+    "source_type": "CONTROLLER OSPF SESSION ERROR"
+  },
+  {
+    "api_display_name": "Routing Table Limit",
+    "api_id": 1357,
+    "category": "GATEWAY",
+    "display_name": "Routing Table Limit",
+    "name_match": "exact",
+    "source_type": "CONTROLLER ROUTE TABLE CAPACITY"
+  },
+  {
+    "api_display_name": "Gateway CPU Utilization",
+    "api_id": 1351,
+    "category": "GATEWAY",
+    "display_name": "Gateway CPU Utilization",
+    "name_match": "exact",
+    "source_type": "CONTROLLER_CPU_OVER_UTILIZATION"
+  },
+  {
+    "api_display_name": "Gateway Emergency Mode",
+    "api_id": 1353,
+    "category": "GATEWAY",
+    "display_name": "Gateway Emergency Mode",
+    "name_match": "exact",
+    "source_type": "CONTROLLER_EMERGENCY_UP_LINK_MODE"
+  },
+  {
+    "api_display_name": "Gateway Memory Utilization",
+    "api_id": 1352,
+    "category": "GATEWAY",
+    "display_name": "Gateway Memory Utilization",
+    "name_match": "exact",
+    "source_type": "CONTROLLER_MEMORY_OVER_UTILIZATION"
+  },
+  {
+    "api_display_name": "Client Attack Detected",
+    "api_id": 13,
+    "category": "ACCESS POINT",
+    "display_name": "Client Attack Detected",
+    "name_match": "exact",
+    "source_type": "Client attack detected"
+  },
+  {
+    "api_display_name": "Config change detected",
+    "api_id": 2000,
+    "category": "AUDIT",
+    "display_name": "Config Change Detected",
+    "name_match": "exact",
+    "source_type": "DEVICE_CONFIG_CHANGE_DETECTED"
+  },
+  {
+    "api_display_name": "DHCP Pool Consumption Alert",
+    "api_id": 1510,
+    "category": "GATEWAY",
+    "display_name": "DHCP Pool Consumption Alert",
+    "name_match": "exact",
+    "source_type": "DHCP_POOL_CONSUMPTION_ALERT"
+  },
+  {
+    "api_display_name": "DPP Attack",
+    "api_id": 1264,
+    "category": "ACCESS POINT",
+    "display_name": "DPP Attack",
+    "name_match": "exact",
+    "source_type": "DPP Attack"
+  },
+  {
+    "api_display_name": "SLA DPS Compliance Violations",
+    "api_id": 20,
+    "category": "GATEWAY",
+    "display_name": "SLA DPS Compliance Violations",
+    "name_match": "exact",
+    "source_type": "DPS_COMPLIANCE_ALERT"
+  },
+  {
+    "api_display_name": "EST enrollment failure",
+    "api_id": 1701,
+    "category": "GATEWAY",
+    "display_name": "EST Enrollment Failure",
+    "name_match": "exact",
+    "source_type": "EST enrollment failure"
+  },
+  {
+    "api_display_name": "Existing App Uninstalled Alert",
+    "api_id": 3001,
+    "category": "IOT",
+    "display_name": "Existing App Uninstalled Alert",
+    "name_match": "exact",
+    "source_type": "EXISTING_APP_UNINSTALLED_ALERT"
+  },
+  {
+    "api_display_name": "Existing Transport Profile Uninstalled Alert",
+    "api_id": 3003,
+    "category": "IOT",
+    "display_name": "Existing Transport Profile Uninstalled Alert",
+    "name_match": "exact",
+    "source_type": "EXISTING_TRANSPORT_PROFILE_UNINSTALLED_ALERT"
+  },
+  {
+    "api_display_name": "Gateway Device Flash Memory Usage",
+    "api_id": 1512,
+    "category": "GATEWAY",
+    "display_name": "Gateway Device Flash/Memory Usage",
+    "name_match": "approved_difference",
+    "source_type": "FLASH_MEMORY_USAGE"
+  },
+  {
+    "api_display_name": "Gateway base license capacity limit exceeded",
+    "api_id": 1356,
+    "category": "GATEWAY",
+    "display_name": "Gateway Base License Capacity Limit Exceeded",
+    "name_match": "exact",
+    "source_type": "GATEWAY_BASE_LICENSE_CAPACITY_EXCEEDED"
+  },
+  {
+    "api_display_name": "Gateway Cluster Client Capacity",
+    "api_id": 1805,
+    "category": "GATEWAY",
+    "display_name": "Gateway Cluster Client Capacity",
+    "name_match": "exact",
+    "source_type": "GATEWAY_CLUSTER_CLIENT_CAPACITY_EXCEEDED"
+  },
+  {
+    "api_display_name": "Gateway cluster leader change",
+    "api_id": 1804,
+    "category": "GATEWAY",
+    "display_name": "Gateway Cluster Leader Change",
+    "name_match": "exact",
+    "source_type": "GATEWAY_CLUSTER_LEADER_CHANGE"
+  },
+  {
+    "api_display_name": "Gateway joining Cluster",
+    "api_id": 1802,
+    "category": "GATEWAY",
+    "display_name": "Gateway Joining Cluster",
+    "name_match": "exact",
+    "source_type": "GATEWAY_CONNECTED_TO_CLUSTER"
+  },
+  {
+    "api_display_name": "Gateway Disconnected",
+    "api_id": 303,
+    "category": "GATEWAY",
+    "display_name": "Gateway Disconnected",
+    "name_match": "exact",
+    "source_type": "GATEWAY_DISCONNECTED"
+  },
+  {
+    "api_display_name": "Gateway leaving Cluster",
+    "api_id": 1803,
+    "category": "GATEWAY",
+    "display_name": "Gateway Leaving Cluster",
+    "name_match": "exact",
+    "source_type": "GATEWAY_DISCONNECTED_FROM_CLUSTER"
+  },
+  {
+    "api_display_name": "Gateway Cluster VLAN Mismatch",
+    "api_id": 1801,
+    "category": "GATEWAY",
+    "display_name": "Gateway Cluster VLAN Mismatch",
+    "name_match": "exact",
+    "source_type": "GW_CLUSTER_VLAN_MISMATCH"
+  },
+  {
+    "api_display_name": "Gateway firmware upgrade failed",
+    "api_id": 2201,
+    "category": "GATEWAY",
+    "display_name": "Gateway Firmware Upgrade Failed",
+    "name_match": "exact",
+    "source_type": "GW_FW_UPGRADE_FAILURE"
+  },
+  {
+    "api_display_name": "Gateway Threat count",
+    "api_id": 2305,
+    "category": "GATEWAY",
+    "display_name": "Gateway Threat Count",
+    "name_match": "exact",
+    "source_type": "GW_IDS_IPS_ALERT_THREAT_OVER_A_PERIOD"
+  },
+  {
+    "api_display_name": "Gateway Threat count per signature",
+    "api_id": 2306,
+    "category": "GATEWAY",
+    "display_name": "Gateway Threat Count Per Signature",
+    "name_match": "exact",
+    "source_type": "GW_IDS_IPS_ALERT_THREAT_SID_OVER_A_PERIOD"
+  },
+  {
+    "api_display_name": "Gateway Threat count per user",
+    "api_id": 2308,
+    "category": "GATEWAY",
+    "display_name": "Gateway Threat Count Per User",
+    "name_match": "exact",
+    "source_type": "GW_IDS_IPS_ALERT_THREAT_USER_OVER_A_PERIOD"
+  },
+  {
+    "api_display_name": "Gateway IDS/IPS Engine CPU Utilization",
+    "api_id": 2302,
+    "category": "GATEWAY",
+    "display_name": "Gateway IDS/IPS Engine CPU Utilization",
+    "name_match": "exact",
+    "source_type": "GW_IDS_IPS_ENGINE_CPU_OVER_UTILIZATION"
+  },
+  {
+    "api_display_name": "Gateway IDS/IPS Engine Error State",
+    "api_id": 2301,
+    "category": "GATEWAY",
+    "display_name": "Gateway IDS/IPS Engine Error State",
+    "name_match": "exact",
+    "source_type": "GW_IDS_IPS_ENGINE_ERROR_STATE_ALERT"
+  },
+  {
+    "api_display_name": "Gateway IDS/IPS Engine Memory Utilization",
+    "api_id": 2303,
+    "category": "GATEWAY",
+    "display_name": "Gateway IDS/IPS Engine Memory Utilization",
+    "name_match": "exact",
+    "source_type": "GW_IDS_IPS_ENGINE_MEMORY_OVER_UTILIZATION"
+  },
+  {
+    "api_display_name": "Gateway IDS/IPS Engine Packet Dropped Detected",
+    "api_id": 2304,
+    "category": "GATEWAY",
+    "display_name": "Gateway IDS/IPS Engine Packet Dropped Detected",
+    "name_match": "exact",
+    "source_type": "GW_IDS_IPS_ENGINE_PACKET_DROPPED_DETECTED"
+  },
+  {
+    "api_display_name": "IAP Firmware Upgrade Failed",
+    "api_id": 2200,
+    "category": "ACCESS POINT",
+    "display_name": "IAP Firmware Upgrade Failed",
+    "name_match": "exact",
+    "source_type": "IAP_FW_UPGRADE_FAILURE"
+  },
+  {
+    "api_display_name": "Insufficient Power Supplied",
+    "api_id": 21,
+    "category": "ACCESS POINT",
+    "display_name": "Insufficient Power Supplied",
+    "name_match": "exact",
+    "source_type": "INSUFFICIENT_POWER_ALERT"
+  },
+  {
+    "api_display_name": "IPMS Pool Capacity Alert",
+    "api_id": 2501,
+    "category": "IP MANAGEMENT SYSTEM",
+    "display_name": "IPMS Pool Capacity Alert",
+    "name_match": "exact",
+    "source_type": "IPMS_POOL_CAPACITY_ALERT"
+  },
+  {
+    "api_display_name": "Infrastructure Attack Detected",
+    "api_id": 12,
+    "category": "ACCESS POINT",
+    "display_name": "Infrastructure Attack Detected",
+    "name_match": "exact",
+    "source_type": "Infrastructure attack detected"
+  },
+  {
+    "api_display_name": "Modem Plugged",
+    "api_id": 18,
+    "category": "ACCESS POINT",
+    "display_name": "Modem Plugged",
+    "name_match": "exact",
+    "source_type": "Modem Plugged"
+  },
+  {
+    "api_display_name": "Modem Unplugged",
+    "api_id": 19,
+    "category": "ACCESS POINT",
+    "display_name": "Modem Unplugged",
+    "name_match": "exact",
+    "source_type": "Modem Unplugged"
+  },
+  {
+    "api_display_name": "New App Installed Alert",
+    "api_id": 3000,
+    "category": "IOT",
+    "display_name": "New App Installed Alert",
+    "name_match": "exact",
+    "source_type": "NEW_APP_INSTALLED_ALERT"
+  },
+  {
+    "api_display_name": "New Gateway Connected",
+    "api_id": 301,
+    "category": "GATEWAY",
+    "display_name": "New Gateway Connected",
+    "name_match": "exact",
+    "source_type": "NEW_GATEWAY_DETECTED"
+  },
+  {
+    "api_display_name": "New Transport Profile Installed Alert",
+    "api_id": 3002,
+    "category": "IOT",
+    "display_name": "New Transport Profile Installed Alert",
+    "name_match": "exact",
+    "source_type": "NEW_TRANSPORT_PROFILE_INSTALLED_ALERT"
+  },
+  {
+    "api_display_name": "New AP Detected",
+    "api_id": 3,
+    "category": "ACCESS POINT",
+    "display_name": "New AP Detected",
+    "name_match": "exact",
+    "source_type": "New AP detected"
+  },
+  {
+    "api_display_name": "New Switch Connected",
+    "api_id": 201,
+    "category": "SWITCH",
+    "display_name": "New Switch Connected",
+    "name_match": "exact",
+    "source_type": "New Switch Connected"
+  },
+  {
+    "api_display_name": "New User account added",
+    "api_id": 14,
+    "category": "USER",
+    "display_name": "New User Account Added",
+    "name_match": "exact",
+    "source_type": "New User account added"
+  },
+  {
+    "api_display_name": "New Virtual Controller Detected",
+    "api_id": 1,
+    "category": "ACCESS POINT",
+    "display_name": "New Virtual Controller Detected",
+    "name_match": "exact",
+    "source_type": "New Virtual Controller detected"
+  },
+  {
+    "api_display_name": "Rogue AP Detected",
+    "api_id": 10,
+    "category": "ACCESS POINT",
+    "display_name": "Rogue AP Detected",
+    "name_match": "exact",
+    "source_type": "Rogue AP detected"
+  },
+  {
+    "api_display_name": "Switch CPU Utilization",
+    "api_id": 1300,
+    "category": "SWITCH",
+    "display_name": "Switch CPU Utilization",
+    "name_match": "exact",
+    "source_type": "SWITCH_CPU_OVER_UTILIZATION"
+  },
+  {
+    "api_display_name": "Switch Hardware Failure",
+    "api_id": 207,
+    "category": "SWITCH",
+    "display_name": "Switch Hardware Failure",
+    "name_match": "exact",
+    "source_type": "SWITCH_HARDWARE_FAILURE"
+  },
+  {
+    "api_display_name": "Switch Port Duplex Mode",
+    "api_id": 1306,
+    "category": "SWITCH",
+    "display_name": "Switch Port Duplex Mode",
+    "name_match": "exact",
+    "source_type": "SWITCH_INTERFACE_DUPLEX_MODE"
+  },
+  {
+    "api_display_name": "Switch Port Input errors",
+    "api_id": 1304,
+    "category": "SWITCH",
+    "display_name": "Switch Port Input Errors",
+    "name_match": "exact",
+    "source_type": "SWITCH_INTERFACE_INPUT_ERRORS"
+  },
+  {
+    "api_display_name": "Switch Port Output errors",
+    "api_id": 1305,
+    "category": "SWITCH",
+    "display_name": "Switch Port Output Errors",
+    "name_match": "exact",
+    "source_type": "SWITCH_INTERFACE_OUTPUT_ERRORS"
+  },
+  {
+    "api_display_name": "Switch Port Rx Rate",
+    "api_id": 1303,
+    "category": "SWITCH",
+    "display_name": "Switch Port Rx Rate",
+    "name_match": "exact",
+    "source_type": "SWITCH_INTERFACE_RX_RATE"
+  },
+  {
+    "api_display_name": "Switch Port Tx Rate",
+    "api_id": 1302,
+    "category": "SWITCH",
+    "display_name": "Switch Port Tx Rate",
+    "name_match": "exact",
+    "source_type": "SWITCH_INTERFACE_TX_RATE"
+  },
+  {
+    "api_display_name": "Switch Memory Utilization",
+    "api_id": 1301,
+    "category": "SWITCH",
+    "display_name": "Switch Memory Utilization",
+    "name_match": "exact",
+    "source_type": "SWITCH_MEMORY_OVER_UTILIZATION"
+  },
+  {
+    "api_display_name": "Switch PoE Utilization",
+    "api_id": 1307,
+    "category": "SWITCH",
+    "display_name": "Switch PoE Utilization",
+    "name_match": "exact",
+    "source_type": "SWITCH_POE_UTILIZATION"
+  },
+  {
+    "api_display_name": "Switch Reboot",
+    "api_id": 1312,
+    "category": "SWITCH",
+    "display_name": "Switch Reboot",
+    "name_match": "exact",
+    "source_type": "SWITCH_REBOOT"
+  },
+  {
+    "api_display_name": "Switch Stack Conductor Change",
+    "api_id": 1310,
+    "category": "SWITCH",
+    "display_name": "Switch Stack Conductor Change",
+    "name_match": "exact",
+    "source_type": "SWITCH_STACK_CONDUCTOR_CHANGE"
+  },
+  {
+    "api_display_name": "Stack Member Added/Removed",
+    "api_id": 1309,
+    "category": "SWITCH",
+    "display_name": "Stack Member Added/Removed",
+    "name_match": "exact",
+    "source_type": "SWITCH_STACK_MEMBER_ADDED_REMOVED"
+  },
+  {
+    "api_display_name": "Stack Link Status Change",
+    "api_id": 1313,
+    "category": "SWITCH",
+    "display_name": "Stack Link Status Change",
+    "name_match": "exact",
+    "source_type": "SWITCH_STACK_MEMBER_VSF_LINK_STATUS_CHANGE"
+  },
+  {
+    "api_display_name": "Switch STP Root Change",
+    "api_id": 1308,
+    "category": "SWITCH",
+    "display_name": "Switch STP Root Change",
+    "name_match": "exact",
+    "source_type": "SWITCH_STP_ROOT_CHANGE"
+  },
+  {
+    "api_display_name": "Switch Uplink Port Usage",
+    "api_id": 1311,
+    "category": "SWITCH",
+    "display_name": "Switch Uplink Port Usage",
+    "name_match": "exact",
+    "source_type": "SWITCH_UPLINK_PORT_OVER_UTILIZATION"
+  },
+  {
+    "api_display_name": "Switch Uplink Port Status Change",
+    "api_id": 1314,
+    "category": "SWITCH",
+    "display_name": "Switch Uplink Port Status Change",
+    "name_match": "exact",
+    "source_type": "SWITCH_UPLINK_PORT_STATUS_CHANGE"
+  },
+  {
+    "api_display_name": "Switch Disconnected",
+    "api_id": 203,
+    "category": "SWITCH",
+    "display_name": "Switch Disconnected",
+    "name_match": "exact",
+    "source_type": "Switch Disconnected"
+  },
+  {
+    "api_display_name": "Switch Mismatch Config",
+    "api_id": 206,
+    "category": "SWITCH",
+    "display_name": "Switch Mismatch Config",
+    "name_match": "exact",
+    "source_type": "Switch Mismatch Config"
+  },
+  {
+    "api_display_name": "Switch NAE Agent Status",
+    "api_id": 209,
+    "category": "SWITCH",
+    "display_name": "Switch NAE Agent Status",
+    "name_match": "exact",
+    "source_type": "Switch NAE Granular Status"
+  },
+  {
+    "api_display_name": "Switch NAE Status",
+    "api_id": 208,
+    "category": "SWITCH",
+    "display_name": "Switch NAE Status",
+    "name_match": "exact",
+    "source_type": "Switch NAE Status"
+  },
+  {
+    "api_display_name": "Switch Routing Neighbor Status Change (AOS-CX)",
+    "api_id": 1315,
+    "category": "SWITCH",
+    "display_name": "Switch Routing Neighbor Status Change (AOS-CX)",
+    "name_match": "exact",
+    "source_type": "Switch routing neighbor status change"
+  },
+  {
+    "api_display_name": "Uplink Changed",
+    "api_id": 17,
+    "category": "ACCESS POINT",
+    "display_name": "Uplink Changed",
+    "name_match": "exact",
+    "source_type": "Uplink Changed"
+  },
+  {
+    "api_display_name": "User account deleted",
+    "api_id": 15,
+    "category": "USER",
+    "display_name": "User Account Deleted",
+    "name_match": "exact",
+    "source_type": "User account deleted"
+  },
+  {
+    "api_display_name": "User account edited",
+    "api_id": 16,
+    "category": "USER",
+    "display_name": "User Account Edited",
+    "name_match": "exact",
+    "source_type": "User account edited"
+  },
+  {
+    "api_display_name": "VGW VM Down",
+    "api_id": 1702,
+    "category": "GATEWAY",
+    "display_name": "VGW VM Down",
+    "name_match": "exact",
+    "source_type": "VGW_HEALTH_STATE_CHANGE_DETECTED"
+  },
+  {
+    "api_display_name": "VM IoT Connector Down Alert",
+    "api_id": 3004,
+    "category": "IOT",
+    "display_name": "VM IoT Connector Down Alert",
+    "name_match": "exact",
+    "source_type": "VM_IOT_CONNECTOR_DOWN_ALERT"
+  },
+  {
+    "api_display_name": "VM IoT Connector Flapping Alert",
+    "api_id": 3006,
+    "category": "IOT",
+    "display_name": "VM IoT Connector Flapping Alert",
+    "name_match": "exact",
+    "source_type": "VM_IOT_CONNECTOR_FLAPPING_ALERT"
+  },
+  {
+    "api_display_name": "VM IoT Connector Long Term Down Alert",
+    "api_id": 3007,
+    "category": "IOT",
+    "display_name": "VM IoT Connector Long Term Down Alert",
+    "name_match": "exact",
+    "source_type": "VM_IOT_CONNECTOR_LONG_TERM_DOWN_ALERT"
+  },
+  {
+    "api_display_name": "Virtual Controller Disconnected",
+    "api_id": 2,
+    "category": "ACCESS POINT",
+    "display_name": "Virtual Controller Disconnected",
+    "name_match": "exact",
+    "source_type": "Virtual controller disconnected"
+  },
+  {
+    "api_display_name": "Uplink speed flapping",
+    "api_id": 1602,
+    "category": "GATEWAY",
+    "display_name": "Uplink Speed Flapping",
+    "name_match": "exact",
+    "source_type": "WAN_AUTO_NEGOTIATION_FLAP"
+  },
+  {
+    "api_display_name": "All IPSec SAs Down",
+    "api_id": 1552,
+    "category": "GATEWAY",
+    "display_name": "All IPSec SAs Down",
+    "name_match": "exact",
+    "source_type": "WAN_IPSEC_SA_ALL_DOWN"
+  },
+  {
+    "api_display_name": "IPSec SA Down",
+    "api_id": 1551,
+    "category": "GATEWAY",
+    "display_name": "IPSec SA Down",
+    "name_match": "exact",
+    "source_type": "WAN_IPSEC_SA_DOWN"
+  },
+  {
+    "api_display_name": "IPSec Establishment Failure",
+    "api_id": 1550,
+    "category": "GATEWAY",
+    "display_name": "IPSec Establishment Failure",
+    "name_match": "exact",
+    "source_type": "WAN_IPSEC_SA_ESTABILSHMENT_FAILED"
+  },
+  {
+    "api_display_name": "Tunnel flapping",
+    "api_id": 1601,
+    "category": "GATEWAY",
+    "display_name": "Tunnel Flapping",
+    "name_match": "exact",
+    "source_type": "WAN_TUNNEL_FLAP"
+  },
+  {
+    "api_display_name": "WAN Uplink Autonegotiation state change",
+    "api_id": 1506,
+    "category": "GATEWAY",
+    "display_name": "WAN Uplink Autonegotiation State Change",
+    "name_match": "exact",
+    "source_type": "WAN_UPLINK_AUTONEGOTIATION_STATE_CHANGE"
+  },
+  {
+    "api_display_name": "Uplink flapping",
+    "api_id": 1600,
+    "category": "GATEWAY",
+    "display_name": "Uplink Flapping",
+    "name_match": "exact",
+    "source_type": "WAN_UPLINK_FLAP"
+  },
+  {
+    "api_display_name": "WAN Uplink Input errors",
+    "api_id": 1507,
+    "category": "GATEWAY",
+    "display_name": "WAN Uplink Input Errors",
+    "name_match": "exact",
+    "source_type": "WAN_UPLINK_INPUT_ERRORS"
+  },
+  {
+    "api_display_name": "VPN Peer Failover",
+    "api_id": 1504,
+    "category": "GATEWAY",
+    "display_name": "VPN Peer Failover",
+    "name_match": "exact",
+    "source_type": "WAN_UPLINK_LOAD_BALANCE_PEER_FAILOVER"
+  },
+  {
+    "api_display_name": "WAN Uplink Output errors",
+    "api_id": 1508,
+    "category": "GATEWAY",
+    "display_name": "WAN Uplink Output Errors",
+    "name_match": "exact",
+    "source_type": "WAN_UPLINK_OUTPUT_ERRORS"
+  },
+  {
+    "api_display_name": "WAN Uplink PHY errors",
+    "api_id": 1509,
+    "category": "GATEWAY",
+    "display_name": "WAN Uplink PHY Errors",
+    "name_match": "exact",
+    "source_type": "WAN_UPLINK_PHY_ERRORS"
+  },
+  {
+    "api_display_name": "WAN Health-check failure",
+    "api_id": 1501,
+    "category": "GATEWAY",
+    "display_name": "WAN Health-Check Failure",
+    "name_match": "exact",
+    "source_type": "WAN_UPLINK_REACHABILITY_HEALTH_CHECK_IP_FAILED"
+  },
+  {
+    "api_display_name": "WAN VPN-peer unreachable",
+    "api_id": 1502,
+    "category": "GATEWAY",
+    "display_name": "WAN VPN-Peer Unreachable",
+    "name_match": "exact",
+    "source_type": "WAN_UPLINK_REACHABILITY_VPN_PEER_FAILED"
+  },
+  {
+    "api_display_name": "WAN Uplink Status change",
+    "api_id": 1505,
+    "category": "GATEWAY",
+    "display_name": "WAN Uplink Status Change",
+    "name_match": "exact",
+    "source_type": "WAN_UPLINK_STATUS_CHANGE"
+  }
+]
