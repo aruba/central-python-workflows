@@ -176,7 +176,6 @@ def write_export(
         if overwrite:
             os.replace(temp_path, destination)
             temp_path = None
-            temp_stat = None
         else:
             try:
                 # The link is the no-clobber commit; cleanup cannot undo it.
@@ -278,6 +277,7 @@ def _request_json(
             delay = _retry_after(exc.retry_after, fallback)
             _raise_if_cancelled(should_cancel)
             sleep(delay)
+    raise ExtractionError(_REQUEST_FAILED)
 
 
 def _canonical_json(value: Any) -> str:

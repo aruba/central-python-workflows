@@ -230,7 +230,6 @@ def write_credentials(credentials: Credentials, path: Path) -> None:
 
         os.replace(temp_path, destination)
         temp_path = None
-        temp_stat = None
     except OSError:
         raise ValueError("token.json could not be saved") from None
     finally:

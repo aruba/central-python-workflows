@@ -67,7 +67,6 @@ def create_app(
 
     root = Path(repository_root)
     asset_root = validate_ui_assets(root)
-    resolved_asset_root = asset_root.resolve()
     index_path = asset_root / "index.html"
     service = extraction_service or LiveExtractionService(
         catalog_path=(
@@ -191,12 +190,6 @@ def create_app(
 
     @app.get("/{path:path}", include_in_schema=False)
     def application_route(path: str) -> FileResponse:
-        static_path = (asset_root / path).resolve()
-        if (
-            static_path.is_relative_to(resolved_asset_root)
-            and static_path.is_file()
-        ):
-            return FileResponse(static_path)
         return FileResponse(index_path)
 
     return app
@@ -228,7 +221,7 @@ def launch_local_ui(
         try:
             server.run(sockets=[bound_socket])
         except KeyboardInterrupt:
-            pass
+            return
     finally:
         bound_socket.close()
 
