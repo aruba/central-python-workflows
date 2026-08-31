@@ -17,9 +17,16 @@ from fastapi.staticfiles import StaticFiles
 
 from msp_onboarding.adapter import AdapterError
 from msp_onboarding.demo_adapter import DemoAdapter
-from msp_onboarding.engine import OnboardingEngine
+from msp_onboarding.engine import (
+    OnboardingEngine,
+    device_type_label,
+    subscription_available_seats,
+    subscription_device_type,
+    subscription_eligibility,
+)
 from msp_onboarding.parser import (
     ParseError,
+    parse_csv_add_devices,
     parse_csv_devices,
     parse_csv_tenant_import,
     parse_yaml_manifest,
@@ -212,13 +219,18 @@ def create_app() -> FastAPI:
     @app.get("/api/discovery/devices")
     def devices() -> list[dict]:
         try:
-            return [asdict(item) for item in adapter().list_available_devices()]
+            return [
+                {**asdict(item), "device_type_label": device_type_label(item.device_type)}
+                for item in adapter().list_available_devices()
+            ]
         except AdapterError as exc:
             raise upstream(exc)
 
     @app.get("/api/discovery/subscriptions")
     def subscriptions() -> list[dict]:
         try:
+            current_adapter = adapter()
+            now = current_adapter.now()
             return [
                 {
                     "key": item.key,
@@ -230,8 +242,18 @@ def create_app() -> FastAPI:
                     "end_date": item.end_date,
                     "subscription_type": item.subscription_type,
                     "tier_description": item.tier_description,
+                    "eligibility_reason": (subscription_eligibility(item, now) or ("", ""))[1],
+                    "eligible_device_types": (
+                        [subscription_device_type(item)]
+                        if subscription_device_type(item)
+                        else []
+                    ),
+                    "available_seats": subscription_available_seats(item),
+                    "device_type_label": device_type_label(subscription_device_type(item))
+                    if subscription_device_type(item)
+                    else "",
                 }
-                for item in adapter().list_subscriptions()
+                for item in current_adapter.list_subscriptions()
             ]
         except AdapterError as exc:
             raise upstream(exc)
@@ -246,6 +268,14 @@ def create_app() -> FastAPI:
             engine()
             if csv_type == "tenants":
                 return asdict(parse_csv_tenant_import(csv_text))
+            if csv_type == "add":
+                # Add-mode manifests reject tenant/subscription fields, so emit only the pair.
+                return {
+                    "devices": [
+                        {"serial_number": item.serial_number, "mac_address": item.mac_address}
+                        for item in parse_csv_add_devices(csv_text)
+                    ]
+                }
             return {
                 "devices": [
                     asdict(item)
@@ -290,7 +320,7 @@ def create_app() -> FastAPI:
     def confirm(job_id: str) -> JSONResponse:
         try:
             return accepted(
-                lambda active: active.confirm(job_id),
+                lambda active: active.start(job_id),
             )
         except KeyError as exc:
             raise HTTPException(status_code=404, detail=str(exc))

@@ -16,12 +16,14 @@ from uuid import uuid4
 from .adapter import (
     AdapterError,
     AdapterProtocol,
+    inventory_add_batch_size,
     write_batch_size,
 )
 from .models import (
     AddressNew,
     DeviceInfo,
     DevicePlan,
+    InventoryAddDevicePlan,
     Manifest,
     ManifestDevice,
     Plan,
@@ -128,6 +130,7 @@ class _OutboundPacer:
 class _PacedAdapter:
     _LOCAL_METHODS = {"call_stats", "now", "transaction_origin"}
     _WRITE_METHODS = {
+        "add_devices",
         "assign_devices",
         "assign_subscriptions",
         "submit_service_provisioning",
@@ -203,24 +206,76 @@ _DEVICE_TYPE_LABELS = {
 }
 
 
+def subscription_device_type(subscription: SubscriptionInfo) -> str:
+    return _SUBSCRIPTION_DEVICE_TYPES.get(
+        subscription.subscription_type.strip().upper(), ""
+    )
+
+
+def device_type_label(code: str) -> str:
+    return _DEVICE_TYPE_LABELS.get(code.strip().upper(), "Unknown")
+
+
+def subscription_available_seats(subscription: SubscriptionInfo) -> int:
+    return _parse_nonneg_int(subscription.available_quantity) or 0
+
+
+def subscription_eligibility(
+    subscription: SubscriptionInfo, now: datetime, demand: int = 1
+) -> Optional[tuple[str, str]]:
+    """(code, message) for the first preflight rule this subscription fails, else None."""
+    if subscription.status != "STARTED":
+        return (
+            "subscription_not_started",
+            f"Subscription is not active (status={subscription.status!r})",
+        )
+    if subscription.product_type != "DEVICE":
+        return (
+            "subscription_ineligible",
+            f"Subscription product type must be DEVICE, got {subscription.product_type!r}",
+        )
+    try:
+        if not _within_dates(subscription, now):
+            return "subscription_expired", "Subscription is outside its validity period"
+    except ValueError:
+        return "invalid_subscription_date", "Subscription start_date or end_date is malformed"
+    available = _parse_nonneg_int(subscription.available_quantity)
+    quantity = _parse_nonneg_int(subscription.quantity)
+    if available is None or quantity is None:
+        return (
+            "invalid_quantity",
+            "Subscription quantity fields must be non-negative integer strings",
+        )
+    if available < demand:
+        return (
+            "insufficient_capacity",
+            f"Insufficient aggregate capacity: {available} seats available, "
+            f"{demand} needed across all tenant groups",
+        )
+    return None
+
+
 def _subscription_type_mismatch(
     subscription: SubscriptionInfo, device: DeviceInfo
 ) -> Optional[str]:
-    subscription_device_type = _SUBSCRIPTION_DEVICE_TYPES.get(
-        subscription.subscription_type.strip().upper()
-    )
+    licensed_device_type = subscription_device_type(subscription)
     device_type = device.device_type.strip().upper()
-    if not subscription_device_type or device_type not in _DEVICE_TYPE_LABELS:
+    if not licensed_device_type or device_type not in _DEVICE_TYPE_LABELS:
         return None
-    if subscription_device_type == device_type:
+    if licensed_device_type == device_type:
         return None
-    subscription_label = _DEVICE_TYPE_LABELS[subscription_device_type]
-    device_label = _DEVICE_TYPE_LABELS[device_type]
+    subscription_label = device_type_label(licensed_device_type)
+    device_label = device_type_label(device_type)
     article = "an" if device_type == "AP" else "a"
     return (
         f"Subscription is a {subscription_label} license; "
         f"this device is {article} {device_label}."
     )
+
+
+def _same_mac(left: str, right: str) -> bool:
+    # Live 2026-08-28: GLP returns MACs uppercase; the parser lowercases them.
+    return left.lower() == right.lower()
 
 
 class OnboardingEngine:
@@ -250,9 +305,13 @@ class OnboardingEngine:
         )
         self._store = store
         self._execution_subscription_cache: dict[str, SubscriptionInfo] = {}
+        self._execution_key_demand: dict[str, dict[str, str]] = {}
 
     def plan(self, manifest: Manifest) -> Plan:
         """Run read-only preflight for every tenant and save an immutable plan."""
+        if manifest.mode == "add":
+            return self._plan_inventory_add(manifest)
+
         group_errors: dict[str, list[ValidationError]] = {
             tenant.name: [] for tenant in manifest.tenants
         }
@@ -439,22 +498,6 @@ class OnboardingEngine:
                         resolved_by_index[index] = info
 
         for index, device in enumerate(manifest.devices):
-            if not device.mac_address:
-                continue
-            try:
-                resolved_by_index[index] = self._retry_rate_limited(
-                    lambda device=device: self._adapter.resolve_device_by_mac(
-                        device.mac_address
-                    )
-                )
-            except AdapterError as exc:
-                group_errors[device.tenant].append(
-                    ValidationError(
-                        path=f"devices[{index}]", code=exc.code, message=exc.message
-                    )
-                )
-
-        for index, device in enumerate(manifest.devices):
             path = f"devices[{index}]"
             info = resolved_by_index.get(index)
             if info is None:
@@ -532,39 +575,9 @@ class OnboardingEngine:
             except AdapterError as exc:
                 self._add_subscription_errors(group_errors, items, exc.code, exc.message)
                 continue
-            if subscription.status != "STARTED":
-                self._add_subscription_errors(
-                    group_errors,
-                    items,
-                    "subscription_not_started",
-                    f"Subscription is not active (status={subscription.status!r})",
-                )
-                continue
-            if subscription.product_type != "DEVICE":
-                self._add_subscription_errors(
-                    group_errors,
-                    items,
-                    "subscription_ineligible",
-                    f"Subscription product type must be DEVICE, got {subscription.product_type!r}",
-                )
-                continue
-            try:
-                in_dates = _within_dates(subscription, now)
-            except ValueError:
-                self._add_subscription_errors(
-                    group_errors,
-                    items,
-                    "invalid_subscription_date",
-                    "Subscription start_date or end_date is malformed",
-                )
-                continue
-            if not in_dates:
-                self._add_subscription_errors(
-                    group_errors,
-                    items,
-                    "subscription_expired",
-                    "Subscription is outside its validity period",
-                )
+            failure = subscription_eligibility(subscription, now, demand)
+            if failure and failure[0] != "insufficient_capacity":
+                self._add_subscription_errors(group_errors, items, *failure)
                 continue
             for index, device, info in items:
                 mismatch = _subscription_type_mismatch(subscription, info)
@@ -576,26 +589,8 @@ class OnboardingEngine:
                             message=mismatch,
                         )
                     )
-            available = _parse_nonneg_int(subscription.available_quantity)
-            quantity = _parse_nonneg_int(subscription.quantity)
-            if available is None or quantity is None:
-                self._add_subscription_errors(
-                    group_errors,
-                    items,
-                    "invalid_quantity",
-                    "Subscription quantity fields must be non-negative integer strings",
-                )
-                continue
-            if available < demand:
-                self._add_subscription_errors(
-                    group_errors,
-                    items,
-                    "insufficient_capacity",
-                    (
-                        f"Insufficient aggregate capacity: {available} seats available, "
-                        f"{demand} needed across all tenant groups"
-                    ),
-                )
+            if failure:
+                self._add_subscription_errors(group_errors, items, *failure)
                 continue
             valid_subscriptions[key] = subscription
 
@@ -609,7 +604,6 @@ class OnboardingEngine:
                 ),
                 glp_id=info.glp_id,
                 serial_number=device.serial_number or None,
-                mac_address=device.mac_address or None,
                 subscription_key=device.subscription_key,
                 subscription_id=valid_subscriptions[device.subscription_key].subscription_id,
             )
@@ -664,6 +658,54 @@ class OnboardingEngine:
         self._store.save_plan(plan.job_id, manifest, plan)
         return plan
 
+    def _plan_inventory_add(self, manifest: Manifest) -> Plan:
+        present_by_serial: dict[str, DeviceInfo] = {}
+        for batch in self._batches(manifest.devices, 20):
+            serials = [device.serial_number for device in batch]
+            infos = self._retry_rate_limited(
+                lambda serials=serials: self._adapter.resolve_devices(serials=serials)
+            )
+            present_by_serial.update(
+                (info.serial_number.strip().upper(), info) for info in infos
+            )
+
+        devices = []
+        for device in manifest.devices:
+            present = present_by_serial.get(device.serial_number)
+            state = (
+                "already_satisfied"
+                if present is not None and _same_mac(present.mac_address, device.mac_address)
+                else "add"
+            )
+            devices.append(
+                InventoryAddDevicePlan(
+                    serial_number=device.serial_number,
+                    mac_address=device.mac_address,
+                    state=state,
+                )
+            )
+
+        manifest_hash = manifest.canonical_hash()
+        plan_hash = Plan.compute_hash(
+            manifest_hash=manifest_hash,
+            mode=manifest.mode,
+            tenant_groups=[],
+            devices=devices,
+            errors=[],
+        )
+        plan = Plan(
+            job_id=str(uuid4()),
+            manifest_hash=manifest_hash,
+            plan_hash=plan_hash,
+            mode=manifest.mode,
+            tenant_groups=[],
+            devices=devices,
+            errors=[],
+            created_at=self._adapter.now().isoformat(),
+        )
+        self._store.save_plan(plan.job_id, manifest, plan)
+        return plan
+
     @staticmethod
     def _add_subscription_errors(
         errors: dict[str, list[ValidationError]],
@@ -677,13 +719,10 @@ class OnboardingEngine:
             )
 
     def get(self, job_id: str) -> dict:
-        job = self._store.get_job(job_id)
-        if job is None:
+        view = self._store.get_job_view(job_id)
+        if view is None:
             raise KeyError(f"Job not found: {job_id}")
-        job["plan"] = self._store.get_plan_dict(job_id)
-        job["steps"] = self._store.get_steps(job_id)
-        job["devices"] = self._store.get_devices(job_id)
-        return job
+        return view
 
     def report_csv(self, job_id: str) -> str:
         """Render a terminal job's device and step outcomes as a CSV export."""
@@ -694,21 +733,24 @@ class OnboardingEngine:
         manifest = self._store.get_manifest_dict(job_id)
         if manifest is None:
             raise KeyError(f"Manifest not found for job: {job_id}")
-        subscription_keys = self._manifest_subscription_key_map(manifest)
+        subscription_keys = (
+            {} if job["mode"] == "add" else self._manifest_subscription_key_map(manifest)
+        )
         subscription_ids = {
             str(device["subscription_id"])
             for device in job["plan"]["devices"]
+            if device.get("subscription_id")
         }
         device_keys = {
             (device["tenant_name"], device["glp_id"]): subscription_keys.get(
                 (
                     device["tenant_name"],
                     device.get("serial_number") or "",
-                    device.get("mac_address") or "",
                 ),
                 "",
             )
             for device in job["plan"]["devices"]
+            if device.get("glp_id")
         }
         fields = (
             "row_type",
@@ -731,21 +773,23 @@ class OnboardingEngine:
         writer = csv.DictWriter(output, fieldnames=fields)
         writer.writeheader()
         for device in job["devices"]:
-            key = device_keys.get((device["tenant_name"], device["glp_id"]), "")
+            key = device_keys.get(
+                (device.get("tenant_name", ""), device.get("glp_id", "")), ""
+            )
             writer.writerow(
                 {
                     "row_type": "device",
-                    "tenant": device["tenant_name"],
+                    "tenant": device.get("tenant_name", ""),
                     "serial_number": device.get("serial_number") or "",
                     "model": device.get("model") or "",
                     "device_status": device["device_status"],
                     "subscription_key": key,
-                    "subscription_status": device["subscription_status"],
+                    "subscription_status": device.get("subscription_status", ""),
                     "error": self._report_error(device.get("error"), subscription_ids),
                     "skipped": str(
                         "skipped" in (
                             device["device_status"],
-                            device["subscription_status"],
+                            device.get("subscription_status"),
                         )
                     ).lower(),
                     "step_scope": "",
@@ -789,12 +833,15 @@ class OnboardingEngine:
             value = value.replace(subscription_id, "***")
         return value
 
-    def confirm(self, job_id: str) -> dict:
+    def start(self, job_id: str) -> dict:
         job = self.get(job_id)
         self._assert_manifest_hash(job_id, job["manifest_hash"])
         self._assert_plan_hash(job_id, job["plan_hash"])
         self._store.enqueue_start(job_id)
         return self.get(job_id)
+
+    def confirm(self, job_id: str) -> dict:
+        return self.start(job_id)
 
     def stop(self, job_id: str) -> dict:
         self._store.request_stop(job_id)
@@ -822,15 +869,15 @@ class OnboardingEngine:
         if manifest is None:
             raise KeyError(f"Manifest not found for job: {job_id}")
         canonical = dict(manifest)
-        canonical["devices"] = sorted(
-            canonical["devices"],
-            key=lambda device: (
-                device["tenant"],
-                device["serial_number"],
-                device["mac_address"],
-                device["subscription_key"],
-            ),
-        )
+        if canonical["mode"] != "add":
+            canonical["devices"] = sorted(
+                canonical["devices"],
+                key=lambda device: (
+                    device["tenant"],
+                    device["serial_number"],
+                    device["subscription_key"],
+                ),
+            )
         actual = hashlib.sha256(
             json.dumps(canonical, sort_keys=True, separators=(",", ":")).encode()
         ).hexdigest()
@@ -843,25 +890,26 @@ class OnboardingEngine:
         if plan is None or manifest is None:
             raise KeyError(f"Persisted plan or manifest not found for job: {job_id}")
         try:
-            keys = self._manifest_subscription_key_map(manifest)
-            devices = [
-                DevicePlan(
-                    tenant_name=device["tenant_name"],
-                    tenant_workspace_id=device.get("tenant_workspace_id"),
-                    glp_id=device["glp_id"],
-                    serial_number=device.get("serial_number"),
-                    mac_address=device.get("mac_address"),
-                    subscription_key=keys[
-                        (
-                            device["tenant_name"],
-                            device.get("serial_number") or "",
-                            device.get("mac_address") or "",
-                        )
-                    ],
-                    subscription_id=device["subscription_id"],
-                )
-                for device in plan["devices"]
-            ]
+            if plan["mode"] == "add":
+                devices = [InventoryAddDevicePlan(**device) for device in plan["devices"]]
+            else:
+                keys = self._manifest_subscription_key_map(manifest)
+                devices = [
+                    DevicePlan(
+                        tenant_name=device["tenant_name"],
+                        tenant_workspace_id=device.get("tenant_workspace_id"),
+                        glp_id=device["glp_id"],
+                        serial_number=device.get("serial_number"),
+                        subscription_key=keys[
+                            (
+                                device["tenant_name"],
+                                device.get("serial_number") or "",
+                            )
+                        ],
+                        subscription_id=device["subscription_id"],
+                    )
+                    for device in plan["devices"]
+                ]
             groups = [
                 TenantGroupRollup(
                     tenant_name=group["tenant_name"],
@@ -895,15 +943,16 @@ class OnboardingEngine:
     @staticmethod
     def _manifest_subscription_key_map(
         manifest: dict,
-    ) -> dict[tuple[str, str, str], str]:
+    ) -> dict[tuple[str, str], str]:
         return {
-            (device["tenant"], device["serial_number"] or "", device["mac_address"] or ""):
+            (device["tenant"], device["serial_number"] or ""):
             device["subscription_key"]
             for device in manifest["devices"]
         }
 
     def _execute(self, job_id: str) -> None:
         self._execution_subscription_cache = {}
+        self._execution_key_demand = {}
         plan = self._store.get_plan_dict(job_id)
         manifest = self._store.get_manifest_dict(job_id)
         if plan is None or manifest is None:
@@ -913,6 +962,27 @@ class OnboardingEngine:
             self._store.finish_job(job_id, "failed")
             return
 
+        if plan["mode"] == "add":
+            self._execute_inventory_add(job_id, plan)
+            if self._store.stop_requested(job_id):
+                self._store.stop_job(job_id)
+                return
+            outcomes = self._store.get_devices(job_id)
+            succeeded = sum(
+                device["device_status"] in ("succeeded", "already_satisfied")
+                for device in outcomes
+            )
+            failed = sum(device["device_status"] == "failed" for device in outcomes)
+            status = (
+                "completed_with_errors"
+                if succeeded and failed
+                else "succeeded"
+                if succeeded
+                else "failed"
+            )
+            self._store.finish_job(job_id, status)
+            return
+
         plan_groups = {group["tenant_name"]: group for group in plan["tenant_groups"]}
         runnable_names = {
             group["tenant_name"]
@@ -920,6 +990,11 @@ class OnboardingEngine:
             if group["status"] == "pending"
         }
         key_map = self._manifest_subscription_key_map(manifest)
+        for device in plan["devices"]:
+            key = key_map[(device["tenant_name"], device.get("serial_number") or "")]
+            self._execution_key_demand.setdefault(key, {})[device["glp_id"]] = device[
+                "tenant_name"
+            ]
         self._store.save_execution_records(
             job_id,
             [
@@ -929,7 +1004,6 @@ class OnboardingEngine:
                         (
                             device["tenant_name"],
                             device.get("serial_number") or "",
-                            device.get("mac_address") or "",
                         ),
                         "",
                     ),
@@ -939,14 +1013,11 @@ class OnboardingEngine:
             ],
         )
 
+        statuses = self._store.tenant_group_statuses(job_id)
         pending_tenants = [
             tenant_data
             for tenant_data in manifest["tenants"]
-            if next(
-                group
-                for group in self._store.get_job(job_id)["tenant_groups"]
-                if group["tenant_name"] == tenant_data["name"]
-            )["status"] == "pending"
+            if statuses[tenant_data["name"]] == "pending"
         ]
         if plan["mode"] == "existing":
             for tenant_data in pending_tenants:
@@ -972,13 +1043,9 @@ class OnboardingEngine:
             self._store.stop_job(job_id)
             return
 
-        executed = [
-            group
-            for group in self._store.get_job(job_id)["tenant_groups"]
-            if group["status"] in ("succeeded", "failed")
-        ]
-        succeeded = sum(group["status"] == "succeeded" for group in executed)
-        failed = sum(group["status"] == "failed" for group in executed)
+        statuses = self._store.tenant_group_statuses(job_id).values()
+        succeeded = sum(status == "succeeded" for status in statuses)
+        failed = sum(status == "failed" for status in statuses)
         if succeeded and failed:
             status = "completed_with_errors"
         elif succeeded and not failed:
@@ -996,6 +1063,128 @@ class OnboardingEngine:
                     for row in rows
                 )
                 _log.info("GLP call summary for job %s:\n%s", job_id, summary)
+
+    def _execute_inventory_add(self, job_id: str, plan: dict) -> None:
+        devices = plan["devices"]
+        self._store.save_add_execution_records(job_id, devices)
+        already_satisfied = {
+            device["serial_number"]
+            for device in devices
+            if device["state"] == "already_satisfied"
+        }
+        for serial in already_satisfied:
+            self._store.update_device_status(
+                job_id, "", serial, "add_devices", "already_satisfied"
+            )
+        known_errors: dict[str, dict] = {}
+        addable_devices = [device for device in devices if device["state"] == "add"]
+        batches = self._batches(addable_devices, inventory_add_batch_size())
+
+        for batch_index, batch in enumerate(batches):
+            if self._store.stop_requested(job_id):
+                break
+            serials = [device["serial_number"] for device in batch]
+            logical_key = ",".join(serials)
+            self._store.record_step(
+                job_id, "", logical_key, "add_devices", "running", scope="batch"
+            )
+            try:
+                present = self._retry_adapter_read(
+                    lambda serials=serials: self._adapter.resolve_devices(serials=serials)
+                )
+            except AdapterError as exc:
+                error = {"code": exc.code, "message": exc.message}
+                for remaining_batch in batches[batch_index:]:
+                    for device in remaining_batch:
+                        known_errors[device["serial_number"]] = error
+                self._store.record_step(
+                    job_id, "", logical_key, "add_devices", "failed",
+                    scope="batch", error=error,
+                )
+                break
+
+            present_by_serial = {
+                item.serial_number.strip().upper(): item for item in present
+            }
+            addable = []
+            for device in batch:
+                serial = device["serial_number"]
+                observed = present_by_serial.get(serial)
+                if observed is not None and _same_mac(observed.mac_address, device["mac_address"]):
+                    already_satisfied.add(serial)
+                    self._store.update_device_status(
+                        job_id, "", serial, "add_devices", "already_satisfied"
+                    )
+                else:
+                    addable.append((serial, device["mac_address"]))
+
+            try:
+                failures = self._adapter.add_devices(addable) if addable else {}
+            except AdapterError as exc:
+                error = {"code": exc.code, "message": exc.message}
+                for remaining_batch in batches[batch_index:]:
+                    for device in remaining_batch:
+                        known_errors[device["serial_number"]] = error
+                self._store.record_step(
+                    job_id,
+                    "",
+                    logical_key,
+                    "add_devices",
+                    "failed",
+                    scope="batch",
+                    error=error,
+                )
+                break
+            for serial, message in failures.items():
+                known_errors[serial] = {"code": "add_failed", "message": message}
+            self._store.record_step(
+                job_id,
+                "",
+                logical_key,
+                "add_devices",
+                "failed" if failures else "succeeded" if addable else "already_satisfied",
+                scope="batch",
+                error=(
+                    {"code": "add_failed", "message": "One or more devices failed to add"}
+                    if failures else None
+                ),
+            )
+
+        present_by_serial: dict[str, DeviceInfo] = {}
+        for batch in self._batches(devices, 20):
+            serials = [device["serial_number"] for device in batch]
+            try:
+                present = self._retry_adapter_read(
+                    lambda serials=serials: self._adapter.resolve_devices(serials=serials)
+                )
+            except AdapterError as exc:
+                error = {"code": exc.code, "message": exc.message}
+                for serial in serials:
+                    known_errors.setdefault(serial, error)
+                continue
+            present_by_serial.update(
+                (item.serial_number.strip().upper(), item) for item in present
+            )
+
+        for device in devices:
+            serial = device["serial_number"]
+            observed = present_by_serial.get(serial)
+            if observed is not None and _same_mac(observed.mac_address, device["mac_address"]):
+                status = "already_satisfied" if serial in already_satisfied else "succeeded"
+                self._store.update_device_status(
+                    job_id, "", serial, "add_devices", status
+                )
+                continue
+            error = known_errors.get(
+                serial,
+                {
+                    "code": "device_not_present_after_sync",
+                    "message": "Device was not present in MSP inventory after synchronization",
+                },
+            )
+            self._store.update_device_status(
+                job_id, "", serial, "add_devices", "failed", error
+            )
 
     def _execute_new_tenant_pipeline(
         self,
@@ -1101,10 +1290,8 @@ class OnboardingEngine:
         completed = self._execute_group(job_id, plan, group, tenant_data)
         if not completed:
             return
-        workspace_id = next(
-            current.get("tenant_workspace_id")
-            for current in self._store.get_job(job_id)["tenant_groups"]
-            if current["tenant_name"] == tenant_name
+        workspace_id = self._store.get_tenant_group(job_id, tenant_name).get(
+            "tenant_workspace_id"
         )
         self._store.update_tenant_group(
             job_id,
@@ -1120,6 +1307,7 @@ class OnboardingEngine:
         group: dict,
         tenant_data: dict,
     ) -> bool:
+        tenant_name = group["tenant_name"]
         try:
             tenant_id = self._ensure_tenant(
                 job_id, plan["mode"], group, tenant_data
@@ -1176,11 +1364,7 @@ class OnboardingEngine:
     ) -> Optional[str]:
         tenant_name = group["tenant_name"]
         previous = self._step(job_id, tenant_name, "tenant", "ensure_tenant")
-        current_group = next(
-            item
-            for item in self._store.get_job(job_id)["tenant_groups"]
-            if item["tenant_name"] == tenant_name
-        )
+        current_group = self._store.get_tenant_group(job_id, tenant_name)
         if previous and previous["status"] == "succeeded" and current_group.get("tenant_workspace_id"):
             return current_group["tenant_workspace_id"]
         if previous and previous["status"] == "waiting_rate_limit" and previous.get("wait_until"):
@@ -1460,7 +1644,6 @@ class OnboardingEngine:
                     (
                         tenant_name,
                         device.get("serial_number") or "",
-                        device.get("mac_address") or "",
                     )
                 ]
                 for device in plan["devices"]
@@ -1970,28 +2153,11 @@ class OnboardingEngine:
         raise AssertionError("Ambiguous write retry loop unexpectedly completed")
 
     def _remaining_key_demand(self, job_id: str, key: str) -> int:
-        plan = self._store.get_plan_dict(job_id)
-        manifest = self._store.get_manifest_dict(job_id)
-        job = self._store.get_job(job_id)
-        if plan is None or manifest is None or job is None:
-            return 0
-        active_groups = {
-            group["tenant_name"]
-            for group in job["tenant_groups"]
-            if group["status"] in ("pending", "running")
-        }
-        identifiers = self._manifest_subscription_key_map(manifest)
+        statuses = self._store.tenant_group_statuses(job_id)
         planned = {
-            device["glp_id"]
-            for device in plan["devices"]
-            if device["tenant_name"] in active_groups
-            and identifiers[
-                (
-                    device["tenant_name"],
-                    device.get("serial_number") or "",
-                    device.get("mac_address") or "",
-                )
-            ] == key
+            glp_id
+            for glp_id, name in self._execution_key_demand.get(key, {}).items()
+            if statuses.get(name) in ("pending", "running")
         }
         return sum(
             device["glp_id"] in planned

@@ -41,9 +41,8 @@ _ADDRESS_FIELDS = frozenset(
     }
 )
 _SERVICE_FIELDS = frozenset({"service_manager_id", "region"})
-_DEVICE_FIELDS = frozenset(
-    {"serial_number", "mac_address", "subscription_key", "tenant"}
-)
+_DEVICE_FIELDS = frozenset({"serial_number", "subscription_key", "tenant"})
+_ADD_DEVICE_FIELDS = frozenset({"serial_number", "mac_address"})
 _TENANT_CSV_REQUIRED_COLUMNS = frozenset({"name", "country"})
 _TENANT_CSV_OPTIONAL_COLUMNS = frozenset(
     {
@@ -62,10 +61,26 @@ _TENANT_CSV_OPTIONAL_COLUMNS = frozenset(
 _TENANT_CSV_COLUMNS = _TENANT_CSV_REQUIRED_COLUMNS | _TENANT_CSV_OPTIONAL_COLUMNS
 _DEVICE_CSV_COLUMNS = (
     "serial_number",
-    "mac_address",
     "subscription_key",
     "tenant",
 )
+_ADD_DEVICE_CSV_COLUMNS = frozenset({"serial_number", "mac_address"})
+_ADD_DEVICE_CSV_ALIASES = {
+    "serial": "serial_number",
+    "serial_no": "serial_number",
+    "serial_number": "serial_number",
+    "serialnumber": "serial_number",
+    "mac": "mac_address",
+    "mac_address": "mac_address",
+    "macaddress": "mac_address",
+}
+
+
+def _add_csv_column(name: str) -> str:
+    """Map header spellings like 'Serial No' or 'MAC' onto the template column names."""
+    key = re.sub(r"[\s_-]+", "_", name.strip().lower())
+    return _ADD_DEVICE_CSV_ALIASES.get(key, key)
+_ADD_SERIAL = re.compile(r"[A-Z0-9]{10}")
 _WORKSPACE_ID = re.compile(
     r"[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-"
     r"[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}"
@@ -258,14 +273,12 @@ def _parse_device(
     index: int,
     tenant_names: set[str],
     seen_serials: dict[str, int],
-    seen_macs: dict[str, int],
     errors: list[ValidationError],
 ) -> Optional[ManifestDevice]:
     path = f"devices[{index}]"
     before = len(errors)
     _check_unknown(raw, _DEVICE_FIELDS, path, errors)
     serial_raw = _opt_str(raw, "serial_number", path, errors)
-    mac_raw = _opt_str(raw, "mac_address", path, errors)
     key = _opt_str(raw, "subscription_key", path, errors)
     tenant = _req_str(raw, "tenant", path, errors)
     if tenant and tenant not in tenant_names:
@@ -279,61 +292,83 @@ def _parse_device(
     if len(errors) > before:
         return None
 
-    serial, mac = _parse_identifiers(
-        serial_raw,
-        mac_raw,
-        path,
-        index,
-        "devices",
-        seen_serials,
-        seen_macs,
-        errors,
-    )
+    serial = _parse_serial(serial_raw, path, index, "devices", seen_serials, errors)
     if len(errors) > before:
         return None
     return ManifestDevice(
         tenant=tenant,
         subscription_key=key,
         serial_number=serial,
-        mac_address=mac,
+        mac_address="",
     )
 
 
-def _parse_identifiers(
+def _parse_serial(
     serial_raw: str,
-    mac_raw: str,
     path: str,
     source_index: int,
     source_label: str,
     seen_serials: dict[str, int],
+    errors: list[ValidationError],
+) -> str:
+    if not serial_raw:
+        errors.append(
+            ValidationError(
+                f"{path}.serial_number",
+                "missing_identifier",
+                "serial_number is required",
+            )
+        )
+        return ""
+
+    serial = normalize_serial(serial_raw)
+    if serial in seen_serials:
+        original = seen_serials[serial]
+        location = (
+            f"devices[{original}]" if source_label == "devices" else f"row {original}"
+        )
+        errors.append(
+            ValidationError(
+                f"{path}.serial_number",
+                "duplicate_identifier",
+                f"Duplicate serial_number (also at {location})",
+            )
+        )
+        return ""
+    seen_serials[serial] = source_index
+    return serial
+
+
+def _parse_add_device(
+    raw: dict,
+    index: int,
+    path: str,
+    source_label: str,
+    seen_serials: dict[str, int],
     seen_macs: dict[str, int],
     errors: list[ValidationError],
-) -> tuple[str, str]:
-    if serial_raw and mac_raw:
-        errors.append(
-            ValidationError(
-                path,
-                "identifier_conflict",
-                "Provide either serial_number or mac_address, not both",
-            )
-        )
-        return "", ""
-    if not serial_raw and not mac_raw:
-        errors.append(
-            ValidationError(
-                path,
-                "missing_identifier",
-                "Provide either serial_number or mac_address",
-            )
-        )
-        return "", ""
+) -> Optional[ManifestDevice]:
+    before = len(errors)
+    _check_unknown(raw, _ADD_DEVICE_FIELDS, path, errors)
+    serial_raw = _req_str(raw, "serial_number", path, errors)
+    mac_raw = _req_str(raw, "mac_address", path, errors)
 
-    if serial_raw:
-        serial = normalize_serial(serial_raw)
+    serial = normalize_serial(serial_raw) if serial_raw else ""
+    if serial and not _ADD_SERIAL.fullmatch(serial):
+        errors.append(
+            ValidationError(
+                f"{path}.serial_number",
+                "invalid_serial",
+                "serial_number must be exactly 10 alphanumeric characters",
+            )
+        )
+    elif serial:
         if serial in seen_serials:
             original = seen_serials[serial]
             location = (
-                f"devices[{original}]" if source_label == "devices" else f"row {original}"
+                f"devices[{original}]"
+                if source_label == "devices"
+                else f"row {original}"
             )
             errors.append(
                 ValidationError(
@@ -342,36 +377,47 @@ def _parse_identifiers(
                     f"Duplicate serial_number (also at {location})",
                 )
             )
-            return "", ""
-        seen_serials[serial] = source_index
-        return serial, ""
+        else:
+            seen_serials[serial] = index
 
-    try:
-        mac = normalize_mac(mac_raw)
-    except ValueError:
-        errors.append(
-            ValidationError(
-                f"{path}.mac_address",
-                "invalid_mac",
-                f"Invalid MAC address: {mac_raw!r}",
+    mac = ""
+    if mac_raw:
+        try:
+            mac = normalize_mac(mac_raw)
+        except ValueError:
+            errors.append(
+                ValidationError(
+                    f"{path}.mac_address",
+                    "invalid_mac",
+                    f"Invalid MAC address: {mac_raw!r}",
+                )
             )
-        )
-        return "", ""
-    if mac in seen_macs:
-        original = seen_macs[mac]
-        location = (
-            f"devices[{original}]" if source_label == "devices" else f"row {original}"
-        )
-        errors.append(
-            ValidationError(
-                f"{path}.mac_address",
-                "duplicate_identifier",
-                f"Duplicate mac_address (also at {location})",
-            )
-        )
-        return "", ""
-    seen_macs[mac] = source_index
-    return "", mac
+        else:
+            if mac in seen_macs:
+                original = seen_macs[mac]
+                location = (
+                    f"devices[{original}]"
+                    if source_label == "devices"
+                    else f"row {original}"
+                )
+                errors.append(
+                    ValidationError(
+                        f"{path}.mac_address",
+                        "duplicate_identifier",
+                        f"Duplicate mac_address (also at {location})",
+                    )
+                )
+            else:
+                seen_macs[mac] = index
+
+    if len(errors) > before:
+        return None
+    return ManifestDevice(
+        tenant="",
+        subscription_key="",
+        serial_number=serial,
+        mac_address=mac,
+    )
 
 
 def parse_yaml_manifest(yaml_text: str) -> Manifest:
@@ -386,7 +432,6 @@ def parse_yaml_manifest(yaml_text: str) -> Manifest:
             [ValidationError("", "invalid_manifest", "Manifest must be a YAML mapping")]
         )
 
-    _check_unknown(raw, _TOP_FIELDS, "", errors)
     version = raw.get("version")
     if not (
         isinstance(version, int)
@@ -400,20 +445,28 @@ def parse_yaml_manifest(yaml_text: str) -> Manifest:
         )
 
     mode = raw.get("mode")
-    if mode not in ("new", "existing"):
+    if mode not in ("new", "existing", "add"):
         errors.append(
             ValidationError(
                 "mode",
                 "invalid_mode",
-                f"mode must be 'new' or 'existing', got {mode!r}",
+                f"mode must be 'new', 'existing', or 'add', got {mode!r}",
             )
         )
+    _check_unknown(
+        raw,
+        frozenset({"version", "mode", "devices"}) if mode == "add" else _TOP_FIELDS,
+        "",
+        errors,
+    )
 
     tenants: list[TenantNew | TenantExisting] = []
     tenant_names: set[str] = set()
     name_indices: dict[str, int] = {}
     tenants_raw = raw.get("tenants")
-    if not isinstance(tenants_raw, list):
+    if mode == "add":
+        tenants_raw = []
+    elif not isinstance(tenants_raw, list):
         errors.append(
             ValidationError("tenants", "invalid_tenants", "tenants must be a list")
         )
@@ -477,6 +530,12 @@ def parse_yaml_manifest(yaml_text: str) -> Manifest:
                     "devices", "too_many_devices", "At most 1000 devices are allowed"
                 )
             )
+        if mode == "add" and not devices_raw:
+            errors.append(
+                ValidationError(
+                    "devices", "missing_devices", "At least one device is required"
+                )
+            )
         if mode == "new" and devices_raw:
             errors.append(
                 ValidationError(
@@ -497,14 +556,24 @@ def parse_yaml_manifest(yaml_text: str) -> Manifest:
                     )
                 )
                 continue
-            device = _parse_device(
-                device_raw,
-                index,
-                tenant_names,
-                seen_serials,
-                seen_macs,
-                errors,
-            )
+            if mode == "add":
+                device = _parse_add_device(
+                    device_raw,
+                    index,
+                    f"devices[{index}]",
+                    "devices",
+                    seen_serials,
+                    seen_macs,
+                    errors,
+                )
+            else:
+                device = _parse_device(
+                    device_raw,
+                    index,
+                    tenant_names,
+                    seen_serials,
+                    errors,
+                )
             if device is not None:
                 devices.append(device)
 
@@ -665,27 +734,27 @@ def parse_csv_tenants(csv_text: str | bytes) -> list[TenantNew]:
     return parse_csv_tenant_import(csv_text).tenants
 
 
-def parse_csv_devices(
-    csv_text: str | bytes, tenant_names: Optional[Iterable[str]] = None
-) -> list[ManifestDevice]:
-    """Parse device CSV rows, optionally validating tenant names in context."""
+def parse_csv_add_devices(csv_text: str | bytes) -> list[ManifestDevice]:
+    """Parse inventory-add CSV rows and ignore non-template columns."""
     header, rows = _csv_header(csv_text)
-    required = [c for c in _DEVICE_CSV_COLUMNS if c != "mac_address"]
-    valid = header in (list(_DEVICE_CSV_COLUMNS), required)
-    if not valid:
+    header = [_add_csv_column(column) for column in header]
+    missing = _ADD_DEVICE_CSV_COLUMNS - set(header)
+    duplicates = {
+        column
+        for column in _ADD_DEVICE_CSV_COLUMNS
+        if header.count(column) > 1
+    }
+    if missing or duplicates:
         raise ParseError(
             [
                 ValidationError(
                     "csv.header",
                     "invalid_header",
-                    f"CSV must have columns: {', '.join(required)} "
-                    "(mac_address optional after serial_number); "
-                    f"got: {', '.join(header)}",
+                    "Inventory-add CSV requires one serial_number and one mac_address column",
                 )
             ]
         )
 
-    allowed_tenants = set(tenant_names) if tenant_names is not None else None
     errors: list[ValidationError] = []
     devices: list[ManifestDevice] = []
     seen_serials: dict[str, int] = {}
@@ -701,9 +770,61 @@ def parse_csv_devices(
                 )
             )
             continue
+        raw = {
+            column: value
+            for column, value in zip(header, row)
+            if column in _ADD_DEVICE_CSV_COLUMNS
+        }
+        device = _parse_add_device(
+            raw,
+            row_number,
+            path,
+            "csv",
+            seen_serials,
+            seen_macs,
+            errors,
+        )
+        if device is not None:
+            devices.append(device)
+    if errors:
+        raise ParseError(errors)
+    return devices
+
+
+def parse_csv_devices(
+    csv_text: str | bytes, tenant_names: Optional[Iterable[str]] = None
+) -> list[ManifestDevice]:
+    """Parse device CSV rows, optionally validating tenant names in context."""
+    header, rows = _csv_header(csv_text)
+    if header != list(_DEVICE_CSV_COLUMNS):
+        raise ParseError(
+            [
+                ValidationError(
+                    "csv.header",
+                    "invalid_header",
+                    f"CSV must have columns: {', '.join(_DEVICE_CSV_COLUMNS)}; "
+                    f"got: {', '.join(header)}",
+                )
+            ]
+        )
+
+    allowed_tenants = set(tenant_names) if tenant_names is not None else None
+    errors: list[ValidationError] = []
+    devices: list[ManifestDevice] = []
+    seen_serials: dict[str, int] = {}
+    for row_number, row in enumerate(rows, start=2):
+        path = f"csv.rows[{row_number}]"
+        if len(row) != len(header):
+            errors.append(
+                ValidationError(
+                    path,
+                    "invalid_row",
+                    f"Row {row_number} must have exactly {len(header)} columns",
+                )
+            )
+            continue
         raw = {column: value.strip() for column, value in zip(header, row)}
         serial_raw = raw["serial_number"]
-        mac_raw = raw.get("mac_address", "")
         key = raw["subscription_key"]
         tenant = raw["tenant"]
         before = len(errors)
@@ -721,14 +842,12 @@ def parse_csv_devices(
                     f"tenant must match a manifest tenant name, got {tenant!r}",
                 )
             )
-        serial, mac = _parse_identifiers(
+        serial = _parse_serial(
             serial_raw,
-            mac_raw,
             path,
             row_number,
             "csv",
             seen_serials,
-            seen_macs,
             errors,
         )
         if len(errors) == before:
@@ -737,7 +856,7 @@ def parse_csv_devices(
                     tenant=tenant,
                     subscription_key=key,
                     serial_number=serial,
-                    mac_address=mac,
+                    mac_address="",
                 )
             )
     if errors:

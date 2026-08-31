@@ -1,3 +1,2 @@
-serial_number,mac_address,subscription_key,tenant
-CNXA001,,KEY_A,Demo West Tenant
-,aa:bb:cc:00:00:02,KEY_B,Demo West Tenant
+serial_number,subscription_key,tenant
+CNXA001,KEY_A,Demo West Tenant

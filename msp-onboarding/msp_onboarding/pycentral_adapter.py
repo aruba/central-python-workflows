@@ -9,15 +9,20 @@ import json
 import logging
 import math
 import os
+import re
 import time
 from threading import Lock
 from typing import Any, Callable, Mapping, Optional
+from urllib.parse import urlsplit
 
 from pycentral import MSPBase
+from pycentral.glp import Devices
 
 from .adapter import (
     AdapterError,
+    INVENTORY_ADD_REJECTED_ERROR,
     WORKSPACE_NAME_CONFLICT_MESSAGE,
+    inventory_add_batch_size,
     write_batch_size,
     write_endpoint_path,
 )
@@ -54,6 +59,9 @@ MAX_RETRY_AFTER_SECONDS = 86_400.0
 # ponytail: 50 pages makes truncation impossible to miss while bounding a
 # malformed total. Revisit if a legitimate GLP collection can exceed the cap.
 MAX_LIST_PAGES = 50
+INVENTORY_ADD_POLL_SECONDS = 2
+INVENTORY_ADD_POLL_TIMEOUT_SECONDS = 300
+INVENTORY_ADD_PERMISSION_ERROR = "GreenLake edit permission is required"
 
 
 def _capped_delay(seconds: float) -> float:
@@ -69,6 +77,32 @@ class _RateLimitedResponse(Exception):
     def __init__(self, response: Any) -> None:
         super().__init__("rate limited")
         self.response = response
+
+
+class _DevicesConnection:
+    """Route the typed Devices helper through adapter pacing and telemetry."""
+
+    def __init__(self, adapter: "PycentralAdapter", connection: Any) -> None:
+        self._adapter = adapter
+        self._connection = connection
+        self.logger = getattr(connection, "logger", _api_log)
+
+    def command(
+        self,
+        api_method: str,
+        api_path: str,
+        app_name: str,
+        api_params: Optional[dict[str, Any]] = None,
+        api_data: Optional[dict[str, Any]] = None,
+    ) -> Any:
+        return self._adapter._command(
+            self._connection,
+            api_path,
+            api_method,
+            app_name=app_name,
+            params=api_params,
+            data=api_data,
+        )
 
 
 def _without_inner_429_retry(connection: Any) -> Any:
@@ -113,6 +147,8 @@ class PycentralAdapter:
     ) -> None:
         self._msp_factory = msp_factory
         self._root = _without_inner_429_retry(msp_factory(token_info=token_info))
+        self._devices_api = Devices()
+        self._devices_connection = _DevicesConnection(self, self._root)
         self._connections: dict[str, Any] = {}
         root_url = self._base_url(self._root)
         if root_url:
@@ -1007,27 +1043,10 @@ class PycentralAdapter:
             devices = self.resolve_devices(**kwargs)
             if devices:
                 return devices[0]
-        else:
-            items = self._paged_items(
-                self._root,
-                "devices/v1/devices",
-                app_name="glp",
-                error_path="devices",
-                default_error="Could not resolve device",
-                params={"filter": f"macAddress eq '{value}'"},
-            )
-            wanted = value.strip().lower()
-            for item in items:
-                device = self._device_info(item)
-                if device.mac_address.strip().lower() == wanted:
-                    return device
         raise AdapterError("devices", "device_not_found", "Device was not found")
 
     def resolve_device_by_serial(self, serial: str) -> DeviceInfo:
         return self._resolve_device("serialNumber", serial)
-
-    def resolve_device_by_mac(self, mac: str) -> DeviceInfo:
-        return self._resolve_device("macAddress", mac)
 
     def resolve_device(self, glp_id: str) -> DeviceInfo:
         return self._resolve_device("id", glp_id)
@@ -1060,6 +1079,241 @@ class PycentralAdapter:
             devices,
         )
         return list(devices)
+
+    @staticmethod
+    def _inventory_add_location(response: Any) -> Optional[str]:
+        if not isinstance(response, Mapping):
+            return None
+        headers = response.get("headers")
+        if not isinstance(headers, Mapping):
+            return None
+        location = next(
+            (
+                value
+                for name, value in headers.items()
+                if str(name).lower() == "location"
+            ),
+            None,
+        )
+        if not location:
+            return None
+        return urlsplit(str(location).strip()).path.lstrip("/") or None
+
+    @classmethod
+    def _inventory_add_transaction_id(cls, response: Any) -> Optional[str]:
+        if not isinstance(response, Mapping):
+            return None
+        body = cls._body(response)
+        value = response.get("transactionId") or body.get("transactionId")
+        return str(value) if value else None
+
+    @classmethod
+    def _inventory_add_error_text(cls, response: Any, default: str) -> str:
+        if not isinstance(response, Mapping):
+            return default
+        body = cls._body(response)
+        result = body.get("result")
+        sources = [body, result] if isinstance(result, Mapping) else [body]
+        for source in sources:
+            for field in ("message", "error", "detail"):
+                value = source.get(field)
+                if value:
+                    return str(value)
+        raw_message = response.get("msg")
+        if isinstance(raw_message, str) and raw_message.strip():
+            return raw_message.strip()
+        return default
+
+    @classmethod
+    def _inventory_add_failures(
+        cls,
+        response: Any,
+        serials: list[str],
+        default: str,
+    ) -> dict[str, str]:
+        body = cls._body(response)
+        result = body.get("result") if isinstance(body, Mapping) else None
+        raw = result.get("failedDevicesSerial") if isinstance(result, Mapping) else None
+        if raw is None and isinstance(body, Mapping):
+            raw = body.get("failedDevicesSerial")
+        if isinstance(raw, Mapping):
+            raw = [
+                {"serialNumber": serial, "message": message}
+                for serial, message in raw.items()
+            ]
+        if not isinstance(raw, list):
+            return {}
+
+        failures: dict[str, str] = {}
+        known = set(serials)
+        fallback = cls._inventory_add_error_text(response, default)
+        for item in raw:
+            if isinstance(item, Mapping):
+                serial = str(
+                    item.get("serialNumber") or item.get("serial") or ""
+                )
+                message = next(
+                    (
+                        str(item[field])
+                        for field in ("message", "error", "detail")
+                        if item.get(field)
+                    ),
+                    fallback,
+                )
+            else:
+                serial = str(item)
+                message = fallback
+            if serial in known:
+                failures[serial] = message
+        return failures
+
+    @staticmethod
+    def _is_forbidden_error(error: BaseException) -> bool:
+        current: Optional[BaseException] = error
+        while current is not None:
+            if any(
+                value == 403
+                for value in (
+                    getattr(current, "status_code", None),
+                    getattr(current, "code", None),
+                    getattr(getattr(current, "response", None), "status_code", None),
+                )
+            ):
+                return True
+            if re.search(r"\b403\b", str(current)) is not None:
+                return True
+            current = current.__cause__
+        return False
+
+    def _poll_inventory_add(self, path: str) -> Any:
+        deadline = time.monotonic() + INVENTORY_ADD_POLL_TIMEOUT_SECONDS
+        response: Any = {}
+        while True:
+            response = self._command(
+                self._root,
+                path,
+                "GET",
+                app_name="glp",
+                stats_path="devices/async-operations/{transaction_id}",
+            )
+            if not isinstance(response, Mapping) or response.get("code") != 200:
+                return response
+            state = str(self._body(response).get("status") or "").upper()
+            if state in {"SUCCEEDED", "FAILED", "TIMEOUT", "TIMEDOUT"}:
+                return response
+            if time.monotonic() >= deadline:
+                return response
+            time.sleep(INVENTORY_ADD_POLL_SECONDS)
+
+    def add_devices(self, devices: list[tuple[str, str]]) -> dict[str, str]:
+        """Submit one inventory batch and return observed errors by serial.
+
+        An empty mapping means no error was observed, not proof of inventory
+        presence; the engine reconciles every submitted serial afterward.
+        """
+        if not devices:
+            return {}
+        batch_size = inventory_add_batch_size()
+        if len(devices) > batch_size:
+            raise AdapterError(
+                "execution.devices",
+                "batch_too_large",
+                f"At most {batch_size} devices are allowed",
+            )
+        serials = [serial for serial, _ in devices]
+        try:
+            responses = self._devices_api.add_devices(
+                conn=self._devices_connection,
+                network=[
+                    {"serialNumber": serial, "macAddress": mac}
+                    for serial, mac in devices
+                ],
+                compute=[],
+                storage=[],
+            )
+        except Exception as exc:
+            if self._is_forbidden_error(exc):
+                raise AdapterError(
+                    "execution.devices",
+                    "permission_denied",
+                    INVENTORY_ADD_PERMISSION_ERROR,
+                ) from exc
+            raise
+
+        response = responses[0] if responses else {}
+        if isinstance(response, Mapping) and response.get("code") == 403:
+            raise AdapterError(
+                "execution.devices",
+                "permission_denied",
+                INVENTORY_ADD_PERMISSION_ERROR,
+            )
+        if isinstance(response, Mapping) and response.get("code") == 429:
+            raise self._error(
+                "execution.devices", response, "Inventory-add request was rate limited"
+            )
+        if not isinstance(response, Mapping) or response.get("code") != 202:
+            default = "GreenLake rejected the inventory-add request"
+            failures = self._inventory_add_failures(response, serials, default)
+            message = self._inventory_add_error_text(response, default)
+            return {serial: failures.get(serial, message) for serial in serials}
+
+        location = self._inventory_add_location(response)
+        transaction_id = self._inventory_add_transaction_id(response)
+        try:
+            if location:
+                terminal = self._poll_inventory_add(location)
+            elif transaction_id:
+                terminal = self._poll_inventory_add(
+                    f"devices/v1/async-operations/{transaction_id}"
+                )
+            else:
+                return {}
+        except Exception as exc:
+            if self._is_forbidden_error(exc):
+                raise AdapterError(
+                    "execution.devices",
+                    "permission_denied",
+                    INVENTORY_ADD_PERMISSION_ERROR,
+                ) from exc
+            raise
+
+        if isinstance(terminal, Mapping) and terminal.get("code") == 403:
+            raise AdapterError(
+                "execution.devices",
+                "permission_denied",
+                INVENTORY_ADD_PERMISSION_ERROR,
+            )
+        if isinstance(terminal, Mapping) and terminal.get("code") == 429:
+            raise self._error(
+                "execution.devices", terminal, "Inventory-add poll was rate limited"
+            )
+
+        body = self._body(terminal)
+        state = str(body.get("status") or "").upper()
+        failures = self._inventory_add_failures(
+            terminal,
+            serials,
+            INVENTORY_ADD_REJECTED_ERROR,
+        )
+        if failures:
+            return failures
+        if not isinstance(terminal, Mapping) or terminal.get("code") != 200:
+            message = self._inventory_add_error_text(
+                terminal, "Could not observe the GreenLake inventory-add transaction"
+            )
+            return {serial: message for serial in serials}
+        if state in {"FAILED", "TIMEOUT", "TIMEDOUT"}:
+            message = self._inventory_add_error_text(
+                terminal, f"GreenLake inventory-add transaction ended as {state}"
+            )
+            return {serial: message for serial in serials}
+        if state != "SUCCEEDED":
+            return {
+                serial: "GreenLake inventory-add transaction did not complete before timeout"
+                for serial in serials
+            }
+        self._available_devices_cache = None
+        return {}
 
     @staticmethod
     def _date_only(value: Any) -> Optional[str]:

@@ -71,33 +71,34 @@ def main(argv: list[str] | None = None) -> int:
                     plan = engine.plan(parse_yaml_manifest(manifest_file.read()))
                 _print(plan.to_dict())
                 return 0
-            with open(args.manifest, encoding="utf-8") as manifest_file:
-                plan = engine.plan(parse_yaml_manifest(manifest_file.read()))
-            if not args.yes:
-                try:
+            if args.command == "run":
+                with open(args.manifest, encoding="utf-8") as manifest_file:
+                    plan = engine.plan(parse_yaml_manifest(manifest_file.read()))
+                if not args.yes:
+                    try:
+                        print(
+                            f"Run onboarding job {plan.job_id}? [y/N] ",
+                            end="",
+                            file=sys.stderr,
+                            flush=True,
+                        )
+                        confirmed = input()
+                    except EOFError:
+                        confirmed = ""
+                    if confirmed.lower() not in ("y", "yes"):
+                        print("Run requires confirmation.", file=sys.stderr)
+                        return 1
+                engine.start(plan.job_id)
+                engine.drain()
+                call_stats = getattr(adapter, "call_stats", None)
+                if callable(call_stats):
                     print(
-                        f"Run onboarding job {plan.job_id}? [y/N] ",
-                        end="",
+                        "GLP call summary: "
+                        + json.dumps(call_stats(), sort_keys=True),
                         file=sys.stderr,
-                        flush=True,
                     )
-                    confirmed = input()
-                except EOFError:
-                    confirmed = ""
-                if confirmed.lower() not in ("y", "yes"):
-                    print("Run requires confirmation.", file=sys.stderr)
-                    return 1
-            engine.confirm(plan.job_id)
-            engine.drain()
-            call_stats = getattr(adapter, "call_stats", None)
-            if callable(call_stats):
-                print(
-                    "GLP call summary: "
-                    + json.dumps(call_stats(), sort_keys=True),
-                    file=sys.stderr,
-                )
-            _print(engine.get(plan.job_id))
-            return 0
+                _print(engine.get(plan.job_id))
+                return 0
     except (AdapterError, FileNotFoundError, KeyError, ParseError, ValueError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 1

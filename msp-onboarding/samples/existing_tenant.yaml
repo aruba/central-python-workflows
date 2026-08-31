@@ -10,7 +10,7 @@ devices:
   - serial_number: CNXA001
     tenant: Demo West Tenant
     subscription_key: KEY_A
-  - mac_address: "aa:bb:cc:00:00:02"
+  - serial_number: CNXA002
     tenant: Demo West Tenant
     subscription_key: KEY_B
   - serial_number: CNXA003

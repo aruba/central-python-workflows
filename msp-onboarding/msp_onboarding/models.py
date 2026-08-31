@@ -61,21 +61,21 @@ class ManifestDevice:
 @dataclass
 class Manifest:
     version: int
-    mode: str  # "new" or "existing"
+    mode: str  # "new", "existing", or "add"
     tenants: list[TenantNew | TenantExisting]
     devices: list[ManifestDevice]
 
     def canonical_hash(self) -> str:
         """SHA-256 over normalized v2 data, retaining tenant manifest order."""
         data = asdict(self)
-        data["devices"].sort(
-            key=lambda d: (
-                d["tenant"],
-                d["serial_number"],
-                d["mac_address"],
-                d["subscription_key"],
+        if self.mode != "add":
+            data["devices"].sort(
+                key=lambda d: (
+                    d["tenant"],
+                    d["serial_number"],
+                    d["subscription_key"],
+                )
             )
-        )
         return hashlib.sha256(
             json.dumps(data, sort_keys=True, separators=(",", ":")).encode()
         ).hexdigest()
@@ -149,7 +149,6 @@ class DevicePlan:
     tenant_workspace_id: Optional[str]
     glp_id: str
     serial_number: Optional[str]
-    mac_address: Optional[str]
     subscription_key: str   # full key stored internally; always redacted in to_dict()
     subscription_id: str
 
@@ -159,10 +158,19 @@ class DevicePlan:
             "tenant_workspace_id": self.tenant_workspace_id,
             "glp_id": self.glp_id,
             "serial_number": self.serial_number,
-            "mac_address": self.mac_address,
             "subscription_key": "***",
             "subscription_id": self.subscription_id,
         }
+
+
+@dataclass
+class InventoryAddDevicePlan:
+    serial_number: str
+    mac_address: str
+    state: str
+
+    def to_dict(self) -> dict:
+        return asdict(self)
 
 
 @dataclass
@@ -200,7 +208,7 @@ class Plan:
     plan_hash: str
     mode: str
     tenant_groups: list[TenantGroupRollup]
-    devices: list[DevicePlan]
+    devices: list[DevicePlan | InventoryAddDevicePlan]
     errors: list[ValidationError]
     created_at: str
 
@@ -221,7 +229,7 @@ class Plan:
         manifest_hash: str,
         mode: str,
         tenant_groups: list[TenantGroupRollup],
-        devices: list[DevicePlan],
+        devices: list[DevicePlan | InventoryAddDevicePlan],
         errors: list[ValidationError],
     ) -> str:
         groups = []
@@ -239,9 +247,13 @@ class Plan:
             "manifest_hash": manifest_hash,
             "mode": mode,
             "tenant_groups": groups,
-            "devices": sorted(
-                [asdict(device) for device in devices],
-                key=lambda device: (device["tenant_name"], device["glp_id"]),
+            "devices": (
+                [asdict(device) for device in devices]
+                if mode == "add"
+                else sorted(
+                    [asdict(device) for device in devices],
+                    key=lambda device: (device["tenant_name"], device["glp_id"]),
+                )
             ),
             "errors": sorted(
                 [asdict(error) for error in errors],

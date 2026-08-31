@@ -1,9 +1,10 @@
 # MSP onboarding workflow
 
-Automate the two most common MSP onboarding workflows using MSP API Credentials:
+Automate the three most common MSP onboarding workflows using MSP API Credentials:
 
 - **Create tenants**: Create new MSP tenants and provision a Central service in each.
 - **Assign devices to tenants**: Assign MSP-owned devices in an existing tenant's Central application and attach the subscription each device needs.
+- **Add devices to inventory**: Add new devices (serial number and MAC address) to the MSP workspace inventory.
 
 Devices and tenants details can be entered individually or uploaded in bulk via CSVs. It ships in two forms: a **guided web workflow** and a **Python CLI** (`onboarding.py`) for scripted, manifest-driven runs.
 
@@ -15,8 +16,9 @@ Devices and tenants details can be entered individually or uploaded in bulk via 
 ## Features
 
 - **Create tenants**: create one or more new MSP tenants and provision a Central service in each, in the region you choose.
+- **Add devices to inventory**: add devices to the MSP workspace by serial number and MAC address, in batches of five, with per-device results; devices already in inventory are reported rather than re-added.
 - **Assign devices to tenants**: for each MSP-owned device, pick the tenant, the Central application within it, and the subscription to attach, the workflow submits the device assignment and the seat assignment together.
-- **CSV upload**: bulk-load tenants to create, or devices with their tenant and subscription mapping, from a CSV file. Rows are validated and errors are reported per row before anything is submitted.
+- **CSV upload**: bulk-load tenants to create, devices to add, or devices with their tenant and subscription mapping, from a CSV file. Rows are validated and errors are reported per row before anything is submitted.
 - **Bulk seat assignment**: apply one subscription key to every eligible device of a type, with the key's expiry shown first.
 - **Demo mode**: a deterministic catalog for exploring both journeys without credentials.
 
@@ -82,11 +84,19 @@ All calls go to the GreenLake Platform (GLP) API. Read calls run during discover
 | 1 | GLP | `GET` | `workspaces/v1/msp-tenants` | Lists managed tenants |
 | 2 | GLP | `POST` | `{base_url}/{workspace_id}/token` | Token exchange (MSP token → tenant-scoped token) |
 | 3 | GLP | `GET` | `service-catalog/v1/service-manager-provisions` | Central applications provisioned in the tenant |
-| 4 | GLP | `GET` | `devices/v1/devices` | MSP-owned device inventory (by serial, MAC, or ID) |
+| 4 | GLP | `GET` | `devices/v1/devices` | MSP-owned device inventory (by serial or ID) |
 | 5 | GLP | `GET` | `subscriptions/v1/subscriptions` | Subscription keys, capacity, and expiry |
 | 6 | GLP | `PATCH` | `devices/v1/devices` | Assigns devices to the tenant's Central application (batches of five) |
 | 7 | GLP | `PATCH` | `devices/v1/devices` | Assigns the subscription to those devices (batches of five) |
 | 8 | GLP | `GET` | `devices/v1/async-operations/{transaction_id}` | Polls each write to completion (up to 2 minutes) |
+
+### Add devices to inventory
+
+| Step | Service | Method | Endpoint | Description |
+|------|---------|--------|----------|-------------|
+| 1 | GLP | `GET` | `devices/v1/devices` | Checks which serials are already in the MSP inventory |
+| 2 | GLP | `POST` | `devices/v1/devices` | Adds devices to the MSP inventory (batches of five) |
+| 3 | GLP | `GET` | `devices/v1/async-operations/{transaction_id}` | Polls each add to completion |
 
 ## Prerequisites
 
@@ -106,7 +116,6 @@ All calls go to the GreenLake Platform (GLP) API. Read calls run during discover
 
    ```bash
    uv venv --python 3.12
-   source .venv/bin/activate
    uv pip install -r requirements.txt
    ```
 
@@ -147,7 +156,7 @@ uv run python server.py
 A run walks through:
 
 1. **Sign in** — live credentials, or demo mode
-2. **Choose a journey** — onboard new tenants, or add devices to existing tenants
+2. **Choose a journey** — onboard new tenants, add devices to inventory, or add devices to existing tenants
 3. **Setup, Devices, Review** — pick tenants and services, map every device to a tenant and subscription key, then review the read-only preflight
 4. **Confirm once** — the job starts, and the Review screen switches to live per-device and per-tenant results
 5. **Stop safely if needed** — the in-flight batch finishes, the rest is skipped, nothing is rolled back
@@ -183,6 +192,7 @@ The web workflow surfaces the plan and the run in one place:
 - **Setup stage**: tenant picker with per-tenant service and region discovery; tenants without an eligible service are set aside with the reason shown.
 - **Devices stage**: dense inventory table with CSV import, per-device or bulk subscription mapping, and seat capacity and expiry checks.
 - **Preflight review**: every tenant, device, and seat assignment with its validation result, plus an impact ledger of what will and will not run.
+- **Inventory add**: editable serial and MAC grid with CSV import, row-level validation, preflight, then per-device results.
 - **Live run**: the same review switches to per-device status chips (Writing, Complete, Already satisfied, Failed) and per-tenant progress as the job runs.
 
 <!-- screenshot: sign-in screen (docs/sign-in.png) -->

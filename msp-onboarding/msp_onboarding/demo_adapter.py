@@ -24,7 +24,9 @@ from typing import Optional
 
 from .adapter import (
     AdapterError,
+    INVENTORY_ADD_REJECTED_ERROR,
     WORKSPACE_NAME_CONFLICT_MESSAGE,
+    inventory_add_batch_size,
     write_batch_size,
 )
 from .models import (
@@ -60,6 +62,13 @@ DEVICE_D6_ID = "cccccccc-0006-0006-0006-000000000006"
 DEVICE_D7_ID = "cccccccc-0007-0007-0007-000000000007"
 DEVICE_D8_ID = "cccccccc-0008-0008-0008-000000000008"
 DEVICE_D9_ID = "cccccccc-0009-0009-0009-000000000009"
+
+ADD_ALREADY_PRESENT_SERIAL = "CNADD00001"
+# Live 2026-08-28: GLP returns MACs uppercase; the parser lowercases manifest MACs.
+ADD_ALREADY_PRESENT_MAC = "AA:BB:CC:DD:EE:01"
+ADD_REJECTED_SERIAL = "CNADD00003"
+ADD_REJECTED_MAC = "aa:bb:cc:dd:ee:03"
+PARTIAL_ADD_PLACEHOLDER_ERROR = INVENTORY_ADD_REJECTED_ERROR
 
 SUB_KEY_A = "KEY_A"
 SUB_KEY_B = "KEY_B"
@@ -103,6 +112,7 @@ SUPPORTED_SCENARIOS = (
     "bulk-partial",
     "tenant-name-conflict",
     "tenant-creation-systemic",
+    "partial-add",
 )
 
 # ---------------------------------------------------------------------------
@@ -225,18 +235,6 @@ CATALOG: dict = {
             management="MSP", assigned_state="UNASSIGNED", device_type="SWITCH",
         ),
     },
-    # MAC → serial (look up by serial to get full DeviceInfo)
-    "devices_by_mac": {
-        "aa:bb:cc:00:00:01": "CNXA001",
-        "aa:bb:cc:00:00:02": "CNXA002",
-        "aa:bb:cc:00:00:03": "CNXA003",
-        "aa:bb:cc:00:00:04": "CNXA004",
-        "aa:bb:cc:00:00:05": "CNXA005",
-        "aa:bb:cc:00:00:06": "CNXA006",
-        "aa:bb:cc:00:00:07": "CNXA007",
-        "aa:bb:cc:00:00:08": "CNXA008",
-        "aa:bb:cc:00:00:09": "CNXA009",
-    },
     "subscriptions": {
         SUB_KEY_A: SubscriptionInfo(
             subscription_id=SUB_A_ID, key=SUB_KEY_A,
@@ -308,6 +306,14 @@ class DemoAdapter:
             }
             for info in CATALOG["devices_by_serial"].values()
         }
+        present = DeviceInfo(
+            glp_id="demo-inventory-add-present",
+            serial_number=ADD_ALREADY_PRESENT_SERIAL,
+            mac_address=ADD_ALREADY_PRESENT_MAC,
+            management="MSP",
+            assigned_state="UNASSIGNED",
+        )
+        self._inventory_add_devices = {present.serial_number: present}
         self._subscription_assignments: dict[str, str] = {}
         self._created_tenants: dict[str, TenantInfo] = {}
         self._provisioned_services: dict[str, list[ServiceInfo]] = {}
@@ -323,6 +329,7 @@ class DemoAdapter:
         self._tenant_creation_failure_name: Optional[str] = None
         self.submitted_device_batches: list[list[str]] = []
         self.submitted_subscription_batches: list[list[tuple[str, str]]] = []
+        self.submitted_add_batches: list[list[tuple[str, str]]] = []
 
     def now(self) -> datetime:
         return FIXED_CLOCK
@@ -518,6 +525,9 @@ class DemoAdapter:
         return resolved
 
     def resolve_device_by_serial(self, serial: str) -> DeviceInfo:
+        inventory_device = self._inventory_add_devices.get(serial)
+        if inventory_device is not None:
+            return replace(inventory_device)
         device = CATALOG["devices_by_serial"].get(serial)
         if device is None:
             raise AdapterError(
@@ -527,17 +537,17 @@ class DemoAdapter:
             )
         return self.resolve_device(device.glp_id)
 
-    def resolve_device_by_mac(self, mac: str) -> DeviceInfo:
-        serial = CATALOG["devices_by_mac"].get(mac)
-        if serial is None:
-            raise AdapterError(
-                path="devices",
-                code="device_not_found",
-                message=f"Device not found for MAC: {mac!r}",
-            )
-        return self.resolve_device(CATALOG["devices_by_serial"][serial].glp_id)
-
     def resolve_device(self, glp_id: str) -> DeviceInfo:
+        inventory_device = next(
+            (
+                device
+                for device in self._inventory_add_devices.values()
+                if device.glp_id == glp_id
+            ),
+            None,
+        )
+        if inventory_device is not None:
+            return replace(inventory_device)
         for device in CATALOG["devices_by_serial"].values():
             if device.glp_id == glp_id:
                 state = self._device_states[glp_id]
@@ -558,6 +568,32 @@ class DemoAdapter:
             and not self._device_states[device.glp_id]["tenant_workspace_id"]
             and not self._device_states[device.glp_id]["subscription"]
         ]
+
+    def add_devices(self, devices: list[tuple[str, str]]) -> dict[str, str]:
+        batch_size = inventory_add_batch_size()
+        if len(devices) > batch_size:
+            raise AdapterError(
+                "execution.devices",
+                "batch_too_large",
+                f"At most {batch_size} devices are allowed",
+            )
+        self.submitted_add_batches.append(list(devices))
+        failures: dict[str, str] = {}
+        for serial, mac in devices:
+            if self._scenario == "partial-add" and serial == ADD_REJECTED_SERIAL:
+                failures[serial] = PARTIAL_ADD_PLACEHOLDER_ERROR
+                continue
+            present = self._inventory_add_devices.get(serial)
+            if present is not None and present.mac_address.lower() == mac.lower():
+                continue
+            self._inventory_add_devices[serial] = DeviceInfo(
+                glp_id=f"demo-inventory-{serial.lower()}",
+                serial_number=serial,
+                mac_address=mac,
+                management="MSP",
+                assigned_state="UNASSIGNED",
+            )
+        return failures
 
     def resolve_subscription(self, key: str) -> SubscriptionInfo:
         sub = CATALOG["subscriptions"].get(key)

@@ -25,7 +25,11 @@ from msp_onboarding.models import (
     ServiceRef,
     TenantExisting,
 )
-from msp_onboarding.parser import parse_csv_devices, parse_yaml_manifest
+from msp_onboarding.parser import (
+    parse_csv_add_devices,
+    parse_csv_devices,
+    parse_yaml_manifest,
+)
 from msp_onboarding.store import MemoryStore
 
 SAMPLES = os.path.join(os.path.dirname(__file__), "samples")
@@ -38,17 +42,32 @@ def _print_plan(label: str, plan: Plan) -> None:
     print(f"{'=' * 62}")
     print(f"  job_id          : {d['job_id']}")
     print(f"  mode            : {d['mode']}")
-    print(f"  tenant groups ({len(d['tenant_groups'])}):")
-    for group in d["tenant_groups"]:
-        print(
-            f"    {group['tenant_name']}: {group['status']}  "
-            f"tenant_id={group['tenant_workspace_id']}  "
-            f"service={group['service_manager_id']} [{group['service_region']}]"
-        )
+    if d["mode"] != "add":
+        print(f"  tenant groups ({len(d['tenant_groups'])}):")
+        for group in d["tenant_groups"]:
+            print(
+                f"    {group['tenant_name']}: {group['status']}  "
+                f"tenant_id={group['tenant_workspace_id']}  "
+                f"service={group['service_manager_id']} [{group['service_region']}]"
+            )
     print(f"  manifest_hash   : {d['manifest_hash'][:16]}…")
     print(f"  plan_hash       : {d['plan_hash'][:16]}…")
     print(f"  created_at      : {d['created_at']}")
-    print(f"  devices         : {len(d['devices'])} (identifiers redacted)")
+    print(f"  devices ({len(d['devices'])}):")
+    for dev in d["devices"]:
+        if d["mode"] == "add":
+            print(
+                f"    serial={dev['serial_number']}  "
+                f"mac={dev['mac_address']}  state={dev['state']}"
+            )
+        else:
+            ident = dev["serial_number"]
+            print(
+                f"    glp_id={dev['glp_id']}  "
+                f"ident={ident}  "
+                f"sub_id={dev['subscription_id']}  "
+                f"key=***"
+            )
     if d["errors"]:
         print(f"  errors ({len(d['errors'])}):")
         for err in d["errors"]:
@@ -141,6 +160,16 @@ def _run_execution_demo() -> None:
         engine.drain()
         print(f"ambiguous inline: {engine.get(job_id)['status']}")
 
+    for scenario in ("success", "partial-add"):
+        with MemoryStore() as store:
+            adapter = DemoAdapter(scenario)
+            engine = OnboardingEngine(adapter, store)
+            manifest = parse_yaml_manifest(_read("add_devices_partial.yaml"))
+            job_id = engine.plan(manifest).job_id
+            engine.confirm(job_id)
+            engine.drain()
+            print(f"inventory add {scenario}: {engine.get(job_id)['status']}")
+
 
 def main() -> None:
     if sys.argv[1:] == ["--execute-demo"]:
@@ -175,6 +204,18 @@ def main() -> None:
     with MemoryStore() as store:
         plan3 = OnboardingEngine(adapter, store).plan(manifest3)
     _print_plan("devices.csv → csv-devices-plan (existing T1, S1)", plan3)
+
+    with MemoryStore() as store:
+        manifest4 = parse_yaml_manifest(_read("add_devices.yaml"))
+        plan4 = OnboardingEngine(adapter, store).plan(manifest4)
+    _print_plan("add_devices.yaml → inventory-add-success", plan4)
+
+    csv_add_devices = parse_csv_add_devices(_read("add_devices.csv"))
+    with MemoryStore() as store:
+        plan5 = OnboardingEngine(adapter, store).plan(
+            Manifest(version=2, mode="add", tenants=[], devices=csv_add_devices)
+        )
+    _print_plan("add_devices.csv → inventory-add-csv-plan", plan5)
 
     print()
 

@@ -20,6 +20,7 @@ from .models import (
 WRITE_LIMITS = {
     "v1": {"batch": 5, "requests_per_minute": 40},
 }
+INVENTORY_ADD_BATCH_SIZE = 5
 
 WORKSPACE_NAME_CONFLICT_MESSAGE = (
     "This workspace name is already in use globally across HPE GreenLake. "
@@ -37,6 +38,10 @@ def write_requests_per_minute() -> int:
 
 def write_endpoint_path() -> str:
     return "devices/v1/devices"
+
+
+def inventory_add_batch_size() -> int:
+    return INVENTORY_ADD_BATCH_SIZE
 
 
 class AdapterError(Exception):
@@ -96,9 +101,9 @@ class AdapterProtocol(Protocol):
         glp_ids: Optional[list[str]] = None,
     ) -> list[DeviceInfo]: ...
     def resolve_device_by_serial(self, serial: str) -> DeviceInfo: ...
-    def resolve_device_by_mac(self, mac: str) -> DeviceInfo: ...
     def resolve_device(self, glp_id: str) -> DeviceInfo: ...
     def list_available_devices(self) -> list[DeviceInfo]: ...
+    def add_devices(self, devices: list[tuple[str, str]]) -> dict[str, str]: ...
     def resolve_subscription(self, key: str) -> SubscriptionInfo: ...
     def list_subscriptions(self) -> list[SubscriptionInfo]: ...
     def assign_devices(
@@ -116,3 +121,12 @@ class AdapterProtocol(Protocol):
     def poll_transaction(
         self, transaction_id: str, origin: Optional[str] = None
     ) -> TransactionResult: ...
+
+
+# Live 2026-08-28: GLP reports inventory-add failures only as serials in
+# `failedDevicesSerial` with no reason text, so this mapped message is the
+# per-device note for every rejection (invalid serial, wrong MAC, other owner).
+INVENTORY_ADD_REJECTED_ERROR = (
+    "GreenLake rejected this serial: not a valid serial/MAC pair, "
+    "or the device is owned by another workspace"
+)

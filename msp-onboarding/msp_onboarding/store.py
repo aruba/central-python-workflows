@@ -27,7 +27,11 @@ class MemoryStore:
         return datetime.now(timezone.utc).isoformat()
 
     def save_plan(self, job_id: str, manifest: Manifest, plan: Plan) -> None:
-        runnable = any(group.status == "pending" for group in plan.tenant_groups)
+        runnable = (
+            bool(plan.devices)
+            if plan.mode == "add"
+            else any(group.status == "pending" for group in plan.tenant_groups)
+        )
         status = "ready" if not plan.errors and runnable else "draft"
         with self._lock:
             self._jobs[job_id] = {
@@ -65,6 +69,24 @@ class MemoryStore:
                         "subscription_status": "pending",
                         "error": None,
                         "updated_at": now,
+                    },
+                )
+
+    def save_add_execution_records(self, job_id: str, devices: list[dict]) -> None:
+        now = self._now()
+        with self._lock:
+            records = self._devices[job_id]
+            for position, device in enumerate(devices):
+                serial = device["serial_number"]
+                records.setdefault(
+                    serial,
+                    {
+                        "serial_number": serial,
+                        "mac_address": device["mac_address"],
+                        "device_status": "pending",
+                        "error": None,
+                        "updated_at": now,
+                        "position": position,
                     },
                 )
 
@@ -165,16 +187,18 @@ class MemoryStore:
         status: str,
         error: Optional[dict] = None,
     ) -> None:
-        if operation not in ("assign_devices", "assign_subscriptions"):
+        if operation not in ("add_devices", "assign_devices", "assign_subscriptions"):
             raise ValueError(f"Unknown device operation: {operation}")
         column = (
             "device_status"
-            if operation == "assign_devices"
+            if operation in ("add_devices", "assign_devices")
             else "subscription_status"
         )
         with self._lock:
             device = self._devices[job_id].get(glp_id)
-            if device is None or device["tenant_name"] != tenant_name:
+            if device is None or (
+                operation != "add_devices" and device["tenant_name"] != tenant_name
+            ):
                 return
             device[column] = status
             device["error"] = deepcopy(error)
@@ -191,16 +215,7 @@ class MemoryStore:
     ) -> None:
         with self._lock:
             job = self._job(job_id)
-            group = next(
-                (
-                    group
-                    for group in job["tenant_groups"]
-                    if group["tenant_name"] == tenant_name
-                ),
-                None,
-            )
-            if group is None:
-                raise KeyError(f"Tenant group not found: {tenant_name}")
+            group = self._tenant_group(job_id, tenant_name)
             group["status"] = status
             group["last_error"] = deepcopy(error)
             if tenant_workspace_id is not None:
@@ -211,16 +226,7 @@ class MemoryStore:
         self, job_id: str, tenant_name: str, workspace_id: str
     ) -> None:
         with self._lock:
-            group = next(
-                (
-                    group
-                    for group in self._job(job_id)["tenant_groups"]
-                    if group["tenant_name"] == tenant_name
-                ),
-                None,
-            )
-            if group is None:
-                raise KeyError(f"Tenant group not found: {tenant_name}")
+            group = self._tenant_group(job_id, tenant_name)
             group["tenant_workspace_id"] = workspace_id
             now = self._now()
             self._job(job_id)["updated_at"] = now
@@ -284,7 +290,7 @@ class MemoryStore:
             now = self._now()
             for device in self._devices[job_id].values():
                 for column in ("device_status", "subscription_status"):
-                    if device[column] == "pending":
+                    if device.get(column) == "pending":
                         device[column] = "skipped"
                 device["updated_at"] = now
             self._complete_job(job_id, "stopped")
@@ -323,6 +329,31 @@ class MemoryStore:
             result.pop("stop_requested", None)
             return result
 
+    def get_tenant_group(self, job_id: str, tenant_name: str) -> dict:
+        with self._lock:
+            return deepcopy(self._tenant_group(job_id, tenant_name))
+
+    def tenant_group_statuses(self, job_id: str) -> dict[str, str]:
+        with self._lock:
+            return {
+                group["tenant_name"]: group["status"]
+                for group in self._job(job_id)["tenant_groups"]
+            }
+
+    def get_job_view(self, job_id: str) -> Optional[dict]:
+        with self._lock:
+            job = self._jobs.get(job_id)
+            if job is None:
+                return None
+            return deepcopy(
+                {
+                    **{key: value for key, value in job.items() if key != "stop_requested"},
+                    "plan": self._plans.get(job_id),
+                    "steps": self._steps.get(job_id, []),
+                    "devices": self._devices_sorted(job_id),
+                }
+            )
+
     def has_active_job(self) -> bool:
         with self._lock:
             return any(
@@ -350,16 +381,40 @@ class MemoryStore:
 
     def get_devices(self, job_id: str) -> list[dict]:
         with self._lock:
-            return sorted(
-                deepcopy(list(self._devices.get(job_id, {}).values())),
-                key=lambda item: (item["tenant_name"], item["glp_id"]),
-            )
+            return deepcopy(self._devices_sorted(job_id))
+
+    def _devices_sorted(self, job_id: str) -> list[dict]:
+        devices = sorted(
+            self._devices.get(job_id, {}).values(),
+            key=lambda item: (
+                item.get("position", -1),
+                item.get("tenant_name", ""),
+                item.get("glp_id", ""),
+            ),
+        )
+        return [
+            {key: value for key, value in device.items() if key != "position"}
+            for device in devices
+        ]
 
     def _job(self, job_id: str) -> dict:
         job = self._jobs.get(job_id)
         if job is None:
             raise KeyError(f"Job not found: {job_id}")
         return job
+
+    def _tenant_group(self, job_id: str, tenant_name: str) -> dict:
+        group = next(
+            (
+                group
+                for group in self._job(job_id)["tenant_groups"]
+                if group["tenant_name"] == tenant_name
+            ),
+            None,
+        )
+        if group is None:
+            raise KeyError(f"Tenant group not found: {tenant_name}")
+        return group
 
     def close(self) -> None:
         return None
