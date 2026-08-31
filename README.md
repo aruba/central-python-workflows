@@ -82,6 +82,7 @@ This workflow monitors every tenant an MSP manages using a single MSP credential
 This workflow automates common MSP onboarding tasks with MSP API credentials:
 - **Create tenants**: Create new MSP tenants and provision a Central service in each.
 - **Assign devices to tenants**: Assign MSP-owned devices and subscriptions to existing tenants.
+- **Add devices**: Add devices to the inventory
 Both workflows support guided web and Python CLI execution, with individual entry or bulk CSV upload options.
 
 ## HPE Greenlake Platform Workflows
