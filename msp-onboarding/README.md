@@ -39,7 +39,7 @@ msp = MSPBase(client_id=..., client_secret=..., workspace_id=MSP_WORKSPACE_ID)
 tenants = msp.command("GET", "workspaces/v1/msp-tenants", app_name="glp")
 
 # 2. Exchange into one tenant and provision a Central service there
-tenant = msp.get_tenant_connection(tenant_workspace_id=TENANT_ID_32_CHARS)
+tenant = msp.get_tenant_connection(tenant_workspace_id=TENANT_ID)
 tenant.command(
     "POST", "service-catalog/v1/service-manager-provisions", app_name="glp",
     data={"serviceManagerId": SERVICE_MANAGER_ID, "region": REGION},
@@ -51,7 +51,7 @@ msp.command(
     data={
         "application": {"id": SERVICE_MANAGER_ID},
         "region": REGION,
-        "tenantPlatformCustomerId": TENANT_ID_32_CHARS,
+        "tenantPlatformCustomerId": TENANT_ID,
     },
 )
 
