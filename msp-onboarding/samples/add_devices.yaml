@@ -1,0 +1,7 @@
+version: 2
+mode: add
+devices:
+  - serial_number: CNADD00001
+    mac_address: aa:bb:cc:dd:ee:01
+  - serial_number: CNADD00002
+    mac_address: aa:bb:cc:dd:ee:02

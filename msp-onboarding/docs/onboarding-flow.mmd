@@ -1,0 +1,40 @@
+%%{init: {"theme": "dark", "themeVariables": {"background": "#0f172a", "fontFamily": "trebuchet ms, verdana, arial, sans-serif"}, "flowchart": {"wrappingWidth": 400, "nodeSpacing": 60, "rankSpacing": 80, "padding": 16}}}%%
+flowchart LR
+    creds["MSP API Credentials"]
+
+    subgraph ad["Assign devices to tenants"]
+        direction LR
+        b1["Select devices & subscription"]
+        b2["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Assign devices&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+        b3["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Assign subscription&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    end
+
+    subgraph ai["Add devices to inventory"]
+        direction LR
+        c1["&nbsp;&nbsp;&nbsp;&nbsp;Enter serials & MACs&nbsp;&nbsp;&nbsp;&nbsp;"]
+        c2["Add devices to inventory"]
+    end
+
+    subgraph ct["Create tenants"]
+        direction LR
+        a1["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create tenant&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+        a2["&nbsp;&nbsp;Provision Central service&nbsp;&nbsp;"]
+    end
+
+    creds -->|Authenticate| b1
+    creds -->|Authenticate| c1
+    creds -->|Authenticate| a1
+    c1 --> c2
+    a1 -->|"⇄ Token exchange"| a2
+    b1 --> b2 --> b3
+
+    classDef msp fill:#0f2a1c,stroke:#22c55e,color:#86efac
+    classDef tenant fill:#0c2540,stroke:#3b82f6,color:#93c5fd
+    classDef root fill:#1e293b,stroke:#60a5fa,color:#bfdbfe
+    class a1,b1,b2,b3,c1,c2 msp
+    class a2 tenant
+    class creds root
+    style ct fill:#111827,stroke:#475569,color:#e2e8f0
+    style ad fill:#111827,stroke:#475569,color:#e2e8f0
+    style ai fill:#111827,stroke:#475569,color:#e2e8f0
+    

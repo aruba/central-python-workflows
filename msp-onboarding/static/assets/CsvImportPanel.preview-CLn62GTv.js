@@ -1,0 +1,5 @@
+import{t as e}from"./CsvImportPanel-BhH-FrzJ.js";import{n as t,x as n,y as r}from"./index-ZW6dsqOR.js";var i=n(r(),1),a=t(),o=`name,country,description,email,phone_number,street_address,street_address_complement,city,state_or_region,postal_code,application,region
+Northstar Retail,US,Flagship stores,,,,,Austin,TX,,HPE Aruba Networking Central,us-west
+`,s=`serial_number,subscription_key,tenant
+CNXA001,SUB-AP-FOUNDATION,Northstar Retail
+`;function c({kind:t}){let[n,r]=(0,i.useState)(null);return(0,a.jsx)(e,{kind:t,onChange:r,template:t===`tenant`?o:s,tenantNames:t===`device`?[`Northstar Retail`]:void 0,value:n})}function l(){return(0,a.jsxs)(`main`,{className:`csv-import-preview`,children:[(0,a.jsx)(`h1`,{children:`CSV import panel`}),(0,a.jsx)(`p`,{children:`Development preview for tenant and device journeys.`}),(0,a.jsxs)(`div`,{className:`csv-import-preview-grid`,children:[(0,a.jsx)(c,{kind:`tenant`}),(0,a.jsx)(c,{kind:`device`})]})]})}export{l as CsvImportPanelPreview};
