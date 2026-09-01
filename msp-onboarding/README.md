@@ -1,4 +1,4 @@
-# MSP onboarding workflow
+# MSP Onboarding
 
 Automate the three most common MSP onboarding workflows using MSP API Credentials:
 
