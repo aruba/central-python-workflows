@@ -1,4 +1,4 @@
-import{t as e}from"./CsvImportPanel-D3Rs7xCK.js";import{n as t,x as n,y as r}from"./index-BsMRpEDY.js";var i=n(r(),1),a=t(),o=`name,country,description,email,phone_number,street_address,street_address_complement,city,state_or_region,postal_code,application,region
+import{t as e}from"./CsvImportPanel-BhH-FrzJ.js";import{n as t,x as n,y as r}from"./index-ZW6dsqOR.js";var i=n(r(),1),a=t(),o=`name,country,description,email,phone_number,street_address,street_address_complement,city,state_or_region,postal_code,application,region
 Northstar Retail,US,Flagship stores,,,,,Austin,TX,,HPE Aruba Networking Central,us-west
 `,s=`serial_number,subscription_key,tenant
 CNXA001,SUB-AP-FOUNDATION,Northstar Retail
