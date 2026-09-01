@@ -201,6 +201,7 @@ Select one or more tenants that you want to include in the assignment.
 
 The tool discovers the applicable service and region for each tenant and identifies any tenants that are not eligible for assignment.
 
+![Tenant Selection UI](docs/screenshots/step-1-tenant-selection.png)
 
 #### 2. Select Devices and Subscriptions
 
@@ -208,6 +209,7 @@ Select the devices to assign and map each device to its destination tenant and s
 
 The UI displays the available device inventory and subscription information, including capacity and expiration details, to help build the assignment plan.
 
+![Device & Subscription Selection UI](docs/screenshots/step-2-device-selection.png)
 
 #### 3. Pre-flight Review
 
@@ -215,7 +217,7 @@ Before making any changes, the tool validates the complete assignment plan.
 
 Any validation issues are surfaced before the operation begins so that they can be corrected without making changes.
 
-
+![Preflight Check UI](docs/screenshots/step-3-preflight-plan.png)
 
 #### 4. Live Run
 
@@ -225,7 +227,7 @@ The UI transitions from the review into a live execution view, showing progress 
 
 Results are displayed per device, including completed, already satisfied, and failed operations.
 
-[]
+![Live Run UI](docs/screenshots/step-4-live-run.png)
 
 ### Other Web UI Workflows
 
