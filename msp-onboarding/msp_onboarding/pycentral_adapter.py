@@ -159,7 +159,6 @@ class PycentralAdapter:
         self._tenant_cache: Optional[tuple[datetime, list[TenantInfo]]] = None
         self._available_devices_cache: Optional[tuple[datetime, list[DeviceInfo]]] = None
         self._tenant_base_urls: dict[str, str] = {}
-        self._created_tenants: set[str] = set()
         # Live 2026-08-25: GLP answers every call with ratelimit-limit /
         # ratelimit-remaining / ratelimit-reset (fixed windows: 2 provisioning
         # POSTs and 10 tenant POSTs per window). Writes to one path are
@@ -659,7 +658,6 @@ class PycentralAdapter:
             )
             if workspace_id and response_name == workspace_name:
                 self._remember_tenant_base_url(workspace_id, created)
-                self._created_tenants.add(workspace_id)
                 return TenantInfo(
                     workspace_id=workspace_id,
                     workspace_name=workspace_name,
@@ -681,7 +679,6 @@ class PycentralAdapter:
         )
         located_id = location.rstrip("/").rsplit("/", 1)[-1]
         if len(located_id) == 36 and located_id.count("-") == 4:
-            self._created_tenants.add(located_id)
             return TenantInfo(
                 workspace_id=located_id,
                 workspace_name=workspace_name,
@@ -694,7 +691,6 @@ class PycentralAdapter:
                 "tenant_not_found",
                 "Created tenant was not found by exact workspace name",
             )
-        self._created_tenants.add(tenant.workspace_id)
         return tenant
 
     def _tenant_connection(self, workspace_id: str) -> Any:
@@ -887,8 +883,9 @@ class PycentralAdapter:
         self, workspace_id: str, service_manager_id: str, region: str
     ) -> None:
         observation_key = (workspace_id, service_manager_id, region)
-        # A tenant this session just created has no provisions; skip the read.
-        matching = [] if workspace_id in self._created_tenants else [
+        # Always read live before writing: a tenant created earlier in this
+        # session is provisioned by now, and GLP rejects a repeat POST.
+        matching = [
             item
             for item in self._service_items(workspace_id)
             if self._service_manager_id(item) == service_manager_id
