@@ -15,7 +15,7 @@ Each folder represents a self-contained workflow. Inside each, you’ll find:
 > The workflows in this section use pre-release versions of the **pycentral** library and are intended primarily for Central, currently in Public Preview.
 > Please note:
 > - APIs and SDK behavior may change as the Central platform evolves with each release.
-> - Some workflows may break or require updates with future SDK changes.\
+> - Some workflows may break or require updates with future SDK changes.
 > 
 >We will make every effort to keep these workflows up to date. If you encounter any issues or inconsistencies, please open an issue in this repository.
 
