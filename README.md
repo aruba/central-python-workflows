@@ -2,7 +2,7 @@
 > [!NOTE]
 > If you’re looking for Classic Central workflows, please click [here](/Classic-Central/)
 
-This repository contains Python-based workflows, code samples, and where applicable, Postman collections to help automate and integrate with New Central and HPE GreenLake Platform (GLP) APIs.
+This repository contains Python-based workflows, code samples, and where applicable, Postman collections to help automate and integrate with Central and HPE GreenLake Platform (GLP) APIs.
 It leverages the [pycentral SDK](https://pypi.org/project/pycentral/) to interact with Central’s APIs and extensibility features.
 
 Each folder represents a self-contained workflow. Inside each, you’ll find:
@@ -10,17 +10,17 @@ Each folder represents a self-contained workflow. Inside each, you’ll find:
 - All required scripts, data files (like CSVs), and Postman collections (if applicable)
 - Clear setup and execution instructions
 
-## New Central Workflows
+## Central Workflows
 > [!CAUTION]
-> The workflows in this section use pre-release versions of the **pycentral** library and are intended primarily for New Central, currently in Public Preview.
+> The workflows in this section use pre-release versions of the **pycentral** library and are intended primarily for Central, currently in Public Preview.
 > Please note:
-> - APIs and SDK behavior may change as the new Central platform evolves with each release.
+> - APIs and SDK behavior may change as the Central platform evolves with each release.
 > - Some workflows may break or require updates with future SDK changes.\
 > 
 >We will make every effort to keep these workflows up to date. If you encounter any issues or inconsistencies, please open an issue in this repository.
 
 ### [Onboarding](/device-onboarding/)
-This script automates the complete onboarding journey of factory-default devices in HPE Aruba Networking Central. It takes devices from an **unassigned state in GreenLake Platform (GLP)** through both GLP onboarding and Central onboarding to make them ready for configuration via **New Central**.
+This script automates the complete onboarding journey of factory-default devices in HPE Aruba Networking Central. It takes devices from an **unassigned state in GreenLake Platform (GLP)** through both GLP onboarding and Central onboarding to make them ready for configuration via **Central**.
 
 **Phase 1: GLP (GreenLake Platform) Onboarding** *(Optional)*
 - Application assignment to HPE Aruba Networking Central instances
@@ -33,26 +33,26 @@ This script automates the complete onboarding journey of factory-default devices
 - Provisioning verification
 
 ### [Ping and iPerf Troubleshooting Workflow](/troubleshooting-workflow/)
-This script automates network troubleshooting tasks using the new HPE Aruba Networking Central APIs. The workflow performs comprehensive connectivity testing by executing ping tests and iPerf bandwidth tests on gateway devices to validate network performance and connectivity.
+This script automates network troubleshooting tasks using the Central APIs. The workflow performs comprehensive connectivity testing by executing ping tests and iPerf bandwidth tests on gateway devices to validate network performance and connectivity.
 
 ### [Tunnelled SSID Workflow](/tunneled-ssid-overlays/)
 This workflow can:
-- Creates config profiles such as roles and policies in New Central
+- Creates config profiles such as roles and policies in Central
 - Creates SSID configurations with associated roles
 - Modify policy group and create overlay WLAN profiles
 - Assigns these configurations to the appropriate scopes (global or group)
 - Associates devices with sites based on the inventory configuration
 
 ### [Open SSID Workflow](/open-ssid-overlay/)
-This Python script automates the configuration of an **Open SSID (Opportunistic Wireless Encryption)** in New HPE Aruba Networking Central. The script performs the following actions:
-- Creates configuration profiles such as roles and policies in New Central.
+This Python script automates the configuration of an **Open SSID (Opportunistic Wireless Encryption)** in Central. The script performs the following actions:
+- Creates configuration profiles such as roles and policies in Central.
 - Modifies policy groups and associates policies with them.
 - Creates Open SSID configurations with associated roles.
 - Assigns these configurations to the appropriate scopes (site or global).
 - Moves devices into site with Open SSID configuration to inherit profile.
 
 ### [WPA3 PSK Workflow](/wpa3-psk-overlay/)
-This Python script automates the configuration of a WPA3 PSK (Wi-Fi Protected Access 3 - Pre-Shared Key) in New HPE Aruba Networking Central. It creates configuration profiles such as roles and policies in New Central, modifies policy groups and associates policies with them, and generates WPA3 PSK configurations with associated roles. Additionally, it assigns these configurations to the appropriate scopes, whether site or global, and moves devices into the site with the WPA3 PSK configuration to ensure they inherit the profile.
+This Python script automates the configuration of a WPA3 PSK (Wi-Fi Protected Access 3 - Pre-Shared Key) in Central. It creates configuration profiles such as roles and policies in Central, modifies policy groups and associates policies with them, and generates WPA3 PSK configurations with associated roles. Additionally, it assigns these configurations to the appropriate scopes, whether site or global, and moves devices into the site with the WPA3 PSK configuration to ensure they inherit the profile.
 
 ### [Hierarchy Visualizer](/hierarchy-visualizer/)
 This workflow visualizes the Hierarchy of Central using APIs. It discovers hierarchy relationships and required configuration attributes (such as `scope_id` and `persona`) and presents them in both tabular and visual formats. The workflow generates a terminal summary, a CSV report, and hierarchy diagrams that represent the hierarchy structure.
