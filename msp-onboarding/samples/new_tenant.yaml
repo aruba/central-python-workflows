@@ -1,0 +1,9 @@
+version: 2
+mode: new
+tenants:
+  - name: Demo New Tenant
+    country: US
+    service:
+      service_manager_id: bbbbbbbb-0001-0001-0001-000000000001
+      region: us-west
+devices: []

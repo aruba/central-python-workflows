@@ -78,6 +78,13 @@ This script automates the execution of predefined troubleshooting show commands 
 ### [MSP Control Tower](/msp-tenant-monitoring/)
 This workflow monitors every tenant an MSP manages using a single MSP credential. It discovers managed tenants, then collects sites, devices, clients, and alerts from each one. It ships in two forms: a **web dashboard** for interactive exploration and a **Python CLI** (`main.py`) for scripted export.
 
+### [MSP Onboarding](/msp-onboarding/)
+This workflow automates common MSP onboarding tasks with MSP API credentials:
+- **Create tenants**: Create new MSP tenants and provision a Central service in each.
+- **Assign devices to tenants**: Assign MSP-owned devices and subscriptions to existing tenants.
+- **Add devices**: Add devices to the inventory
+Both workflows support guided web and Python CLI execution, with individual entry or bulk CSV upload options.
+
 ## HPE Greenlake Platform Workflows
 
 ### [Onboarding](/glp-device-onboarding/)

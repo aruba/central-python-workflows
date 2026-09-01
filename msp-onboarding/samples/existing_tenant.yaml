@@ -1,0 +1,18 @@
+version: 2
+mode: existing
+tenants:
+  - name: Demo West Tenant
+    workspace_id: aaaaaaaa-0001-0001-0001-000000000001
+    service:
+      service_manager_id: bbbbbbbb-0001-0001-0001-000000000001
+      region: us-west
+devices:
+  - serial_number: CNXA001
+    tenant: Demo West Tenant
+    subscription_key: KEY_A
+  - serial_number: CNXA002
+    tenant: Demo West Tenant
+    subscription_key: KEY_B
+  - serial_number: CNXA003
+    tenant: Demo West Tenant
+    subscription_key: KEY_B
