@@ -187,21 +187,55 @@ Drop `--demo` for live runs. Sample manifests live in [`samples/`](samples/).
 
 ### On-Screen Output
 
-The web workflow surfaces the plan and the run in one place:
+The web UI supports all the onboarding workflows defined above:
 
-- **Setup stage**: tenant picker with per-tenant service and region discovery; tenants without an eligible service are set aside with the reason shown.
-- **Devices stage**: dense inventory table with CSV import, per-device or bulk subscription mapping, and seat capacity and expiry checks.
-- **Preflight review**: every tenant, device, and seat assignment with its validation result, plus an impact ledger of what will and will not run.
-- **Inventory add**: editable serial and MAC grid with CSV import, row-level validation, preflight, then per-device results.
-- **Live run**: the same review switches to per-device status chips (Writing, Complete, Already satisfied, Failed) and per-tenant progress as the job runs.
+1. **Add Devices** – add devices to the GreenLake inventory.
+2. **Create Tenants** – create MSP tenant workspaces.
+3. **Assign Devices to Tenants** – Assign available devices and subscriptions to selected tenants.
 
-<!-- screenshot: sign-in screen (docs/sign-in.png) -->
-<!-- screenshot: devices stage with seat mapping (docs/devices.png) -->
-<!-- screenshot: preflight review (docs/review.png) -->
-<!-- screenshot: live run results (docs/run.png) -->
+The following walkthrough focuses on **Assign Devices to Tenants**. The Add Devices and Create Tenants workflows follow a similar experience.
 
-The **CLI** prints the same plan and per-step results as tables, and masks subscription keys in `list subscriptions`.
+#### 1. Select Tenants
 
+Select one or more tenants that you want to include in the assignment.
+
+The tool discovers the applicable service and region for each tenant and identifies any tenants that are not eligible for assignment.
+
+
+#### 2. Select Devices and Subscriptions
+
+Select the devices to assign and map each device to its destination tenant and subscription.
+
+The UI displays the available device inventory and subscription information, including capacity and expiration details, to help build the assignment plan.
+
+
+#### 3. Pre-flight Review
+
+Before making any changes, the tool validates the complete assignment plan.
+
+Any validation issues are surfaced before the operation begins so that they can be corrected without making changes.
+
+
+
+#### 4. Live Run
+
+After the pre-flight review passes, start the assignment.
+
+The UI transitions from the review into a live execution view, showing progress and status for each device as the assignments are processed.
+
+Results are displayed per device, including completed, already satisfied, and failed operations.
+
+[]
+
+### Other Web UI Workflows
+
+**Add Devices**
+
+Add devices to the GreenLake inventory individually or through CSV import. The UI validates device information before the operation and displays the result for each device.
+
+**Create Tenants**
+
+Create one or more tenants through the web UI. Tenant information is validated before creation, with individual results displayed as the operation completes.
 ### Report Files
 
 - `GET /api/jobs/{id}/manifest`: exports the confirmed job as a YAML manifest (including subscription keys) that the CLI can `plan` and `run` again
