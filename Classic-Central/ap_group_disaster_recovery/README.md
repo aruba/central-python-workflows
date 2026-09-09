@@ -93,6 +93,8 @@ python disaster_recovery.py --mode backup --central_auth central_token.json --ou
 
 The script automatically scales the number of concurrent worker threads based on the total AP count in your Central instance (formula: `min(30, max(5, total_aps // 100))`). No manual tuning is needed.
 
+All API calls are throttled through a shared rate limiter (default 8 requests/second across all worker threads, tunable via `API_MAX_REQUESTS_PER_SEC` in the script) so the worker threads don't overwhelm Central's per-second rate limit, even at high thread counts.
+
 ### Restore
 
 > [!WARNING]
@@ -121,13 +123,14 @@ python disaster_recovery.py --mode restore \
 ## Troubleshooting
 
 - **Module import errors** — Make sure the virtual environment is activated and `pip install -r requirements.txt` has been run
-- **HTTP 401 / 403** — Verify that the access token in `central_token.json` is valid and has not expired
+- **HTTP 401 / 403** — Verify that the access token in `central_token.json` is valid and has not expired. If a 401 occurs mid-run, the workflow detects it, cancels all remaining in-flight and queued work, and exits immediately with an error rather than continuing to burn through the rest of the workload against an invalid token.
 - **HTTP 400 on restore** — The AP serial number in the backup file must exist in Central; the API cannot push settings to an AP that is not registered
 - **AP restore skipped** — The AP must be online and reachable in Central at the time of restore
 - **Invalid restore JSON** — Each file in `group_configs/` or `ap_settings/` must be valid JSON
+- **DNS/connection blips** — PyCentral's own `command()` implementation calls Python's builtin `exit()` when a request fails at the network layer (e.g. a transient DNS resolution failure), which raises `SystemExit`. This workflow explicitly catches and retries on `SystemExit` from PyCentral so a single network blip doesn't kill the whole backup/restore run.
 
 ## Known Issues
 
 - **Restore is destructive** — every AP's full CLI settings are replaced verbatim with the backed-up version. There is no partial restore.
 - APs on operating systems older than AOS 10.x may not support serial number as a target for `ap_settings_cli`.
-- Central API rate limiting (HTTP 429) may occur on very large deployments. The worker count is capped at 30 to stay within typical Central rate limits, and the workflow retries rate-limited API calls up to 3 times with a short backoff before marking them failed.
+- Central API rate limiting (HTTP 429) may occur on very large deployments. All API calls are throttled through a shared rate limiter (default 8 requests/second across all worker threads, tunable via `API_MAX_REQUESTS_PER_SEC` in the script) to avoid overwhelming Central, and the workflow retries rate-limited or transient network-error calls with exponential backoff (base 1s, doubling up to 30s, plus jitter) for up to 5 attempts before marking them failed.

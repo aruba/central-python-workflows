@@ -31,6 +31,7 @@ RESTORE MODE
 import csv
 import json
 import os
+import random
 import sys
 import threading
 import time
@@ -58,8 +59,16 @@ AP_HOSTNAME_CSV_FIELDS = ["serial_number", "hostname", "group_name", "model"]
 GROUP_CLI_CSV_FIELDS   = ["group_name", "classification", "cli"]
 
 API_RETRYABLE_CODES      = {429}
-API_MAX_RETRIES          = 3
-API_RETRY_BACKOFF_BASE_S = 2
+API_MAX_RETRIES          = 5
+API_RETRY_BACKOFF_BASE_S = 1
+API_RETRY_BACKOFF_MAX_S  = 30
+
+# Central enforces a per-second API rate limit. With many worker threads firing
+# concurrently, each one independently trips PyCentral's internal limiter, causing
+# cascading waits. This shared limiter throttles the *actual* request rate across
+# every thread so we approach, but don't cross, that ceiling. Tune down if your
+# Central instance/token has a lower per-second allowance.
+API_MAX_REQUESTS_PER_SEC = 8
 
 
 get_error_codes = [
@@ -100,6 +109,65 @@ def calc_workers(count):
 	return min(30, max(5, count // 100))
 
 
+class RateLimiter:
+	"""Throttles API calls across all worker threads to a fixed rate per second.
+
+	Without this, every thread hits PyCentral's own internal per-second limiter
+	independently, which causes repeated 2-second stalls and log spam under
+	high concurrency. Serializing requests through a shared token window keeps
+	the actual outbound request rate under Central's ceiling.
+	"""
+
+	def __init__(self, max_per_second):
+		self.max_per_second = max_per_second
+		self.lock = threading.Lock()
+		self.window_start = time.monotonic()
+		self.count = 0
+
+	def acquire(self):
+		"""Blocks the calling thread until it is safe to issue another request."""
+		while True:
+			with self.lock:
+				now = time.monotonic()
+				elapsed = now - self.window_start
+				if elapsed >= 1:
+					self.window_start = now
+					self.count = 0
+					elapsed = 0
+				if self.count < self.max_per_second:
+					self.count += 1
+					return
+				sleep_time = 1 - elapsed
+			time.sleep(max(sleep_time, 0.01))
+
+
+rate_limiter = RateLimiter(API_MAX_REQUESTS_PER_SEC)
+
+# Set the moment any API call returns HTTP 401 - a live token normally never
+# gets a 401 for calls that succeeded before, so this almost always means the
+# access token expired or was revoked mid-run. Continuing would just burn
+# through the rest of the workload generating a 401 for every remaining call.
+auth_error_event = threading.Event()
+
+
+def abort_if_auth_failed(executor=None):
+	"""Exits immediately if a 401 was detected anywhere, cancelling pending thread pool work first.
+
+	Args:
+		executor (ThreadPoolExecutor | None): Executor whose queued (not yet
+			started) futures should be cancelled before exiting, if any.
+	"""
+	if not auth_error_event.is_set():
+		return
+	if executor is not None:
+		executor.shutdown(wait=False, cancel_futures=True)
+	print(
+		f"\n  {colored('Error', 'red')} - Authentication failed (HTTP 401): the Central API "
+		"token appears to be expired or invalid. Aborting remaining operations.\n"
+	)
+	sys.exit(1)
+
+
 def print_summary(title, rows):
 	"""Prints a formatted summary table with a centered title and key/value rows.
 
@@ -117,7 +185,16 @@ def print_summary(title, rows):
 
 
 def command_with_retries(central_conn, apiMethod, apiPath, context, apiParams=None, apiData=None):
-	"""Runs a Central API command and retries when Central returns HTTP 429.
+	"""Runs a Central API command, throttled to a shared rate limit, with exponential backoff.
+
+	Retries on HTTP 429 (rate limit) and on transient network/connection errors
+	(e.g. DNS failures, dropped connections) that would otherwise crash the caller.
+
+	Note: PyCentral's own `command()` implementation calls Python's builtin
+	`exit()` (raising SystemExit) when the underlying HTTP request fails with a
+	network error such as a DNS resolution failure. SystemExit is a BaseException,
+	not an Exception, so it must be caught explicitly here or it will propagate
+	out of the worker thread's Future and kill the entire script.
 
 	Args:
 		central_conn (pycentral.base.ArubaCentralBase): PyCentral connection.
@@ -128,21 +205,34 @@ def command_with_retries(central_conn, apiMethod, apiPath, context, apiParams=No
 		apiData (dict | None): Request body, if any.
 
 	Returns:
-		dict: Response dict from PyCentral.
+		dict: Response dict with at least a 'code' key. 'code' is None if every
+			retry attempt failed due to a network/connection error.
 	"""
 	attempt = 0
 	while True:
-		resp = central_conn.command(apiMethod=apiMethod, apiPath=apiPath, apiParams=apiParams, apiData=apiData)
-		if resp.get("code") not in API_RETRYABLE_CODES or attempt >= API_MAX_RETRIES:
+		rate_limiter.acquire()
+		try:
+			resp = central_conn.command(apiMethod=apiMethod, apiPath=apiPath, apiParams=apiParams, apiData=apiData)
+			error_message = None
+		except (Exception, SystemExit) as exc:
+			resp = None
+			error_message = str(exc) or "network error (connection/DNS failure)"
+
+		retryable = resp is None or resp.get("code") in API_RETRYABLE_CODES
+		if resp is not None and resp.get("code") == 401:
+			auth_error_event.set()
+		if not retryable or attempt >= API_MAX_RETRIES:
+			if resp is None:
+				return {"code": None, "msg": error_message}
 			return resp
 
 		attempt += 1
-		delay = API_RETRY_BACKOFF_BASE_S * attempt
+		delay = min(API_RETRY_BACKOFF_MAX_S, API_RETRY_BACKOFF_BASE_S * (2 ** (attempt - 1)))
+		delay += random.uniform(0, delay * 0.25)
+		reason = f"network error ({error_message})" if resp is None else f"response code {resp.get('code')}"
 		print(
-			f"  Response code: {colored(resp.get('code'), 'yellow')} - "
-			f"Rate limit hit during {colored(context, 'blue')}. "
-			f"Retrying in {colored(delay, 'cyan')} second(s) "
-			f"({attempt}/{API_MAX_RETRIES})..."
+			f"  {colored(reason, 'yellow')} during {colored(context, 'blue')}. "
+			f"Retrying in {colored(round(delay, 1), 'cyan')}s ({attempt}/{API_MAX_RETRIES})..."
 		)
 		time.sleep(delay)
 def load_validated_backup_json(file_path):
@@ -296,6 +386,7 @@ def run_backup(central, output_dir):
 		futures = {executor.submit(fetch_and_save, ap): ap for ap in ap_list}
 		for future in as_completed(futures):
 			serial, hostname, group_name, ap_settings, settings_path = future.result()
+			abort_if_auth_failed(executor)
 			with print_lock:
 				completed += 1
 				if ap_settings is not None:
@@ -360,6 +451,7 @@ def run_backup(central, output_dir):
 		futures = {executor.submit(fetch_group, g): g for g in group_names}
 		for future in as_completed(futures):
 			group_name, status, cli_lines, save_path = future.result()
+			abort_if_auth_failed(executor)
 			is_active = group_name in active_set
 			tag = colored("(active)", "cyan") if is_active else colored("(additional)", "magenta")
 			with group_lock:
@@ -488,6 +580,7 @@ def run_restore(central, backup_dir):
 			futures = {executor.submit(push_group, gf): gf for gf in group_files}
 			for future in as_completed(futures):
 				group_name, success, error = future.result()
+				abort_if_auth_failed(executor)
 				with group_lock:
 					g_completed += 1
 					if success:
@@ -533,6 +626,7 @@ def run_restore(central, backup_dir):
 		futures = {executor.submit(push_settings, jf): jf for jf in json_files}
 		for future in as_completed(futures):
 			serial, success, error = future.result()
+			abort_if_auth_failed(executor)
 			with print_lock:
 				completed += 1
 				if success:
@@ -603,6 +697,7 @@ def get_all_groups(central_conn):
 
 		resp = command_with_retries(central_conn, apiMethod, apiPath, "get_all_groups", apiParams=apiParams)
 
+		abort_if_auth_failed()
 		if resp["code"] != 200:
 			print_api_error("get_all_groups", resp, get_error_codes)
 			break
@@ -666,6 +761,7 @@ def get_all_aps(central_conn):
 
 		resp = command_with_retries(central_conn, apiMethod, apiPath, "get_all_aps", apiParams=apiParams)
 
+		abort_if_auth_failed()
 		if resp["code"] != 200:
 			print_api_error("get_all_aps", resp, get_error_codes)
 			break
