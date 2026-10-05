@@ -1,0 +1,8 @@
+*
+!requirements.txt
+!server.py
+!msp_workbench/
+!msp_workbench/**
+!static/
+!static/**
+**/__pycache__/

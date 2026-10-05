@@ -75,15 +75,10 @@ This workflow retrieves comprehensive device information from both HPE Aruba Net
 ### [Cutover Validation](/cutover-validation)
 This script automates the execution of predefined troubleshooting show commands across multiple Aruba Central–managed devices. It is designed for cutover, migration, and validation workflows, allowing operators to run consistent checks at scale without logging into individual devices. Results are collected only from online devices and exported in HTML, Markdown, or JSON for easy review and sharing.
 
-### [MSP Control Tower](/msp-tenant-monitoring/)
-This workflow monitors every tenant an MSP manages using a single MSP credential. It discovers managed tenants, then collects sites, devices, clients, and alerts from each one. It ships in two forms: a **web dashboard** for interactive exploration and a **Python CLI** (`main.py`) for scripted export.
-
-### [MSP Onboarding](/msp-onboarding/)
-This workflow automates common MSP onboarding tasks with MSP API credentials:
-- **Create tenants**: Create new MSP tenants and provision a Central service in each.
-- **Assign devices to tenants**: Assign MSP-owned devices and subscriptions to existing tenants.
-- **Add devices**: Add devices to the inventory
-Both workflows support guided web and Python CLI execution, with individual entry or bulk CSV upload options.
+### [MSP Workbench](/msp-workbench/)
+A guided web app and CLI for MSPs, using one MSP credential. 
+- Onboard: create tenants, add devices to the MSP inventory, and assign devices and subscriptions to tenants. 
+- Observe: monitor tenants and track subscription burndown.
 
 ## HPE Greenlake Platform Workflows
 
