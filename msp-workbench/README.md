@@ -281,35 +281,6 @@ Drop `--demo` for live runs. Sample manifests and CSVs live in [`samples/`](samp
 
 Central device details is web-only; the CLI has no equivalent.
 
-### Podman container
-
-Runs the committed `static/` UI and the backend in one non-root process, for a
-single local operator. The image contains the web workflow only; run the CLI
-from a local checkout.
-
-On macOS, install Podman with [Homebrew](https://brew.sh) and start its VM once:
-
-```bash
-brew install podman
-podman machine init    # first time only
-podman machine start
-```
-
-Then build and run:
-
-```bash
-cd msp-workbench
-podman build -t msp-workbench:local -f Containerfile .
-podman run --rm --name msp-workbench -p 127.0.0.1:8000:8000 msp-workbench:local
-```
-
-Open `http://127.0.0.1:8000/` (change the first port to use another host port).
-Sign in through the browser; don't mount `token.yaml` into the container.
-
-State is in memory. Settle or **Stop** any running job before `podman stop
-msp-workbench`; stopping the container mid-job loses the session and does not
-undo writes already made.
-
 ## Output
 
 ### On-Screen Output
