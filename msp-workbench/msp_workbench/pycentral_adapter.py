@@ -107,13 +107,20 @@ _DIAGNOSTIC_SOURCES = frozenset(
 _DIAGNOSTIC_PATH_SEGMENTS = frozenset(
     {
         "async-operations",
+        "alerts",
+        "clients",
         "device-inventory",
         "devices",
+        "list-tenants",
         "msp-tenants",
+        "network-monitoring",
         "network-msp",
+        "network-notifications",
+        "per-region-service-managers",
         "service-catalog",
         "service-manager-provisions",
         "service-managers",
+        "sites-health",
         "subscriptions",
         "v1",
         "workspaces",
@@ -487,8 +494,19 @@ class PycentralAdapter:
         """Start Central cluster detection in the background; re-run it once settled."""
         with self._detection_lock:
             if self._detection is None or (restart and self._detection.done()):
-                self._detection = self._detection_pool.submit(self._detect_central)
+                self._detection = self._detection_pool.submit(self._detect_central_retrying)
             return self._detection
+
+    def _detect_central_retrying(self) -> tuple[list[dict[str, str]], list[dict[str, Any]]]:
+        # A dropped connection at sign-in is common and transient; retry once before
+        # surfacing it, so the operator only needs Retry for persistent failures.
+        try:
+            return self._detect_central()
+        except AdapterError as exc:
+            if exc.code != "transport_error":
+                raise
+            time.sleep(1.0)
+            return self._detect_central()
 
     def central_configuration(self, *, wait: bool = False) -> dict[str, Any]:
         detection = self.detect_central(restart=False)

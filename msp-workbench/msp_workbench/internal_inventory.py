@@ -82,18 +82,30 @@ class InternalInventoryManager:
             "error": {"code": error.code, "message": error.message},
         }
 
+    @staticmethod
+    def _central(adapter: AdapterProtocol, *, wait: bool = False) -> tuple[dict[str, Any] | None, AdapterError | None]:
+        """Central configuration, or the error that makes Central unavailable.
+
+        A failed cluster detection re-raises its AdapterError; report it as
+        unavailable rather than letting it escape as a 500.
+        """
+        try:
+            configuration = adapter.central_configuration(wait=wait)
+        except AdapterError as exc:
+            return None, exc
+        return configuration, central_unavailable(configuration)
+
     def _check_central(self, adapter: AdapterProtocol) -> None:
-        error = central_unavailable(adapter.central_configuration())
+        _, error = self._central(adapter)
         if error is not None:
             self._mark_unavailable(error)
 
     def start(self, adapter: AdapterProtocol, *, refresh: bool = False) -> bool:
         # Waits for background cluster detection, outside the lock so status polls stay live.
-        configuration = adapter.central_configuration(wait=True)
+        configuration, error = self._central(adapter, wait=True)
         with self._condition:
             if adapter is not self._adapter:
                 raise InternalInventoryGone("Inventory auth generation changed")
-            error = central_unavailable(configuration)
             if error is not None:
                 self._mark_unavailable(error)
                 return False

@@ -90,8 +90,9 @@ Onboarding calls go to the GreenLake Platform (GLP) API; Observe adds read-only 
 | Step | Service | Method | Endpoint | Description |
 |------|---------|--------|----------|-------------|
 | 1 | GLP | `GET` | `workspaces/v1/msp-tenants` | Validates the credential |
-| 2 | GLP | `GET` | `service-catalog/v1/service-manager-provisions` | Central applications provisioned in the MSP workspace, and their regions |
-| 3 | Central | `GET` | `network-msp/v1/list-tenants` | Probes candidate clusters when a region maps to more than one |
+| 2 | GLP | `GET` | `service-catalog/v1/service-managers` | Central application names, to identify Central provisions |
+| 3 | GLP | `GET` | `service-catalog/v1/service-manager-provisions` | Central applications provisioned in the MSP workspace, and their regions |
+| 4 | Central | `GET` | `network-msp/v1/list-tenants` | Probes candidate clusters when a region maps to more than one |
 
 ### Onboard tenants
 
