@@ -149,11 +149,11 @@ class _ApiDiagnostics:
             )
 
 
-# ponytail: cap an untrusted Retry-After at one day, in either of its two legal
+# NOTE: cap an untrusted Retry-After at one day, in either of its two legal
 # forms, so a malformed or hostile header cannot freeze writes indefinitely.
 # Revisit if a quota is ever published with a longer window than this.
 MAX_RETRY_AFTER_SECONDS = 86_400.0
-# ponytail: 50 pages makes truncation impossible to miss while bounding a
+# NOTE: 50 pages make truncation impossible to miss while bounding a
 # malformed total. Revisit if a legitimate GLP collection can exceed the cap.
 MAX_LIST_PAGES = 50
 INVENTORY_ADD_POLL_SECONDS = 2
@@ -384,7 +384,7 @@ def _without_inner_429_retry(connection: Any) -> Any:
     which turns one throttled write into three and extends the window. The engine
     owns backoff, so the transport must not retry.
     """
-    # ponytail: instance patch on request_url; replace when pycentral exposes a
+    # TODO: request_url is patched on the instance; replace when pycentral exposes a
     # retry setting for 429.
     original = getattr(connection, "request_url", None)
     if original is None or getattr(connection, "_msp_no_429_retry", False):
@@ -438,7 +438,7 @@ class PycentralAdapter:
         if root_url:
             self._connections[root_url] = self._root
         self._transactions: dict[str, str] = {}
-        # ponytail: a 60-second TTL covers the sub-minute assignment target;
+        # NOTE: a 60-second TTL covers the sub-minute assignment target;
         # replace it with explicit job lifecycle hooks if jobs routinely exceed it.
         self._tenant_cache: Optional[tuple[datetime, list[TenantInfo]]] = None
         self._tenant_health_cache: Optional[
@@ -458,7 +458,7 @@ class PycentralAdapter:
         ] = {}
         self._service_manager_names_cache: dict[str, str] | None = None
         self._region_display_names_cache: dict[str, str] | None = None
-        # ponytail: session-lifetime cache has no TTL; assumes provisioning does not
+        # TODO: the session-lifetime cache has no TTL; assumes provisioning does not
         # change within a session. Revisit if that stops holding.
         self._services_by_tenant: dict[str, list[ServiceInfo]] = {}
         self._clock = clock or (lambda: datetime.now(timezone.utc))
@@ -573,7 +573,7 @@ class PycentralAdapter:
 
         pool = ThreadPoolExecutor(max_workers=2, thread_name_prefix="central-probe")
         futures = {cluster: pool.submit(probe, cluster) for cluster in candidates}
-        # ponytail: one 5 s budget per two-wide wave, not a per-request timeout;
+        # NOTE: one 5 s budget per two-wide wave, not a per-request timeout;
         # pycentral has no timeout hook, so a slow probe is abandoned, not cancelled.
         wait(futures.values(), timeout=PROBE_TIMEOUT_SECONDS * math.ceil(len(candidates) / 2))
         pool.shutdown(wait=False, cancel_futures=True)
@@ -695,7 +695,7 @@ class PycentralAdapter:
             # GLP-only data still renders; the Central source carries the detection error.
             yield SourcePage(source, (), 0, None, True, None, error)
             return
-        # ponytail: clusters are read one after another; read them concurrently (one thread
+        # TODO: clusters are read one after another; read them concurrently (one thread
         # per cluster, same shared pacer) once an MSP has more than one detected cluster.
         for cluster in clusters:
             try:
@@ -1141,7 +1141,7 @@ class PycentralAdapter:
                     "pagination_stalled",
                     "Pagination cursor did not advance",
                 )
-            # ponytail: live US-2 device-inventory returns the page number as its cursor
+            # NOTE: live US-2 device-inventory returns the page number as its cursor
             # (next=1 -> "2" ... last page null) plus a total, so the remaining pages are
             # known up front and fetched concurrently. Any other cursor shape, or a short first
             # page, falls back to the sequential walk; drop this if Central makes the cursor
@@ -1761,7 +1761,7 @@ class PycentralAdapter:
             except Exception as exc:
                 if not self._is_auth_error(exc):
                     raise
-                # ponytail: pycentral 2.0a22 does not renew on unauthorized_request; remove when the pinned pycentral does.
+                # TODO: pycentral 2.0a22 does not renew on unauthorized_request; remove when the pinned pycentral does.
                 self._record_call("POST", "token-exchange", timer() - started_at)
                 if self._request_pacer is not None:
                     self._request_pacer.wait(is_write=False)
@@ -1977,7 +1977,7 @@ class PycentralAdapter:
                 or item.get("name")
                 or ""
             )
-            # ponytail: Central identified by catalog name; switch to a service-manager
+            # TODO: Central is identified by catalog name; switch to a service-manager
             # capability flag if GLP ever exposes one.
             if CENTRAL_SERVICE_NAME.lower() not in name.lower():
                 continue
@@ -2069,7 +2069,7 @@ class PycentralAdapter:
                 workspace_id: self._tenant_connection(workspace_id)
                 for workspace_id in missing
             }
-            # ponytail: four concurrent tenant provision reads balance preflight
+            # NOTE: four concurrent tenant provision reads balance preflight
             # latency against the shared GLP read budget; revisit with API quotas.
             with ThreadPoolExecutor(max_workers=4) as executor:
                 futures = {

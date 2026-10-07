@@ -257,22 +257,23 @@ python workbench.py --demo monitor overview
 python workbench.py --demo monitor tenant "Acme Corp" --sites --alerts
 python workbench.py --demo monitor export --format csv --out tenants.csv
 python workbench.py --demo subscriptions burndown --scope msp --months 12
+python workbench.py --demo subscriptions burndown --tenant "Acme Corp" --months 12   # scope inferred from ownership
 python workbench.py --demo subscriptions burndown --scope tenant --tenant "Gamma Hospitality" --format csv --out gamma.csv
 python workbench.py --demo plan samples/new_tenant.yaml
 python workbench.py --demo run samples/new_tenant.yaml --yes
 ```
 
-Drop `--demo` for live runs. Sample manifests and CSVs live in [`samples/`](samples/). Agents should follow the [`workbench-cli` skill](skills/workbench-cli/SKILL.md).
+Drop `--demo` for live runs. Sample manifests and CSVs live in [`samples/`](samples/).
 
 | Flag | Applies to | Values |
 |------|------------|--------|
-| `--format` | all commands | `json` (default) or `table` |
+| `--format` | all commands except `monitor export` and `subscriptions burndown`, which take their own `--format` | `json` (default) or `table` |
 | `--fields`, `--limit`, `--out` | all commands | columns to keep, rows to keep, file to write |
 | `--verbose` | all commands | print pycentral logs |
 | `--sites`, `--monitored-devices`, `--clients`, `--alerts` | `monitor tenant` | sections to include |
 | `--format`, `--out` | `monitor export` | `csv` or `json`, and the output file |
-| `--scope` | `subscriptions burndown` | `msp` (MSP-owned), `tenant` (one customer-owned tenant), `tenants` (customer-owned), `all` |
-| `--tenant` | `subscriptions burndown` | tenant name or ID; repeatable |
+| `--scope` | `subscriptions burndown` | `msp` (MSP-owned), `tenant` (one customer-owned tenant), `tenants` (customer-owned), `all`; if omitted, inferred from the ownership of `--tenant` (`msp` when no tenant is given) |
+| `--tenant` | `subscriptions burndown` | tenant name or ID; repeatable; MSP-owned and customer-owned tenants can be mixed |
 | `--months` | `subscriptions burndown` | `12`, `24`, `36`, `48`, `60` |
 | `--view` | `subscriptions burndown` | `losing_cover` (default), `unused`, `evaluations` |
 | `--lifecycle` | `subscriptions burndown` | `current`, `expired`, `all`; `unused` and `evaluations` views only |
@@ -302,7 +303,7 @@ Subscription keys are shown on both CLI and web surfaces; subscription IDs remai
 
 - **Report CSV** (`GET /api/jobs/{id}/report.csv`): per-device results of a job, linked from the run screen
 - **Failed devices CSV** (`GET /api/jobs/{id}/failed-devices.csv`): only the devices that failed, ready to fix and re-import; **Run these devices again** starts a new run with them directly
-- **Manifest** (`GET /api/jobs/{id}/manifest`): the confirmed job as a YAML manifest (including subscription keys) that the CLI can `plan` and `run` again
+- **Manifest** (`GET /api/jobs/{id}/manifest`, saved as `manifest-<job_id>.yaml`): the confirmed job as a YAML manifest (including subscription keys) that the CLI can `plan` and `run` again, e.g. `python workbench.py plan manifest-<job_id>.yaml`
 - **Burndown CSV**: **Export CSV** on the Burndown screen, or `subscriptions burndown --format csv --out FILE`
 - **Monitor export**: `monitor export --format csv|json --out FILE`
 - CLI `plan` and `run` write no files unless `--out PATH` is supplied; runs are session-only and are re-run from the manifest after a server restart

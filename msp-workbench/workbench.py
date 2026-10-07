@@ -35,6 +35,7 @@ from msp_workbench.burndown_projection import (
     listing as list_burndown,
     project as project_burndown,
     public as public_burndown,
+    resolve_scope as resolve_burndown_scope,
     validate_filters as validate_burndown_filters,
 )
 from msp_workbench.store import MemoryStore
@@ -164,7 +165,7 @@ def _parser() -> argparse.ArgumentParser:
 
 
 def _configure_logging(verbose: bool) -> None:
-    # ponytail: pycentral installs its own stderr handlers with explicit levels, so global disable is the only reliable switch; revisit if the CLI ever wants its own logging.
+    # NOTE: pycentral installs its own stderr handlers with explicit levels, so global disable is the only reliable switch; revisit if the CLI ever wants its own logging.
     logging.disable(logging.NOTSET if verbose else logging.WARNING)
 
 
@@ -423,6 +424,20 @@ def _manifest(engine: OnboardingEngine, path: str):
     return engine.plan(parse_yaml_manifest(content))
 
 
+def _infer_burndown_scope(snapshot, tenants: list[str]) -> str:
+    """Pick a burndown scope from the ownership of the requested tenants."""
+    if not tenants:
+        return "msp"
+    # Resolving under "all" accepts any ownership and keeps the not-found error.
+    selected, _, _ = resolve_burndown_scope(snapshot, "all", tenants)
+    ownerships = {tenant.ownership for tenant in selected}
+    if ownerships == {"CUSTOMER_OWNED_INVENTORY"}:
+        return "tenant" if len(selected) == 1 else "tenants"
+    if ownerships == {"MSP_OWNED_INVENTORY"}:
+        return "msp"
+    return "all"
+
+
 def _confirm(plan, yes: bool) -> None:
     if yes:
         return
@@ -446,9 +461,10 @@ def main(argv: list[str] | None = None) -> int:
         command_meta: dict[str, Any] = {}
 
         if args.command == "subscriptions":
-            scope = args.scope or ("tenant" if len(set(args.tenant)) == 1 else "tenants" if args.tenant else "msp")
             validate_burndown_filters(view=args.view, lifecycle_value=args.lifecycle, month=args.month, q=args.search)
-            current = project_burndown(load_snapshot(adapter, 1), scope=scope, tenants=args.tenant, months=args.months, cache="miss")
+            snapshot = load_snapshot(adapter, 1)
+            scope = args.scope or _infer_burndown_scope(snapshot, args.tenant)
+            current = project_burndown(snapshot, scope=scope, tenants=args.tenant, months=args.months, cache="miss")
             fetched_at = current["fetched_at"]
             command_meta = dict(current["meta"])
             if args.burndown_format == "csv":

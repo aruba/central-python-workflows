@@ -21,9 +21,8 @@ from .models import (
 )
 
 
-# ponytail: 40/minute is an operator decision taken 2026-08-10, not an observed
-# or published HPE limit; it is strictly better than today's unlimited effective
-# rate.
+# NOTE: 40/minute is an operator decision, not an observed or published HPE
+# limit; it is strictly better than an unlimited effective rate.
 WRITE_LIMITS = {
     "v1": {"batch": 5, "requests_per_minute": 40},
 }

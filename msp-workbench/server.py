@@ -13,7 +13,6 @@ from typing import Any, Callable
 
 import yaml
 from fastapi import Body, FastAPI, HTTPException, Query, Request
-from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 
@@ -82,12 +81,6 @@ def create_app() -> FastAPI:
             app.state.executor.shutdown(wait=True, cancel_futures=True)
 
     app = FastAPI(title="MSP Workbench API", lifespan=lifespan)
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["http://localhost:5173"],
-        allow_methods=["GET", "POST"],
-        allow_headers=["*"],
-    )
     if STATIC_DIR.exists():
         app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
@@ -700,12 +693,18 @@ def create_app() -> FastAPI:
             raise HTTPException(status_code=409, detail=str(exc))
 
     @app.get("/api/jobs/{job_id}/manifest")
-    def manifest(job_id: str) -> dict:
+    def manifest(job_id: str) -> Response:
         engine()
-        value = app.state.store.get_manifest_dict(job_id)
+        value = app.state.store.get_export_manifest(job_id)
         if value is None:
             raise HTTPException(status_code=404, detail=f"Job not found: {job_id}")
-        return value
+        return Response(
+            content=yaml.safe_dump(value, sort_keys=False),
+            media_type="application/yaml",
+            headers={
+                "Content-Disposition": f'attachment; filename="manifest-{job_id}.yaml"'
+            },
+        )
 
     @app.get("/api/jobs/{job_id}/report.csv")
     def report(job_id: str) -> Response:

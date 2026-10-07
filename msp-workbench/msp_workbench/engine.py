@@ -53,13 +53,13 @@ _RATE_LIMIT_BACKOFF_SECONDS = (30.0, 60.0, 120.0)
 _TRANSIENT_BACKOFF_SECONDS = (2.0, 5.0)
 # GLP async device operations can sit PENDING well past the write itself
 # (R12/R61 live finding) — give a transaction ~30s before pausing as unknown.
-# ponytail: 40 x 3s = 2 min ceiling; live subscription assignment exceeded the old 30 s.
+# NOTE: 40 x 3 s = 2 min ceiling; live subscription assignment exceeded the old 30 s.
 _TRANSACTION_POLL_ATTEMPTS = 40
 _TRANSACTION_POLL_INTERVAL_SECONDS = 3.0
 _AMBIGUOUS_WRITE_ATTEMPTS = 3
 _READ_PACE_SECONDS = 0.25
 _WRITE_PACE_SECONDS = 1.0
-# ponytail: three clean calls gives a short recovery probe; revisit if live 429
+# NOTE: three clean calls give a short recovery probe; revisit if live 429
 # bursts recur immediately after the normal floor returns.
 _PACER_RECOVERY_CALLS = 3
 # How many submitted devices an inventory-add run accumulates before re-reading

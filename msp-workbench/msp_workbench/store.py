@@ -10,6 +10,63 @@ from typing import Optional
 from .models import JobActivity, Manifest, Plan, TERMINAL_JOB_STATUSES, WAIT_REASONS
 
 
+def _non_empty(raw: dict, fields: tuple[str, ...]) -> dict:
+    """Keep only the listed fields whose values are not empty strings or None."""
+    return {
+        field: raw[field] for field in fields if raw.get(field) not in (None, "")
+    }
+
+
+def manifest_for_export(manifest: dict) -> dict:
+    """Convert a stored manifest dict into the strict schema-v2 shape for its mode.
+
+    The store keeps ``asdict(Manifest)``, which carries every dataclass field
+    (e.g. ``tenant``/``subscription_key`` on add-mode devices, ``mac_address``
+    on existing-mode devices). The parser rejects those, so exports emit only
+    the fields valid for the manifest mode and drop empty optional values.
+    """
+    mode = manifest.get("mode")
+    exported: dict = {"version": manifest.get("version"), "mode": mode}
+
+    if mode != "add":
+        tenants = []
+        for tenant in manifest.get("tenants") or []:
+            if mode == "new":
+                item = _non_empty(
+                    tenant,
+                    ("name", "country", "description", "email", "phone_number"),
+                )
+                if tenant.get("address") is not None:
+                    item["address"] = _non_empty(
+                        tenant["address"],
+                        (
+                            "street_address",
+                            "street_address_complement",
+                            "city",
+                            "state_or_region",
+                            "postal_code",
+                        ),
+                    )
+            else:
+                item = _non_empty(tenant, ("name", "workspace_id"))
+            if tenant.get("service") is not None:
+                item["service"] = _non_empty(
+                    tenant["service"], ("service_manager_id", "region")
+                )
+            tenants.append(item)
+        exported["tenants"] = tenants
+
+    device_fields = (
+        ("serial_number", "mac_address")
+        if mode == "add"
+        else ("serial_number", "subscription_key", "tenant")
+    )
+    exported["devices"] = [
+        _non_empty(device, device_fields) for device in manifest.get("devices") or []
+    ]
+    return exported
+
+
 class MemoryStore:
     """Thread-safe process-local state shared by the API and sole worker."""
 
@@ -492,6 +549,11 @@ class MemoryStore:
         with self._lock:
             value = self._manifests.get(job_id)
             return deepcopy(value) if value is not None else None
+
+    def get_export_manifest(self, job_id: str) -> Optional[dict]:
+        """Manifest in the strict schema-v2 shape accepted by parse_yaml_manifest."""
+        value = self.get_manifest_dict(job_id)
+        return manifest_for_export(value) if value is not None else None
 
     def get_job(self, job_id: str) -> Optional[dict]:
         with self._lock:

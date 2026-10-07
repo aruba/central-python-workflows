@@ -738,7 +738,7 @@ class DemoAdapter:
         self._created_tenants: dict[str, TenantInfo] = {}
         self._provisioned_services: dict[str, list[ServiceInfo]] = {}
         self._provisioning_services: dict[tuple[str, str, str], ServiceInfo] = {}
-        # ponytail: session-lifetime cache has no TTL; assumes provisioning does not
+        # TODO: the session-lifetime cache has no TTL; assumes provisioning does not
         # change within a session. Revisit if that stops holding.
         self._services_by_tenant: dict[str, list[ServiceInfo]] = {}
         self._transactions: dict[str, TransactionResult] = {}
