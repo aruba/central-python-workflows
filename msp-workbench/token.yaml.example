@@ -1,0 +1,9 @@
+# pycentral unified credential format
+# Replace placeholders with your GLP MSP workspace credentials.
+# Docs: https://pycentral.readthedocs.io/en/v2/modules/msp/
+#
+# The Central cluster URL is discovered after sign-in; do not set base_url or cluster_name.
+unified:
+  client_id: <your-glp-client-id>
+  client_secret: <your-glp-client-secret>
+  workspace_id: <your-msp-workspace-id>  # the MSP workspace, not a tenant's

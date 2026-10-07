@@ -1,6 +1,8 @@
 **/env/*
-**/,venv/*
+**/venv/
+**/.venv/
 *.pyc
 .DS_Store
 __pycache__/
 *.pyc
+**/token.yaml
