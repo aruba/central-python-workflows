@@ -76,8 +76,8 @@ This workflow retrieves comprehensive device information from both HPE Aruba Net
 This script automates the execution of predefined troubleshooting show commands across multiple Aruba Central–managed devices. It is designed for cutover, migration, and validation workflows, allowing operators to run consistent checks at scale without logging into individual devices. Results are collected only from online devices and exported in HTML, Markdown, or JSON for easy review and sharing.
 
 ### [MSP Workbench](/msp-workbench/)
-A guided web app and CLI for MSPs, using one MSP credential. 
-- Onboard: create tenants, add devices to the MSP inventory, and assign devices and subscriptions to tenants. 
+A guided web app and CLI for MSPs, using one MSP credential.
+- Onboard: create tenants, add devices to the MSP inventory, and assign devices and subscriptions to tenants.
 - Observe: monitor tenants and track subscription burndown.
 
 ## HPE Greenlake Platform Workflows

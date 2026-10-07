@@ -149,7 +149,7 @@ Onboarding calls go to the GreenLake Platform (GLP) API; Observe adds read-only 
 
 ## Prerequisites
 
-- [uv](https://docs.astral.sh/uv/getting-started/installation/) — the workflow requires Python 3.10+, which uv installs on demand
+- Python 3.10 or later (pycentral `2.0a22`, FastAPI, and Uvicorn all require 3.10+; the macOS system Python 3.9 will not work)
 - An HPE GreenLake **MSP** workspace with an API client credential
 
 ## Installation
@@ -161,14 +161,15 @@ Onboarding calls go to the GreenLake Platform (GLP) API; Observe adds read-only 
    cd central-python-workflows/msp-workbench
    ```
 
-2. Create the environment and install the dependencies:
+2. Create a virtual environment and install the dependencies:
 
    ```bash
-   uv venv --python 3.12
-   uv pip install --prerelease=allow -r requirements.txt
+   python3 -m venv venv
+   source venv/bin/activate  # On Windows use: venv\Scripts\activate
+   pip install -r requirements.txt
    ```
 
-   `--prerelease=allow` is required: the workflow pins a pre-release of pycentral (`2.0a22`).
+   This installs the pinned pycentral version (`2.0a22`) from `requirements.txt`.
 
 ## Configuration
 
@@ -199,7 +200,7 @@ Choose **Use demo mode** on the sign-in screen, or pass `--demo` to the CLI, for
 ## Execution
 
 ```bash
-uv run python server.py
+python server.py
 # open http://127.0.0.1:8000/
 ```
 
@@ -250,15 +251,15 @@ Both Observe views are read-only.
 The same workflow runs from the terminal via `workbench.py`, driven by a YAML manifest:
 
 ```bash
-uv run python workbench.py --demo list tenants        # also: services, devices, subscriptions
-uv run python workbench.py --demo --fields workspace_name --limit 10 list tenants
-uv run python workbench.py --demo monitor overview
-uv run python workbench.py --demo monitor tenant "Acme Corp" --sites --alerts
-uv run python workbench.py --demo monitor export --format csv --out tenants.csv
-uv run python workbench.py --demo subscriptions burndown --scope msp --months 12
-uv run python workbench.py --demo subscriptions burndown --scope tenant --tenant "Gamma Hospitality" --format csv --out gamma.csv
-uv run python workbench.py --demo plan samples/new_tenant.yaml
-uv run python workbench.py --demo run samples/new_tenant.yaml --yes
+python workbench.py --demo list tenants        # also: services, devices, subscriptions
+python workbench.py --demo --fields workspace_name --limit 10 list tenants
+python workbench.py --demo monitor overview
+python workbench.py --demo monitor tenant "Acme Corp" --sites --alerts
+python workbench.py --demo monitor export --format csv --out tenants.csv
+python workbench.py --demo subscriptions burndown --scope msp --months 12
+python workbench.py --demo subscriptions burndown --scope tenant --tenant "Gamma Hospitality" --format csv --out gamma.csv
+python workbench.py --demo plan samples/new_tenant.yaml
+python workbench.py --demo run samples/new_tenant.yaml --yes
 ```
 
 Drop `--demo` for live runs. Sample manifests and CSVs live in [`samples/`](samples/). Agents should follow the [`workbench-cli` skill](skills/workbench-cli/SKILL.md).
@@ -314,15 +315,20 @@ timing, and status, and contain no secrets or payloads.
 
 | Problem | Fix |
 |---------|-----|
+| **`No matching distribution found for pycentral==2.0a22`** | Your Python is older than 3.10. Check with `python3 --version`, then recreate the venv with Python 3.10+ (e.g. `python3.12 -m venv venv`) |
+| **`ModuleNotFoundError: No module named 'pycentral'`** (or `yaml`, `fastapi`) | The virtual environment isn't active or the install failed. Run `source venv/bin/activate` (Windows: `venv\Scripts\activate`), then `pip install -r requirements.txt` again |
 | **Sign-in fails** | Check the client ID, client secret, and that the workspace ID is the MSP workspace's, not a tenant's |
 | **"Couldn't find your Central cluster"** | GreenLake shows no provisioned Central application for the MSP workspace, or its cluster didn't answer; confirm Central is provisioned, then **Retry** |
-| **Port 8000 already in use** | Start the server with `--port`, e.g. `uv run python server.py --port 8001` |
+| **Port 8000 already in use** | Start the server with `--port`, e.g. `python server.py --port 8001` |
 | **A job disappears after a server restart** | Runs are session-only by design; re-run the manifest, whose pre-write validation absorbs completed work as already satisfied |
 | **A step shows "Already satisfied" instead of "Complete"** | The write was re-observed as already in the desired state — usually because a previous run had applied it, or an async operation finished after polling ended |
-| **UI returns 503** | The `static/` build is missing from your checkout; restore it with `git checkout -- static` |
+| **UI returns 503** | The `static/` build is missing from your checkout; restore it with `git checkout -- static`. For the frontend source, email [network-automation@hpe.com](mailto:network-automation@hpe.com) |
 
 ## Support
 
-- **Automation Team**: [aruba-automation@hpe.com](mailto:aruba-automation@hpe.com)
+- **Automation Team**: [network-automation@hpe.com](mailto:network-automation@hpe.com)
 - **Workflow Issues**: [GitHub Issues](https://github.com/aruba/central-python-workflows/issues)
 - **PyCentral Library**: [PyCentral Issues](https://github.com/aruba/pycentral/issues)
+
+> [!NOTE]
+> The web UI ships as a prebuilt bundle in `static/`; its frontend source is maintained in a private repository. To request the frontend source, email [network-automation@hpe.com](mailto:network-automation@hpe.com).
